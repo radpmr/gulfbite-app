@@ -21,6 +21,8 @@ DEPLOY TO HUGGING FACE SPACES (Streamlit SDK):
 """
 
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 import json
 from dataclasses import dataclass, field
 from typing import Optional, Tuple, List
