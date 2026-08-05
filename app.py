@@ -29,7 +29,7 @@ from typing import Optional, Tuple, List
 
 import numpy as np
 import streamlit as st
-from PIL import Image
+from PIL import Image, ImageOps
 try:
     import pillow_heif
     pillow_heif.register_heif_opener()
@@ -429,7 +429,7 @@ if st.session_state.stage == "upload":
     with st.container(border=True):
         uploaded = st.file_uploader("Upload a photo of your meal", type=["jpg", "jpeg", "png", "heic", "heif"])
         if uploaded is not None:
-            image = Image.open(uploaded)
+            image = ImageOps.exif_transpose(Image.open(uploaded))
             st.session_state.image = image
             st.image(image, caption="Uploaded photo", use_column_width=True)
 
