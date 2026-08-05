@@ -1,0 +1,553 @@
+"""
+GulfBite — Streamlit app
+Photo -> dish recognition (3-tier: CNN -> YOLOv8 -> user confirm) -> portion size -> calorie/macro estimate.
+
+BEFORE RUNNING:
+  Place these four files (copied from your Google Drive GulfBite-Models/ folder) into a
+  local `models/` folder next to this script:
+    models/MobileNetV2_best.keras
+    models/class_indices.json
+    models/yolov8_ingredient_detector-4/weights/best.pt
+    models/ingredient_nutrition_cache.json
+  Or edit MODELS_DIR below to point elsewhere.
+
+RUN LOCALLY:
+    pip install -r requirements.txt
+    streamlit run app.py
+
+DEPLOY TO HUGGING FACE SPACES (Streamlit SDK):
+    Push this file + requirements.txt + the models/ folder to your Space repo.
+    Large model files may need Git LFS — check HF Spaces storage limits before pushing.
+"""
+
+import os
+import json
+from dataclasses import dataclass, field
+from typing import Optional, Tuple, List
+
+import numpy as np
+import streamlit as st
+from PIL import Image
+
+# ============================================================================
+# CONFIG — unchanged from the validated Colab pipeline
+# ============================================================================
+
+MODELS_DIR = "models"
+CNN_MODEL_PATH = os.path.join(MODELS_DIR, "MobileNetV2_best.keras")
+CLASS_INDICES_PATH = os.path.join(MODELS_DIR, "class_indices.json")
+YOLO_WEIGHTS_PATH = os.path.join(MODELS_DIR, "yolov8_ingredient_detector-4", "weights", "best.pt")
+INGREDIENT_CACHE_PATH = os.path.join(MODELS_DIR, "ingredient_nutrition_cache.json")
+
+TRIGGER_SET = {'07_ouzi', '01_machboos', '09_jisheed', '02_kabsa', '03_biryani', '06_saloona'}
+WRAP_TRIGGER_SET = {'10_shawarma', '11_falafel_wrap'}
+CONFIDENCE_THRESHOLD = 0.7
+
+YOLO_FEATURE_MAP = {
+    '01_machboos':     'loomi',
+    '07_ouzi':         'whole_shank',
+    '08_samak_mashwi': 'whole_fish',
+    '02_kabsa':        'whole_chicken_piece',
+    '10_shawarma':     'shawarma_meat',
+    '11_falafel_wrap': 'falafel_ball',
+}
+FEATURE_TO_DISH = {v: k for k, v in YOLO_FEATURE_MAP.items()}
+
+CONFUSION_GROUPS = {
+    'rice_cluster': {'01_machboos', '02_kabsa', '03_biryani', '07_ouzi', '09_jisheed', '06_saloona'},
+    'wrap_cluster': {'10_shawarma', '11_falafel_wrap', '12_falafel'},
+}
+
+FEATURE_RELIABILITY = {
+    'loomi':               {'status': 'reliable'},
+    'whole_chicken_piece': {'status': 'unreliable'},
+    'whole_shank':         {'status': 'insufficient_evidence'},
+    'whole_fish':          {'status': 'insufficient_evidence'},
+    'shawarma_meat':       {'status': 'reliable'},
+    'falafel_ball':        {'status': 'reliable'},
+}
+
+DISH_RECIPES = {
+    '01_machboos':     [('rice', 150), ('chicken', 130), ('olive_oil', 15), ('onion', 20), ('tomato', 15)],
+    '02_kabsa':        [('rice', 150), ('chicken', 130), ('olive_oil', 15), ('tomato', 20), ('onion', 15)],
+    '03_biryani':      [('rice', 160), ('chicken', 140), ('olive_oil', 15), ('yogurt', 20), ('onion', 20)],
+    '04_harees':       [('bulgur', 100), ('lamb', 100), ('ghee', 15)],
+    '05_thareed':      [('pita_bread', 80), ('lamb', 120), ('mixed_vegetables', 60)],
+    '06_saloona':      [('lamb', 120), ('mixed_vegetables', 100), ('tomato', 40), ('olive_oil', 15)],
+    '07_ouzi':         [('rice', 150), ('lamb', 180), ('mixed_nuts', 15), ('olive_oil', 15)],
+    '08_samak_mashwi': [('fish', 200), ('olive_oil', 10)],
+    '09_jisheed':      [('rice', 150), ('fish', 100), ('olive_oil', 10)],
+    '10_shawarma':     [('pita_bread', 80), ('chicken', 100), ('garlic_sauce', 20), ('pickles', 10)],
+    '11_falafel_wrap': [('pita_bread', 80), ('falafel', 90), ('tahini', 15), ('mixed_vegetables', 30)],
+    '12_falafel':      [('falafel', 120), ('olive_oil', 10)],
+    '13_samboosa':     [('pastry_dough', 60), ('ground_meat', 60), ('olive_oil', 10)],
+    '14_mutabbaq':     [('pastry_dough', 100), ('ground_meat', 80), ('olive_oil', 15)],
+    '15_hummus':       [('chickpeas', 80), ('tahini', 15), ('olive_oil', 10)],
+    '16_fattoush':     [('mixed_vegetables', 150), ('pita_bread', 20), ('olive_oil', 10)],
+    '17_tabbouleh':    [('parsley', 80), ('bulgur', 20), ('tomato', 30), ('olive_oil', 15)],
+    '18_foul_medames': [('fava_beans', 150), ('olive_oil', 15)],
+    '19_shakshuka':    [('eggs', 100), ('tomato_sauce', 150), ('olive_oil', 10)],
+    '20_balaleet':     [('vermicelli', 80), ('sugar', 15), ('eggs', 50)],
+    '21_khameer':      [('bread_wheat', 80)],
+    '22_chebab':       [('pancake_batter', 100)],
+    '23_luqaimat':     [('fried_dough', 100), ('date_syrup', 30)],
+    '24_knafeh':       [('kunafa_dough', 80), ('soft_cheese', 60), ('sugar_syrup', 40), ('ghee', 15)],
+    '25_karak_chai':   [('milk', 100), ('black_tea', 100), ('sugar', 10)],
+}
+
+PORTION_MULTIPLIERS = {'S': 0.7, 'M': 1.0, 'L': 1.4}
+CALORIE_RANGE_PCT = 0.15
+
+
+def display_name(cls: str) -> str:
+    """'01_machboos' -> 'Machboos'"""
+    return cls.split('_', 1)[1].replace('_', ' ').title()
+
+
+def get_candidate_group(cnn_class: str) -> set:
+    for group in CONFUSION_GROUPS.values():
+        if cnn_class in group:
+            return group
+    return {cnn_class}
+
+
+# ============================================================================
+# MODEL LOADING — cached so this only happens once per session, not per rerun
+# ============================================================================
+
+@st.cache_resource
+def load_models():
+    import tensorflow as tf
+    from ultralytics import YOLO
+
+    missing = [p for p in (CNN_MODEL_PATH, CLASS_INDICES_PATH, YOLO_WEIGHTS_PATH, INGREDIENT_CACHE_PATH)
+               if not os.path.exists(p)]
+    if missing:
+        raise FileNotFoundError(
+            "Missing model file(s):\n" + "\n".join(missing) +
+            "\n\nCopy these from your Google Drive GulfBite-Models/ folder into the models/ "
+            "directory next to app.py — see the top of app.py for the exact expected layout."
+        )
+
+    cnn_model = tf.keras.models.load_model(CNN_MODEL_PATH)
+    with open(CLASS_INDICES_PATH) as f:
+        class_indices = json.load(f)
+    idx_to_class = {v: k for k, v in class_indices.items()}
+
+    yolo_model = YOLO(YOLO_WEIGHTS_PATH)
+
+    with open(INGREDIENT_CACHE_PATH) as f:
+        ingredient_cache = json.load(f)
+
+    return cnn_model, idx_to_class, yolo_model, ingredient_cache
+
+
+# ============================================================================
+# PIPELINE FUNCTIONS — identical logic to the validated Colab version
+# ============================================================================
+
+def run_cnn(pil_image, model, idx_to_class, img_size=(224, 224)):
+    from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+    img = pil_image.convert('RGB').resize(img_size)
+    arr = np.array(img).astype('float32')
+    arr = preprocess_input(arr)
+    arr = np.expand_dims(arr, axis=0)
+    preds = model.predict(arr, verbose=0)[0]
+    top_idx = int(np.argmax(preds))
+    confidence = float(preds[top_idx])
+    predicted_class = idx_to_class[top_idx]
+    return predicted_class, confidence
+
+
+def run_yolov8(pil_image, yolo_model, conf_threshold=0.25):
+    results = yolo_model.predict(np.array(pil_image.convert('RGB')), conf=conf_threshold, verbose=False)
+    detections = []
+    r = results[0]
+    for box in r.boxes:
+        cls_id = int(box.cls[0])
+        cls_name = yolo_model.names[cls_id]
+        box_conf = float(box.conf[0])
+        detections.append((cls_name, box_conf))
+    return detections
+
+
+def map_detections_to_suggestion(detections, candidates):
+    if not detections:
+        return None, None, 'no_detection'
+    valid = [
+        (FEATURE_TO_DISH[feat], conf, feat)
+        for feat, conf in detections
+        if feat in FEATURE_TO_DISH and FEATURE_TO_DISH[feat] in candidates
+    ]
+    if not valid:
+        return None, None, 'no_detection'
+    valid.sort(key=lambda x: x[1], reverse=True)
+    dish, conf, feature = valid[0]
+    status = FEATURE_RELIABILITY.get(feature, {'status': 'insufficient_evidence'})['status']
+    gated = (dish, conf) if status == 'reliable' else None
+    return (dish, conf), gated, status
+
+
+def estimate_nutrition(dish_class, portion_size, ingredient_cache):
+    multiplier = PORTION_MULTIPLIERS[portion_size]
+    totals = {'calories': 0.0, 'protein': 0.0, 'carbs': 0.0, 'fat': 0.0}
+    missing = []
+    for ingredient_key, base_grams in DISH_RECIPES[dish_class]:
+        info = ingredient_cache.get(ingredient_key)
+        if info is None or info.get('source') == 'NONE':
+            missing.append(ingredient_key)
+            continue
+        grams = base_grams * multiplier
+        for macro in totals:
+            totals[macro] += info[macro] * (grams / 100)
+    cal_low = totals['calories'] * (1 - CALORIE_RANGE_PCT)
+    cal_high = totals['calories'] * (1 + CALORIE_RANGE_PCT)
+    return {
+        'calories_range': (round(cal_low), round(cal_high)),
+        'protein_g': round(totals['protein'], 1),
+        'carbs_g': round(totals['carbs'], 1),
+        'fat_g': round(totals['fat'], 1),
+        'missing_ingredients': missing,
+    }
+
+
+# ============================================================================
+# VISUAL THEME — "Arabian Gulf twilight": deep teal background, saffron accent,
+# warm sand text. Fraunces for display type, Inter for body, JetBrains Mono for
+# numbers (calories/macros read like a nutrition label, not a UI label).
+# ============================================================================
+
+def inject_theme():
+    st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap');
+
+    :root {
+        --gb-bg: #0E1B22;
+        --gb-surface: #16262E;
+        --gb-surface-2: #1D323C;
+        --gb-accent: #E8A33D;
+        --gb-accent-dim: #B97F2C;
+        --gb-text: #F4EFE6;
+        --gb-muted: #93A6AE;
+        --gb-border: #24404C;
+    }
+
+    html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+    .stApp { background: var(--gb-bg); }
+
+    #MainMenu, footer, header[data-testid="stHeader"] { visibility: hidden; height: 0; }
+    .block-container { max-width: 620px; padding-top: 2rem; }
+
+    .gb-header { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.15rem; }
+    .gb-bowl { font-size: 2.1rem; line-height: 1; }
+    .gb-title {
+        font-family: 'Fraunces', serif; font-weight: 700; font-size: 2.1rem;
+        letter-spacing: -0.01em; color: var(--gb-text); margin: 0;
+    }
+    .gb-subtitle {
+        font-family: 'Inter', sans-serif; color: var(--gb-muted); font-size: 0.92rem;
+        margin: 0 0 1.5rem 2.8rem;
+    }
+
+    .gb-stepper { display: flex; align-items: center; margin: 0.25rem 0 1.75rem 0; }
+    .gb-step { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .gb-step-dot {
+        width: 1.6rem; height: 1.6rem; border-radius: 50%; display: flex;
+        align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem; font-weight: 600; border: 1.5px solid var(--gb-border);
+        color: var(--gb-muted); background: var(--gb-surface); flex-shrink: 0;
+    }
+    .gb-step-label { font-size: 0.78rem; color: var(--gb-muted); white-space: nowrap; }
+    .gb-step.done .gb-step-dot { background: var(--gb-accent); border-color: var(--gb-accent); color: #1a1207; }
+    .gb-step.done .gb-step-label { color: var(--gb-text); }
+    .gb-step.active .gb-step-dot {
+        border-color: var(--gb-accent); color: var(--gb-accent);
+        box-shadow: 0 0 0 3px rgba(232,163,61,0.15);
+    }
+    .gb-step.active .gb-step-label { color: var(--gb-text); font-weight: 600; }
+    .gb-step-line { flex: 1; height: 1.5px; background: var(--gb-border); margin: 0 0.5rem; min-width: 0.75rem; }
+
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background: var(--gb-surface); border: 1px solid var(--gb-border) !important;
+        border-radius: 16px !important; padding: 0.25rem;
+    }
+
+    [data-testid="stFileUploaderDropzone"] {
+        background: var(--gb-surface-2); border: 1.5px dashed var(--gb-border); border-radius: 12px;
+    }
+
+    div.stButton > button, div.stDownloadButton > button {
+        border-radius: 999px; border: 1px solid var(--gb-accent); background: transparent;
+        color: var(--gb-accent); font-family: 'Inter', sans-serif; font-weight: 600;
+        padding: 0.5rem 1.1rem; transition: all 0.15s ease; width: 100%;
+    }
+    div.stButton > button:hover { background: rgba(232,163,61,0.12); color: var(--gb-accent); }
+    div.stButton > button[kind="primary"] { background: var(--gb-accent); color: #1a1207; border-color: var(--gb-accent); }
+    div.stButton > button[kind="primary"]:hover { background: var(--gb-accent-dim); }
+
+    [data-testid="stExpander"] { background: var(--gb-surface); border: 1px solid var(--gb-border); border-radius: 12px; }
+    [data-testid="stAlert"] { background: var(--gb-surface-2); border-radius: 12px; }
+
+    .gb-dish-name { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 600; color: var(--gb-text); margin-bottom: 0.15rem; }
+    .gb-dish-meta { font-size: 0.85rem; color: var(--gb-muted); margin-bottom: 1rem; }
+
+    .gb-range-numbers {
+        display: flex; align-items: baseline; gap: 0.4rem; font-family: 'JetBrains Mono', monospace;
+        font-size: 1.9rem; font-weight: 600; color: var(--gb-text); margin-bottom: 0.4rem;
+    }
+    .gb-range-unit { font-size: 0.85rem; color: var(--gb-muted); font-weight: 500; }
+    .gb-range-track { height: 10px; border-radius: 999px; background: var(--gb-surface-2); position: relative; overflow: hidden; }
+    .gb-range-fill {
+        position: absolute; top: 0; bottom: 0; left: 15%; right: 15%;
+        background: linear-gradient(90deg, var(--gb-accent-dim), var(--gb-accent)); border-radius: 999px;
+    }
+    .gb-range-caption { font-size: 0.76rem; color: var(--gb-muted); margin-top: 0.45rem; }
+
+    .gb-stat-grid { display: flex; gap: 0.6rem; margin-top: 1.1rem; }
+    .gb-stat { flex: 1; background: var(--gb-surface-2); border-radius: 12px; padding: 0.65rem 0.4rem; text-align: center; }
+    .gb-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; color: var(--gb-text); }
+    .gb-stat-label { font-size: 0.68rem; color: var(--gb-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 0.15rem; }
+    </style>
+    """, unsafe_allow_html=True)
+
+
+def render_header():
+    st.markdown("""
+    <div class="gb-header">
+        <span class="gb-bowl">🍚</span>
+        <p class="gb-title">GulfBite</p>
+    </div>
+    <p class="gb-subtitle">Gulf food recognition + calorie estimation</p>
+    """, unsafe_allow_html=True)
+
+
+def render_stepper(current_stage: str, triggered: bool):
+    """Reflects the app's REAL stages — the 'Confirm dish' step only appears
+    once we actually know it's needed, since that mirrors how the pipeline behaves."""
+    steps = [("upload", "Upload photo")]
+    if triggered:
+        steps.append(("confirm_dish", "Confirm dish"))
+    steps.append(("select_portion", "Choose portion"))
+    steps.append(("result", "Result"))
+
+    keys = [s[0] for s in steps]
+    active_idx = keys.index(current_stage) if current_stage in keys else 0
+
+    html = ['<div class="gb-stepper">']
+    for i, (key, label) in enumerate(steps):
+        if i < active_idx:
+            cls, mark = "done", "&#10003;"
+        elif i == active_idx:
+            cls, mark = "active", str(i + 1)
+        else:
+            cls, mark = "", str(i + 1)
+        html.append(
+            f'<div class="gb-step {cls}"><div class="gb-step-dot">{mark}</div>'
+            f'<div class="gb-step-label">{label}</div></div>'
+        )
+        if i < len(steps) - 1:
+            html.append('<div class="gb-step-line"></div>')
+    html.append('</div>')
+    st.markdown(''.join(html), unsafe_allow_html=True)
+
+
+def render_calorie_range(lo: int, hi: int):
+    st.markdown(f"""
+    <div class="gb-range-numbers">{lo}&ndash;{hi} <span class="gb-range-unit">kcal</span></div>
+    <div class="gb-range-track"><div class="gb-range-fill"></div></div>
+    <div class="gb-range-caption">Range reflects normal recipe variation, not measurement uncertainty.</div>
+    """, unsafe_allow_html=True)
+
+
+def render_stat_grid(protein_g: float, carbs_g: float, fat_g: float):
+    st.markdown(f"""
+    <div class="gb-stat-grid">
+        <div class="gb-stat"><div class="gb-stat-value">{protein_g}g</div><div class="gb-stat-label">Protein</div></div>
+        <div class="gb-stat"><div class="gb-stat-value">{carbs_g}g</div><div class="gb-stat-label">Carbs</div></div>
+        <div class="gb-stat"><div class="gb-stat-value">{fat_g}g</div><div class="gb-stat-label">Fat</div></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ============================================================================
+# STREAMLIT UI
+# ============================================================================
+
+st.set_page_config(page_title="GulfBite", page_icon="🍚", layout="centered")
+inject_theme()
+
+if "stage" not in st.session_state:
+    st.session_state.stage = "upload"          # upload -> confirm_dish -> select_portion -> result
+    st.session_state.triggered = False
+    st.session_state.image = None
+    st.session_state.cnn_class = None
+    st.session_state.cnn_confidence = None
+    st.session_state.candidates = None
+    st.session_state.yolo_suggestion = None
+    st.session_state.yolo_gate_status = None
+    st.session_state.tier_used = None
+    st.session_state.final_dish = None
+    st.session_state.portion_size = None
+
+
+def reset():
+    for key in list(st.session_state.keys()):
+        del st.session_state[key]
+
+
+render_header()
+
+with st.expander("How this works"):
+    st.write(
+        "GulfBite classifies your photo with a CNN. For dishes with historically higher "
+        "confusion (e.g. rice dishes that look alike, or wrapped foods hiding their filling), "
+        "it also runs a YOLOv8 detector for a disambiguating visual feature (like a whole "
+        "lamb shank, or visible falafel filling) and asks you to confirm. Calories are "
+        "estimated by composing the dish from its typical ingredients against USDA nutrition "
+        "data, scaled to your chosen portion size, and shown as a range rather than a single "
+        "number — recipes vary, so a range is more honest than false precision."
+    )
+
+try:
+    cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()
+except FileNotFoundError as e:
+    st.error(str(e))
+    st.stop()
+
+# ---------------------------------------------------------------- STAGE: upload
+if st.session_state.stage == "upload":
+    render_stepper("upload", st.session_state.triggered)
+
+    with st.container(border=True):
+        uploaded = st.file_uploader("Upload a photo of your meal", type=["jpg", "jpeg", "png"])
+        if uploaded is not None:
+            image = Image.open(uploaded)
+            st.session_state.image = image
+            st.image(image, caption="Uploaded photo", use_container_width=True)
+
+            with st.spinner("Analyzing..."):
+                cnn_class, cnn_confidence = run_cnn(image, cnn_model, idx_to_class)
+
+                triggered = (
+                    cnn_confidence < CONFIDENCE_THRESHOLD
+                    or cnn_class in TRIGGER_SET
+                    or cnn_class in WRAP_TRIGGER_SET
+                )
+
+                st.session_state.cnn_class = cnn_class
+                st.session_state.cnn_confidence = cnn_confidence
+                st.session_state.triggered = triggered
+
+                if not triggered:
+                    st.session_state.final_dish = cnn_class
+                    st.session_state.tier_used = "CNN only"
+                    st.session_state.stage = "select_portion"
+                    st.rerun()
+                else:
+                    candidates = get_candidate_group(cnn_class)
+                    run_yolo_here = (cnn_class in YOLO_FEATURE_MAP) or (cnn_class == '03_biryani')
+                    yolo_suggestion, gate_status = None, None
+                    if run_yolo_here:
+                        detections = run_yolov8(image, yolo_model)
+                        _, gated, gate_status = map_detections_to_suggestion(detections, candidates)
+                        yolo_suggestion = gated[0] if gated else None
+
+                    st.session_state.candidates = sorted(candidates)
+                    st.session_state.yolo_suggestion = yolo_suggestion
+                    st.session_state.yolo_gate_status = gate_status
+                    st.session_state.tier_used = (
+                        "CNN + YOLO + user confirm" if yolo_suggestion else "CNN + user confirm"
+                    )
+                    st.session_state.stage = "confirm_dish"
+                    st.rerun()
+
+# ---------------------------------------------------------------- STAGE: confirm_dish
+elif st.session_state.stage == "confirm_dish":
+    render_stepper("confirm_dish", True)
+
+    with st.container(border=True):
+        st.image(st.session_state.image, caption="Uploaded photo", use_container_width=True)
+
+        cnn_class = st.session_state.cnn_class
+        cnn_conf = st.session_state.cnn_confidence
+        candidates = st.session_state.candidates
+        yolo_suggestion = st.session_state.yolo_suggestion
+
+        st.write(f"**Best guess:** {display_name(cnn_class)}  ({cnn_conf:.0%} confidence)")
+        if yolo_suggestion:
+            st.info(f"A visual feature was detected suggesting **{display_name(yolo_suggestion)}**.")
+        else:
+            st.write("This dish can look similar to a few others — please confirm which one it is:")
+
+        default_choice = yolo_suggestion if yolo_suggestion else cnn_class
+        default_idx = candidates.index(default_choice) if default_choice in candidates else 0
+
+        choice = st.radio(
+            "Select the correct dish:",
+            options=candidates,
+            format_func=display_name,
+            index=default_idx,
+        )
+
+        if st.button("Confirm dish", type="primary"):
+            st.session_state.final_dish = choice
+            st.session_state.stage = "select_portion"
+            st.rerun()
+
+# ---------------------------------------------------------------- STAGE: select_portion
+elif st.session_state.stage == "select_portion":
+    render_stepper("select_portion", st.session_state.triggered)
+
+    with st.container(border=True):
+        st.image(st.session_state.image, caption="Uploaded photo", use_container_width=True)
+        st.markdown(f'<p class="gb-dish-name">{display_name(st.session_state.final_dish)}</p>',
+                    unsafe_allow_html=True)
+        st.write("Select your portion size:")
+
+        col1, col2, col3 = st.columns(3)
+        if col1.button("Small", use_container_width=True):
+            st.session_state.portion_size = "S"
+            st.session_state.stage = "result"
+            st.rerun()
+        if col2.button("Medium", use_container_width=True):
+            st.session_state.portion_size = "M"
+            st.session_state.stage = "result"
+            st.rerun()
+        if col3.button("Large", use_container_width=True):
+            st.session_state.portion_size = "L"
+            st.session_state.stage = "result"
+            st.rerun()
+
+# ---------------------------------------------------------------- STAGE: result
+elif st.session_state.stage == "result":
+    render_stepper("result", st.session_state.triggered)
+
+    with st.container(border=True):
+        st.image(st.session_state.image, caption="Uploaded photo", use_container_width=True)
+
+        dish = st.session_state.final_dish
+        nutrition = estimate_nutrition(dish, st.session_state.portion_size, ingredient_cache)
+        lo, hi = nutrition['calories_range']
+
+        st.markdown(f'<p class="gb-dish-name">{display_name(dish)}</p>', unsafe_allow_html=True)
+        st.markdown(
+            f'<p class="gb-dish-meta">Portion: {st.session_state.portion_size} &bull; {st.session_state.tier_used}</p>',
+            unsafe_allow_html=True,
+        )
+
+        render_calorie_range(lo, hi)
+        render_stat_grid(nutrition['protein_g'], nutrition['carbs_g'], nutrition['fat_g'])
+
+        if nutrition['missing_ingredients']:
+            st.warning(f"Note: nutrition data was unavailable for: {', '.join(nutrition['missing_ingredients'])}. "
+                       "The estimate above excludes these ingredients.")
+
+        with st.expander("Prediction details"):
+            st.write(f"CNN prediction: {display_name(st.session_state.cnn_class)} "
+                     f"({st.session_state.cnn_confidence:.1%} confidence)")
+            if st.session_state.get('yolo_suggestion'):
+                st.write(f"YOLOv8 suggested: {display_name(st.session_state.yolo_suggestion)}")
+            st.write(f"Final dish (confirmed): {display_name(dish)}")
+
+    st.button("Try another photo", on_click=reset)

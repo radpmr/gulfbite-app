@@ -1,0 +1,269 @@
+{
+  "rice": {
+    "calories": 123,
+    "protein": 2.91,
+    "carbs": 26.0,
+    "fat": 0.37,
+    "matched_name": "Rice, white, long-grain, parboiled, enriched, cooked",
+    "source": "USDA"
+  },
+  "chicken": {
+    "calories": 219,
+    "protein": 30.6,
+    "carbs": 1.69,
+    "fat": 9.12,
+    "matched_name": "Chicken, broilers or fryers, meat only, cooked, fried",
+    "source": "USDA"
+  },
+  "lamb": {
+    "calories": 225,
+    "protein": 26.4,
+    "carbs": 0.0,
+    "fat": 12.4,
+    "matched_name": "Lamb, leg, shank half, separable lean and fat, trimmed to 1/4\" fat, choice, cooked, roasted",
+    "source": "USDA"
+  },
+  "fish": {
+    "calories": 105,
+    "protein": 22.8,
+    "carbs": 0.0,
+    "fat": 0.86,
+    "matched_name": "Fish, cod, Atlantic, cooked, dry heat",
+    "source": "USDA"
+  },
+  "olive_oil": {
+    "calories": 884,
+    "protein": 0.0,
+    "carbs": 0.0,
+    "fat": 100,
+    "matched_name": "Oil, corn, peanut, and olive",
+    "source": "USDA"
+  },
+  "ghee": {
+    "calories": 900,
+    "protein": 0.0,
+    "carbs": 0.0,
+    "fat": 100,
+    "matched_name": "Butter, Clarified butter (ghee)",
+    "source": "USDA"
+  },
+  "onion": {
+    "calories": 40,
+    "protein": 1.1,
+    "carbs": 9.3,
+    "fat": 0.1,
+    "source": "manual (standard ref, raw onion)"
+  },
+  "tomato": {
+    "calories": 18,
+    "protein": 0.9,
+    "carbs": 3.9,
+    "fat": 0.2,
+    "source": "manual (standard ref, raw tomato)"
+  },
+  "tomato_sauce": {
+    "calories": 32.0,
+    "protein": 1.32,
+    "carbs": 7.09,
+    "fat": 0.39,
+    "matched_name": "Tomato products, canned, sauce, with tomato tidbits",
+    "source": "USDA"
+  },
+  "mixed_vegetables": {
+    "calories": 65,
+    "protein": 2.5,
+    "carbs": 13.0,
+    "fat": 0.3,
+    "source": "manual (standard ref, mixed cooked veg, no oil)"
+  },
+  "yogurt": {
+    "calories": 61,
+    "protein": 3.5,
+    "carbs": 4.7,
+    "fat": 3.3,
+    "source": "manual (standard ref, whole milk yogurt)"
+  },
+  "bulgur": {
+    "calories": 83.0,
+    "protein": 3.08,
+    "carbs": 18.6,
+    "fat": 0.24,
+    "matched_name": "Bulgur, cooked",
+    "source": "USDA"
+  },
+  "mixed_nuts": {
+    "calories": 594,
+    "protein": 17.3,
+    "carbs": 25.4,
+    "fat": 51.4,
+    "matched_name": "Nuts, mixed nuts, dry roasted, with peanuts, with salt added",
+    "source": "USDA"
+  },
+  "garlic_sauce": {
+    "calories": 660,
+    "protein": 1.0,
+    "carbs": 3.0,
+    "fat": 72.0,
+    "source": "manual (toum \u2014 oil-based garlic emulsion, not raw garlic)"
+  },
+  "pickles": {
+    "calories": 11,
+    "protein": 0.3,
+    "carbs": 2.3,
+    "fat": 0.2,
+    "source": "manual (standard ref, cucumber pickle)"
+  },
+  "pita_bread": {
+    "calories": 275,
+    "protein": 9.1,
+    "carbs": 55.7,
+    "fat": 1.2,
+    "matched_name": "Bread, pita, white, enriched",
+    "source": "USDA"
+  },
+  "falafel": {
+    "calories": 333,
+    "protein": 13.3,
+    "carbs": 31.8,
+    "fat": 17.8,
+    "matched_name": "Falafel, home-prepared",
+    "source": "USDA"
+  },
+  "tahini": {
+    "calories": 592,
+    "protein": 17.4,
+    "carbs": 21.5,
+    "fat": 53.0,
+    "matched_name": "Seeds, sesame butter, tahini, type of kernels unspecified",
+    "source": "USDA"
+  },
+  "pastry_dough": {
+    "calories": 320,
+    "protein": 8.0,
+    "carbs": 55.0,
+    "fat": 7.0,
+    "source": "manual (standard ref, flour-based unleavened dough)"
+  },
+  "ground_meat": {
+    "calories": 295,
+    "protein": 23.0,
+    "carbs": 0.0,
+    "fat": 21.8,
+    "matched_name": "Beef, ground, patties, frozen, cooked, broiled",
+    "source": "USDA"
+  },
+  "chickpeas": {
+    "calories": 164,
+    "protein": 8.9,
+    "carbs": 27.4,
+    "fat": 2.6,
+    "source": "manual (standard ref, cooked chickpeas \u2014 USDA search kept matching lentils)"
+  },
+  "fava_beans": {
+    "calories": 110,
+    "protein": 7.6,
+    "carbs": 19.6,
+    "fat": 0.4,
+    "matched_name": "Broadbeans (fava beans), mature seeds, cooked, boiled, with salt",
+    "source": "USDA"
+  },
+  "eggs": {
+    "calories": 196,
+    "protein": 13.6,
+    "carbs": 0.83,
+    "fat": 14.8,
+    "matched_name": "Egg, whole, cooked, fried",
+    "source": "USDA"
+  },
+  "parsley": {
+    "calories": 36,
+    "protein": 3.0,
+    "carbs": 6.3,
+    "fat": 0.8,
+    "source": "manual (standard ref, raw parsley)"
+  },
+  "vermicelli": {
+    "calories": 150,
+    "protein": 5.0,
+    "carbs": 30.0,
+    "fat": 1.0,
+    "source": "manual (standard ref, cooked wheat vermicelli \u2014 USDA matched soy variant)"
+  },
+  "sugar": {
+    "calories": 385,
+    "protein": 0.0,
+    "carbs": 99.6,
+    "fat": 0.32,
+    "matched_name": "Sugars, granulated",
+    "source": "USDA"
+  },
+  "bread_wheat": {
+    "calories": 274,
+    "protein": 10.7,
+    "carbs": 47.5,
+    "fat": 4.53,
+    "matched_name": "Bread, wheat",
+    "source": "USDA"
+  },
+  "pancake_batter": {
+    "calories": 269,
+    "protein": 5.71,
+    "carbs": 57.3,
+    "fat": 1.9,
+    "matched_name": "Pancakes, plain, reduced fat",
+    "source": "USDA"
+  },
+  "fried_dough": {
+    "calories": 350,
+    "protein": 5.0,
+    "carbs": 40.0,
+    "fat": 19.0,
+    "source": "manual (plain fried dough, unglazed \u2014 USDA match was pre-sugared, would double-count with date_syrup line)"
+  },
+  "date_syrup": {
+    "calories": 277,
+    "protein": 1.81,
+    "carbs": 75.0,
+    "fat": 0.15,
+    "matched_name": "Dates, medjool",
+    "source": "USDA"
+  },
+  "kunafa_dough": {
+    "calories": 299,
+    "protein": 7.1,
+    "carbs": 52.6,
+    "fat": 6.0,
+    "matched_name": "Phyllo dough",
+    "source": "USDA"
+  },
+  "soft_cheese": {
+    "calories": 300,
+    "protein": 18.0,
+    "carbs": 3.0,
+    "fat": 24.0,
+    "source": "manual (standard ref, akkawi/mozzarella-style soft cheese)"
+  },
+  "sugar_syrup": {
+    "calories": 260,
+    "protein": 0,
+    "carbs": 67.0,
+    "fat": 0,
+    "source": "manual (1:1 sugar:water simple syrup)"
+  },
+  "milk": {
+    "calories": 60.0,
+    "protein": 3.27,
+    "carbs": 4.63,
+    "fat": 3.2,
+    "matched_name": "Milk, whole, 3.25% milkfat, with added vitamin D",
+    "source": "USDA"
+  },
+  "black_tea": {
+    "calories": 1.0,
+    "protein": 0.0,
+    "carbs": 0.3,
+    "fat": 0.0,
+    "matched_name": "Beverages, tea, black, brewed, prepared with distilled water",
+    "source": "USDA"
+  }
+}
