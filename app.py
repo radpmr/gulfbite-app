@@ -30,6 +30,11 @@ from typing import Optional, Tuple, List
 import numpy as np
 import streamlit as st
 from PIL import Image
+try:
+    import pillow_heif
+    pillow_heif.register_heif_opener()
+except ImportError:
+    pass
 
 # ============================================================================
 # CONFIG — unchanged from the validated Colab pipeline
