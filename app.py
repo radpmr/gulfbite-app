@@ -427,7 +427,7 @@ if st.session_state.stage == "upload":
     render_stepper("upload", st.session_state.triggered)
 
     with st.container(border=True):
-        uploaded = st.file_uploader("Upload a photo of your meal", type=["jpg", "jpeg", "png"])
+        uploaded = st.file_uploader("Upload a photo of your meal", type=["jpg", "jpeg", "png", "heic", "heif"])
         if uploaded is not None:
             image = Image.open(uploaded)
             st.session_state.image = image
