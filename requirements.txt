@@ -1,5 +1,8 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 streamlit==1.39.0
 tensorflow>=2.15
+torch
+torchvision
 ultralytics>=8.4
 numpy
 Pillow
