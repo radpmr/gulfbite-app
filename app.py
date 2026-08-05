@@ -424,7 +424,7 @@ if st.session_state.stage == "upload":
         if uploaded is not None:
             image = Image.open(uploaded)
             st.session_state.image = image
-            st.image(image, caption="Uploaded photo", use_container_width=True)
+            st.image(image, caption="Uploaded photo", use_column_width=True)
 
             with st.spinner("Analyzing..."):
                 cnn_class, cnn_confidence = run_cnn(image, cnn_model, idx_to_class)
@@ -467,7 +467,7 @@ elif st.session_state.stage == "confirm_dish":
     render_stepper("confirm_dish", True)
 
     with st.container(border=True):
-        st.image(st.session_state.image, caption="Uploaded photo", use_container_width=True)
+        st.image(st.session_state.image, caption="Uploaded photo", use_column_width=True)
 
         cnn_class = st.session_state.cnn_class
         cnn_conf = st.session_state.cnn_confidence
@@ -500,7 +500,7 @@ elif st.session_state.stage == "select_portion":
     render_stepper("select_portion", st.session_state.triggered)
 
     with st.container(border=True):
-        st.image(st.session_state.image, caption="Uploaded photo", use_container_width=True)
+        st.image(st.session_state.image, caption="Uploaded photo", use_column_width=True)
         st.markdown(f'<p class="gb-dish-name">{display_name(st.session_state.final_dish)}</p>',
                     unsafe_allow_html=True)
         st.write("Select your portion size:")
@@ -524,7 +524,7 @@ elif st.session_state.stage == "result":
     render_stepper("result", st.session_state.triggered)
 
     with st.container(border=True):
-        st.image(st.session_state.image, caption="Uploaded photo", use_container_width=True)
+        st.image(st.session_state.image, caption="Uploaded photo", use_column_width=True)
 
         dish = st.session_state.final_dish
         nutrition = estimate_nutrition(dish, st.session_state.portion_size, ingredient_cache)
