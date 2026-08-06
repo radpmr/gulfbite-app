@@ -103,6 +103,7 @@ DISH_RECIPES = {
 }
 
 PORTION_MULTIPLIERS = {'S': 0.7, 'M': 1.0, 'L': 1.4}
+PORTION_LABELS = {'S': 'Small', 'M': 'Medium', 'L': 'Large'}
 CALORIE_RANGE_PCT = 0.15
 
 
@@ -333,7 +334,7 @@ def render_header():
         </svg>
         <p class="gb-title">GulfBite</p>
     </div>
-    <p class="gb-subtitle">Gulf food recognition + calorie estimation</p>
+    <p class="gb-subtitle">Nutrition insights for Gulf cuisine</p>
     """, unsafe_allow_html=True)
 
 
@@ -371,7 +372,7 @@ def render_calorie_range(lo: int, hi: int):
     st.markdown(f"""
     <div class="gb-range-numbers">{lo}&ndash;{hi} <span class="gb-range-unit">kcal</span></div>
     <div class="gb-range-track"><div class="gb-range-fill"></div></div>
-    <div class="gb-range-caption">Range reflects normal recipe variation, not measurement uncertainty.</div>
+    <div class="gb-range-caption">This range reflects typical variation in recipes and portion preparation.</div>
     """, unsafe_allow_html=True)
 
 
@@ -415,14 +416,12 @@ render_header()
 
 with st.expander("How this works"):
     st.write(
-        "GulfBite classifies your photo with a CNN. For dishes with historically higher "
-        "confusion (e.g. rice dishes that look alike, or wrapped foods hiding their filling), "
-        "it also runs a YOLOv8 detector for a disambiguating visual feature (like a whole "
-        "lamb shank, or visible falafel filling) and asks you to confirm. Calories are "
-        "estimated by composing the dish from its typical ingredients against USDA nutrition "
-        "data, scaled to your chosen portion size, and shown as a range rather than a single "
-        "number — recipes vary, so a range is more honest than false precision."
-    )
+    "GulfBite identifies Gulf cuisine dishes from a photo and estimates their nutritional "
+    "content. When a dish is visually similar to others, you may be asked to confirm the "
+    "result. Calorie and macronutrient values are calculated from standard ingredient "
+    "compositions and nutrition data, and are shown as a range to reflect typical variation "
+    "in recipes and portion sizes."
+)
 
 try:
     cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()
@@ -441,7 +440,7 @@ if st.session_state.stage == "upload":
             st.session_state.image = image
             st.image(image, caption="Uploaded photo", use_column_width=True)
 
-            with st.spinner("Analyzing..."):
+            with st.spinner("Analyzing photo..."):
                 cnn_class, cnn_confidence = run_cnn(image, cnn_model, idx_to_class)
 
                 triggered = (
@@ -489,17 +488,17 @@ elif st.session_state.stage == "confirm_dish":
         candidates = st.session_state.candidates
         yolo_suggestion = st.session_state.yolo_suggestion
 
-        st.write(f"**Best guess:** {display_name(cnn_class)}  ({cnn_conf:.0%} confidence)")
-        if yolo_suggestion:
-            st.info(f"A visual feature was detected suggesting **{display_name(yolo_suggestion)}**.")
-        else:
-            st.write("This dish can look similar to a few others — please confirm which one it is:")
+        st.write(f"**Detected dish:** {display_name(cnn_class)}  ({cnn_conf:.0%} confidence)")
+if yolo_suggestion:
+    st.info(f"Additional analysis suggests this may be **{display_name(yolo_suggestion)}**.")
+else:
+    st.write("This dish shares visual similarities with others. Please confirm the correct match:")
 
         default_choice = yolo_suggestion if yolo_suggestion else cnn_class
         default_idx = candidates.index(default_choice) if default_choice in candidates else 0
 
         choice = st.radio(
-            "Select the correct dish:",
+            "Choose the correct dish:",
             options=candidates,
             format_func=display_name,
             index=default_idx,
@@ -518,7 +517,7 @@ elif st.session_state.stage == "select_portion":
         st.image(st.session_state.image, caption="Uploaded photo", use_column_width=True)
         st.markdown(f'<p class="gb-dish-name">{display_name(st.session_state.final_dish)}</p>',
                     unsafe_allow_html=True)
-        st.write("Select your portion size:")
+        st.write("Select a portion size:")
 
         col1, col2, col3 = st.columns(3)
         if col1.button("Small", use_container_width=True):
@@ -547,22 +546,23 @@ elif st.session_state.stage == "result":
 
         st.markdown(f'<p class="gb-dish-name">{display_name(dish)}</p>', unsafe_allow_html=True)
         st.markdown(
-            f'<p class="gb-dish-meta">Portion: {st.session_state.portion_size} &bull; {st.session_state.tier_used}</p>',
-            unsafe_allow_html=True,
-        )
+    f'<p class="gb-dish-meta">Portion: {PORTION_LABELS[st.session_state.portion_size]}</p>',
+    unsafe_allow_html=True,
+)
 
         render_calorie_range(lo, hi)
         render_stat_grid(nutrition['protein_g'], nutrition['carbs_g'], nutrition['fat_g'])
 
         if nutrition['missing_ingredients']:
-            st.warning(f"Note: nutrition data was unavailable for: {', '.join(nutrition['missing_ingredients'])}. "
-                       "The estimate above excludes these ingredients.")
+            st.warning(f"Nutrition data was unavailable for the following ingredients, which are excluded "
+           f"from this estimate: {', '.join(nutrition['missing_ingredients'])}.")
 
         with st.expander("Prediction details"):
-            st.write(f"CNN prediction: {display_name(st.session_state.cnn_class)} "
-                     f"({st.session_state.cnn_confidence:.1%} confidence)")
-            if st.session_state.get('yolo_suggestion'):
-                st.write(f"YOLOv8 suggested: {display_name(st.session_state.yolo_suggestion)}")
-            st.write(f"Final dish (confirmed): {display_name(dish)}")
+    detail_lines = [f"Initial model prediction: {display_name(st.session_state.cnn_class)} "
+                     f"({st.session_state.cnn_confidence:.1%} confidence)"]
+    if st.session_state.get('yolo_suggestion'):
+        detail_lines.append(f"Secondary detection model suggested: {display_name(st.session_state.yolo_suggestion)}")
+    detail_lines.append(f"Confirmed dish: {display_name(dish)}")
+    st.markdown("<br>".join(detail_lines), unsafe_allow_html=True)
 
     st.button("Try another photo", on_click=reset)
