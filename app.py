@@ -329,8 +329,8 @@ def render_header():
     <div class="gb-header">
         <svg width="34" height="34" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
             <rect width="40" height="40" rx="10" fill="#3B7DD8"/>
-            <circle cx="20" cy="19" r="10" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
-            <circle cx="20" cy="19" r="4" fill="#FFFFFF"/>
+            <circle cx="19" cy="20" r="10" fill="#FFFFFF"/>
+            <circle cx="26" cy="13" r="6" fill="#3B7DD8"/>
         </svg>
         <p class="gb-title">GulfBite</p>
     </div>
@@ -390,7 +390,7 @@ def render_stat_grid(protein_g: float, carbs_g: float, fat_g: float):
 # STREAMLIT UI
 # ============================================================================
 
-st.set_page_config(page_title="GulfBite", page_icon="🍚", layout="centered")
+st.set_page_config(page_title="GulfBite", page_icon="favicon.png", layout="centered")
 inject_theme()
 
 if "stage" not in st.session_state:
