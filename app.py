@@ -416,12 +416,12 @@ render_header()
 
 with st.expander("How this works"):
     st.write(
-    "GulfBite identifies Gulf cuisine dishes from a photo and estimates their nutritional "
-    "content. When a dish is visually similar to others, you may be asked to confirm the "
-    "result. Calorie and macronutrient values are calculated from standard ingredient "
-    "compositions and nutrition data, and are shown as a range to reflect typical variation "
-    "in recipes and portion sizes."
-)
+        "GulfBite identifies Gulf cuisine dishes from a photo and estimates their nutritional "
+        "content. When a dish is visually similar to others, you may be asked to confirm the "
+        "result. Calorie and macronutrient values are calculated from standard ingredient "
+        "compositions and nutrition data, and are shown as a range to reflect typical variation "
+        "in recipes and portion sizes."
+    )
 
 try:
     cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()
@@ -546,23 +546,23 @@ elif st.session_state.stage == "result":
 
         st.markdown(f'<p class="gb-dish-name">{display_name(dish)}</p>', unsafe_allow_html=True)
         st.markdown(
-    f'<p class="gb-dish-meta">Portion: {PORTION_LABELS[st.session_state.portion_size]}</p>',
-    unsafe_allow_html=True,
-)
+            f'<p class="gb-dish-meta">Portion: {PORTION_LABELS[st.session_state.portion_size]}</p>',
+            unsafe_allow_html=True,
+        )
 
         render_calorie_range(lo, hi)
         render_stat_grid(nutrition['protein_g'], nutrition['carbs_g'], nutrition['fat_g'])
 
         if nutrition['missing_ingredients']:
             st.warning(f"Nutrition data was unavailable for the following ingredients, which are excluded "
-           f"from this estimate: {', '.join(nutrition['missing_ingredients'])}.")
+                       f"from this estimate: {', '.join(nutrition['missing_ingredients'])}.")
 
         with st.expander("Prediction details"):
-    detail_lines = [f"Initial model prediction: {display_name(st.session_state.cnn_class)} "
-                     f"({st.session_state.cnn_confidence:.1%} confidence)"]
-    if st.session_state.get('yolo_suggestion'):
-        detail_lines.append(f"Secondary detection model suggested: {display_name(st.session_state.yolo_suggestion)}")
-    detail_lines.append(f"Confirmed dish: {display_name(dish)}")
-    st.markdown("<br>".join(detail_lines), unsafe_allow_html=True)
+            detail_lines = [f"Initial model prediction: {display_name(st.session_state.cnn_class)} "
+                             f"({st.session_state.cnn_confidence:.1%} confidence)"]
+            if st.session_state.get('yolo_suggestion'):
+                detail_lines.append(f"Secondary detection model suggested: {display_name(st.session_state.yolo_suggestion)}")
+            detail_lines.append(f"Confirmed dish: {display_name(dish)}")
+            st.markdown("<br>".join(detail_lines), unsafe_allow_html=True)
 
     st.button("Try another photo", on_click=reset)
