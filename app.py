@@ -558,19 +558,19 @@ elif st.session_state.stage == "result":
                        f"from this estimate: {', '.join(nutrition['missing_ingredients'])}.")
 
         with st.expander("Not the right dish? Tap to correct"):
-    all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
-    corrected = st.selectbox(
-        "Select the correct dish:",
-        options=all_dishes,
-        format_func=display_name,
-        index=all_dishes.index(dish) if dish in all_dishes else 0,
-    )
-    if st.button("Update result"):
-        st.session_state.final_dish = corrected
-        st.session_state.tier_used = "User correction"
-        st.rerun()
-      
-  with st.expander("Prediction details"):
+            all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
+            corrected = st.selectbox(
+                "Select the correct dish:",
+                options=all_dishes,
+                format_func=display_name,
+                index=all_dishes.index(dish) if dish in all_dishes else 0,
+            )
+            if st.button("Update result"):
+                st.session_state.final_dish = corrected
+                st.session_state.tier_used = "User correction"
+                st.rerun()
+
+        with st.expander("Prediction details"):
             detail_lines = [f"Initial model prediction: {display_name(st.session_state.cnn_class)} "
                              f"({st.session_state.cnn_confidence:.1%} confidence)"]
             if st.session_state.get('yolo_suggestion'):
