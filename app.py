@@ -489,10 +489,10 @@ elif st.session_state.stage == "confirm_dish":
         yolo_suggestion = st.session_state.yolo_suggestion
 
         st.write(f"**Detected dish:** {display_name(cnn_class)}  ({cnn_conf:.0%} confidence)")
-if yolo_suggestion:
-    st.info(f"Additional analysis suggests this may be **{display_name(yolo_suggestion)}**.")
-else:
-    st.write("This dish shares visual similarities with others. Please confirm the correct match:")
+        if yolo_suggestion:
+            st.info(f"Additional analysis suggests this may be **{display_name(yolo_suggestion)}**.")
+        else:
+            st.write("This dish shares visual similarities with others. Please confirm the correct match:")
 
         default_choice = yolo_suggestion if yolo_suggestion else cnn_class
         default_idx = candidates.index(default_choice) if default_choice in candidates else 0
