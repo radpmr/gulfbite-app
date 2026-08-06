@@ -227,17 +227,17 @@ def estimate_nutrition(dish_class, portion_size, ingredient_cache):
 def inject_theme():
     st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
     :root {
-        --gb-bg: #0E1B22;
-        --gb-surface: #16262E;
-        --gb-surface-2: #1D323C;
-        --gb-accent: #E8A33D;
-        --gb-accent-dim: #B97F2C;
-        --gb-text: #F4EFE6;
-        --gb-muted: #93A6AE;
-        --gb-border: #24404C;
+        --gb-bg: #0B1220;
+        --gb-surface: #131B2C;
+        --gb-surface-2: #1A2438;
+        --gb-accent: #3B7DD8;
+        --gb-accent-dim: #2C61A8;
+        --gb-text: #E7ECF3;
+        --gb-muted: #8B97AC;
+        --gb-border: #223049;
     }
 
     html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
@@ -246,57 +246,61 @@ def inject_theme():
     #MainMenu, footer, header[data-testid="stHeader"] { visibility: hidden; height: 0; }
     .block-container { max-width: 620px; padding-top: 2rem; }
 
-    .gb-header { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.15rem; }
-    .gb-bowl { font-size: 2.1rem; line-height: 1; }
+    .gb-header { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.15rem; }
     .gb-title {
-        font-family: 'Fraunces', serif; font-weight: 700; font-size: 2.1rem;
-        letter-spacing: -0.01em; color: var(--gb-text); margin: 0;
+        font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.7rem;
+        letter-spacing: -0.02em; color: var(--gb-text); margin: 0;
     }
     .gb-subtitle {
-        font-family: 'Inter', sans-serif; color: var(--gb-muted); font-size: 0.92rem;
-        margin: 0 0 1.5rem 2.8rem;
+        font-family: 'Inter', sans-serif; color: var(--gb-muted); font-size: 0.88rem;
+        margin: 0 0 1.5rem 2.65rem;
     }
 
     .gb-stepper { display: flex; align-items: center; margin: 0.25rem 0 1.75rem 0; }
     .gb-step { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
     .gb-step-dot {
-        width: 1.6rem; height: 1.6rem; border-radius: 50%; display: flex;
+        width: 1.5rem; height: 1.5rem; border-radius: 6px; display: flex;
         align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace;
-        font-size: 0.72rem; font-weight: 600; border: 1.5px solid var(--gb-border);
+        font-size: 0.7rem; font-weight: 600; border: 1.5px solid var(--gb-border);
         color: var(--gb-muted); background: var(--gb-surface); flex-shrink: 0;
     }
-    .gb-step-label { font-size: 0.78rem; color: var(--gb-muted); white-space: nowrap; }
-    .gb-step.done .gb-step-dot { background: var(--gb-accent); border-color: var(--gb-accent); color: #1a1207; }
+    .gb-step-label { font-size: 0.76rem; color: var(--gb-muted); white-space: nowrap; }
+    .gb-step.done .gb-step-dot { background: var(--gb-accent); border-color: var(--gb-accent); color: #FFFFFF; }
     .gb-step.done .gb-step-label { color: var(--gb-text); }
     .gb-step.active .gb-step-dot {
         border-color: var(--gb-accent); color: var(--gb-accent);
-        box-shadow: 0 0 0 3px rgba(232,163,61,0.15);
+        box-shadow: 0 0 0 3px rgba(59,125,216,0.15);
     }
     .gb-step.active .gb-step-label { color: var(--gb-text); font-weight: 600; }
     .gb-step-line { flex: 1; height: 1.5px; background: var(--gb-border); margin: 0 0.5rem; min-width: 0.75rem; }
 
     [data-testid="stVerticalBlockBorderWrapper"] {
         background: var(--gb-surface); border: 1px solid var(--gb-border) !important;
-        border-radius: 16px !important; padding: 0.25rem;
+        border-radius: 12px !important; padding: 0.25rem;
     }
 
     [data-testid="stFileUploaderDropzone"] {
-        background: var(--gb-surface-2); border: 1.5px dashed var(--gb-border); border-radius: 12px;
+        background: var(--gb-surface-2); border: 1.5px dashed var(--gb-border); border-radius: 10px;
     }
+    [data-testid="stFileUploader"] button {
+        border-radius: 8px; border: 1px solid var(--gb-accent); background: transparent;
+        color: var(--gb-accent); font-family: 'Inter', sans-serif; font-weight: 600;
+    }
+    [data-testid="stFileUploader"] button:hover { background: rgba(59,125,216,0.12); }
 
     div.stButton > button, div.stDownloadButton > button {
-        border-radius: 999px; border: 1px solid var(--gb-accent); background: transparent;
+        border-radius: 8px; border: 1px solid var(--gb-accent); background: transparent;
         color: var(--gb-accent); font-family: 'Inter', sans-serif; font-weight: 600;
         padding: 0.5rem 1.1rem; transition: all 0.15s ease; width: 100%;
     }
-    div.stButton > button:hover { background: rgba(232,163,61,0.12); color: var(--gb-accent); }
-    div.stButton > button[kind="primary"] { background: var(--gb-accent); color: #1a1207; border-color: var(--gb-accent); }
+    div.stButton > button:hover { background: rgba(59,125,216,0.12); color: var(--gb-accent); }
+    div.stButton > button[kind="primary"] { background: var(--gb-accent); color: #FFFFFF; border-color: var(--gb-accent); }
     div.stButton > button[kind="primary"]:hover { background: var(--gb-accent-dim); }
 
-    [data-testid="stExpander"] { background: var(--gb-surface); border: 1px solid var(--gb-border); border-radius: 12px; }
-    [data-testid="stAlert"] { background: var(--gb-surface-2); border-radius: 12px; }
+    [data-testid="stExpander"] { background: var(--gb-surface); border: 1px solid var(--gb-border); border-radius: 10px; }
+    [data-testid="stAlert"] { background: var(--gb-surface-2); border-radius: 10px; }
 
-    .gb-dish-name { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 600; color: var(--gb-text); margin-bottom: 0.15rem; }
+    .gb-dish-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.4rem; color: var(--gb-text); margin-bottom: 0.15rem; }
     .gb-dish-meta { font-size: 0.85rem; color: var(--gb-muted); margin-bottom: 1rem; }
 
     .gb-range-numbers {
@@ -304,15 +308,15 @@ def inject_theme():
         font-size: 1.9rem; font-weight: 600; color: var(--gb-text); margin-bottom: 0.4rem;
     }
     .gb-range-unit { font-size: 0.85rem; color: var(--gb-muted); font-weight: 500; }
-    .gb-range-track { height: 10px; border-radius: 999px; background: var(--gb-surface-2); position: relative; overflow: hidden; }
+    .gb-range-track { height: 8px; border-radius: 4px; background: var(--gb-surface-2); position: relative; overflow: hidden; }
     .gb-range-fill {
         position: absolute; top: 0; bottom: 0; left: 15%; right: 15%;
-        background: linear-gradient(90deg, var(--gb-accent-dim), var(--gb-accent)); border-radius: 999px;
+        background: var(--gb-accent); border-radius: 4px;
     }
     .gb-range-caption { font-size: 0.76rem; color: var(--gb-muted); margin-top: 0.45rem; }
 
     .gb-stat-grid { display: flex; gap: 0.6rem; margin-top: 1.1rem; }
-    .gb-stat { flex: 1; background: var(--gb-surface-2); border-radius: 12px; padding: 0.65rem 0.4rem; text-align: center; }
+    .gb-stat { flex: 1; background: var(--gb-surface-2); border-radius: 10px; padding: 0.65rem 0.4rem; text-align: center; }
     .gb-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; color: var(--gb-text); }
     .gb-stat-label { font-size: 0.68rem; color: var(--gb-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 0.15rem; }
     </style>
@@ -322,7 +326,11 @@ def inject_theme():
 def render_header():
     st.markdown("""
     <div class="gb-header">
-        <span class="gb-bowl">🍚</span>
+        <svg width="34" height="34" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="#3B7DD8"/>
+            <circle cx="20" cy="19" r="10" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+            <circle cx="20" cy="19" r="4" fill="#FFFFFF"/>
+        </svg>
         <p class="gb-title">GulfBite</p>
     </div>
     <p class="gb-subtitle">Gulf food recognition + calorie estimation</p>
