@@ -294,7 +294,14 @@ def inject_theme():
     div.stButton > button[kind="primary"] { background: var(--gb-accent); color: #FFFFFF; border-color: var(--gb-accent); }
     div.stButton > button[kind="primary"]:hover { background: var(--gb-accent-dim); }
 
-    [data-testid="stExpander"] { background: var(--gb-surface); border: 1px solid var(--gb-border); border-radius: 8px; }
+    [data-testid="stExpander"] {
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--gb-border);
+    border-radius: 0;
+    margin-top: 0.75rem;
+    padding-top: 0.25rem;
+    }
     [data-testid="stAlert"] { background: var(--gb-surface-2); border-radius: 8px; }
 
     .gb-dish-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.4rem; color: var(--gb-text); margin-bottom: 0.15rem; }
@@ -392,7 +399,7 @@ def inject_theme():
 .gb-macro-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
 .gb-macro-value { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 1rem; color: var(--gb-text); }
 .gb-macro-label { font-size: 0.68rem; color: var(--gb-muted); text-transform: uppercase; letter-spacing: 0.04em; }
-
+.gb-mono-inline { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--gb-accent); }
     </style>
     """, unsafe_allow_html=True)
 
@@ -426,7 +433,7 @@ def render_stepper(current_stage: str, triggered: bool):
     html = ['<div class="gb-stepper">']
     for i, (key, label) in enumerate(steps):
         if i < active_idx:
-            cls, mark = "done", "&#10003;"
+        cls, mark = "done", str(i + 1)
         elif i == active_idx:
             cls, mark = "active", str(i + 1)
         else:
@@ -500,11 +507,9 @@ render_header()
 
 with st.expander("How this works"):
     st.write(
-        "GulfBite identifies Gulf cuisine dishes from a photo and estimates their nutritional "
-        "content. When a dish is visually similar to others, you may be asked to confirm the "
-        "result. Calorie and macronutrient values are calculated from standard ingredient "
-        "compositions and nutrition data, and are shown as a range to reflect typical variation "
-        "in recipes and portion sizes."
+        "Snap a photo of your meal. If it looks like something else, we'll double-check with "
+        "you. Calories come from real ingredient data — shown as a range, since no two plates "
+        "are exactly alike."
     )
 
 try:
@@ -641,25 +646,25 @@ elif st.session_state.stage == "result":
             st.warning(f"Nutrition data was unavailable for the following ingredients, which are excluded "
                        f"from this estimate: {', '.join(nutrition['missing_ingredients'])}.")
 
-        with st.expander("Not the right dish? Tap to correct"):
-            all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
-            corrected = st.selectbox(
-                "Select the correct dish:",
-                options=all_dishes,
-                format_func=display_name,
-                index=all_dishes.index(dish) if dish in all_dishes else 0,
-            )
-            if st.button("Update result"):
-                st.session_state.final_dish = corrected
-                st.session_state.tier_used = "User correction"
-                st.rerun()
+        with st.expander("Wrong dish?"):
+    all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
+    corrected = st.selectbox(
+        "Which dish is this?",
+        options=all_dishes,
+        format_func=display_name,
+        index=all_dishes.index(dish) if dish in all_dishes else 0,
+    )
+    if st.button("Update", type="primary"):
+        st.session_state.final_dish = corrected
+        st.session_state.tier_used = "User correction"
+        st.rerun()
 
-        with st.expander("Prediction details"):
-            detail_lines = [f"Initial model prediction: {display_name(st.session_state.cnn_class)} "
-                             f"({st.session_state.cnn_confidence:.1%} confidence)"]
-            if st.session_state.get('yolo_suggestion'):
-                detail_lines.append(f"Secondary detection model suggested: {display_name(st.session_state.yolo_suggestion)}")
-            detail_lines.append(f"Confirmed dish: {display_name(dish)}")
-            st.markdown("<br>".join(detail_lines), unsafe_allow_html=True)
+        with st.expander("How we got this"):
+    detail_lines = [f"First guess: {display_name(st.session_state.cnn_class)} "
+                     f"<span class='gb-mono-inline'>{st.session_state.cnn_confidence:.0%}</span> match"]
+    if st.session_state.get('yolo_suggestion'):
+        detail_lines.append(f"Visual check pointed to: {display_name(st.session_state.yolo_suggestion)}")
+    detail_lines.append(f"You confirmed: {display_name(dish)}")
+    st.markdown("<br>".join(detail_lines), unsafe_allow_html=True)
 
     st.button("Try another photo", on_click=reset)
