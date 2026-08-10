@@ -320,6 +320,72 @@ def inject_theme():
     .gb-stat { flex: 1; background: var(--gb-surface-2); border-radius: 10px; padding: 0.65rem 0.4rem; text-align: center; }
     .gb-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; color: var(--gb-text); }
     .gb-stat-label { font-size: 0.68rem; color: var(--gb-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 0.15rem; }
+
+    /* Subtle background texture — breaks up the flat single-color background */
+.stApp {
+    background-color: var(--gb-bg);
+    background-image: radial-gradient(circle at 1px 1px, rgba(59,125,216,0.06) 1px, transparent 0);
+    background-size: 24px 24px;
+}
+
+/* Hero number treatment for the calorie figure */
+.gb-range-numbers {
+    font-size: 3.4rem !important;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem !important;
+}
+.gb-range-unit { font-size: 1rem !important; }
+
+/* Photo framing — turns a plain upload into a presented result */
+[data-testid="stImage"] {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    border: 1px solid var(--gb-border);
+}
+[data-testid="stImage"]::before {
+    content: "YOUR PHOTO";
+    position: absolute;
+    top: 10px; left: 10px;
+    background: rgba(11,18,32,0.75);
+    color: var(--gb-text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border-radius: 6px;
+    z-index: 2;
+}
+
+/* Radio options restyled as selectable rows, not plain dots */
+[data-testid="stRadio"] > div {
+    gap: 0.5rem;
+}
+[data-testid="stRadio"] label {
+    background: var(--gb-surface-2);
+    border: 1px solid var(--gb-border);
+    border-radius: 10px;
+    padding: 0.6rem 0.9rem !important;
+    margin: 0 !important;
+    transition: border-color 0.15s ease, background 0.15s ease;
+    width: 100%;
+}
+[data-testid="stRadio"] label:hover {
+    border-color: var(--gb-accent);
+    background: rgba(59,125,216,0.08);
+}
+
+/* Soft fade-in on each stage container */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    animation: gb-fade-in 0.35s ease;
+}
+@keyframes gb-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
     </style>
     """, unsafe_allow_html=True)
 
@@ -520,15 +586,15 @@ elif st.session_state.stage == "select_portion":
         st.write("Select a portion size:")
 
         col1, col2, col3 = st.columns(3)
-        if col1.button("Small", use_container_width=True):
+        if col1.button("· Small", use_container_width=True):
             st.session_state.portion_size = "S"
             st.session_state.stage = "result"
             st.rerun()
-        if col2.button("Medium", use_container_width=True):
+        if col2.button("● Medium", use_container_width=True):
             st.session_state.portion_size = "M"
             st.session_state.stage = "result"
             st.rerun()
-        if col3.button("Large", use_container_width=True):
+        if col3.button("⬤ Large", use_container_width=True):
             st.session_state.portion_size = "L"
             st.session_state.stage = "result"
             st.rerun()
