@@ -433,7 +433,7 @@ def render_stepper(current_stage: str, triggered: bool):
     html = ['<div class="gb-stepper">']
     for i, (key, label) in enumerate(steps):
         if i < active_idx:
-        cls, mark = "done", str(i + 1)
+            cls, mark = "done", str(i + 1)
         elif i == active_idx:
             cls, mark = "active", str(i + 1)
         else:
