@@ -231,14 +231,14 @@ def inject_theme():
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
     :root {
-    --gb-bg: #0B1512;
-    --gb-surface: #131F1A;
-    --gb-surface-2: #1A2B23;
-    --gb-accent: #1F9E6E;
-    --gb-accent-dim: #167A56;
-    --gb-text: #E8EFEA;
-    --gb-muted: #8FA69B;
-    --gb-border: #223830;
+    --gb-bg: #151107;
+    --gb-surface: #1F1A0E;
+    --gb-surface-2: #2A2313;
+    --gb-accent: #C9982E;
+    --gb-accent-dim: #A67D22;
+    --gb-text: #F0E9D8;
+    --gb-muted: #A69874;
+    --gb-border: #3A3018;
 }
 
     html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
@@ -283,14 +283,14 @@ def inject_theme():
         border-radius: 8px; border: 1px solid var(--gb-accent); background: transparent;
         color: var(--gb-accent); font-family: 'Inter', sans-serif; font-weight: 600;
     }
-    [data-testid="stFileUploader"] button:hover { background: rgba(31,158,110,0.12); }
+    [data-testid="stFileUploader"] button:hover { background: rgba(201,152,46,0.12); }
 
     div.stButton > button, div.stDownloadButton > button {
         border-radius: 8px; border: 1px solid var(--gb-accent); background: transparent;
         color: var(--gb-accent); font-family: 'Inter', sans-serif; font-weight: 600;
         padding: 0.5rem 1.1rem; transition: all 0.15s ease; width: 100%;
     }
-    div.stButton > button:hover { background: rgba(31,158,110,0.12); color: var(--gb-accent); }
+    div.stButton > button:hover { background: rgba(201,152,46,0.12); color: var(--gb-accent); }
     div.stButton > button[kind="primary"] { background: var(--gb-accent); color: #FFFFFF; border-color: var(--gb-accent); }
     div.stButton > button[kind="primary"]:hover { background: var(--gb-accent-dim); }
 
@@ -327,7 +327,7 @@ def inject_theme():
     /* Subtle background texture — breaks up the flat single-color background */
 .stApp {
     background-color: var(--gb-bg);
-    background-image: radial-gradient(circle at 1px 1px, rgba(31,158,110,0.06) 1px, transparent 0);
+   background-image: radial-gradient(circle at 1px 1px, rgba(201,152,46,0.06) 1px, transparent 0);
     background-size: 24px 24px;
 }
 
@@ -377,7 +377,7 @@ def inject_theme():
 }
 [data-testid="stRadio"] label:hover {
     border-color: var(--gb-accent);
-    background: rgba(31,158,110,0.08);
+    background: rgba(201,152,46,0.08);
 }
 
 /* Soft fade-in on each stage container */
@@ -408,10 +408,9 @@ def render_header():
     st.markdown("""
     <div class="gb-header">
         <svg width="34" height="34" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-            <rect width="40" height="40" rx="10" fill="#1F9E6E"/>
-            <circle cx="19" cy="20" r="10" fill="#FFFFFF"/>
-            <circle cx="26" cy="13" r="6" fill="#1F9E6E"/>
-        </svg>
+    <rect width="40" height="40" rx="10" fill="#C9982E"/>
+    <polygon points="20.0,5.0 22.49,13.99 30.61,9.39 26.01,17.51 35.0,20.0 26.01,22.49 30.61,30.61 22.49,26.01 20.0,35.0 17.51,26.01 9.39,30.61 13.99,22.49 5.0,20.0 13.99,17.51 9.39,9.39 17.51,13.99" fill="#FFFFFF"/>
+</svg>
         <p class="gb-title">GulfBite</p>
     </div>
     <p class="gb-subtitle">Nutrition insights for Gulf cuisine</p>
