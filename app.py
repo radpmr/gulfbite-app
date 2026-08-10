@@ -270,7 +270,7 @@ def inject_theme():
     .gb-step.done .gb-step-label { color: var(--gb-text); }
     .gb-step.active .gb-step-dot {
         border-color: var(--gb-accent); color: var(--gb-accent);
-        box-shadow: 0 0 0 3px rgba(59,125,216,0.15);
+        box-shadow: 0 0 0 3px rgba(31,158,110,0.15);
     }
     .gb-step.active .gb-step-label { color: var(--gb-text); font-weight: 600; }
     .gb-step-line { flex: 1; height: 1.5px; background: var(--gb-border); margin: 0 0.5rem; min-width: 0.75rem; }
@@ -287,14 +287,14 @@ def inject_theme():
         border-radius: 8px; border: 1px solid var(--gb-accent); background: transparent;
         color: var(--gb-accent); font-family: 'Inter', sans-serif; font-weight: 600;
     }
-    [data-testid="stFileUploader"] button:hover { background: rgba(59,125,216,0.12); }
+    [data-testid="stFileUploader"] button:hover { background: rgba(31,158,110,0.12); }
 
     div.stButton > button, div.stDownloadButton > button {
         border-radius: 8px; border: 1px solid var(--gb-accent); background: transparent;
         color: var(--gb-accent); font-family: 'Inter', sans-serif; font-weight: 600;
         padding: 0.5rem 1.1rem; transition: all 0.15s ease; width: 100%;
     }
-    div.stButton > button:hover { background: rgba(59,125,216,0.12); color: var(--gb-accent); }
+    div.stButton > button:hover { background: rgba(31,158,110,0.12); color: var(--gb-accent); }
     div.stButton > button[kind="primary"] { background: var(--gb-accent); color: #FFFFFF; border-color: var(--gb-accent); }
     div.stButton > button[kind="primary"]:hover { background: var(--gb-accent-dim); }
 
@@ -324,7 +324,7 @@ def inject_theme():
     /* Subtle background texture — breaks up the flat single-color background */
 .stApp {
     background-color: var(--gb-bg);
-    background-image: radial-gradient(circle at 1px 1px, rgba(59,125,216,0.06) 1px, transparent 0);
+    background-image: radial-gradient(circle at 1px 1px, rgba(31,158,110,0.06) 1px, transparent 0);
     background-size: 24px 24px;
 }
 
@@ -375,7 +375,7 @@ def inject_theme():
 }
 [data-testid="stRadio"] label:hover {
     border-color: var(--gb-accent);
-    background: rgba(59,125,216,0.08);
+    background: rgba(31,158,110,0.08);
 }
 
 /* Soft fade-in on each stage container */
@@ -394,9 +394,9 @@ def render_header():
     st.markdown("""
     <div class="gb-header">
         <svg width="34" height="34" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-            <rect width="40" height="40" rx="10" fill="#3B7DD8"/>
+            <rect width="40" height="40" rx="10" fill="#1F9E6E"/>
             <circle cx="19" cy="20" r="10" fill="#FFFFFF"/>
-            <circle cx="26" cy="13" r="6" fill="#3B7DD8"/>
+            <circle cx="26" cy="13" r="6" fill="#1F9E6E"/>
         </svg>
         <p class="gb-title">GulfBite</p>
     </div>
