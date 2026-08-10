@@ -231,15 +231,15 @@ def inject_theme():
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
     :root {
-        --gb-bg: #0B1220;
-        --gb-surface: #131B2C;
-        --gb-surface-2: #1A2438;
-        --gb-accent: #3B7DD8;
-        --gb-accent-dim: #2C61A8;
-        --gb-text: #E7ECF3;
-        --gb-muted: #8B97AC;
-        --gb-border: #223049;
-    }
+    --gb-bg: #0B1512;
+    --gb-surface: #131F1A;
+    --gb-surface-2: #1A2B23;
+    --gb-accent: #1F9E6E;
+    --gb-accent-dim: #167A56;
+    --gb-text: #E8EFEA;
+    --gb-muted: #8FA69B;
+    --gb-border: #223830;
+}
 
     html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
     .stApp { background: var(--gb-bg); }
