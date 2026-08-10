@@ -647,24 +647,24 @@ elif st.session_state.stage == "result":
                        f"from this estimate: {', '.join(nutrition['missing_ingredients'])}.")
 
         with st.expander("Wrong dish?"):
-    all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
-    corrected = st.selectbox(
-        "Which dish is this?",
-        options=all_dishes,
-        format_func=display_name,
-        index=all_dishes.index(dish) if dish in all_dishes else 0,
-    )
-    if st.button("Update", type="primary"):
-        st.session_state.final_dish = corrected
-        st.session_state.tier_used = "User correction"
-        st.rerun()
+            all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
+            corrected = st.selectbox(
+                "Which dish is this?",
+                options=all_dishes,
+                format_func=display_name,
+                index=all_dishes.index(dish) if dish in all_dishes else 0,
+            )
+            if st.button("Update", type="primary"):
+                st.session_state.final_dish = corrected
+                st.session_state.tier_used = "User correction"
+                st.rerun()
 
         with st.expander("How we got this"):
-    detail_lines = [f"First guess: {display_name(st.session_state.cnn_class)} "
-                     f"<span class='gb-mono-inline'>{st.session_state.cnn_confidence:.0%}</span> match"]
-    if st.session_state.get('yolo_suggestion'):
-        detail_lines.append(f"Visual check pointed to: {display_name(st.session_state.yolo_suggestion)}")
-    detail_lines.append(f"You confirmed: {display_name(dish)}")
-    st.markdown("<br>".join(detail_lines), unsafe_allow_html=True)
+            detail_lines = [f"First guess: {display_name(st.session_state.cnn_class)} "
+                             f"<span class='gb-mono-inline'>{st.session_state.cnn_confidence:.0%}</span> match"]
+            if st.session_state.get('yolo_suggestion'):
+                detail_lines.append(f"Visual check pointed to: {display_name(st.session_state.yolo_suggestion)}")
+            detail_lines.append(f"You confirmed: {display_name(dish)}")
+            st.markdown("<br>".join(detail_lines), unsafe_allow_html=True)
 
     st.button("Try another photo", on_click=reset)
