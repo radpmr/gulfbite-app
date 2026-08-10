@@ -252,10 +252,7 @@ def inject_theme():
         font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.7rem;
         letter-spacing: -0.02em; color: var(--gb-text); margin: 0;
     }
-    .gb-subtitle {
-        font-family: 'Inter', sans-serif; color: var(--gb-muted); font-size: 0.88rem;
-        margin: 0 0 1.5rem 2.65rem;
-    }
+    .gb-subtitle { font-family: 'Inter', sans-serif; color: var(--gb-muted); font-size: 0.92rem; margin: 0 0 1rem 2.65rem; }
 
     .gb-stepper { display: flex; align-items: center; margin: 0.25rem 0 1.75rem 0; }
     .gb-step { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
@@ -280,9 +277,8 @@ def inject_theme():
         border-radius: 12px !important; padding: 0.25rem;
     }
 
-    [data-testid="stFileUploaderDropzone"] {
-        background: var(--gb-surface-2); border: 1.5px dashed var(--gb-border); border-radius: 10px;
-    }
+    [data-testid="stFileUploaderDropzone"] { background: var(--gb-surface-2); border: 1.5px dashed var(--gb-border); border-radius: 8px; }
+    
     [data-testid="stFileUploader"] button {
         border-radius: 8px; border: 1px solid var(--gb-accent); background: transparent;
         color: var(--gb-accent); font-family: 'Inter', sans-serif; font-weight: 600;
@@ -298,8 +294,8 @@ def inject_theme():
     div.stButton > button[kind="primary"] { background: var(--gb-accent); color: #FFFFFF; border-color: var(--gb-accent); }
     div.stButton > button[kind="primary"]:hover { background: var(--gb-accent-dim); }
 
-    [data-testid="stExpander"] { background: var(--gb-surface); border: 1px solid var(--gb-border); border-radius: 10px; }
-    [data-testid="stAlert"] { background: var(--gb-surface-2); border-radius: 10px; }
+    [data-testid="stExpander"] { background: var(--gb-surface); border: 1px solid var(--gb-border); border-radius: 8px; }
+    [data-testid="stAlert"] { background: var(--gb-surface-2); border-radius: 8px; }
 
     .gb-dish-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.4rem; color: var(--gb-text); margin-bottom: 0.15rem; }
     .gb-dish-meta { font-size: 0.85rem; color: var(--gb-muted); margin-bottom: 1rem; }
@@ -339,17 +335,16 @@ def inject_theme():
 
 /* Photo framing — turns a plain upload into a presented result */
 [data-testid="stImage"] {
-    position: relative;
-    border-radius: 14px;
+    border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-    border: 1px solid var(--gb-border);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+    border: 2px solid var(--gb-muted);
 }
 [data-testid="stImage"]::before {
     content: "YOUR PHOTO";
     position: absolute;
     top: 10px; left: 10px;
-    background: rgba(11,18,32,0.75);
+    background: rgba(11,21,18,0.75);
     color: var(--gb-text);
     font-family: 'Inter', sans-serif;
     font-size: 0.62rem;
@@ -386,6 +381,18 @@ def inject_theme():
     from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* Guard against body text ever inheriting accent color */
+[data-testid="stMarkdownContainer"] p { color: var(--gb-text); }
+
+/* Macro composition bar — replaces the 3-box stat grid */
+.gb-macro-bar-track { display: flex; height: 10px; border-radius: 6px; overflow: hidden; margin-top: 1.1rem; background: var(--gb-surface-2); }
+.gb-macro-legend { display: flex; justify-content: space-around; margin-top: 0.7rem; }
+.gb-macro-item { text-align: center; }
+.gb-macro-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+.gb-macro-value { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 1rem; color: var(--gb-text); }
+.gb-macro-label { font-size: 0.68rem; color: var(--gb-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
     </style>
     """, unsafe_allow_html=True)
 
@@ -442,12 +449,23 @@ def render_calorie_range(lo: int, hi: int):
     """, unsafe_allow_html=True)
 
 
-def render_stat_grid(protein_g: float, carbs_g: float, fat_g: float):
+def render_macro_bar(protein_g, carbs_g, fat_g):
+    protein_kcal = protein_g * 4
+    carbs_kcal = carbs_g * 4
+    fat_kcal = fat_g * 9
+    total = max(protein_kcal + carbs_kcal + fat_kcal, 1)
+    p_pct, c_pct, f_pct = protein_kcal/total*100, carbs_kcal/total*100, fat_kcal/total*100
+
     st.markdown(f"""
-    <div class="gb-stat-grid">
-        <div class="gb-stat"><div class="gb-stat-value">{protein_g}g</div><div class="gb-stat-label">Protein</div></div>
-        <div class="gb-stat"><div class="gb-stat-value">{carbs_g}g</div><div class="gb-stat-label">Carbs</div></div>
-        <div class="gb-stat"><div class="gb-stat-value">{fat_g}g</div><div class="gb-stat-label">Fat</div></div>
+    <div class="gb-macro-bar-track">
+        <div style="width:{p_pct:.1f}%; background:var(--gb-accent);"></div>
+        <div style="width:{c_pct:.1f}%; background:#C9A227;"></div>
+        <div style="width:{f_pct:.1f}%; background:#8B97AC;"></div>
+    </div>
+    <div class="gb-macro-legend">
+        <div class="gb-macro-item"><span class="gb-macro-dot" style="background:var(--gb-accent)"></span><span class="gb-macro-value">{protein_g}g</span><br><span class="gb-macro-label">Protein</span></div>
+        <div class="gb-macro-item"><span class="gb-macro-dot" style="background:#C9A227"></span><span class="gb-macro-value">{carbs_g}g</span><br><span class="gb-macro-label">Carbs</span></div>
+        <div class="gb-macro-item"><span class="gb-macro-dot" style="background:#8B97AC"></span><span class="gb-macro-value">{fat_g}g</span><br><span class="gb-macro-label">Fat</span></div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -617,7 +635,7 @@ elif st.session_state.stage == "result":
         )
 
         render_calorie_range(lo, hi)
-        render_stat_grid(nutrition['protein_g'], nutrition['carbs_g'], nutrition['fat_g'])
+        render_macro_bar(nutrition['protein_g'], nutrition['carbs_g'], nutrition['fat_g'])
 
         if nutrition['missing_ingredients']:
             st.warning(f"Nutrition data was unavailable for the following ingredients, which are excluded "
