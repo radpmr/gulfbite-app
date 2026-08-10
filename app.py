@@ -247,7 +247,7 @@ def inject_theme():
     #MainMenu, footer, header[data-testid="stHeader"] { visibility: hidden; height: 0; }
     .block-container { max-width: 620px; padding-top: 2rem; }
 
-    .gb-header { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.15rem; }
+    .gb-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.15rem; }
     .gb-title {
         font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.7rem;
         letter-spacing: -0.02em; color: var(--gb-text); margin: 0;
@@ -409,7 +409,11 @@ def render_header():
     <div class="gb-header">
         <svg width="34" height="34" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
     <rect width="40" height="40" rx="10" fill="#C9982E"/>
-    <polygon points="20.0,5.0 22.49,13.99 30.61,9.39 26.01,17.51 35.0,20.0 26.01,22.49 30.61,30.61 22.49,26.01 20.0,35.0 17.51,26.01 9.39,30.61 13.99,22.49 5.0,20.0 13.99,17.51 9.39,9.39 17.51,13.99" fill="#FFFFFF"/>
+    <circle cx="16" cy="16" r="9" fill="none" stroke="#FFFFFF" stroke-width="3.4"/>
+    <ellipse cx="13.5" cy="17.5" rx="1.5" ry="2.3" transform="rotate(-25 13.5 17.5)" fill="#FFFFFF"/>
+    <ellipse cx="17.5" cy="17.0" rx="1.5" ry="2.3" transform="rotate(15 17.5 17.0)" fill="#FFFFFF"/>
+    <ellipse cx="16.0" cy="13.2" rx="1.5" ry="2.3" transform="rotate(-5 16.0 13.2)" fill="#FFFFFF"/>
+    <line x1="22.36" y1="22.36" x2="32" y2="32" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
 </svg>
         <p class="gb-title">GulfBite</p>
     </div>
