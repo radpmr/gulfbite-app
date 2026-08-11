@@ -334,10 +334,10 @@ def inject_theme():
     div.stButton > button[kind="primary"]:hover { background: var(--gb-accent-dim); }
 
     [data-testid="stExpander"] {
-    background: transparent;
-    border: none;
+    background: transparent !important;
+    border: none !important;
     border-top: 1px solid var(--gb-border);
-    border-radius: 0;
+    border-radius: 0 !important;
     margin-top: 0.75rem;
     padding-top: 0.25rem;
 }
@@ -356,7 +356,7 @@ def inject_theme():
         position: absolute; top: 0; bottom: 0; left: 15%; right: 15%;
         background: var(--gb-accent); border-radius: 4px;
     }
-    .gb-range-caption { font-size: 0.76rem; color: var(--gb-muted); margin-top: 0.45rem; }
+    .gb-range-caption { font-size: 0.76rem; color: var(--gb-muted); margin-top: 0.45rem; margin-bottom: 1.1rem; }
 
     .gb-stat-grid { display: flex; gap: 0.6rem; margin-top: 1.1rem; }
     .gb-stat { flex: 1; background: var(--gb-surface-2); border-radius: 10px; padding: 0.65rem 0.4rem; text-align: center; }
@@ -482,8 +482,8 @@ div.stButton > button[kind="primary"] {
     box-shadow: 0 4px 14px rgba(201,152,46,0.35);
 }
 
-.gb-divider { border-top: 1px solid var(--gb-border); margin: 1rem 0; }
-.gb-section-label { font-size: 0.7rem; color: var(--gb-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+.gb-divider { border-top: 1px solid rgba(201,152,46,0.25); margin: 1.1rem 0; }
+.gb-section-label { font-size: 0.7rem; color: var(--gb-accent); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; font-weight: 600; }
     </style>
     """, unsafe_allow_html=True)
 
