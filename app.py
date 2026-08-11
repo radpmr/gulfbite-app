@@ -340,7 +340,7 @@ def inject_theme():
     border-radius: 0;
     margin-top: 0.75rem;
     padding-top: 0.25rem;
-    }
+}
     [data-testid="stAlert"] { background: var(--gb-surface-2); border-radius: 8px; }
 
     .gb-dish-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.4rem; color: var(--gb-text); margin-bottom: 0.15rem; }
@@ -440,20 +440,8 @@ def inject_theme():
 .gb-macro-label { font-size: 0.68rem; color: var(--gb-muted); text-transform: uppercase; letter-spacing: 0.04em; }
 .gb-mono-inline { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--gb-accent); }
 
-.gb-dish-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-}
-.gb-dish-chip {
-    background: var(--gb-surface-2);
-    border-radius: 8px;
-    padding: 0.5rem 0.6rem;
-    font-size: 0.8rem;
-    color: var(--gb-text);
-    text-align: center;
-}
+.gb-dish-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+.gb-dish-chip { background: var(--gb-surface-2); border-radius: 999px; padding: 0.35rem 0.75rem; font-size: 0.76rem; color: var(--gb-text); white-space: nowrap; }
 
 .gb-confidence-track { height: 8px; border-radius: 4px; background: var(--gb-surface-2); position: relative; overflow: hidden; margin: 0.4rem 0; }
 .gb-confidence-fill { position: absolute; top:0; bottom:0; left:0; background: var(--gb-accent); border-radius: 4px; }
@@ -493,6 +481,9 @@ div.stButton > button[kind="primary"]:active {
 div.stButton > button[kind="primary"] {
     box-shadow: 0 4px 14px rgba(201,152,46,0.35);
 }
+
+.gb-divider { border-top: 1px solid var(--gb-border); margin: 1rem 0; }
+.gb-section-label { font-size: 0.7rem; color: var(--gb-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -571,6 +562,7 @@ def render_macro_bar(protein_g, carbs_g, fat_g):
     total = max(protein_kcal + carbs_kcal + fat_kcal, 1)
     p_pct, c_pct, f_pct = protein_kcal/total*100, carbs_kcal/total*100, fat_kcal/total*100
 
+    st.markdown('<div class="gb-section-label">Macronutrient breakdown</div>', unsafe_allow_html=True)
     st.markdown(f"""
     <div class="gb-macro-bar-track">
         <div style="width:{p_pct:.1f}%; background:var(--gb-accent);"></div>
@@ -761,12 +753,16 @@ elif st.session_state.stage == "result":
         if blurb:
             st.markdown(f'<p class="gb-caption-note">{blurb}</p>', unsafe_allow_html=True)
 
+        st.markdown('<div class="gb-divider"></div>', unsafe_allow_html=True)
+
         render_calorie_range(lo, hi)
         render_macro_bar(nutrition['protein_g'], nutrition['carbs_g'], nutrition['fat_g'])
 
         if nutrition['missing_ingredients']:
             st.warning(f"Nutrition data was unavailable for the following ingredients, which are excluded "
                        f"from this estimate: {', '.join(nutrition['missing_ingredients'])}.")
+
+        st.markdown('<div class="gb-divider"></div>', unsafe_allow_html=True)
 
         with st.expander("Wrong dish?"):
             all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
@@ -783,7 +779,7 @@ elif st.session_state.stage == "result":
 
         with st.expander("How we got this"):
             detail_lines = [f"First guess: {display_name(st.session_state.cnn_class)} "
-                             f"<span class='gb-mono-inline'>{st.session_state.cnn_confidence:.0%}</span> match"]
+                 f"(<span class='gb-mono-inline'>{st.session_state.cnn_confidence:.0%}</span> match)"]
             if st.session_state.get('yolo_suggestion'):
                 detail_lines.append(f"Visual check pointed to: {display_name(st.session_state.yolo_suggestion)}")
             detail_lines.append(f"You confirmed: {display_name(dish)}")
