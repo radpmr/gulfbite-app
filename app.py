@@ -270,14 +270,14 @@ def inject_theme():
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 
     :root {
-    --gb-bg: #FBF8F2;
-    --gb-surface: #FFFFFF;
-    --gb-surface-2: #F3EEDF;
+    --gb-bg: #151107;
+    --gb-surface: #1F1A0E;
+    --gb-surface-2: #2A2313;
     --gb-accent: #C9982E;
     --gb-accent-dim: #A67D22;
-    --gb-text: #2A2313;
-    --gb-muted: #8A7B5C;
-    --gb-border: #E5DDC8;
+    --gb-text: #F0E9D8;
+    --gb-muted: #A69874;
+    --gb-border: #3A3018;
 }
 
     html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
@@ -394,7 +394,7 @@ details > summary {
 [data-testid="stImage"] {
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.16);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.45);
     border: 2px solid var(--gb-muted);
 }
 [data-testid="stImage"]::before {
@@ -487,7 +487,7 @@ div.stButton > button[kind="primary"]:active {
 
 /* --- Subtle depth --- */
 [data-testid="stVerticalBlockBorderWrapper"] {
-    box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
 }
 div.stButton > button[kind="primary"] {
     box-shadow: 0 4px 14px rgba(201,152,46,0.35);
@@ -503,17 +503,6 @@ div.stButton > button[kind="primary"] {
     border-radius: 0 !important;
     padding: 0 !important;
 }
-
-.gb-ring-wrap { display: flex; justify-content: center; margin: 1rem 0; }
-.gb-ring {
-    width: 190px; height: 190px; border-radius: 50%;
-    border: 10px solid var(--gb-accent);
-    background: var(--gb-surface);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    box-shadow: 0 8px 24px rgba(201,152,46,0.18);
-}
-.gb-ring-numbers { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--gb-text); font-size: 1.35rem; line-height: 1.15; text-align: center; }
-.gb-ring-unit { font-size: 0.8rem; color: var(--gb-muted); font-weight: 500; margin-top: 0.2rem; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -573,13 +562,9 @@ def render_stepper(current_stage: str, triggered: bool):
 
 def render_calorie_range(lo: int, hi: int):
     st.markdown(f"""
-    <div class="gb-ring-wrap">
-        <div class="gb-ring">
-            <div class="gb-ring-numbers">{lo}&ndash;{hi}</div>
-            <div class="gb-ring-unit">kcal</div>
-        </div>
-    </div>
-    <p class="gb-range-caption" style="text-align:center;">This range reflects typical variation in recipes and portion preparation.</p>
+    <div class="gb-range-numbers">{lo}&ndash;{hi} <span class="gb-range-unit">kcal</span></div>
+    <div class="gb-range-track"><div class="gb-range-fill"></div></div>
+    <div class="gb-range-caption">This range reflects typical variation in recipes and portion preparation.</div>
     """, unsafe_allow_html=True)
 
 def render_confidence_bar(confidence):
@@ -786,6 +771,8 @@ elif st.session_state.stage == "result":
         blurb = DISH_BLURBS.get(dish)
         if blurb:
             st.markdown(f'<p class="gb-caption-note">{blurb}</p>', unsafe_allow_html=True)
+
+        st.markdown('<div class="gb-divider"></div>', unsafe_allow_html=True)
 
         render_calorie_range(lo, hi)
         render_macro_bar(nutrition['protein_g'], nutrition['carbs_g'], nutrition['fat_g'])
