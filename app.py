@@ -400,6 +400,21 @@ def inject_theme():
 .gb-macro-value { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 1rem; color: var(--gb-text); }
 .gb-macro-label { font-size: 0.68rem; color: var(--gb-muted); text-transform: uppercase; letter-spacing: 0.04em; }
 .gb-mono-inline { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--gb-accent); }
+
+.gb-dish-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+.gb-dish-chip {
+    background: var(--gb-surface-2);
+    border-radius: 8px;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.8rem;
+    color: var(--gb-text);
+    text-align: center;
+}
     </style>
     """, unsafe_allow_html=True)
 
@@ -420,6 +435,12 @@ def render_header():
     <p class="gb-subtitle">Nutrition insights for Gulf cuisine</p>
     """, unsafe_allow_html=True)
 
+
+def render_dish_list():
+    dishes = sorted(DISH_RECIPES.keys(), key=display_name)
+    chips = "".join(f'<div class="gb-dish-chip">{display_name(d)}</div>' for d in dishes)
+    st.markdown(f'<div class="gb-dish-grid">{chips}</div>', unsafe_allow_html=True)
+  
 
 def render_stepper(current_stage: str, triggered: bool):
     """Reflects the app's REAL stages — the 'Confirm dish' step only appears
@@ -515,6 +536,10 @@ with st.expander("How this works"):
         "are exactly alike."
     )
 
+with st.expander("What foods can GulfBite recognise?"):
+    st.write("GulfBite currently recognises 25 Gulf and Middle Eastern dishes:")
+    render_dish_list()
+  
 try:
     cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()
 except FileNotFoundError as e:
