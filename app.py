@@ -125,10 +125,10 @@ DISH_BLURBS = {
     '09_jisheed':      "An Emirati dish of shredded fish mixed with rice.",
     '10_shawarma':     "Spit-roasted meat wrapped in bread — originally Levantine, now a Middle East-wide street food staple.",
     '11_falafel_wrap': "Fried chickpea or fava bean balls in a wrap, a Levantine and Egyptian vegetarian favourite.",
-    '12_falafel':      "Deep-fried balls of chickpeas or fava beans, a staple across the Middle East.",
+    '12_falafel':      "Deep-fried balls of chickpeas or fava beans, a staple across the Gulf.",
     '13_samboosa':     "A fried or baked pastry with a savoury filling, especially popular during Ramadan.",
     '14_mutabbaq':     "A folded, stuffed pastry with Yemeni roots, filled with either savoury or sweet fillings.",
-    '15_hummus':       "A creamy chickpea and tahini dip, a Levantine staple found on tables across the Middle East.",
+    '15_hummus':       "A creamy chickpea and tahini dip, a Levantine staple found on tables across the Gulf.",
     '16_fattoush':     "A Levantine bread salad with crisp vegetables and toasted pita, dressed with sumac.",
     '17_tabbouleh':    "A Levantine salad of finely chopped parsley, bulgur, tomato, and lemon.",
     '18_foul_medames': "A stewed fava bean dish of Egyptian origin, a common Gulf breakfast staple.",
@@ -137,7 +137,7 @@ DISH_BLURBS = {
     '21_khameer':      "A traditional Emirati sweet leavened bread, often spiced with cardamom or saffron.",
     '22_chebab':       "An Emirati pancake flavoured with cardamom and saffron, popular at breakfast.",
     '23_luqaimat':     "Sweet fried dough balls drizzled with date syrup, a classic Ramadan and Eid treat across the Gulf.",
-    '24_knafeh':       "A cheese pastry soaked in sweet syrup, with roots in the Levant, beloved across the Middle East.",
+    '24_knafeh':       "A cheese pastry soaked in sweet syrup, with roots in the Levant, beloved across the Gulf.",
     '25_karak_chai':   "Spiced milk tea with South Asian influence, now an everyday favourite across the Gulf.",
 }
 
@@ -459,6 +459,40 @@ def inject_theme():
 .gb-confidence-fill { position: absolute; top:0; bottom:0; left:0; background: var(--gb-accent); border-radius: 4px; }
 .gb-confidence-label { font-size: 0.78rem; color: var(--gb-muted); }
 .gb-caption-note { font-size: 0.8rem; color: var(--gb-muted); margin: 0.3rem 0 0.6rem 0; line-height: 1.4; }
+
+/* --- Loading spinner --- */
+[data-testid="stSpinner"] {
+    color: var(--gb-muted);
+    font-family: 'Inter', sans-serif;
+}
+[data-testid="stSpinner"] > div {
+    border-top-color: var(--gb-accent) !important;
+}
+
+/* --- Upload dropzone icon --- */
+[data-testid="stFileUploaderDropzone"] svg {
+    fill: var(--gb-accent);
+    color: var(--gb-accent);
+}
+
+/* --- Button press feedback (mobile-first, since that's your primary use case) --- */
+div.stButton > button:active,
+div.stDownloadButton > button:active,
+[data-testid="stFileUploader"] button:active {
+    transform: scale(0.96);
+    transition: transform 0.08s ease;
+}
+div.stButton > button[kind="primary"]:active {
+    background: var(--gb-accent-dim);
+}
+
+/* --- Subtle depth --- */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
+div.stButton > button[kind="primary"] {
+    box-shadow: 0 4px 14px rgba(201,152,46,0.35);
+}
     </style>
     """, unsafe_allow_html=True)
 
