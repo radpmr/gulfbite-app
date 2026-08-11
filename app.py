@@ -495,6 +495,14 @@ div.stButton > button[kind="primary"] {
 
 .gb-divider { border-top: 1px solid rgba(201,152,46,0.25); margin: 1.1rem 0; }
 .gb-section-label { font-size: 0.7rem; color: var(--gb-accent); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; font-weight: 600; }
+
+[data-testid="stExpander"] [data-testid="stVerticalBlockBorderWrapper"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
     </style>
     """, unsafe_allow_html=True)
 
