@@ -333,13 +333,24 @@ def inject_theme():
     div.stButton > button[kind="primary"] { background: var(--gb-accent); color: #FFFFFF; border-color: var(--gb-accent); }
     div.stButton > button[kind="primary"]:hover { background: var(--gb-accent-dim); }
 
-    [data-testid="stExpander"] {
+    [data-testid*="Expander"] {
     background: transparent !important;
     border: none !important;
-    border-top: 1px solid var(--gb-border);
     border-radius: 0 !important;
+    box-shadow: none !important;
+}
+[data-testid="stExpander"] {
+    border-top: 1px solid rgba(201,152,46,0.25) !important;
     margin-top: 0.75rem;
     padding-top: 0.25rem;
+}
+details {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+details > summary {
+    list-style: none;
 }
     [data-testid="stAlert"] { background: var(--gb-surface-2); border-radius: 8px; }
 
