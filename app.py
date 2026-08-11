@@ -65,6 +65,17 @@ CONFUSION_GROUPS = {
     'wrap_cluster': {'10_shawarma', '11_falafel_wrap', '12_falafel'},
 }
 
+GROUP_REASONS = {
+    'rice_cluster': "Rice dishes like Machboos, Kabsa, and Biryani can look very similar, so we like to double-check.",
+    'wrap_cluster': "Wrapped dishes can hide their filling, so we like to double-check.",
+}
+
+def get_group_reason(cnn_class):
+    for group_name, group_set in CONFUSION_GROUPS.items():
+        if cnn_class in group_set:
+            return GROUP_REASONS.get(group_name)
+    return None
+
 FEATURE_RELIABILITY = {
     'loomi':               {'status': 'reliable'},
     'whole_chicken_piece': {'status': 'unreliable'},
@@ -100,6 +111,34 @@ DISH_RECIPES = {
     '23_luqaimat':     [('fried_dough', 100), ('date_syrup', 30)],
     '24_knafeh':       [('kunafa_dough', 80), ('soft_cheese', 60), ('sugar_syrup', 40), ('ghee', 15)],
     '25_karak_chai':   [('milk', 100), ('black_tea', 100), ('sugar', 10)],
+}
+
+DISH_BLURBS = {
+    '01_machboos':     "A spiced rice dish with meat or chicken, flavoured with dried lime (loomi) — a Bahraini and Kuwaiti staple.",
+    '02_kabsa':        "Saudi Arabia's best-known dish: spiced rice with meat, often finished with saffron and tomato.",
+    '03_biryani':      "A layered spiced rice dish with South Asian roots, now a Gulf favourite thanks to centuries of trade.",
+    '04_harees':       "A slow-cooked wheat and meat porridge, traditionally eaten during Ramadan and Eid across the Gulf.",
+    '05_thareed':      "Bread soaked in a rich meat and vegetable stew — an Emirati dish often said to have been a favourite of the Prophet Muhammad.",
+    '06_saloona':      "A everyday spiced stew of meat and vegetables, found in home kitchens across the Gulf.",
+    '07_ouzi':         "Whole roasted lamb served over rice, traditionally prepared for celebrations and large gatherings.",
+    '08_samak_mashwi': "Grilled fish, simply prepared — a reflection of the Gulf's long fishing heritage.",
+    '09_jisheed':      "An Emirati dish of shredded fish mixed with rice.",
+    '10_shawarma':     "Spit-roasted meat wrapped in bread — originally Levantine, now a Middle East-wide street food staple.",
+    '11_falafel_wrap': "Fried chickpea or fava bean balls in a wrap, a Levantine and Egyptian vegetarian favourite.",
+    '12_falafel':      "Deep-fried balls of chickpeas or fava beans, a staple across the Middle East.",
+    '13_samboosa':     "A fried or baked pastry with a savoury filling, especially popular during Ramadan.",
+    '14_mutabbaq':     "A folded, stuffed pastry with Yemeni roots, filled with either savoury or sweet fillings.",
+    '15_hummus':       "A creamy chickpea and tahini dip, a Levantine staple found on tables across the Middle East.",
+    '16_fattoush':     "A Levantine bread salad with crisp vegetables and toasted pita, dressed with sumac.",
+    '17_tabbouleh':    "A Levantine salad of finely chopped parsley, bulgur, tomato, and lemon.",
+    '18_foul_medames': "A stewed fava bean dish of Egyptian origin, a common Gulf breakfast staple.",
+    '19_shakshuka':    "Eggs poached in a spiced tomato sauce, of North African and Levantine origin.",
+    '20_balaleet':     "Sweet saffron-spiced vermicelli topped with a savoury omelette — a distinctly Emirati breakfast pairing.",
+    '21_khameer':      "A traditional Emirati sweet leavened bread, often spiced with cardamom or saffron.",
+    '22_chebab':       "An Emirati pancake flavoured with cardamom and saffron, popular at breakfast.",
+    '23_luqaimat':     "Sweet fried dough balls drizzled with date syrup, a classic Ramadan and Eid treat across the Gulf.",
+    '24_knafeh':       "A cheese pastry soaked in sweet syrup, with roots in the Levant, beloved across the Middle East.",
+    '25_karak_chai':   "Spiced milk tea with South Asian influence, now an everyday favourite across the Gulf.",
 }
 
 PORTION_MULTIPLIERS = {'S': 0.7, 'M': 1.0, 'L': 1.4}
@@ -415,6 +454,11 @@ def inject_theme():
     color: var(--gb-text);
     text-align: center;
 }
+
+.gb-confidence-track { height: 8px; border-radius: 4px; background: var(--gb-surface-2); position: relative; overflow: hidden; margin: 0.4rem 0; }
+.gb-confidence-fill { position: absolute; top:0; bottom:0; left:0; background: var(--gb-accent); border-radius: 4px; }
+.gb-confidence-label { font-size: 0.78rem; color: var(--gb-muted); }
+.gb-caption-note { font-size: 0.8rem; color: var(--gb-muted); margin: 0.3rem 0 0.6rem 0; line-height: 1.4; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -479,6 +523,12 @@ def render_calorie_range(lo: int, hi: int):
     <div class="gb-range-caption">This range reflects typical variation in recipes and portion preparation.</div>
     """, unsafe_allow_html=True)
 
+def render_confidence_bar(confidence):
+    pct = confidence * 100
+    st.markdown(f"""
+    <div class="gb-confidence-label">Confidence: <span class="gb-mono-inline">{pct:.0f}%</span></div>
+    <div class="gb-confidence-track"><div class="gb-confidence-fill" style="width:{pct:.1f}%;"></div></div>
+    """, unsafe_allow_html=True)
 
 def render_macro_bar(protein_g, carbs_g, fat_g):
     protein_kcal = protein_g * 4
@@ -605,11 +655,17 @@ elif st.session_state.stage == "confirm_dish":
         candidates = st.session_state.candidates
         yolo_suggestion = st.session_state.yolo_suggestion
 
-        st.write(f"**Detected dish:** {display_name(cnn_class)}  ({cnn_conf:.0%} confidence)")
+        st.write(f"**Detected dish:** {display_name(cnn_class)}")
+        render_confidence_bar(cnn_conf)
+
+        reason = get_group_reason(cnn_class)
+        if reason:
+            st.markdown(f'<p class="gb-caption-note">{reason}</p>', unsafe_allow_html=True)
+
         if yolo_suggestion:
             st.info(f"Additional analysis suggests this may be **{display_name(yolo_suggestion)}**.")
         else:
-            st.write("This dish shares visual similarities with others. Please confirm the correct match:")
+            st.write("Please confirm the correct match:")
 
         default_choice = yolo_suggestion if yolo_suggestion else cnn_class
         default_idx = candidates.index(default_choice) if default_choice in candidates else 0
@@ -666,6 +722,10 @@ elif st.session_state.stage == "result":
             f'<p class="gb-dish-meta">Portion: {PORTION_LABELS[st.session_state.portion_size]}</p>',
             unsafe_allow_html=True,
         )
+
+        blurb = DISH_BLURBS.get(dish)
+        if blurb:
+            st.markdown(f'<p class="gb-caption-note">{blurb}</p>', unsafe_allow_html=True)
 
         render_calorie_range(lo, hi)
         render_macro_bar(nutrition['protein_g'], nutrition['carbs_g'], nutrition['fat_g'])
