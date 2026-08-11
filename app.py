@@ -579,7 +579,7 @@ def reset():
 
 render_header()
 
-with st.expander("How this works"):
+with st.expander("How this GulfBite app works?"):
     st.write(
         "Snap a photo of your meal. If it looks like something else, we'll double-check with "
         "you. Calories come from real ingredient data — shown as a range, since no two plates "
