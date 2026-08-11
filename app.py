@@ -587,7 +587,7 @@ with st.expander("How this GulfBite app works?"):
     )
 
 with st.expander("What foods can GulfBite recognise?"):
-    st.write("GulfBite currently recognises 25 Gulf and Middle Eastern dishes:")
+    st.write("GulfBite currently recognises 25 Gulf dishes:")
     render_dish_list()
   
 try:
