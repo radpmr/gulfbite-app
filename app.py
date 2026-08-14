@@ -797,22 +797,73 @@ except FileNotFoundError as e:
     st.stop()
 
 # ---------------------------------------------------------------- STAGE: upload
+# ---------------------------------------------------------------- STAGE: upload
 if st.session_state.stage == "upload":
     render_stepper("upload", st.session_state.triggered)
 
     with st.container(border=True):
-        uploaded = st.file_uploader(
-            "Upload a photo of your meal",
-            type=["jpg", "jpeg", "png", "heic", "heif"],
+        upload_mode = st.radio(
+            "Input Method",
+            ["📤 Upload from Device", "⚡ Try Sample Dish"],
+            horizontal=True,
+            label_visibility="collapsed",
         )
-        if uploaded is not None:
-            image = ImageOps.exif_transpose(Image.open(uploaded))
-            st.session_state.image = image
-            st.image(image, caption="Uploaded photo", use_column_width=True)
+
+        image_to_process = None
+
+        if upload_mode == "📤 Upload from Device":
+            uploaded = st.file_uploader(
+                "Upload a photo of your meal",
+                type=["jpg", "jpeg", "png", "heic", "heif"],
+                label_visibility="collapsed",
+            )
+            if uploaded is not None:
+                image_to_process = ImageOps.exif_transpose(
+                    Image.open(uploaded)
+                )
+        else:
+            st.markdown(
+                "<p style='font-size: 0.85rem; color: var(--gb-muted); margin: 6px 0;'>Select a sample dish to test the AI pipeline:</p>",
+                unsafe_allow_html=True,
+            )
+
+            # Sample dish options mapped to your project's class names
+            sample_options = {
+                "02_kabsa": "🍗 Kabsa (Chicken & Spiced Rice)",
+                "20_balaleet": "🍳 Balaleet (Sweet Vermicelli & Omelette)",
+                "10_shawarma": "🌯 Chicken Shawarma Wrap",
+            }
+
+            sample_dish_key = st.selectbox(
+                "Choose sample:",
+                options=list(sample_options.keys()),
+                format_func=lambda x: sample_options[x],
+                label_visibility="collapsed",
+            )
+
+            # Look for a local sample image or create a sample placeholder
+            sample_path = os.path.join("samples", f"{sample_dish_key}.jpg")
+            if os.path.exists(sample_path):
+                sample_img = Image.open(sample_path)
+            else:
+                # Fallback clean placeholder canvas if sample files aren't in folder
+                sample_img = Image.new("RGB", (224, 224), color=(42, 35, 19))
+
+            if st.button("🚀 Analyze Sample Dish", type="primary"):
+                image_to_process = sample_img
+
+        # Process image if uploaded or sample chosen
+        if image_to_process is not None:
+            st.session_state.image = image_to_process
+            st.image(
+                image_to_process,
+                caption="Selected photo",
+                use_container_width=True,
+            )
 
             with st.spinner("Analyzing cuisine & ingredients..."):
                 cnn_class, cnn_confidence = run_cnn(
-                    image, cnn_model, idx_to_class
+                    image_to_process, cnn_model, idx_to_class
                 )
 
                 triggered = (
@@ -837,7 +888,7 @@ if st.session_state.stage == "upload":
                     )
                     yolo_suggestion, gate_status = None, None
                     if run_yolo_here:
-                        detections = run_yolov8(image, yolo_model)
+                        detections = run_yolov8(image_to_process, yolo_model)
                         _, gated, gate_status = map_detections_to_suggestion(
                             detections, candidates
                         )
