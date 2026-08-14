@@ -578,6 +578,29 @@ def inject_theme():
 
     .gb-divider { border-top: 1px solid var(--gb-border-subtle); margin: 1.25rem 0; }
     .gb-caption-note { font-size: 0.85rem; color: var(--gb-muted); margin: 0.3rem 0 0.8rem 0; line-height: 1.45; }
+
+    /* Camera input button and view styling */
+[data-testid="stCameraInput"] button {
+    border-radius: 10px !important;
+    border: 1.5px solid var(--gb-accent) !important;
+    background: rgba(229, 169, 59, 0.12) !important;
+    color: var(--gb-accent) !important;
+    font-weight: 600 !important;
+    padding: 0.45rem 1.2rem !important;
+    transition: all 0.2s ease !important;
+}
+
+[data-testid="stCameraInput"] button:hover {
+    background: var(--gb-accent) !important;
+    color: #120e06 !important;
+    box-shadow: 0 0 14px rgba(229, 169, 59, 0.4) !important;
+}
+
+[data-testid="stCameraInput"] video, [data-testid="stCameraInput"] img {
+    border-radius: 12px;
+    border: 1px solid var(--gb-border);
+}
+
     </style>
     """,
         unsafe_allow_html=True,
@@ -801,59 +824,33 @@ if st.session_state.stage == "upload":
     render_stepper("upload", st.session_state.triggered)
 
     with st.container(border=True):
-        upload_mode = st.radio(
-            "Input Method",
-            ["📤 Upload from Device", "⚡ Try Sample Dish"],
-            horizontal=True,
-            label_visibility="collapsed",
-        )
+        tab_upload, tab_camera = st.tabs(["📁 Upload File", "📷 Snap Photo"])
 
         image_to_process = None
 
-        if upload_mode == "📤 Upload from Device":
+        with tab_upload:
             uploaded = st.file_uploader(
                 "Upload a photo of your meal",
                 type=["jpg", "jpeg", "png", "heic", "heif"],
                 label_visibility="collapsed",
             )
             if uploaded is not None:
-                image_to_process = ImageOps.exif_transpose(
-                    Image.open(uploaded)
-                )
-        else:
-            st.markdown(
-                "<p style='font-size: 0.85rem; color: var(--gb-muted); margin: 6px 0;'>Select a sample dish to test the AI pipeline:</p>",
-                unsafe_allow_html=True,
-            )
+                image_to_process = ImageOps.exif_transpose(Image.open(uploaded))
 
-            sample_options = {
-                "02_kabsa": "🍗 Kabsa (Chicken & Spiced Rice)",
-                "20_balaleet": "🍳 Balaleet (Sweet Vermicelli & Omelette)",
-                "10_shawarma": "🌯 Chicken Shawarma Wrap",
-            }
-
-            sample_dish_key = st.selectbox(
-                "Choose sample:",
-                options=list(sample_options.keys()),
-                format_func=lambda x: sample_options[x],
+        with tab_camera:
+            camera_photo = st.camera_input(
+                "Take a photo of your meal",
                 label_visibility="collapsed",
             )
+            if camera_photo is not None:
+                image_to_process = ImageOps.exif_transpose(Image.open(camera_photo))
 
-            sample_path = os.path.join("samples", f"{sample_dish_key}.jpg")
-            if os.path.exists(sample_path):
-                sample_img = Image.open(sample_path)
-            else:
-                sample_img = Image.new("RGB", (224, 224), color=(42, 35, 19))
-
-            if st.button("🚀 Analyze Sample Dish", type="primary"):
-                image_to_process = sample_img
-
-        # Process image if uploaded or sample chosen
+        # Once an image is provided from either tab, trigger inference
         if image_to_process is not None:
             st.session_state.image = image_to_process
             st.image(
                 image_to_process,
-                caption="Selected photo",
+                caption="Captured photo",
                 use_column_width=True,
             )
 
