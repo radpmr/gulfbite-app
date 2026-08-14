@@ -447,204 +447,183 @@ def estimate_nutrition(dish_class, portion_size, ingredient_cache):
 
 def inject_theme():
     st.markdown(
-        """
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+        """<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
 
-    :root {
-        --gb-bg: #110e09;
-        --gb-surface: #1b160e;
-        --gb-surface-card: #231d13;
-        --gb-surface-elevated: #2f271a;
-        --gb-accent: #E5A93B;
-        --gb-accent-dim: #BF8726;
-        --gb-accent-soft: rgba(229, 169, 59, 0.12);
-        --gb-text: #F8F5EE;
-        --gb-muted: #A39682;
-        --gb-border: rgba(229, 169, 59, 0.18);
-        --gb-border-subtle: rgba(255, 255, 255, 0.08);
-    }
+:root {
+    --gb-bg: #0d0a07;
+    --gb-card-bg: rgba(26, 21, 15, 0.75);
+    --gb-card-border: rgba(229, 169, 59, 0.22);
+    --gb-gold-start: #f3c36a;
+    --gb-gold: #E5A93B;
+    --gb-gold-dim: #996e21;
+    --gb-gold-glow: rgba(229, 169, 59, 0.18);
+    --gb-text: #FBF8F1;
+    --gb-muted: #A39682;
+}
 
-    html, body, [class*="css"] { 
-        font-family: 'Plus Jakarta Sans', sans-serif; 
-    }
-    
-    .stApp { 
-        background-color: var(--gb-bg);
-        background-image: radial-gradient(circle at 1px 1px, rgba(229, 169, 59, 0.04) 1px, transparent 0);
-        background-size: 28px 28px;
-    }
+html, body, [class*="css"] { 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+}
 
-    #MainMenu, footer, header[data-testid="stHeader"] { visibility: hidden; height: 0; }
-    .block-container { max-width: 680px; padding-top: 2rem; padding-bottom: 3rem; }
+/* Background Atmosphere */
+.stApp { 
+    background-color: var(--gb-bg);
+    background-image: 
+        radial-gradient(ellipse at 50% 0%, rgba(229, 169, 59, 0.12) 0%, transparent 60%),
+        radial-gradient(circle at 1px 1px, rgba(229, 169, 59, 0.03) 1px, transparent 0);
+    background-size: 100% 100%, 28px 28px;
+    color: var(--gb-text);
+}
 
-    /* Header Styling */
-    .gb-header-wrap { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.2rem; }
-    .gb-logo-badge {
-        background: linear-gradient(135deg, #E5A93B 0%, #B87B1D 100%);
-        width: 44px; height: 44px; border-radius: 12px;
-        display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 4px 14px rgba(229, 169, 59, 0.35);
-    }
-    .gb-title {
-        font-weight: 800; font-size: 1.85rem; letter-spacing: -0.02em;
-        color: var(--gb-text); margin: 0; line-height: 1.1;
-    }
-    .gb-subtitle { color: var(--gb-muted); font-size: 0.92rem; margin: 0.2rem 0 1.2rem 3.6rem; }
+#MainMenu, footer, header[data-testid="stHeader"] { visibility: hidden; height: 0; }
+.block-container { max-width: 640px; padding-top: 2rem; padding-bottom: 3.5rem; }
 
-    /* Card Containers */
-    [data-testid="stVerticalBlockBorderWrapper"] {
-        background: linear-gradient(180deg, var(--gb-surface) 0%, var(--gb-surface-card) 100%) !important;
-        border: 1px solid var(--gb-border) !important;
-        border-radius: 18px !important;
-        padding: 1.2rem !important;
-        box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.55);
-        animation: gbFadeIn 0.3s ease-out;
-    }
+/* Global Card Glassmorphic Frame */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background: var(--gb-card-bg) !important;
+    backdrop-filter: blur(16px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+    border: 1px solid var(--gb-card-border) !important;
+    border-radius: 20px !important;
+    padding: 1.4rem !important;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 15px var(--gb-gold-glow) !important;
+    transition: border-color 0.3s ease;
+}
 
-    @keyframes gbFadeIn {
-        from { opacity: 0; transform: translateY(6px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+/* Sleek Drag & Drop Zone */
+[data-testid="stFileUploaderDropzone"] {
+    background: radial-gradient(circle at 50% 30%, rgba(229, 169, 59, 0.08) 0%, rgba(20, 16, 11, 0.7) 100%) !important;
+    border: 1.5px dashed var(--gb-card-border) !important;
+    border-radius: 16px !important;
+    padding: 2.2rem 1rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
 
-    /* Images */
-    [data-testid="stImage"] {
-        position: relative;
-        border-radius: 14px;
-        overflow: hidden;
-        border: 1px solid var(--gb-border);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    }
+[data-testid="stFileUploaderDropzone"]:hover {
+    border-color: var(--gb-gold) !important;
+    background: radial-gradient(circle at 50% 30%, rgba(229, 169, 59, 0.16) 0%, rgba(26, 21, 15, 0.9) 100%) !important;
+    box-shadow: 0 0 30px rgba(229, 169, 59, 0.25) !important;
+    transform: translateY(-2px);
+}
 
-    /* Buttons */
-    div.stButton > button {
-        border-radius: 12px;
-        border: 1px solid var(--gb-border);
-        background: var(--gb-surface-elevated);
-        color: var(--gb-text);
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        font-weight: 600;
-        padding: 0.65rem 1.2rem;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        width: 100%;
-    }
-    div.stButton > button:hover {
-        border-color: var(--gb-accent);
-        background: var(--gb-accent-soft);
-        color: var(--gb-accent);
-        transform: translateY(-1px);
-    }
-    div.stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #E5A93B 0%, #C98F25 100%);
-        color: #120e06 !important;
-        font-weight: 700;
-        border: none;
-        box-shadow: 0 4px 16px rgba(229, 169, 59, 0.35);
-    }
-    div.stButton > button[kind="primary"]:hover {
-        background: linear-gradient(135deg, #F0B84D 0%, #D89C30 100%);
-        box-shadow: 0 6px 22px rgba(229, 169, 59, 0.5);
-        transform: translateY(-2px);
-    }
-    div.stButton > button:active { transform: scale(0.98); }
+[data-testid="stFileUploaderDropzone"] svg {
+    fill: var(--gb-gold) !important;
+    color: var(--gb-gold) !important;
+    filter: drop-shadow(0 2px 8px rgba(229, 169, 59, 0.4));
+}
 
-    /* Modern Radio List Options */
-    [data-testid="stRadio"] > div { gap: 0.5rem; }
-    [data-testid="stRadio"] label {
-        background: var(--gb-surface-card);
-        border: 1px solid var(--gb-border-subtle);
-        border-radius: 12px;
-        padding: 0.65rem 0.9rem !important;
-        margin: 0 !important;
-        transition: all 0.15s ease;
-        width: 100%;
-    }
-    [data-testid="stRadio"] label:hover {
-        border-color: var(--gb-accent);
-        background: var(--gb-accent-soft);
-    }
+[data-testid="stFileUploaderDropzoneInstructions"] > div > span {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    color: var(--gb-text) !important;
+    letter-spacing: -0.01em;
+}
 
-    /* Expanders */
-    [data-testid="stExpander"] {
-        background: transparent !important;
-        border: none !important;
-        border-top: 1px solid var(--gb-border-subtle) !important;
-        margin-top: 0.6rem;
-        padding-top: 0.2rem;
-    }
-    [data-testid="stExpander"] summary {
-        color: var(--gb-muted) !important;
-        font-weight: 500;
-        font-size: 0.9rem;
-    }
-    [data-testid="stExpander"] summary:hover { color: var(--gb-accent) !important; }
+[data-testid="stFileUploaderDropzoneInstructions"] > div > small {
+    color: var(--gb-muted) !important;
+    font-size: 0.8rem !important;
+}
 
-    /* Dish Tags */
-    .gb-dish-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
-    .gb-dish-chip {
-        background: var(--gb-surface-card);
-        border: 1px solid var(--gb-border-subtle);
-        border-radius: 999px;
-        padding: 0.35rem 0.8rem;
-        font-size: 0.76rem;
-        color: var(--gb-text);
-        font-weight: 500;
-        transition: all 0.15s ease;
-    }
-    .gb-dish-chip:hover {
-        border-color: var(--gb-accent);
-        color: var(--gb-accent);
-        background: var(--gb-accent-soft);
-    }
-
-    .gb-divider { border-top: 1px solid var(--gb-border-subtle); margin: 1.25rem 0; }
-    .gb-caption-note { font-size: 0.85rem; color: var(--gb-muted); margin: 0.3rem 0 0.8rem 0; line-height: 1.45; }
-
-    /* Camera input button and view styling */
-[data-testid="stCameraInput"] button {
+/* Upload Button styling */
+[data-testid="stFileUploader"] button {
     border-radius: 10px !important;
-    border: 1.5px solid var(--gb-accent) !important;
-    background: rgba(229, 169, 59, 0.12) !important;
-    color: var(--gb-accent) !important;
+    border: 1px solid var(--gb-gold) !important;
+    background: rgba(229, 169, 59, 0.1) !important;
+    color: var(--gb-gold) !important;
     font-weight: 600 !important;
     padding: 0.45rem 1.2rem !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
     transition: all 0.2s ease !important;
 }
-
-[data-testid="stCameraInput"] button:hover {
-    background: var(--gb-accent) !important;
+[data-testid="stFileUploader"] button:hover {
+    background: var(--gb-gold) !important;
     color: #120e06 !important;
-    box-shadow: 0 0 14px rgba(229, 169, 59, 0.4) !important;
+    box-shadow: 0 0 16px rgba(229, 169, 59, 0.5) !important;
 }
 
-[data-testid="stCameraInput"] video, [data-testid="stCameraInput"] img {
+/* Premium Primary Buttons */
+div.stButton > button {
+    font-family: 'Outfit', sans-serif;
     border-radius: 12px;
-    border: 1px solid var(--gb-border);
+    border: 1px solid var(--gb-card-border);
+    background: rgba(255,255,255,0.03);
+    color: var(--gb-text);
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 0.7rem 1.3rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    width: 100%;
+}
+div.stButton > button:hover {
+    border-color: var(--gb-gold);
+    color: var(--gb-gold);
+    background: rgba(229, 169, 59, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+div.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, #f5c76f 0%, #E5A93B 50%, #b87a17 100%);
+    color: #110e08 !important;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    border: none;
+    box-shadow: 0 6px 20px rgba(229, 169, 59, 0.4);
+}
+div.stButton > button[kind="primary"]:hover {
+    background: linear-gradient(135deg, #ffd37f 0%, #f0b545 50%, #c9881e 100%);
+    box-shadow: 0 8px 26px rgba(229, 169, 59, 0.6);
+    transform: translateY(-2px);
 }
 
-    </style>
-    """,
+/* Expanders */
+[data-testid="stExpander"] {
+    background: rgba(255,255,255,0.015) !important;
+    border: 1px solid rgba(229, 169, 59, 0.12) !important;
+    border-radius: 14px !important;
+    margin-bottom: 0.6rem !important;
+    transition: border-color 0.2s ease;
+}
+[data-testid="stExpander"]:hover {
+    border-color: rgba(229, 169, 59, 0.28) !important;
+}
+[data-testid="stExpander"] summary {
+    font-family: 'Outfit', sans-serif !important;
+    color: var(--gb-text) !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+[data-testid="stExpander"] summary:hover { color: var(--gb-gold) !important; }
+</style>""",
         unsafe_allow_html=True,
     )
 
 
 def render_header():
     st.markdown(
-        """
-    <div class="gb-header-wrap">
-        <div class="gb-logo-badge">
-            <svg width="24" height="24" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="9" stroke="#120e06" stroke-width="3.5"/>
-                <ellipse cx="13.5" cy="17.5" rx="1.5" ry="2.2" transform="rotate(-25 13.5 17.5)" fill="#120e06"/>
-                <ellipse cx="17.5" cy="17.0" rx="1.5" ry="2.2" transform="rotate(15 17.5 17.0)" fill="#120e06"/>
-                <ellipse cx="16.0" cy="13.2" rx="1.5" ry="2.2" transform="rotate(-5 16.0 13.2)" fill="#120e06"/>
-                <line x1="22.5" y1="22.5" x2="32" y2="32" stroke="#120e06" stroke-width="4.5" stroke-linecap="round"/>
-            </svg>
-        </div>
-        <p class="gb-title">GulfBite</p>
-    </div>
-    <p class="gb-subtitle">Nutrition insights tailored for authentic Gulf cuisine</p>
-    """,
+        """<div style="display: flex; align-items: center; gap: 14px; margin-bottom: 0.3rem;">
+<div style="
+    background: linear-gradient(135deg, #f5c76f 0%, #E5A93B 60%, #a66d12 100%);
+    width: 48px; height: 48px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 18px rgba(229, 169, 59, 0.4);
+">
+    <svg width="26" height="26" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="9" stroke="#120e06" stroke-width="3.5"/>
+        <ellipse cx="13.5" cy="17.5" rx="1.5" ry="2.2" transform="rotate(-25 13.5 17.5)" fill="#120e06"/>
+        <ellipse cx="17.5" cy="17.0" rx="1.5" ry="2.2" transform="rotate(15 17.5 17.0)" fill="#120e06"/>
+        <ellipse cx="16.0" cy="13.2" rx="1.5" ry="2.2" transform="rotate(-5 16.0 13.2)" fill="#120e06"/>
+        <line x1="22.5" y1="22.5" x2="32" y2="32" stroke="#120e06" stroke-width="4.5" stroke-linecap="round"/>
+    </svg>
+</div>
+<div>
+    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.1rem; font-weight: 800; color: #FBF8F1; margin: 0; line-height: 1; letter-spacing: -0.03em;">GulfBite</h1>
+    <p style="color: #A39682; font-size: 0.88rem; margin: 4px 0 0 0;">AI Nutrition Insights for Authentic Gulf Cuisine</p>
+</div>
+</div>
+<div style="height: 1px; background: linear-gradient(90deg, rgba(229,169,59,0.3) 0%, transparent 100%); margin: 1rem 0 1.4rem 0;"></div>""",
         unsafe_allow_html=True,
     )
 
@@ -670,34 +649,43 @@ def render_stepper(current_stage: str, triggered: bool):
     active_idx = keys.index(current_stage) if current_stage in keys else 0
 
     html = [
-        '<div style="display: flex; align-items: center; justify-content: space-between; margin: 0.5rem 0 1.5rem 0;">'
+        '<div style="display: flex; align-items: center; justify-content: space-between; margin: 0.2rem 0 1.4rem 0; padding: 0 4px;">'
     ]
     for i, (key, label) in enumerate(steps):
         is_done = i < active_idx
         is_active = i == active_idx
 
         bg = (
-            "linear-gradient(135deg, #E5A93B 0%, #BF8726 100%)"
+            "linear-gradient(135deg, #f5c76f 0%, #E5A93B 100%)"
             if is_done or is_active
-            else "#1e180f"
+            else "rgba(255,255,255,0.04)"
         )
-        border = "#E5A93B" if (is_done or is_active) else "rgba(229, 169, 59, 0.2)"
-        color = "#120e06" if (is_done or is_active) else "#A39682"
-        text_color = "#F8F5EE" if (is_done or is_active) else "#6e6454"
+        border = (
+            "#E5A93B"
+            if (is_done or is_active)
+            else "rgba(255, 255, 255, 0.08)"
+        )
+        color = "#110e08" if (is_done or is_active) else "#A39682"
+        text_color = "#FBF8F1" if (is_done or is_active) else "#6e6454"
         font_weight = "700" if is_active else ("600" if is_done else "400")
+        glow = (
+            "box-shadow: 0 0 12px rgba(229, 169, 59, 0.45);"
+            if is_active
+            else ""
+        )
 
-        html.append(f"""
-        <div style="display: flex; align-items: center; gap: 7px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; background: {bg}; border: 1.5px solid {border}; color: {color}; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700;">{i + 1}</div>
-            <span style="color: {text_color}; font-weight: {font_weight}; font-size: 0.8rem;">{label}</span>
-        </div>
-        """)
+        html.append(f"""<div style="display: flex; align-items: center; gap: 8px;">
+<div style="width: 26px; height: 26px; border-radius: 50%; background: {bg}; border: 1.5px solid {border}; color: {color}; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; {glow}">{i + 1}</div>
+<span style="font-family: 'Outfit', sans-serif; color: {text_color}; font-weight: {font_weight}; font-size: 0.85rem;">{label}</span>
+</div>""")
         if i < len(steps) - 1:
             line_color = (
-                "#E5A93B" if is_done else "rgba(229, 169, 59, 0.2)"
+                "linear-gradient(90deg, #E5A93B, rgba(229,169,59,0.3))"
+                if is_done
+                else "rgba(255, 255, 255, 0.08)"
             )
             html.append(
-                f'<div style="flex: 1; height: 2px; background: {line_color}; margin: 0 8px;"></div>'
+                f'<div style="flex: 1; height: 2px; background: {line_color}; margin: 0 10px; border-radius: 1px;"></div>'
             )
 
     html.append("</div>")
@@ -845,9 +833,19 @@ if st.session_state.stage == "upload":
     render_stepper("upload", st.session_state.triggered)
 
     with st.container(border=True):
+        st.markdown(
+            """<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+<span style="background: rgba(229, 169, 59, 0.08); border: 1px solid rgba(229, 169, 59, 0.2); border-radius: 8px; padding: 4px 10px; font-size: 0.76rem; color: #E5A93B; font-weight: 500;">📸 Top-down photo</span>
+<span style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 4px 10px; font-size: 0.76rem; color: #A39682;">💡 Good lighting</span>
+<span style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 4px 10px; font-size: 0.76rem; color: #A39682;">🍲 Single dish</span>
+</div>""",
+            unsafe_allow_html=True,
+        )
+
         uploaded = st.file_uploader(
             "Upload a photo of your meal",
             type=["jpg", "jpeg", "png", "heic", "heif"],
+            label_visibility="collapsed",
         )
 
         if uploaded is not None:
@@ -859,12 +857,12 @@ if st.session_state.stage == "upload":
                 use_column_width=True,
             )
 
-            with st.spinner("Analyzing photo & verifying food content..."):
+            with st.spinner("Analyzing photo & recipe ingredients..."):
                 cnn_class, cnn_confidence, margin, entropy = run_cnn(
                     image_to_process, cnn_model, idx_to_class
                 )
 
-                # Check for Non-Food / Out of Distribution Image
+                # Non-food guardrail
                 is_non_food = (
                     cnn_confidence < MIN_CONFIDENCE
                     or margin < MIN_MARGIN
@@ -873,22 +871,24 @@ if st.session_state.stage == "upload":
 
                 if is_non_food:
                     st.markdown(
-                        f"""<div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 16px; margin-top: 14px; text-align: center;">
-<div style="font-size: 1.8rem; margin-bottom: 6px;">🍽️❓</div>
-<div style="color: #F87171; font-weight: 700; font-size: 1rem; margin-bottom: 4px;">No Recognised Food Detected</div>
+                        f"""<div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 14px; padding: 16px; margin-top: 14px; text-align: center;">
+<div style="font-size: 1.8rem; margin-bottom: 4px;">🍽️❓</div>
+<div style="color: #F87171; font-weight: 700; font-size: 1rem; margin-bottom: 4px;">No Supported Gulf Dish Found</div>
 <div style="color: #A39682; font-size: 0.82rem; line-height: 1.45;">
-This photo does not closely match any of the 25 supported dishes. Please upload a clear, well-lit photo of your meal.
+Please upload a clear, focused photo of a traditional Gulf dish.
 </div>
 </div>""",
                         unsafe_allow_html=True,
                     )
                     st.write("")
                     st.button(
-                        "🔄 Try Again", on_click=reset, use_container_width=True
+                        "🔄 Upload Another Photo",
+                        on_click=reset,
+                        use_container_width=True,
                     )
                     st.stop()
 
-                # Regular Pipeline
+                # Pipeline Decision Flow
                 triggered = (
                     cnn_confidence < CONFIDENCE_THRESHOLD
                     or cnn_class in TRIGGER_SET
@@ -927,7 +927,6 @@ This photo does not closely match any of the 25 supported dishes. Please upload 
                     )
                     st.session_state.stage = "confirm_dish"
                     st.rerun()
-
 # ---------------------------------------------------------------- STAGE: confirm_dish
 elif st.session_state.stage == "confirm_dish":
     render_stepper("confirm_dish", True)
