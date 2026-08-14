@@ -689,11 +689,56 @@ def reset():
 
 render_header()
 
-with st.expander("How this GulfBite app works?"):
-    st.write(
-        "Snap a photo of your meal. If it looks like something else, we'll double-check with "
-        "you. Calories come from real ingredient data — shown as a range, since no two plates "
-        "are exactly alike."
+with st.expander("✨ How GulfBite works", expanded=False):
+    st.markdown(
+        """
+    <div style="
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
+        gap: 12px; 
+        margin: 10px 0 6px 0;
+    ">
+        <div style="
+            background: rgba(255, 255, 255, 0.02); 
+            border: 1px solid rgba(229, 169, 59, 0.2); 
+            border-top: 3px solid #E5A93B;
+            border-radius: 14px; 
+            padding: 14px 10px; 
+            text-align: center;
+        ">
+            <div style="font-size: 1.6rem; margin-bottom: 6px;">📸</div>
+            <div style="color: #F8F5EE; font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">1. Snap Meal</div>
+            <div style="color: #A39682; font-size: 0.76rem; line-height: 1.35;">Upload a photo of your traditional Gulf plate.</div>
+        </div>
+        
+        <div style="
+            background: rgba(255, 255, 255, 0.02); 
+            border: 1px solid rgba(229, 169, 59, 0.2); 
+            border-top: 3px solid #E5A93B;
+            border-radius: 14px; 
+            padding: 14px 10px; 
+            text-align: center;
+        ">
+            <div style="font-size: 1.6rem; margin-bottom: 6px;">🔍</div>
+            <div style="color: #F8F5EE; font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">2. AI Check</div>
+            <div style="color: #A39682; font-size: 0.76rem; line-height: 1.35;">If dishes look similar, we double-check with you.</div>
+        </div>
+        
+        <div style="
+            background: rgba(255, 255, 255, 0.02); 
+            border: 1px solid rgba(229, 169, 59, 0.2); 
+            border-top: 3px solid #E5A93B;
+            border-radius: 14px; 
+            padding: 14px 10px; 
+            text-align: center;
+        ">
+            <div style="font-size: 1.6rem; margin-bottom: 6px;">⚖️</div>
+            <div style="color: #F8F5EE; font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">3. Honest Range</div>
+            <div style="color: #A39682; font-size: 0.76rem; line-height: 1.35;">Real nutrition ranges from recipe ingredients.</div>
+        </div>
+    </div>
+    """,
+        unsafe_allow_html=True,
     )
 
 with st.expander("What foods can GulfBite recognise?"):
