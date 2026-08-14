@@ -1126,23 +1126,30 @@ elif st.session_state.stage == "result":
                 st.rerun()
 
         with st.expander("⚙️ Pipeline Technical Breakdown", expanded=False):
-            st.markdown(f"""
-            <div style="display: flex; flex-direction: column; gap: 10px; padding: 6px 0;">
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
-                    <span style="color: var(--gb-muted); font-size: 0.84rem;">CNN Classifier</span>
-                    <span style="color: #FBF8F1; font-weight: 600; font-size: 0.88rem;">{display_name(st.session_state.cnn_class)} <span style="color: #E5A93B; font-family: 'JetBrains Mono', monospace;">({st.session_state.cnn_confidence:.0%})</span></span>
-                </div>
-                {"<div style='display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;'><span style='color: var(--gb-muted); font-size: 0.84rem;'>YOLOv8 Feature</span><span style='color: #FBF8F1; font-weight: 600; font-size: 0.88rem;'>" + display_name(st.session_state.yolo_suggestion) + "</span></div>" if st.session_state.get("yolo_suggestion") else ""}
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
-                    <span style="color: var(--gb-muted); font-size: 0.84rem;">Confirmed Match</span>
-                    <span style="color: #FBF8F1; font-weight: 700; font-size: 0.88rem;">{display_name(dish)}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 2px;">
-                    <span style="color: var(--gb-muted); font-size: 0.84rem;">Execution Path</span>
-                    <span class="tech-pill">{st.session_state.tier_used}</span>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            yolo_row = (
+                f'<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;"><span style="color: var(--gb-muted); font-size: 0.84rem;">YOLOv8 Feature</span><span style="color: #FBF8F1; font-weight: 600; font-size: 0.88rem;">{display_name(st.session_state.yolo_suggestion)}</span></div>'
+                if st.session_state.get("yolo_suggestion")
+                else ""
+            )
+
+            st.markdown(
+                f"""<div style="display: flex; flex-direction: column; gap: 10px; padding: 6px 0;">
+<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+<span style="color: var(--gb-muted); font-size: 0.84rem;">CNN Classifier</span>
+<span style="color: #FBF8F1; font-weight: 600; font-size: 0.88rem;">{display_name(st.session_state.cnn_class)} <span style="color: #E5A93B; font-family: 'JetBrains Mono', monospace;">({st.session_state.cnn_confidence:.0%})</span></span>
+</div>
+{yolo_row}
+<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+<span style="color: var(--gb-muted); font-size: 0.84rem;">Confirmed Match</span>
+<span style="color: #FBF8F1; font-weight: 700; font-size: 0.88rem;">{display_name(dish)}</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 2px;">
+<span style="color: var(--gb-muted); font-size: 0.84rem;">Execution Path</span>
+<span class="tech-pill">{st.session_state.tier_used}</span>
+</div>
+</div>""",
+                unsafe_allow_html=True,
+            )
 
     st.write("")
     st.button("📸 Analyze Another Photo", on_click=reset)
