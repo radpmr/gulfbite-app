@@ -226,6 +226,71 @@ CALORIE_RANGE_PCT = 0.15
 def display_name(cls: str) -> str:
     return cls.split("_", 1)[1].replace("_", " ").title()
 
+# Place this directly after DISH_BLURBS and display_name()
+
+DISH_CATEGORIES = {
+    "🍚 Rice & Feasts": [
+        "01_machboos",
+        "02_kabsa",
+        "03_biryani",
+        "07_ouzi",
+        "09_jisheed",
+    ],
+    "🥘 Stews & Mains": [
+        "04_harees",
+        "05_thareed",
+        "06_saloona",
+        "08_samak_mashwi",
+    ],
+    "🌯 Street Food & Bites": [
+        "10_shawarma",
+        "11_falafel_wrap",
+        "12_falafel",
+        "13_samboosa",
+        "14_mutabbaq",
+    ],
+    "🫓 Breads & Breakfast": [
+        "18_foul_medames",
+        "19_shakshuka",
+        "20_balaleet",
+        "21_khameer",
+        "22_chebab",
+    ],
+    "🥗 Salads & Dips": ["15_hummus", "16_fattoush", "17_tabbouleh"],
+    "🍯 Desserts & Tea": ["23_luqaimat", "24_knafeh", "25_karak_chai"],
+}
+
+
+def render_interactive_dish_explorer():
+    selected_category = st.pills(
+        "Filter by category:",
+        options=list(DISH_CATEGORIES.keys()),
+        default="🍚 Rice & Feasts",
+        label_visibility="collapsed",
+    )
+
+    if not selected_category:
+        selected_category = "🍚 Rice & Feasts"
+
+    category_dishes = DISH_CATEGORIES[selected_category]
+
+    selected_dish = st.radio(
+        "Choose a dish to explore:",
+        options=category_dishes,
+        format_func=display_name,
+        horizontal=True,
+        label_visibility="collapsed",
+    )
+
+    if selected_dish:
+        blurb = DISH_BLURBS.get(selected_dish, "")
+        st.markdown(
+            f"""<div style="background: rgba(229, 169, 59, 0.06); border: 1px solid rgba(229, 169, 59, 0.25); border-left: 4px solid #E5A93B; border-radius: 12px; padding: 12px 16px; margin-top: 10px;">
+<div style="font-weight: 700; color: #F8F5EE; font-size: 1rem; margin-bottom: 3px;">{display_name(selected_dish)}</div>
+<div style="color: #A39682; font-size: 0.84rem; line-height: 1.4;">{blurb}</div>
+</div>""",
+            unsafe_allow_html=True,
+        )
 
 def get_candidate_group(cnn_class: str) -> set:
     for group in CONFUSION_GROUPS.values():
@@ -717,9 +782,8 @@ with st.expander("✨ How GulfBite works", expanded=False):
         unsafe_allow_html=True,
     )
 
-with st.expander("What foods can GulfBite recognise?"):
-    st.write("GulfBite currently recognises 25 Gulf dishes:")
-    render_dish_list()
+with st.expander("🍲 Explore Recognised Dishes (25)", expanded=False):
+    render_interactive_dish_explorer()
 
 try:
     cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()
