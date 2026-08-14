@@ -52,8 +52,11 @@ TRIGGER_SET = {
     "06_saloona",
 }
 WRAP_TRIGGER_SET = {"10_shawarma", "11_falafel_wrap"}
-CONFIDENCE_THRESHOLD = 0.7
-MIN_FOOD_CONFIDENCE = 0.35  # Threshold below which an image is considered not a recognised food
+MIN_CONFIDENCE = 0.50  # Must be at least 50% confident
+MIN_MARGIN = 0.15  # Top class must beat 2nd class by at least 15%
+MAX_ENTROPY = (
+    2.50  # If entropy is higher than 2.5, predictions are too diffuse
+)
 
 YOLO_FEATURE_MAP = {
     "01_machboos": "loomi",
@@ -357,11 +360,26 @@ def run_cnn(pil_image, model, idx_to_class, img_size=(224, 224)):
     arr = np.array(img).astype("float32")
     arr = preprocess_input(arr)
     arr = np.expand_dims(arr, axis=0)
+
     preds = model.predict(arr, verbose=0)[0]
-    top_idx = int(np.argmax(preds))
+
+    # Sort predictions
+    sorted_indices = np.argsort(preds)[::-1]
+    top_idx = int(sorted_indices[0])
+    second_idx = int(sorted_indices[1])
+
     confidence = float(preds[top_idx])
+    second_confidence = float(preds[second_idx])
+    margin = confidence - second_confidence
+
+    # Shannon Entropy calculation (measures uniform uncertainty)
+    # High entropy = model is confused / random noise
+    eps = 1e-12
+    entropy = -np.sum(preds * np.log(preds + eps))
+
     predicted_class = idx_to_class[top_idx]
-    return predicted_class, confidence
+
+    return predicted_class, confidence, margin, entropy
 
 
 def run_yolov8(pil_image, yolo_model, conf_threshold=0.25):
@@ -856,26 +874,36 @@ if st.session_state.stage == "upload":
                 use_column_width=True,
             )
 
-            with st.spinner("Analyzing photo..."):
-                cnn_class, cnn_confidence = run_cnn(
+            with st.spinner("Analyzing photo & verifying food content..."):
+                cnn_class, cnn_confidence, margin, entropy = run_cnn(
                     image_to_process, cnn_model, idx_to_class
                 )
 
-                # --- NON-FOOD / UNRECOGNISED CHECK ---
-                if cnn_confidence < MIN_FOOD_CONFIDENCE:
+                # --- 1. NON-FOOD / UNRECOGNISED CHECK ---
+                is_non_food = (
+                    cnn_confidence < MIN_CONFIDENCE
+                    or margin < MIN_MARGIN
+                    or entropy > MAX_ENTROPY
+                )
+
+                if is_non_food:
                     st.markdown(
-                        f"""<div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 14px 16px; margin-top: 14px; text-align: center;">
-<div style="font-size: 1.5rem; margin-bottom: 4px;">🍽️❓</div>
-<div style="color: #F87171; font-weight: 700; font-size: 0.95rem; margin-bottom: 4px;">No Recognised Gulf Dish Detected</div>
-<div style="color: #A39682; font-size: 0.82rem; line-height: 1.4;">
-This photo doesn't look like any of our 25 supported dishes (confidence: <strong style="color:#F87171;">{cnn_confidence:.0%}</strong>). Please capture a clearer, well-lit photo of your meal.
+                        f"""<div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 16px; margin-top: 14px; text-align: center;">
+<div style="font-size: 1.8rem; margin-bottom: 6px;">🍽️❓</div>
+<div style="color: #F87171; font-weight: 700; font-size: 1rem; margin-bottom: 4px;">No Recognised Food Detected</div>
+<div style="color: #A39682; font-size: 0.82rem; line-height: 1.45;">
+This image does not match any of our supported Gulf dishes. Please point your camera directly at the plate with good lighting.
 </div>
 </div>""",
                         unsafe_allow_html=True,
                     )
+                    st.write("")
+                    st.button(
+                        "🔄 Try Again", on_click=reset, use_container_width=True
+                    )
                     st.stop()
 
-                # --- STANDARD FOOD PIPELINE ---
+                # --- 2. REGULAR PIPELINE ---
                 triggered = (
                     cnn_confidence < CONFIDENCE_THRESHOLD
                     or cnn_class in TRIGGER_SET
