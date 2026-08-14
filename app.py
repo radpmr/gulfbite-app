@@ -281,7 +281,7 @@ def render_interactive_dish_explorer():
         horizontal=True,
         label_visibility="collapsed",
     )
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
     if not selected_category:
         selected_category = "🍚 Rice & Feasts"
@@ -1053,23 +1053,40 @@ def reset():
         del st.session_state[key]
 
 
-# --- 🔴 REMOVE / REPLACE STARTING HERE ---
+# ============================================================================
+# TOP HEADER & INTERACTIVE TABS (Replaces the old expanders & fixes Ellipsis)
+# ============================================================================
+
 render_header()
 
-import textwrap
+guide_tab, dishes_tab = st.tabs(["✨ How It Works", "🍲 Supported Dishes (25)"])
 
-with st.expander("✨ How GulfBite works", expanded=False):
-    ...
+with guide_tab:
+    st.markdown(
+        """<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 10px 0 6px 0;">
+<div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(229, 169, 59, 0.2); border-top: 3px solid #E5A93B; border-radius: 14px; padding: 14px 10px; text-align: center;">
+    <div style="font-size: 1.6rem; margin-bottom: 6px;">📸</div>
+    <div style="color: #F8F5EE; font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">1. Snap Meal</div>
+    <div style="color: #A39682; font-size: 0.76rem; line-height: 1.35;">Upload a photo of your traditional Gulf plate.</div>
+</div>
+<div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(229, 169, 59, 0.2); border-top: 3px solid #E5A93B; border-radius: 14px; padding: 14px 10px; text-align: center;">
+    <div style="font-size: 1.6rem; margin-bottom: 6px;">🔍</div>
+    <div style="color: #F8F5EE; font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">2. AI Check</div>
+    <div style="color: #A39682; font-size: 0.76rem; line-height: 1.35;">If dishes look similar, we double-check with you.</div>
+</div>
+<div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(229, 169, 59, 0.2); border-top: 3px solid #E5A93B; border-radius: 14px; padding: 14px 10px; text-align: center;">
+    <div style="font-size: 1.6rem; margin-bottom: 6px;">⚖️</div>
+    <div style="color: #F8F5EE; font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">3. Honest Range</div>
+    <div style="color: #A39682; font-size: 0.76rem; line-height: 1.35;">Real nutrition ranges from authentic ingredients.</div>
+</div>
+</div>""",
+        unsafe_allow_html=True,
+    )
 
-with st.expander("🍲 Explore Recognised Dishes (25)", expanded=False):
+with dishes_tab:
     render_interactive_dish_explorer()
-# --- 🔴 REMOVE / REPLACE ENDING HERE ---
 
-try:
-    cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()
-except FileNotFoundError as e:
-    st.error(str(e))
-    st.stop()
+st.markdown("<div style='margin-bottom: 1.4rem;'></div>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------------- STAGE: upload
 if st.session_state.stage == "upload":
