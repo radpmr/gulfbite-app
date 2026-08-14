@@ -1165,8 +1165,8 @@ if st.session_state.stage == "upload":
 
             with st.spinner("Analyzing photo & recipe ingredients..."):
                 cnn_class, cnn_confidence, margin, entropy = run_cnn(
-                    image_to_process, cnn_model, idx_to_class
-                )
+    image_to_process, cnn_model, idx_to_class
+)
 
                 # Non-food guardrail
                 is_non_food = (
