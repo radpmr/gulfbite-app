@@ -53,6 +53,7 @@ TRIGGER_SET = {
 }
 WRAP_TRIGGER_SET = {"10_shawarma", "11_falafel_wrap"}
 CONFIDENCE_THRESHOLD = 0.7
+MIN_FOOD_CONFIDENCE = 0.35  # Threshold below which an image is considered not a recognised food
 
 YOLO_FEATURE_MAP = {
     "01_machboos": "loomi",
@@ -843,9 +844,10 @@ if st.session_state.stage == "upload":
                 label_visibility="collapsed",
             )
             if camera_photo is not None:
-                image_to_process = ImageOps.exif_transpose(Image.open(camera_photo))
+                image_to_process = ImageOps.exif_transpose(
+                    Image.open(camera_photo)
+                )
 
-        # Once an image is provided from either tab, trigger inference
         if image_to_process is not None:
             st.session_state.image = image_to_process
             st.image(
@@ -854,11 +856,26 @@ if st.session_state.stage == "upload":
                 use_column_width=True,
             )
 
-            with st.spinner("Analyzing cuisine & ingredients..."):
+            with st.spinner("Analyzing photo..."):
                 cnn_class, cnn_confidence = run_cnn(
                     image_to_process, cnn_model, idx_to_class
                 )
 
+                # --- NON-FOOD / UNRECOGNISED CHECK ---
+                if cnn_confidence < MIN_FOOD_CONFIDENCE:
+                    st.markdown(
+                        f"""<div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 14px 16px; margin-top: 14px; text-align: center;">
+<div style="font-size: 1.5rem; margin-bottom: 4px;">🍽️❓</div>
+<div style="color: #F87171; font-weight: 700; font-size: 0.95rem; margin-bottom: 4px;">No Recognised Gulf Dish Detected</div>
+<div style="color: #A39682; font-size: 0.82rem; line-height: 1.4;">
+This photo doesn't look like any of our 25 supported dishes (confidence: <strong style="color:#F87171;">{cnn_confidence:.0%}</strong>). Please capture a clearer, well-lit photo of your meal.
+</div>
+</div>""",
+                        unsafe_allow_html=True,
+                    )
+                    st.stop()
+
+                # --- STANDARD FOOD PIPELINE ---
                 triggered = (
                     cnn_confidence < CONFIDENCE_THRESHOLD
                     or cnn_class in TRIGGER_SET
