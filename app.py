@@ -262,10 +262,12 @@ DISH_CATEGORIES = {
 
 
 def render_interactive_dish_explorer():
-    selected_category = st.pills(
+    # Category filter using horizontal radio (compatible with all Streamlit versions)
+    selected_category = st.radio(
         "Filter by category:",
         options=list(DISH_CATEGORIES.keys()),
-        default="🍚 Rice & Feasts",
+        index=0,
+        horizontal=True,
         label_visibility="collapsed",
     )
 
@@ -274,11 +276,14 @@ def render_interactive_dish_explorer():
 
     category_dishes = DISH_CATEGORIES[selected_category]
 
-    selected_dish = st.radio(
+    st.markdown("<div style='margin-top: 8px;'></div>", unsafe_allow_html=True)
+
+    # Dish selector within chosen category
+    selected_dish = st.selectbox(
         "Choose a dish to explore:",
         options=category_dishes,
         format_func=display_name,
-        horizontal=True,
+        index=0,
         label_visibility="collapsed",
     )
 
