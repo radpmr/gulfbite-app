@@ -735,6 +735,55 @@ div[data-testid="stTabs"] [data-testid="stVerticalBlockBorderWrapper"] {
     white-space: nowrap !important;
     margin: 0 !important;
 }
+
+/* --- Capsule Chips for Categories --- */
+div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(229, 169, 59, 0.22) !important;
+    border-radius: 999px !important;
+    padding: 6px 14px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Hide default circular radio input dot */
+div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+    display: none !important;
+}
+
+/* Hover effect */
+div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
+    border-color: #E5A93B !important;
+    background: rgba(229, 169, 59, 0.12) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(229, 169, 59, 0.2);
+}
+
+/* Active / Checked State */
+div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
+    background: linear-gradient(135deg, rgba(229, 169, 59, 0.25) 0%, rgba(229, 169, 59, 0.1) 100%) !important;
+    border-color: #E5A93B !important;
+    box-shadow: 0 0 12px rgba(229, 169, 59, 0.3) !important;
+}
+
+/* Pill text typography */
+div[data-testid="stRadio"] label[data-baseweb="radio"] p {
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    color: #FBF8F1 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+}
 </style>""",
         unsafe_allow_html=True,
     )
