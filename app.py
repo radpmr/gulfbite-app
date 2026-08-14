@@ -1,13 +1,17 @@
 """
-GulfBite — Streamlit app
-Photo -> dish recognition (3-tier: CNN -> YOLOv8 -> user confirm) -> portion size -> calorie/macro estimate.
+GulfBite — Smart Gulf Cuisine Nutrition Assistant
+-------------------------------------------------
+Identifies authentic Gulf dishes using a multi-tiered pipeline:
+1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
+2. Out-of-distribution / Non-food rejection via margin and entropy checks.
+3. YOLOv8 feature detection for visually ambiguous dishes (e.g., loomi in Machboos).
+4. Portion-based authentic macro and calorie estimation.
 
-BEFORE RUNNING:
-  Place these four files into a local `models/` folder:
-    models/MobileNetV2_best.keras
-    models/class_indices.json
-    models/yolov8_ingredient_detector-4/weights/best.pt
-    models/ingredient_nutrition_cache.json
+Following files exist in the `models/` directory:
+- models/MobileNetV2_best.keras
+- models/class_indices.json
+- models/yolov8_ingredient_detector-4/weights/best.pt
+- models/ingredient_nutrition_cache.json
 """
 
 import json
@@ -19,18 +23,19 @@ import numpy as np
 from PIL import Image, ImageOps
 import streamlit as st
 
+# Force CPU inference for stability and suppress TensorFlow verbose logging
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
+# Register HEIC/HEIF image support for mobile uploads (iPhone camera shots)
 try:
     import pillow_heif
-
     pillow_heif.register_heif_opener()
 except ImportError:
     pass
 
 # ============================================================================
-# CONFIG
+# 1. CONFIGURATION & CONSTANTS
 # ============================================================================
 
 MODELS_DIR = "models"
@@ -43,6 +48,7 @@ INGREDIENT_CACHE_PATH = os.path.join(
     MODELS_DIR, "ingredient_nutrition_cache.json"
 )
 
+# Sets of dishes that frequently confuse the CNN and require verification
 TRIGGER_SET = {
     "07_ouzi",
     "01_machboos",
@@ -52,14 +58,14 @@ TRIGGER_SET = {
     "06_saloona",
 }
 WRAP_TRIGGER_SET = {"10_shawarma", "11_falafel_wrap"}
-# Confidence thresholds
-CONFIDENCE_THRESHOLD = 0.70  # Standard high-confidence threshold
-MIN_CONFIDENCE = 0.50  # Must be at least 50% confident
-MIN_MARGIN = 0.15  # Top class must beat 2nd class by at least 15%
-MAX_ENTROPY = (
-    2.50  # If entropy is higher than 2.5, predictions are too diffuse
-)
 
+# Thresholds for AI confidence and non-food detection
+CONFIDENCE_THRESHOLD = 0.70  # Standard high-confidence threshold
+MIN_CONFIDENCE = 0.50        # Minimum top-1 probability to qualify as food
+MIN_MARGIN = 0.15            # Difference between top 2 classes to prevent random guesses
+MAX_ENTROPY = 2.50           # Shannon entropy cap (high entropy = diffuse / non-food)
+
+# Feature-to-dish mappings for YOLO validation
 YOLO_FEATURE_MAP = {
     "01_machboos": "loomi",
     "07_ouzi": "whole_shank",
@@ -70,6 +76,7 @@ YOLO_FEATURE_MAP = {
 }
 FEATURE_TO_DISH = {v: k for k, v in YOLO_FEATURE_MAP.items()}
 
+# Related dish groups for fallback multiple-choice confirmation
 CONFUSION_GROUPS = {
     "rice_cluster": {
         "01_machboos",
@@ -82,13 +89,15 @@ CONFUSION_GROUPS = {
     "wrap_cluster": {"10_shawarma", "11_falafel_wrap", "12_falafel"},
 }
 
+# User-friendly explanation notes shown during verification
 GROUP_REASONS = {
     "rice_cluster": "Rice dishes like Machboos, Kabsa, and Biryani can look very similar, so we like to double-check.",
     "wrap_cluster": "Wrapped dishes can hide their filling, so we like to double-check.",
 }
 
 
-def get_group_reason(cnn_class):
+def get_group_reason(cnn_class: str) -> Optional[str]:
+    """Retrieve an intuitive explanation for why the app is asking for confirmation."""
     for group_name, group_set in CONFUSION_GROUPS.items():
         if cnn_class in group_set:
             return GROUP_REASONS.get(group_name)
@@ -104,6 +113,7 @@ FEATURE_RELIABILITY = {
     "falafel_ball": {"status": "reliable"},
 }
 
+# Ingredient breakdown recipes (base grams for a medium portion)
 DISH_RECIPES = {
     "01_machboos": [
         ("rice", 150),
@@ -196,13 +206,14 @@ DISH_RECIPES = {
     "25_karak_chai": [("milk", 100), ("black_tea", 100), ("sugar", 10)],
 }
 
+# Educational dish descriptions
 DISH_BLURBS = {
     "01_machboos": "A spiced rice dish with meat or chicken, flavoured with dried lime (loomi) — a Bahraini and Kuwaiti staple.",
     "02_kabsa": "Saudi Arabia's best-known dish: spiced rice with meat, often finished with saffron and tomato.",
     "03_biryani": "A layered spiced rice dish with South Asian roots, now a Gulf favourite thanks to centuries of trade.",
     "04_harees": "A slow-cooked wheat and meat porridge, traditionally eaten during Ramadan and Eid across the Gulf.",
     "05_thareed": "Bread soaked in a rich meat and vegetable stew — an Emirati dish often said to have been a favourite of the Prophet Muhammad.",
-    "06_saloona": "A everyday spiced stew of meat and vegetables, found in home kitchens across the Gulf.",
+    "06_saloona": "An everyday spiced stew of meat and vegetables, found in home kitchens across the Gulf.",
     "07_ouzi": "Whole roasted lamb served over rice, traditionally prepared for celebrations and large gatherings.",
     "08_samak_mashwi": "Grilled fish, simply prepared — a reflection of the Gulf's long fishing heritage.",
     "09_jisheed": "An Emirati dish of shredded fish mixed with rice.",
@@ -224,16 +235,18 @@ DISH_BLURBS = {
     "25_karak_chai": "Spiced milk tea with South Asian influence, now an everyday favourite across the Gulf.",
 }
 
+# Serving size multipliers
 PORTION_MULTIPLIERS = {"S": 0.7, "M": 1.0, "L": 1.4}
 PORTION_LABELS = {"S": "Small", "M": "Medium", "L": "Large"}
 CALORIE_RANGE_PCT = 0.15
 
 
 def display_name(cls: str) -> str:
+    """Format technical class names into clean titles (e.g., '01_machboos' -> 'Machboos')."""
     return cls.split("_", 1)[1].replace("_", " ").title()
 
-# Place this directly after DISH_BLURBS and display_name()
 
+# Categorised groupings for the Explorer tab
 DISH_CATEGORIES = {
     "🍚 Rice & Feasts": [
         "01_machboos",
@@ -267,54 +280,8 @@ DISH_CATEGORIES = {
 }
 
 
-def render_interactive_dish_explorer():
-    st.markdown('<div class="category-pill-container">', unsafe_allow_html=True)
-    selected_category = st.radio(
-        "Filter by category:",
-        options=list(DISH_CATEGORIES.keys()),
-        index=0,
-        horizontal=True,
-        label_visibility="collapsed"
-    )
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    if not selected_category:
-        selected_category = "🍚 Rice & Feasts"
-
-    category_dishes = DISH_CATEGORIES[selected_category]
-
-    st.markdown(
-        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.8rem; font-weight: 700; color: #A39682; text-transform: uppercase; letter-spacing: 0.05em;">Select Dish</div>', 
-        unsafe_allow_html=True
-    )
-
-    selected_dish = st.selectbox(
-        "Choose a dish to explore:",
-        options=category_dishes,
-        format_func=display_name,
-        index=0,
-        label_visibility="collapsed"
-    )
-
-    if selected_dish:
-        blurb = DISH_BLURBS.get(selected_dish, "")
-        st.markdown(
-            f"""<div style="
-                background: linear-gradient(135deg, rgba(229, 169, 59, 0.08) 0%, rgba(20, 16, 11, 0.6) 100%);
-                border: 1px solid rgba(229, 169, 59, 0.25);
-                border-left: 4px solid #E5A93B;
-                border-radius: 14px;
-                padding: 14px 16px;
-                margin-top: 10px;
-                box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-            ">
-                <div style="font-weight: 800; color: #FBF8F1; font-size: 1.05rem; margin-bottom: 4px;">{display_name(selected_dish)}</div>
-                <div style="color: #A39682; font-size: 0.84rem; line-height: 1.45;">{blurb}</div>
-            </div>""",
-            unsafe_allow_html=True
-        )
-
 def get_candidate_group(cnn_class: str) -> set:
+    """Return the candidate group of similar dishes if a trigger dish is detected."""
     for group in CONFUSION_GROUPS.values():
         if cnn_class in group:
             return group
@@ -322,12 +289,12 @@ def get_candidate_group(cnn_class: str) -> set:
 
 
 # ============================================================================
-# MODEL LOADING
+# 2. MODEL LOADING & CACHING
 # ============================================================================
-
 
 @st.cache_resource
 def load_models():
+    """Load neural network models and caches once and keep them in memory."""
     import tensorflow as tf
     from ultralytics import YOLO
 
@@ -348,13 +315,16 @@ def load_models():
             + "\n\nPlease ensure model weights are located in the models/ directory."
         )
 
+    # Load CNN classifier
     cnn_model = tf.keras.models.load_model(CNN_MODEL_PATH)
     with open(CLASS_INDICES_PATH) as f:
         class_indices = json.load(f)
     idx_to_class = {v: k for k, v in class_indices.items()}
 
+    # Load YOLO ingredient detector
     yolo_model = YOLO(YOLO_WEIGHTS_PATH)
 
+    # Load nutrition database
     with open(INGREDIENT_CACHE_PATH) as f:
         ingredient_cache = json.load(f)
 
@@ -362,11 +332,14 @@ def load_models():
 
 
 # ============================================================================
-# PIPELINE FUNCTIONS
+# 3. CORE AI INFERENCE FUNCTIONS
 # ============================================================================
 
-
 def run_cnn(pil_image, model, idx_to_class, img_size=(224, 224)):
+    """
+    Run MobileNetV2 inference and calculate Shannon Entropy & Top Margin 
+    to reliably detect and reject non-food images.
+    """
     from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
     img = pil_image.convert("RGB").resize(img_size)
@@ -376,7 +349,7 @@ def run_cnn(pil_image, model, idx_to_class, img_size=(224, 224)):
 
     preds = model.predict(arr, verbose=0)[0]
 
-    # Sort predictions
+    # Rank predictions
     sorted_indices = np.argsort(preds)[::-1]
     top_idx = int(sorted_indices[0])
     second_idx = int(sorted_indices[1])
@@ -385,17 +358,16 @@ def run_cnn(pil_image, model, idx_to_class, img_size=(224, 224)):
     second_confidence = float(preds[second_idx])
     margin = confidence - second_confidence
 
-    # Shannon Entropy calculation (measures uniform uncertainty)
-    # High entropy = model is confused / random noise
+    # Shannon Entropy cap check (uniform spread indicates non-food)
     eps = 1e-12
     entropy = -np.sum(preds * np.log(preds + eps))
 
     predicted_class = idx_to_class[top_idx]
-
     return predicted_class, confidence, margin, entropy
 
 
 def run_yolov8(pil_image, yolo_model, conf_threshold=0.25):
+    """Run YOLOv8 object detection to locate distinct ingredients/visual features."""
     results = yolo_model.predict(
         np.array(pil_image.convert("RGB")), conf=conf_threshold, verbose=False
     )
@@ -410,6 +382,7 @@ def run_yolov8(pil_image, yolo_model, conf_threshold=0.25):
 
 
 def map_detections_to_suggestion(detections, candidates):
+    """Correlate ingredient detections to suggested candidate dishes."""
     if not detections:
         return None, None, "no_detection"
     valid = [
@@ -429,6 +402,7 @@ def map_detections_to_suggestion(detections, candidates):
 
 
 def estimate_nutrition(dish_class, portion_size, ingredient_cache):
+    """Calculate scaled macronutrient and calorie ranges based on authentic recipes."""
     multiplier = PORTION_MULTIPLIERS[portion_size]
     totals = {"calories": 0.0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}
     missing = []
@@ -452,11 +426,11 @@ def estimate_nutrition(dish_class, portion_size, ingredient_cache):
 
 
 # ============================================================================
-# MODERN VISUAL THEME & UI COMPONENTS
+# 4. CUSTOM THEME & UI STYLING
 # ============================================================================
 
-
 def inject_theme():
+    """Inject custom dark-gold glassmorphic CSS styling."""
     st.markdown(
         """<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
@@ -537,7 +511,7 @@ html, body, [class*="css"] {
     font-size: 0.8rem !important;
 }
 
-/* Upload Button styling */
+/* File Upload Button */
 [data-testid="stFileUploader"] button {
     border-radius: 10px !important;
     border: 1px solid var(--gb-gold) !important;
@@ -554,7 +528,7 @@ html, body, [class*="css"] {
     box-shadow: 0 0 16px rgba(229, 169, 59, 0.5) !important;
 }
 
-/* Premium Primary Buttons */
+/* Buttons */
 div.stButton > button {
     font-family: 'Outfit', sans-serif;
     border-radius: 12px;
@@ -608,111 +582,7 @@ div.stButton > button[kind="primary"]:hover {
 }
 [data-testid="stExpander"] summary:hover { color: var(--gb-gold) !important; }
 
-/* --- Modern Portion Card Grid --- */
-.portion-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 1rem 0;
-}
-
-/* Remove default wrapper box styling inside columns */
-div[data-testid="column"] > div[data-testid="stVerticalBlock"] {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-}
-
-/* Redesign Portion Buttons into Large Interactive Tiles */
-div[data-testid="column"] div.stButton > button {
-    height: 100px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
-    background: radial-gradient(circle at 50% 0%, rgba(229, 169, 59, 0.08) 0%, rgba(26, 21, 15, 0.9) 100%) !important;
-    border: 1px solid rgba(229, 169, 59, 0.22) !important;
-    border-radius: 16px !important;
-    font-size: 1rem !important;
-    font-weight: 700 !important;
-    color: #FBF8F1 !important;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-div[data-testid="column"] div.stButton > button:hover {
-    border-color: #E5A93B !important;
-    background: radial-gradient(circle at 50% 0%, rgba(229, 169, 59, 0.2) 0%, rgba(35, 29, 19, 0.95)) !important;
-    transform: translateY(-3px) !important;
-    box-shadow: 0 8px 24px rgba(229, 169, 59, 0.3) !important;
-    color: #E5A93B !important;
-}
-
-/* Pipeline Status Tag */
-.tech-pill {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 999px;
-    font-size: 0.76rem;
-    font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
-    background: rgba(34, 197, 94, 0.12);
-    color: #4ade80;
-    border: 1px solid rgba(34, 197, 94, 0.3);
-}
-
-/* --- Interactive Dish Selection Cards --- */
-div[data-testid="stRadio"] > div {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
-    gap: 10px !important;
-    margin: 10px 0 16px 0 !important;
-}
-
-div[data-testid="stRadio"] label {
-    background: rgba(255, 255, 255, 0.02) !important;
-    border: 1.5px solid rgba(229, 169, 59, 0.18) !important;
-    border-radius: 14px !important;
-    padding: 12px 14px !important;
-    margin: 0 !important;
-    cursor: pointer !important;
-    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-}
-
-/* Hover Effect */
-div[data-testid="stRadio"] label:hover {
-    border-color: #E5A93B !important;
-    background: rgba(229, 169, 59, 0.08) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 18px rgba(229, 169, 59, 0.2) !important;
-}
-
-/* Radio Text Typography */
-div[data-testid="stRadio"] label span p {
-    font-size: 0.92rem !important;
-    font-weight: 600 !important;
-    color: #FBF8F1 !important;
-    margin: 0 !important;
-}
-
-/* Custom Verification Callout */
-.verify-callout {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    background: rgba(229, 169, 59, 0.06);
-    border: 1px solid rgba(229, 169, 59, 0.2);
-    border-left: 3.5px solid #E5A93B;
-    border-radius: 12px;
-    padding: 10px 14px;
-    margin: 10px 0 14px 0;
-}
-
-/* Remove nested borders inside columns */
+/* Clear out Streamlit's inner block containers inside columns to avoid double borders */
 div[data-testid="column"] [data-testid="stVerticalBlockBorderWrapper"],
 div[data-testid="column"] > div[data-testid="stVerticalBlock"],
 div[data-testid="column"] > div {
@@ -722,7 +592,7 @@ div[data-testid="column"] > div {
     padding: 0 !important;
 }
 
-/* Single clean portion button tile */
+/* Redesigned interactive portion selection tiles */
 div[data-testid="column"] button {
     height: 110px !important;
     display: flex !important;
@@ -737,7 +607,6 @@ div[data-testid="column"] button {
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* Hover state */
 div[data-testid="column"] button:hover {
     border-color: #E5A93B !important;
     background: linear-gradient(180deg, rgba(229, 169, 59, 0.15) 0%, rgba(35, 29, 19, 0.95)) !important;
@@ -745,7 +614,6 @@ div[data-testid="column"] button:hover {
     box-shadow: 0 8px 25px rgba(229, 169, 59, 0.3) !important;
 }
 
-/* Button text layout */
 div[data-testid="column"] button p {
     margin: 0 !important;
     line-height: 1.3 !important;
@@ -753,37 +621,33 @@ div[data-testid="column"] button p {
     font-weight: 700 !important;
 }
 
-/* --- Sleek Tab Bar Styling --- */
-div[data-testid="stTabs"] {
-    background: transparent !important;
+/* Green pill badge for verified pipeline path */
+.tech-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
-div[data-testid="stTabs"] [data-baseweb="tab-list"] {
-    gap: 8px !important;
-    background: rgba(20, 16, 11, 0.7) !important;
-    border: 1px solid rgba(229, 169, 59, 0.15) !important;
-    border-radius: 14px !important;
-    padding: 4px !important;
+/* Verification info callout box */
+.verify-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(229, 169, 59, 0.06);
+    border: 1px solid rgba(229, 169, 59, 0.2);
+    border-left: 3.5px solid #E5A93B;
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin: 10px 0 14px 0;
 }
 
-div[data-testid="stTabs"] [data-baseweb="tab"] {
-    height: 42px !important;
-    border-radius: 10px !important;
-    color: var(--gb-muted) !important;
-    font-weight: 600 !important;
-    font-size: 0.88rem !important;
-    border: none !important;
-    background: transparent !important;
-    transition: all 0.2s ease !important;
-}
-
-div[data-testid="stTabs"] [aria-selected="true"] {
-    background: rgba(229, 169, 59, 0.15) !important;
-    color: #E5A93B !important;
-    border: 1px solid rgba(229, 169, 59, 0.3) !important;
-}
-
-/* --- 1. Clean Modern Tabs (Pill style) --- */
+/* Modern segmented top tabs */
 div[data-testid="stTabs"] {
     background: transparent !important;
     margin-bottom: 1rem !important;
@@ -798,7 +662,7 @@ div[data-testid="stTabs"] [data-baseweb="tab-list"] {
 }
 
 div[data-testid="stTabs"] [data-baseweb="tab-border"] {
-    display: none !important; /* Removes default orange bottom line */
+    display: none !important;
 }
 
 div[data-testid="stTabs"] [data-baseweb="tab"] {
@@ -820,7 +684,6 @@ div[data-testid="stTabs"] [aria-selected="true"] {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* --- 2. Remove Nested Column/Block Borders inside Explorer --- */
 div[data-testid="stTabs"] [data-testid="stVerticalBlockBorderWrapper"] {
     background: transparent !important;
     border: none !important;
@@ -828,35 +691,7 @@ div[data-testid="stTabs"] [data-testid="stVerticalBlockBorderWrapper"] {
     padding: 0 !important;
 }
 
-/* --- 3. Compact Horizontal Category Chips --- */
-.category-radio div[data-testid="stRadio"] > div {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 8px !important;
-}
-
-.category-radio div[data-testid="stRadio"] label {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(229, 169, 59, 0.2) !important;
-    border-radius: 999px !important;
-    padding: 6px 14px !important;
-    margin: 0 !important;
-    min-width: auto !important;
-    height: auto !important;
-}
-
-.category-radio div[data-testid="stRadio"] label:hover {
-    border-color: #E5A93B !important;
-    background: rgba(229, 169, 59, 0.1) !important;
-}
-
-.category-radio div[data-testid="stRadio"] label span p {
-    font-size: 0.82rem !important;
-    font-weight: 600 !important;
-    white-space: nowrap !important;
-}
-
-/* --- Fix: Scoped Horizontal Category Filter Pills --- */
+/* Scoped filter category chips */
 .category-pill-container div[data-testid="stRadio"] {
     background: transparent !important;
     border: none !important;
@@ -905,7 +740,12 @@ div[data-testid="stTabs"] [data-testid="stVerticalBlockBorderWrapper"] {
     )
 
 
+# ============================================================================
+# 5. UI HEADER, STEPPER, & CARD COMPONENTS
+# ============================================================================
+
 def render_header():
+    """Render top header with glowing badge and logo."""
     st.markdown(
         """<div style="display: flex; align-items: center; gap: 14px; margin-bottom: 0.3rem;">
 <div style="
@@ -932,17 +772,57 @@ def render_header():
     )
 
 
-def render_dish_list():
-    dishes = sorted(DISH_RECIPES.keys(), key=display_name)
-    chips = "".join(
-        f'<div class="gb-dish-chip">{display_name(d)}</div>' for d in dishes
+def render_interactive_dish_explorer():
+    """Render interactive category filter and dish information viewer."""
+    st.markdown('<div class="category-pill-container">', unsafe_allow_html=True)
+    selected_category = st.radio(
+        "Filter by category:",
+        options=list(DISH_CATEGORIES.keys()),
+        index=0,
+        horizontal=True,
+        label_visibility="collapsed",
     )
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    if not selected_category:
+        selected_category = "🍚 Rice & Feasts"
+
+    category_dishes = DISH_CATEGORIES[selected_category]
+
     st.markdown(
-        f'<div class="gb-dish-grid">{chips}</div>', unsafe_allow_html=True
+        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.8rem; font-weight: 700; color: #A39682; text-transform: uppercase; letter-spacing: 0.05em;">Select Dish</div>',
+        unsafe_allow_html=True,
     )
+
+    selected_dish = st.selectbox(
+        "Choose a dish to explore:",
+        options=category_dishes,
+        format_func=display_name,
+        index=0,
+        label_visibility="collapsed",
+    )
+
+    if selected_dish:
+        blurb = DISH_BLURBS.get(selected_dish, "")
+        st.markdown(
+            f"""<div style="
+                background: linear-gradient(135deg, rgba(229, 169, 59, 0.08) 0%, rgba(20, 16, 11, 0.6) 100%);
+                border: 1px solid rgba(229, 169, 59, 0.25);
+                border-left: 4px solid #E5A93B;
+                border-radius: 14px;
+                padding: 14px 16px;
+                margin-top: 10px;
+                box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+            ">
+                <div style="font-weight: 800; color: #FBF8F1; font-size: 1.05rem; margin-bottom: 4px;">{display_name(selected_dish)}</div>
+                <div style="color: #A39682; font-size: 0.84rem; line-height: 1.45;">{blurb}</div>
+            </div>""",
+            unsafe_allow_html=True,
+        )
 
 
 def render_stepper(current_stage: str, triggered: bool):
+    """Render numbered pipeline steps indicator."""
     steps = [("upload", "Upload photo")]
     if triggered:
         steps.append(("confirm_dish", "Confirm dish"))
@@ -997,6 +877,7 @@ def render_stepper(current_stage: str, triggered: bool):
 
 
 def render_calorie_hero(lo: int, hi: int):
+    """Render high-contrast calorie range highlight card."""
     st.markdown(
         f"""
     <div style="
@@ -1019,6 +900,7 @@ def render_calorie_hero(lo: int, hi: int):
 
 
 def render_macro_cards(protein_g, carbs_g, fat_g):
+    """Render three distinct nutrient breakdown cards."""
     col1, col2, col3 = st.columns(3)
     metrics = [
         ("Protein", f"{protein_g}g", "#E5A93B", col1),
@@ -1047,6 +929,7 @@ def render_macro_cards(protein_g, carbs_g, fat_g):
 
 
 def render_confidence_bar(confidence):
+    """Render styled percentage progress bar for AI prediction confidence."""
     pct = confidence * 100
     st.markdown(
         f"""
@@ -1063,7 +946,7 @@ def render_confidence_bar(confidence):
 
 
 # ============================================================================
-# STREAMLIT UI FLOW
+# 6. APP INITIALIZATION & STATE SETUP
 # ============================================================================
 
 st.set_page_config(
@@ -1074,6 +957,7 @@ st.set_page_config(
 )
 inject_theme()
 
+# Initialize session state variables
 if "stage" not in st.session_state:
     st.session_state.stage = "upload"
     st.session_state.triggered = False
@@ -1089,12 +973,13 @@ if "stage" not in st.session_state:
 
 
 def reset():
+    """Reset session state to restart the analysis pipeline."""
     for key in list(st.session_state.keys()):
         del st.session_state[key]
 
 
 # ============================================================================
-# TOP HEADER & INTERACTIVE TABS (Replaces the old expanders & fixes Ellipsis)
+# 7. TOP HEADER & INTERACTIVE TABS
 # ============================================================================
 
 render_header()
@@ -1128,7 +1013,22 @@ with dishes_tab:
 
 st.markdown("<div style='margin-bottom: 1.4rem;'></div>", unsafe_allow_html=True)
 
-# ---------------------------------------------------------------- STAGE: upload
+
+# ============================================================================
+# 8. LOAD MODELS INTO MEMORY
+# ============================================================================
+
+try:
+    cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()
+except FileNotFoundError as e:
+    st.error(str(e))
+    st.stop()
+
+
+# ============================================================================
+# 9. STAGE 1: UPLOAD & INFERENCE PIPELINE
+# ============================================================================
+
 if st.session_state.stage == "upload":
     render_stepper("upload", st.session_state.triggered)
 
@@ -1142,7 +1042,6 @@ if st.session_state.stage == "upload":
             unsafe_allow_html=True,
         )
 
-        # 1. Initialize image_to_process so NameError is impossible
         image_to_process = None
 
         uploaded = st.file_uploader(
@@ -1154,7 +1053,6 @@ if st.session_state.stage == "upload":
         if uploaded is not None:
             image_to_process = ImageOps.exif_transpose(Image.open(uploaded))
 
-        # 2. Only run analysis if an image is actively loaded
         if image_to_process is not None:
             st.session_state.image = image_to_process
             st.image(
@@ -1164,11 +1062,12 @@ if st.session_state.stage == "upload":
             )
 
             with st.spinner("Analyzing photo & recipe ingredients..."):
+                # Run CNN image classification and calculate entropy
                 cnn_class, cnn_confidence, margin, entropy = run_cnn(
-    image_to_process, cnn_model, idx_to_class
-)
+                    image_to_process, cnn_model, idx_to_class
+                )
 
-                # Non-food guardrail
+                # Non-food guardrail check
                 is_non_food = (
                     cnn_confidence < MIN_CONFIDENCE
                     or margin < MIN_MARGIN
@@ -1194,7 +1093,7 @@ Please upload a clear, focused photo of a traditional Gulf dish.
                     )
                     st.stop()
 
-                # Pipeline decision logic
+                # Multi-tier decision gating logic
                 triggered = (
                     cnn_confidence < CONFIDENCE_THRESHOLD
                     or cnn_class in TRIGGER_SET
@@ -1206,11 +1105,13 @@ Please upload a clear, focused photo of a traditional Gulf dish.
                 st.session_state.triggered = triggered
 
                 if not triggered:
+                    # High confidence and non-confusable dish: advance directly to portion sizing
                     st.session_state.final_dish = cnn_class
                     st.session_state.tier_used = "CNN only"
                     st.session_state.stage = "select_portion"
                     st.rerun()
                 else:
+                    # Ambiguous or confusable dish: trigger YOLO detection and candidate verification
                     candidates = get_candidate_group(cnn_class)
                     run_yolo_here = (cnn_class in YOLO_FEATURE_MAP) or (
                         cnn_class == "03_biryani"
@@ -1233,7 +1134,12 @@ Please upload a clear, focused photo of a traditional Gulf dish.
                     )
                     st.session_state.stage = "confirm_dish"
                     st.rerun()
-# ---------------------------------------------------------------- STAGE: confirm_dish
+
+
+# ============================================================================
+# 10. STAGE 2: DISH CONFIRMATION & SELECTION
+# ============================================================================
+
 elif st.session_state.stage == "confirm_dish":
     render_stepper("confirm_dish", True)
 
@@ -1249,7 +1155,6 @@ elif st.session_state.stage == "confirm_dish":
         candidates = st.session_state.candidates
         yolo_suggestion = st.session_state.yolo_suggestion
 
-        # Hero match title with badge
         st.markdown(
             f"""
             <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.8rem;">
@@ -1280,6 +1185,7 @@ elif st.session_state.stage == "confirm_dish":
                 f"✨ Visual ingredient inspection detected: **{display_name(yolo_suggestion)}**."
             )
 
+        # Pre-select YOLO suggestion if available; otherwise fallback to top CNN prediction
         default_choice = yolo_suggestion if yolo_suggestion else cnn_class
         default_idx = (
             candidates.index(default_choice)
@@ -1292,7 +1198,6 @@ elif st.session_state.stage == "confirm_dish":
             unsafe_allow_html=True,
         )
 
-        # Interactive grid of dish selection chips
         choice = st.radio(
             "Select the matching dish:",
             options=candidates,
@@ -1307,7 +1212,11 @@ elif st.session_state.stage == "confirm_dish":
             st.session_state.stage = "select_portion"
             st.rerun()
 
-# ---------------------------------------------------------------- STAGE: select_portion
+
+# ============================================================================
+# 11. STAGE 3: PORTION SIZE SELECTION
+# ============================================================================
+
 elif st.session_state.stage == "select_portion":
     render_stepper("select_portion", st.session_state.triggered)
 
@@ -1349,7 +1258,11 @@ elif st.session_state.stage == "select_portion":
                 st.session_state.stage = "result"
                 st.rerun()
 
-# ---------------------------------------------------------------- STAGE: result
+
+# ============================================================================
+# 12. STAGE 4: RESULTS & NUTRITION BREAKDOWN
+# ============================================================================
+
 elif st.session_state.stage == "result":
     render_stepper("result", st.session_state.triggered)
 
@@ -1382,6 +1295,7 @@ elif st.session_state.stage == "result":
                 unsafe_allow_html=True,
             )
 
+        # Calorie highlight & macronutrient pills
         render_calorie_hero(lo, hi)
         render_macro_cards(
             nutrition["protein_g"], nutrition["carbs_g"], nutrition["fat_g"]
@@ -1394,6 +1308,7 @@ elif st.session_state.stage == "result":
 
         st.markdown('<div class="gb-divider"></div>', unsafe_allow_html=True)
 
+        # Allow user correction without restarting the session
         with st.expander("Change dish?"):
             all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
             corrected = st.selectbox(
@@ -1407,6 +1322,7 @@ elif st.session_state.stage == "result":
                 st.session_state.tier_used = "User correction"
                 st.rerun()
 
+        # Detailed breakdown of the multi-tier AI inference path
         with st.expander("⚙️ Pipeline Technical Breakdown", expanded=False):
             yolo_row = (
                 f'<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;"><span style="color: var(--gb-muted); font-size: 0.84rem;">YOLOv8 Feature</span><span style="color: #FBF8F1; font-weight: 600; font-size: 0.88rem;">{display_name(st.session_state.yolo_suggestion)}</span></div>'
