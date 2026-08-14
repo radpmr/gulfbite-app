@@ -855,29 +855,29 @@ div[data-testid="stTabs"] [aria-selected="true"] {
 # ============================================================================
 
 def render_header():
-    """Render top header with glowing badge and logo."""
     st.markdown(
-        """<div style="display: flex; align-items: center; gap: 14px; margin-bottom: 0.3rem;">
+        """<div style="display: flex; align-items: center; gap: 16px; margin-bottom: 0.4rem; padding-top: 0.2rem;">
 <div style="
-    background: linear-gradient(135deg, #f5c76f 0%, #E5A93B 60%, #a66d12 100%);
-    width: 48px; height: 48px; border-radius: 14px;
+    background: linear-gradient(145deg, #f7ce7a 0%, #E5A93B 55%, #a66d12 100%);
+    width: 52px; height: 52px; border-radius: 16px;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 18px rgba(229, 169, 59, 0.4);
+    box-shadow: 0 8px 22px rgba(229, 169, 59, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    flex-shrink: 0;
 ">
-    <svg width="26" height="26" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="16" cy="16" r="9" stroke="#120e06" stroke-width="3.5"/>
+    <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="9.5" stroke="#120e06" stroke-width="3.5"/>
         <ellipse cx="13.5" cy="17.5" rx="1.5" ry="2.2" transform="rotate(-25 13.5 17.5)" fill="#120e06"/>
         <ellipse cx="17.5" cy="17.0" rx="1.5" ry="2.2" transform="rotate(15 17.5 17.0)" fill="#120e06"/>
         <ellipse cx="16.0" cy="13.2" rx="1.5" ry="2.2" transform="rotate(-5 16.0 13.2)" fill="#120e06"/>
-        <line x1="22.5" y1="22.5" x2="32" y2="32" stroke="#120e06" stroke-width="4.5" stroke-linecap="round"/>
+        <line x1="23" y1="23" x2="33" y2="33" stroke="#120e06" stroke-width="4.5" stroke-linecap="round"/>
     </svg>
 </div>
-<div>
-    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.1rem; font-weight: 800; color: #FBF8F1; margin: 0; line-height: 1; letter-spacing: -0.03em;">GulfBite</h1>
-    <p style="color: #A39682; font-size: 0.88rem; margin: 4px 0 0 0;">AI Nutrition Insights for Authentic Gulf Cuisine</p>
+<div style="display: flex; flex-direction: column; justify-content: center;">
+    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.25rem; font-weight: 800; color: #FBF8F1; margin: 0; line-height: 1.05; letter-spacing: -0.03em;">GulfBite</h1>
+    <p style="color: #A39682; font-size: 0.88rem; font-weight: 500; margin: 4px 0 0 0; letter-spacing: -0.01em;">AI Nutrition Insights for Authentic Gulf Cuisine</p>
 </div>
 </div>
-<div style="height: 1px; background: linear-gradient(90deg, rgba(229,169,59,0.3) 0%, transparent 100%); margin: 1rem 0 1.4rem 0;"></div>""",
+<div style="height: 1px; background: linear-gradient(90deg, rgba(229,169,59,0.35) 0%, rgba(229,169,59,0.08) 60%, transparent 100%); margin: 1.1rem 0 1.5rem 0;"></div>""",
         unsafe_allow_html=True,
     )
 
