@@ -864,7 +864,7 @@ if st.session_state.stage == "upload":
                     image_to_process, cnn_model, idx_to_class
                 )
 
-                # --- 1. NON-FOOD / UNRECOGNISED CHECK ---
+                # Check for Non-Food / Out of Distribution Image
                 is_non_food = (
                     cnn_confidence < MIN_CONFIDENCE
                     or margin < MIN_MARGIN
@@ -877,7 +877,7 @@ if st.session_state.stage == "upload":
 <div style="font-size: 1.8rem; margin-bottom: 6px;">🍽️❓</div>
 <div style="color: #F87171; font-weight: 700; font-size: 1rem; margin-bottom: 4px;">No Recognised Food Detected</div>
 <div style="color: #A39682; font-size: 0.82rem; line-height: 1.45;">
-This image does not match any of our supported Gulf dishes. Please upload a clearer photo of your meal.
+This photo does not closely match any of the 25 supported dishes. Please upload a clear, well-lit photo of your meal.
 </div>
 </div>""",
                         unsafe_allow_html=True,
@@ -888,7 +888,7 @@ This image does not match any of our supported Gulf dishes. Please upload a clea
                     )
                     st.stop()
 
-                # --- 2. REGULAR PIPELINE ---
+                # Regular Pipeline
                 triggered = (
                     cnn_confidence < CONFIDENCE_THRESHOLD
                     or cnn_class in TRIGGER_SET
@@ -969,35 +969,18 @@ elif st.session_state.stage == "confirm_dish":
             else 0
         )
 
-        # --- ADDED: Include "None of these" option ---
-        candidate_options = list(candidates) + ["none_of_these"]
-
-        def format_dish_option(opt):
-            if opt == "none_of_these":
-                return "❌ None of these / Not a food item"
-            return display_name(opt)
-
+        # Pure candidate meal options only
         choice = st.radio(
             "Select the matching dish:",
-            options=candidate_options,
-            format_func=format_dish_option,
+            options=candidates,
+            format_func=display_name,
             index=default_idx,
         )
 
         st.write("")
-        col_confirm, col_cancel = st.columns([2, 1])
-
-        if col_confirm.button("Confirm Dish", type="primary"):
-            if choice == "none_of_these":
-                st.warning("No valid dish selected. Please retake the photo.")
-                st.button("Try Another Photo", on_click=reset)
-            else:
-                st.session_state.final_dish = choice
-                st.session_state.stage = "select_portion"
-                st.rerun()
-
-        if col_cancel.button("Cancel"):
-            reset()
+        if st.button("Confirm Dish & Continue", type="primary"):
+            st.session_state.final_dish = choice
+            st.session_state.stage = "select_portion"
             st.rerun()
 
 # ---------------------------------------------------------------- STAGE: select_portion
