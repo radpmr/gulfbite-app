@@ -1142,6 +1142,9 @@ if st.session_state.stage == "upload":
             unsafe_allow_html=True,
         )
 
+        # 1. Initialize image_to_process so NameError is impossible
+        image_to_process = None
+
         uploaded = st.file_uploader(
             "Upload a photo of your meal",
             type=["jpg", "jpeg", "png", "heic", "heif"],
@@ -1150,6 +1153,9 @@ if st.session_state.stage == "upload":
 
         if uploaded is not None:
             image_to_process = ImageOps.exif_transpose(Image.open(uploaded))
+
+        # 2. Only run analysis if an image is actively loaded
+        if image_to_process is not None:
             st.session_state.image = image_to_process
             st.image(
                 image_to_process,
@@ -1188,7 +1194,7 @@ Please upload a clear, focused photo of a traditional Gulf dish.
                     )
                     st.stop()
 
-                # Pipeline Decision Flow
+                # Pipeline decision logic
                 triggered = (
                     cnn_confidence < CONFIDENCE_THRESHOLD
                     or cnn_class in TRIGGER_SET
