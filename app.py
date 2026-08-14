@@ -700,6 +700,47 @@ div[data-testid="stRadio"] label span p {
     padding: 10px 14px;
     margin: 10px 0 14px 0;
 }
+
+/* Remove nested borders inside columns */
+div[data-testid="column"] [data-testid="stVerticalBlockBorderWrapper"],
+div[data-testid="column"] > div[data-testid="stVerticalBlock"],
+div[data-testid="column"] > div {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* Single clean portion button tile */
+div[data-testid="column"] button {
+    height: 110px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(180deg, rgba(35, 29, 19, 0.7) 0%, rgba(20, 16, 11, 0.9) 100%) !important;
+    border: 1.5px solid rgba(229, 169, 59, 0.22) !important;
+    border-radius: 16px !important;
+    padding: 12px !important;
+    margin: 0 !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Hover state */
+div[data-testid="column"] button:hover {
+    border-color: #E5A93B !important;
+    background: linear-gradient(180deg, rgba(229, 169, 59, 0.15) 0%, rgba(35, 29, 19, 0.95)) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(229, 169, 59, 0.3) !important;
+}
+
+/* Button text layout */
+div[data-testid="column"] button p {
+    margin: 0 !important;
+    line-height: 1.3 !important;
+    color: #FBF8F1 !important;
+    font-weight: 700 !important;
+}
 </style>""",
         unsafe_allow_html=True,
     )
@@ -1115,23 +1156,34 @@ elif st.session_state.stage == "select_portion":
             caption="Uploaded photo",
             use_column_width=True,
         )
-        
-        st.markdown(f'<div style="font-size: 1.6rem; font-weight: 800; color: #FBF8F1; margin: 0.8rem 0 0.2rem 0;">{display_name(st.session_state.final_dish)}</div>', unsafe_allow_html=True)
-        st.markdown('<p style="color: var(--gb-muted); font-size: 0.86rem; margin-bottom: 1.2rem;">Choose your serving size to calculate authentic nutrition values:</p>', unsafe_allow_html=True)
+
+        st.markdown(
+            f"""
+            <div style="font-size: 1.6rem; font-weight: 800; color: #FBF8F1; margin: 0.8rem 0 0.2rem 0;">
+                {display_name(st.session_state.final_dish)}
+            </div>
+            <p style="color: var(--gb-muted); font-size: 0.86rem; margin-bottom: 1.2rem;">
+                Choose your serving size to calculate authentic nutrition values:
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            if st.button("🌱\nSmall\n(~250g)", key="btn_s", use_container_width=True):
+            if st.button("🌱\n\nSmall\n\n(~250g)", key="btn_s", use_container_width=True):
                 st.session_state.portion_size = "S"
                 st.session_state.stage = "result"
                 st.rerun()
+
         with col2:
-            if st.button("🍽️\nMedium\n(~400g)", key="btn_m", use_container_width=True):
+            if st.button("🍽️\n\nMedium\n\n(~400g)", key="btn_m", use_container_width=True):
                 st.session_state.portion_size = "M"
                 st.session_state.stage = "result"
                 st.rerun()
+
         with col3:
-            if st.button("👑\nLarge\n(~550g)", key="btn_l", use_container_width=True):
+            if st.button("👑\n\nLarge\n\n(~550g)", key="btn_l", use_container_width=True):
                 st.session_state.portion_size = "L"
                 st.session_state.stage = "result"
                 st.rerun()
