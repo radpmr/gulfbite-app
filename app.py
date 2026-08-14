@@ -596,6 +596,60 @@ div.stButton > button[kind="primary"]:hover {
     font-size: 0.95rem;
 }
 [data-testid="stExpander"] summary:hover { color: var(--gb-gold) !important; }
+
+/* --- Modern Portion Card Grid --- */
+.portion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 1rem 0;
+}
+
+/* Remove default wrapper box styling inside columns */
+div[data-testid="column"] > div[data-testid="stVerticalBlock"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* Redesign Portion Buttons into Large Interactive Tiles */
+div[data-testid="column"] div.stButton > button {
+    height: 100px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    background: radial-gradient(circle at 50% 0%, rgba(229, 169, 59, 0.08) 0%, rgba(26, 21, 15, 0.9) 100%) !important;
+    border: 1px solid rgba(229, 169, 59, 0.22) !important;
+    border-radius: 16px !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #FBF8F1 !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+div[data-testid="column"] div.stButton > button:hover {
+    border-color: #E5A93B !important;
+    background: radial-gradient(circle at 50% 0%, rgba(229, 169, 59, 0.2) 0%, rgba(35, 29, 19, 0.95)) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 24px rgba(229, 169, 59, 0.3) !important;
+    color: #E5A93B !important;
+}
+
+/* Pipeline Status Tag */
+.tech-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
 </style>""",
         unsafe_allow_html=True,
     )
@@ -992,29 +1046,26 @@ elif st.session_state.stage == "select_portion":
             caption="Uploaded photo",
             use_column_width=True,
         )
-
-        st.markdown(
-            f'<div style="font-size: 1.5rem; font-weight: 800; color: #F8F5EE; margin-top: 0.6rem;">{display_name(st.session_state.final_dish)}</div>',
-            unsafe_allow_html=True,
-        )
-        st.markdown(
-            '<p class="gb-caption-note">Select your meal portion to calculate macros:</p>',
-            unsafe_allow_html=True,
-        )
+        
+        st.markdown(f'<div style="font-size: 1.6rem; font-weight: 800; color: #FBF8F1; margin: 0.8rem 0 0.2rem 0;">{display_name(st.session_state.final_dish)}</div>', unsafe_allow_html=True)
+        st.markdown('<p style="color: var(--gb-muted); font-size: 0.86rem; margin-bottom: 1.2rem;">Choose your serving size to calculate authentic nutrition values:</p>', unsafe_allow_html=True)
 
         col1, col2, col3 = st.columns(3)
-        if col1.button("🌱 Small", use_container_width=True):
-            st.session_state.portion_size = "S"
-            st.session_state.stage = "result"
-            st.rerun()
-        if col2.button("🍽️ Medium", use_container_width=True):
-            st.session_state.portion_size = "M"
-            st.session_state.stage = "result"
-            st.rerun()
-        if col3.button("👑 Large", use_container_width=True):
-            st.session_state.portion_size = "L"
-            st.session_state.stage = "result"
-            st.rerun()
+        with col1:
+            if st.button("🌱\nSmall\n(~250g)", key="btn_s", use_container_width=True):
+                st.session_state.portion_size = "S"
+                st.session_state.stage = "result"
+                st.rerun()
+        with col2:
+            if st.button("🍽️\nMedium\n(~400g)", key="btn_m", use_container_width=True):
+                st.session_state.portion_size = "M"
+                st.session_state.stage = "result"
+                st.rerun()
+        with col3:
+            if st.button("👑\nLarge\n(~550g)", key="btn_l", use_container_width=True):
+                st.session_state.portion_size = "L"
+                st.session_state.stage = "result"
+                st.rerun()
 
 # ---------------------------------------------------------------- STAGE: result
 elif st.session_state.stage == "result":
@@ -1074,17 +1125,24 @@ elif st.session_state.stage == "result":
                 st.session_state.tier_used = "User correction"
                 st.rerun()
 
-        with st.expander("Pipeline breakdown"):
-            lines = [
-                f"Initial CNN prediction: **{display_name(st.session_state.cnn_class)}** ({st.session_state.cnn_confidence:.0%})"
-            ]
-            if st.session_state.get("yolo_suggestion"):
-                lines.append(
-                    f"YOLOv8 visual feature: **{display_name(st.session_state.yolo_suggestion)}**"
-                )
-            lines.append(f"Confirmed dish: **{display_name(dish)}**")
-            lines.append(f"Decision tier: `{st.session_state.tier_used}`")
-            st.markdown("<br>".join(lines), unsafe_allow_html=True)
+        with st.expander("⚙️ Pipeline Technical Breakdown", expanded=False):
+            st.markdown(f"""
+            <div style="display: flex; flex-direction: column; gap: 10px; padding: 6px 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+                    <span style="color: var(--gb-muted); font-size: 0.84rem;">CNN Classifier</span>
+                    <span style="color: #FBF8F1; font-weight: 600; font-size: 0.88rem;">{display_name(st.session_state.cnn_class)} <span style="color: #E5A93B; font-family: 'JetBrains Mono', monospace;">({st.session_state.cnn_confidence:.0%})</span></span>
+                </div>
+                {"<div style='display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;'><span style='color: var(--gb-muted); font-size: 0.84rem;'>YOLOv8 Feature</span><span style='color: #FBF8F1; font-weight: 600; font-size: 0.88rem;'>" + display_name(st.session_state.yolo_suggestion) + "</span></div>" if st.session_state.get("yolo_suggestion") else ""}
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+                    <span style="color: var(--gb-muted); font-size: 0.84rem;">Confirmed Match</span>
+                    <span style="color: #FBF8F1; font-weight: 700; font-size: 0.88rem;">{display_name(dish)}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 2px;">
+                    <span style="color: var(--gb-muted); font-size: 0.84rem;">Execution Path</span>
+                    <span class="tech-pill">{st.session_state.tier_used}</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
     st.write("")
     st.button("📸 Analyze Another Photo", on_click=reset)
