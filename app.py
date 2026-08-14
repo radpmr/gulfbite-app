@@ -650,6 +650,56 @@ div[data-testid="column"] div.stButton > button:hover {
     color: #4ade80;
     border: 1px solid rgba(34, 197, 94, 0.3);
 }
+
+/* --- Interactive Dish Selection Cards --- */
+div[data-testid="stRadio"] > div {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+    gap: 10px !important;
+    margin: 10px 0 16px 0 !important;
+}
+
+div[data-testid="stRadio"] label {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1.5px solid rgba(229, 169, 59, 0.18) !important;
+    border-radius: 14px !important;
+    padding: 12px 14px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+/* Hover Effect */
+div[data-testid="stRadio"] label:hover {
+    border-color: #E5A93B !important;
+    background: rgba(229, 169, 59, 0.08) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 18px rgba(229, 169, 59, 0.2) !important;
+}
+
+/* Radio Text Typography */
+div[data-testid="stRadio"] label span p {
+    font-size: 0.92rem !important;
+    font-weight: 600 !important;
+    color: #FBF8F1 !important;
+    margin: 0 !important;
+}
+
+/* Custom Verification Callout */
+.verify-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(229, 169, 59, 0.06);
+    border: 1px solid rgba(229, 169, 59, 0.2);
+    border-left: 3.5px solid #E5A93B;
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin: 10px 0 14px 0;
+}
 </style>""",
         unsafe_allow_html=True,
     )
@@ -997,22 +1047,35 @@ elif st.session_state.stage == "confirm_dish":
         candidates = st.session_state.candidates
         yolo_suggestion = st.session_state.yolo_suggestion
 
+        # Hero match title with badge
         st.markdown(
-            f'<div style="font-size: 1.25rem; font-weight: 700; color: #F8F5EE; margin-top: 0.5rem;">Initial Match: {display_name(cnn_class)}</div>',
+            f"""
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.8rem;">
+                <div style="font-size: 1.45rem; font-weight: 800; color: #FBF8F1; letter-spacing: -0.02em;">
+                    Initial Match: <span style="color: #E5A93B;">{display_name(cnn_class)}</span>
+                </div>
+            </div>
+            """,
             unsafe_allow_html=True,
         )
+
         render_confidence_bar(cnn_conf)
 
         reason = get_group_reason(cnn_class)
         if reason:
             st.markdown(
-                f'<p class="gb-caption-note">{reason}</p>',
+                f"""
+                <div class="verify-callout">
+                    <span style="font-size: 1.1rem; line-height: 1;">🔍</span>
+                    <span style="color: #A39682; font-size: 0.84rem; line-height: 1.4;">{reason}</span>
+                </div>
+                """,
                 unsafe_allow_html=True,
             )
 
         if yolo_suggestion:
             st.info(
-                f"Ingredient visual analysis points towards: **{display_name(yolo_suggestion)}**."
+                f"✨ Visual ingredient inspection detected: **{display_name(yolo_suggestion)}**."
             )
 
         default_choice = yolo_suggestion if yolo_suggestion else cnn_class
@@ -1022,16 +1085,22 @@ elif st.session_state.stage == "confirm_dish":
             else 0
         )
 
-        # Pure candidate meal options only
+        st.markdown(
+            '<p style="font-size: 0.85rem; font-weight: 700; color: #FBF8F1; margin: 12px 0 4px 0;">Select your matching dish:</p>',
+            unsafe_allow_html=True,
+        )
+
+        # Interactive grid of dish selection chips
         choice = st.radio(
             "Select the matching dish:",
             options=candidates,
-            format_func=display_name,
+            format_func=lambda x: f"🍲 {display_name(x)}",
             index=default_idx,
+            label_visibility="collapsed",
         )
 
         st.write("")
-        if st.button("Confirm Dish & Continue", type="primary"):
+        if st.button("Confirm Dish & Continue →", type="primary"):
             st.session_state.final_dish = choice
             st.session_state.stage = "select_portion"
             st.rerun()
