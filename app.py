@@ -52,11 +52,11 @@ TRIGGER_SET = {
     "06_saloona",
 }
 WRAP_TRIGGER_SET = {"10_shawarma", "11_falafel_wrap"}
-MIN_CONFIDENCE = 0.50  # Must be at least 50% confident
-MIN_MARGIN = 0.15  # Top class must beat 2nd class by at least 15%
-MAX_ENTROPY = (
-    2.50  # If entropy is higher than 2.5, predictions are too diffuse
-)
+# Confidence thresholds
+CONFIDENCE_THRESHOLD = 0.70  # Standard high-confidence threshold
+MIN_CONFIDENCE = 0.45  # Minimum top-1 probability for food
+MIN_MARGIN = 0.12  # Difference between 1st and 2nd class
+MAX_ENTROPY = 2.60  # Maximum entropy allowed for a food match
 
 YOLO_FEATURE_MAP = {
     "01_machboos": "loomi",
