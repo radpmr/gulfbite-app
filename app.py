@@ -741,6 +741,36 @@ div[data-testid="column"] button p {
     color: #FBF8F1 !important;
     font-weight: 700 !important;
 }
+
+/* --- Sleek Tab Bar Styling --- */
+div[data-testid="stTabs"] {
+    background: transparent !important;
+}
+
+div[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    gap: 8px !important;
+    background: rgba(20, 16, 11, 0.7) !important;
+    border: 1px solid rgba(229, 169, 59, 0.15) !important;
+    border-radius: 14px !important;
+    padding: 4px !important;
+}
+
+div[data-testid="stTabs"] [data-baseweb="tab"] {
+    height: 42px !important;
+    border-radius: 10px !important;
+    color: var(--gb-muted) !important;
+    font-weight: 600 !important;
+    font-size: 0.88rem !important;
+    border: none !important;
+    background: transparent !important;
+    transition: all 0.2s ease !important;
+}
+
+div[data-testid="stTabs"] [aria-selected="true"] {
+    background: rgba(229, 169, 59, 0.15) !important;
+    color: #E5A93B !important;
+    border: 1px solid rgba(229, 169, 59, 0.3) !important;
+}
 </style>""",
         unsafe_allow_html=True,
     )
