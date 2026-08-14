@@ -268,7 +268,12 @@ DISH_CATEGORIES = {
 
 
 def render_interactive_dish_explorer():
-    # Category filter using horizontal radio (compatible with all Streamlit versions)
+    st.markdown(
+        '<p style="font-size: 0.82rem; font-weight: 600; color: var(--gb-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">Categories</p>',
+        unsafe_allow_html=True,
+    )
+
+    st.markdown('<div class="category-radio">', unsafe_allow_html=True)
     selected_category = st.radio(
         "Filter by category:",
         options=list(DISH_CATEGORIES.keys()),
@@ -276,15 +281,18 @@ def render_interactive_dish_explorer():
         horizontal=True,
         label_visibility="collapsed",
     )
+    st.markdown('</div>', unsafe_allow_html=True)
 
     if not selected_category:
         selected_category = "🍚 Rice & Feasts"
 
     category_dishes = DISH_CATEGORIES[selected_category]
 
-    st.markdown("<div style='margin-top: 8px;'></div>", unsafe_allow_html=True)
+    st.markdown(
+        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.82rem; font-weight: 600; color: var(--gb-muted); text-transform: uppercase; letter-spacing: 0.05em;">Select Dish</div>',
+        unsafe_allow_html=True,
+    )
 
-    # Dish selector within chosen category
     selected_dish = st.selectbox(
         "Choose a dish to explore:",
         options=category_dishes,
@@ -296,10 +304,18 @@ def render_interactive_dish_explorer():
     if selected_dish:
         blurb = DISH_BLURBS.get(selected_dish, "")
         st.markdown(
-            f"""<div style="background: rgba(229, 169, 59, 0.06); border: 1px solid rgba(229, 169, 59, 0.25); border-left: 4px solid #E5A93B; border-radius: 12px; padding: 12px 16px; margin-top: 10px;">
-<div style="font-weight: 700; color: #F8F5EE; font-size: 1rem; margin-bottom: 3px;">{display_name(selected_dish)}</div>
-<div style="color: #A39682; font-size: 0.84rem; line-height: 1.4;">{blurb}</div>
-</div>""",
+            f"""<div style="
+                background: linear-gradient(135deg, rgba(229, 169, 59, 0.08) 0%, rgba(20, 16, 11, 0.5) 100%);
+                border: 1px solid rgba(229, 169, 59, 0.25);
+                border-left: 4px solid #E5A93B;
+                border-radius: 14px;
+                padding: 14px 16px;
+                margin-top: 10px;
+                box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            ">
+                <div style="font-weight: 800; color: #FBF8F1; font-size: 1.05rem; margin-bottom: 4px;">{display_name(selected_dish)}</div>
+                <div style="color: #A39682; font-size: 0.84rem; line-height: 1.45;">{blurb}</div>
+            </div>""",
             unsafe_allow_html=True,
         )
 
@@ -771,6 +787,79 @@ div[data-testid="stTabs"] [aria-selected="true"] {
     color: #E5A93B !important;
     border: 1px solid rgba(229, 169, 59, 0.3) !important;
 }
+
+/* --- 1. Clean Modern Tabs (Pill style) --- */
+div[data-testid="stTabs"] {
+    background: transparent !important;
+    margin-bottom: 1rem !important;
+}
+
+div[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    background: rgba(22, 18, 12, 0.9) !important;
+    border: 1px solid rgba(229, 169, 59, 0.22) !important;
+    border-radius: 14px !important;
+    padding: 4px !important;
+    gap: 6px !important;
+}
+
+div[data-testid="stTabs"] [data-baseweb="tab-border"] {
+    display: none !important; /* Removes default orange bottom line */
+}
+
+div[data-testid="stTabs"] [data-baseweb="tab"] {
+    border-radius: 10px !important;
+    height: 38px !important;
+    padding: 0 16px !important;
+    color: var(--gb-muted) !important;
+    font-weight: 600 !important;
+    font-size: 0.86rem !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    transition: all 0.2s ease !important;
+}
+
+div[data-testid="stTabs"] [aria-selected="true"] {
+    background: linear-gradient(135deg, rgba(229, 169, 59, 0.2) 0%, rgba(229, 169, 59, 0.08) 100%) !important;
+    color: #FBF8F1 !important;
+    border: 1px solid rgba(229, 169, 59, 0.35) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* --- 2. Remove Nested Column/Block Borders inside Explorer --- */
+div[data-testid="stTabs"] [data-testid="stVerticalBlockBorderWrapper"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* --- 3. Compact Horizontal Category Chips --- */
+.category-radio div[data-testid="stRadio"] > div {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+}
+
+.category-radio div[data-testid="stRadio"] label {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(229, 169, 59, 0.2) !important;
+    border-radius: 999px !important;
+    padding: 6px 14px !important;
+    margin: 0 !important;
+    min-width: auto !important;
+    height: auto !important;
+}
+
+.category-radio div[data-testid="stRadio"] label:hover {
+    border-color: #E5A93B !important;
+    background: rgba(229, 169, 59, 0.1) !important;
+}
+
+.category-radio div[data-testid="stRadio"] label span p {
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+}
 </style>""",
         unsafe_allow_html=True,
     )
@@ -964,40 +1053,17 @@ def reset():
         del st.session_state[key]
 
 
+# --- 🔴 REMOVE / REPLACE STARTING HERE ---
 render_header()
 
 import textwrap
 
-# Replace the two with st.expander(...) blocks with this:
+with st.expander("✨ How GulfBite works", expanded=False):
+    ...
 
-guide_tab, dishes_tab = st.tabs(["✨ How It Works", "🍲 Supported Dishes (25)"])
-
-with guide_tab:
-    st.markdown(
-        """<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 10px 0 6px 0;">
-<div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(229, 169, 59, 0.2); border-top: 3px solid #E5A93B; border-radius: 14px; padding: 14px 10px; text-align: center;">
-    <div style="font-size: 1.6rem; margin-bottom: 6px;">📸</div>
-    <div style="color: #F8F5EE; font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">1. Snap Meal</div>
-    <div style="color: #A39682; font-size: 0.76rem; line-height: 1.35;">Upload a photo of your traditional Gulf plate.</div>
-</div>
-<div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(229, 169, 59, 0.2); border-top: 3px solid #E5A93B; border-radius: 14px; padding: 14px 10px; text-align: center;">
-    <div style="font-size: 1.6rem; margin-bottom: 6px;">🔍</div>
-    <div style="color: #F8F5EE; font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">2. AI Check</div>
-    <div style="color: #A39682; font-size: 0.76rem; line-height: 1.35;">If dishes look similar, we double-check with you.</div>
-</div>
-<div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(229, 169, 59, 0.2); border-top: 3px solid #E5A93B; border-radius: 14px; padding: 14px 10px; text-align: center;">
-    <div style="font-size: 1.6rem; margin-bottom: 6px;">⚖️</div>
-    <div style="color: #F8F5EE; font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">3. Honest Range</div>
-    <div style="color: #A39682; font-size: 0.76rem; line-height: 1.35;">Real nutrition ranges from authentic ingredients.</div>
-</div>
-</div>""",
-        unsafe_allow_html=True,
-    )
-
-with dishes_tab:
+with st.expander("🍲 Explore Recognised Dishes (25)", expanded=False):
     render_interactive_dish_explorer()
-
-st.markdown("<div style='margin-bottom: 1.5rem;'></div>", unsafe_allow_html=True)
+# --- 🔴 REMOVE / REPLACE ENDING HERE ---
 
 try:
     cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()
