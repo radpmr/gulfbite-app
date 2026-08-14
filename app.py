@@ -845,34 +845,17 @@ if st.session_state.stage == "upload":
     render_stepper("upload", st.session_state.triggered)
 
     with st.container(border=True):
-        tab_upload, tab_camera = st.tabs(["📁 Upload File", "📷 Snap Photo"])
+        uploaded = st.file_uploader(
+            "Upload a photo of your meal",
+            type=["jpg", "jpeg", "png", "heic", "heif"],
+        )
 
-        image_to_process = None
-
-        with tab_upload:
-            uploaded = st.file_uploader(
-                "Upload a photo of your meal",
-                type=["jpg", "jpeg", "png", "heic", "heif"],
-                label_visibility="collapsed",
-            )
-            if uploaded is not None:
-                image_to_process = ImageOps.exif_transpose(Image.open(uploaded))
-
-        with tab_camera:
-            camera_photo = st.camera_input(
-                "Take a photo of your meal",
-                label_visibility="collapsed",
-            )
-            if camera_photo is not None:
-                image_to_process = ImageOps.exif_transpose(
-                    Image.open(camera_photo)
-                )
-
-        if image_to_process is not None:
+        if uploaded is not None:
+            image_to_process = ImageOps.exif_transpose(Image.open(uploaded))
             st.session_state.image = image_to_process
             st.image(
                 image_to_process,
-                caption="Captured photo",
+                caption="Uploaded photo",
                 use_column_width=True,
             )
 
@@ -894,7 +877,7 @@ if st.session_state.stage == "upload":
 <div style="font-size: 1.8rem; margin-bottom: 6px;">🍽️❓</div>
 <div style="color: #F87171; font-weight: 700; font-size: 1rem; margin-bottom: 4px;">No Recognised Food Detected</div>
 <div style="color: #A39682; font-size: 0.82rem; line-height: 1.45;">
-This image does not match any of our supported Gulf dishes. Please point your camera directly at the plate with good lighting.
+This image does not match any of our supported Gulf dishes. Please upload a clearer photo of your meal.
 </div>
 </div>""",
                         unsafe_allow_html=True,
