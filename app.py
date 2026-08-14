@@ -784,6 +784,67 @@ div[data-testid="stRadio"] label[data-baseweb="radio"] p {
     margin: 0 !important;
     white-space: nowrap !important;
 }
+
+/* ==========================================================================
+   POLISH REFINEMENTS
+   ========================================================================== */
+
+/* 1. Step Stepper Alignment: Full card width alignment & smooth tracks */
+.stepper-container {
+    width: 100% !important;
+    padding: 0 6px !important;
+    margin: 0.8rem 0 1.6rem 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* 2. Tab Contrast: Enhanced active tab prominence & sleek muted state */
+div[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    background: rgba(18, 14, 9, 0.95) !important;
+    border: 1px solid rgba(229, 169, 59, 0.18) !important;
+}
+
+div[data-testid="stTabs"] [data-baseweb="tab"] {
+    color: #7D7261 !important; /* Higher contrast muted text */
+    opacity: 0.85;
+}
+
+div[data-testid="stTabs"] [data-baseweb="tab"]:hover {
+    color: #C2B6A3 !important;
+    opacity: 1;
+}
+
+div[data-testid="stTabs"] [aria-selected="true"] {
+    background: linear-gradient(135deg, rgba(229, 169, 59, 0.28) 0%, rgba(229, 169, 59, 0.12) 100%) !important;
+    color: #FFFDF9 !important;
+    border: 1px solid #E5A93B !important;
+    box-shadow: 0 0 14px rgba(229, 169, 59, 0.25) !important;
+    opacity: 1 !important;
+}
+
+/* 3. Dropzone & Button Glow: Polished primary call-to-action */
+[data-testid="stFileUploaderDropzone"] {
+    border: 1.5px dashed rgba(229, 169, 59, 0.35) !important;
+    background: radial-gradient(circle at 50% 40%, rgba(229, 169, 59, 0.07) 0%, rgba(18, 14, 9, 0.85) 100%) !important;
+}
+
+[data-testid="stFileUploaderDropzone"]:hover {
+    border-color: #E5A93B !important;
+    box-shadow: 0 0 24px rgba(229, 169, 59, 0.2) !important;
+}
+
+[data-testid="stFileUploader"] button {
+    background: linear-gradient(135deg, rgba(229, 169, 59, 0.18) 0%, rgba(229, 169, 59, 0.08) 100%) !important;
+    border: 1px solid #E5A93B !important;
+    color: #FBF8F1 !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 10px rgba(229, 169, 59, 0.15) !important;
+}
+
+[data-testid="stFileUploader"] button:hover {
+    background: #E5A93B !important;
+    color: #120E06 !important;
+    box-shadow: 0 6px 20px rgba(229, 169, 59, 0.45) !important;
+    transform: translateY(-1px);
+}
 </style>""",
         unsafe_allow_html=True,
     )
@@ -871,7 +932,6 @@ def render_interactive_dish_explorer():
 
 
 def render_stepper(current_stage: str, triggered: bool):
-    """Render numbered pipeline steps indicator."""
     steps = [("upload", "Upload photo")]
     if triggered:
         steps.append(("confirm_dish", "Confirm dish"))
@@ -882,7 +942,7 @@ def render_stepper(current_stage: str, triggered: bool):
     active_idx = keys.index(current_stage) if current_stage in keys else 0
 
     html = [
-        '<div style="display: flex; align-items: center; justify-content: space-between; margin: 0.2rem 0 1.4rem 0; padding: 0 4px;">'
+        '<div class="stepper-container" style="display: flex; align-items: center; justify-content: space-between;">'
     ]
     for i, (key, label) in enumerate(steps):
         is_done = i < active_idx
@@ -890,7 +950,7 @@ def render_stepper(current_stage: str, triggered: bool):
 
         bg = (
             "linear-gradient(135deg, #f5c76f 0%, #E5A93B 100%)"
-            if is_done or is_active
+            if (is_done or is_active)
             else "rgba(255,255,255,0.04)"
         )
         border = (
@@ -902,12 +962,12 @@ def render_stepper(current_stage: str, triggered: bool):
         text_color = "#FBF8F1" if (is_done or is_active) else "#6e6454"
         font_weight = "700" if is_active else ("600" if is_done else "400")
         glow = (
-            "box-shadow: 0 0 12px rgba(229, 169, 59, 0.45);"
+            "box-shadow: 0 0 14px rgba(229, 169, 59, 0.45);"
             if is_active
             else ""
         )
 
-        html.append(f"""<div style="display: flex; align-items: center; gap: 8px;">
+        html.append(f"""<div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
 <div style="width: 26px; height: 26px; border-radius: 50%; background: {bg}; border: 1.5px solid {border}; color: {color}; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; {glow}">{i + 1}</div>
 <span style="font-family: 'Outfit', sans-serif; color: {text_color}; font-weight: {font_weight}; font-size: 0.85rem;">{label}</span>
 </div>""")
@@ -918,7 +978,7 @@ def render_stepper(current_stage: str, triggered: bool):
                 else "rgba(255, 255, 255, 0.08)"
             )
             html.append(
-                f'<div style="flex: 1; height: 2px; background: {line_color}; margin: 0 10px; border-radius: 1px;"></div>'
+                f'<div style="flex: 1; min-width: 16px; height: 2px; background: {line_color}; margin: 0 10px; border-radius: 1px;"></div>'
             )
 
     html.append("</div>")
