@@ -54,9 +54,11 @@ TRIGGER_SET = {
 WRAP_TRIGGER_SET = {"10_shawarma", "11_falafel_wrap"}
 # Confidence thresholds
 CONFIDENCE_THRESHOLD = 0.70  # Standard high-confidence threshold
-MIN_CONFIDENCE = 0.45  # Minimum top-1 probability for food
-MIN_MARGIN = 0.12  # Difference between 1st and 2nd class
-MAX_ENTROPY = 2.60  # Maximum entropy allowed for a food match
+MIN_CONFIDENCE = 0.50  # Must be at least 50% confident
+MIN_MARGIN = 0.15  # Top class must beat 2nd class by at least 15%
+MAX_ENTROPY = (
+    2.50  # If entropy is higher than 2.5, predictions are too diffuse
+)
 
 YOLO_FEATURE_MAP = {
     "01_machboos": "loomi",
@@ -984,17 +986,35 @@ elif st.session_state.stage == "confirm_dish":
             else 0
         )
 
+        # --- ADDED: Include "None of these" option ---
+        candidate_options = list(candidates) + ["none_of_these"]
+
+        def format_dish_option(opt):
+            if opt == "none_of_these":
+                return "❌ None of these / Not a food item"
+            return display_name(opt)
+
         choice = st.radio(
             "Select the matching dish:",
-            options=candidates,
-            format_func=display_name,
+            options=candidate_options,
+            format_func=format_dish_option,
             index=default_idx,
         )
 
         st.write("")
-        if st.button("Confirm Dish & Continue", type="primary"):
-            st.session_state.final_dish = choice
-            st.session_state.stage = "select_portion"
+        col_confirm, col_cancel = st.columns([2, 1])
+
+        if col_confirm.button("Confirm Dish", type="primary"):
+            if choice == "none_of_these":
+                st.warning("No valid dish selected. Please retake the photo.")
+                st.button("Try Another Photo", on_click=reset)
+            else:
+                st.session_state.final_dish = choice
+                st.session_state.stage = "select_portion"
+                st.rerun()
+
+        if col_cancel.button("Cancel"):
+            reset()
             st.rerun()
 
 # ---------------------------------------------------------------- STAGE: select_portion
