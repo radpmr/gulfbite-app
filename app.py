@@ -797,7 +797,6 @@ except FileNotFoundError as e:
     st.stop()
 
 # ---------------------------------------------------------------- STAGE: upload
-# ---------------------------------------------------------------- STAGE: upload
 if st.session_state.stage == "upload":
     render_stepper("upload", st.session_state.triggered)
 
@@ -827,7 +826,6 @@ if st.session_state.stage == "upload":
                 unsafe_allow_html=True,
             )
 
-            # Sample dish options mapped to your project's class names
             sample_options = {
                 "02_kabsa": "🍗 Kabsa (Chicken & Spiced Rice)",
                 "20_balaleet": "🍳 Balaleet (Sweet Vermicelli & Omelette)",
@@ -841,12 +839,10 @@ if st.session_state.stage == "upload":
                 label_visibility="collapsed",
             )
 
-            # Look for a local sample image or create a sample placeholder
             sample_path = os.path.join("samples", f"{sample_dish_key}.jpg")
             if os.path.exists(sample_path):
                 sample_img = Image.open(sample_path)
             else:
-                # Fallback clean placeholder canvas if sample files aren't in folder
                 sample_img = Image.new("RGB", (224, 224), color=(42, 35, 19))
 
             if st.button("🚀 Analyze Sample Dish", type="primary"):
@@ -858,7 +854,7 @@ if st.session_state.stage == "upload":
             st.image(
                 image_to_process,
                 caption="Selected photo",
-                use_container_width=True,
+                use_column_width=True,
             )
 
             with st.spinner("Analyzing cuisine & ingredients..."):
