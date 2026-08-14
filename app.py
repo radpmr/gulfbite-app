@@ -1309,29 +1309,34 @@ elif st.session_state.stage == "result":
         st.markdown('<div class="gb-divider"></div>', unsafe_allow_html=True)
 
         # Allow user correction without restarting the session
-        with st.expander("Change dish?"):
-            all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
-            corrected = st.selectbox(
-                "Select correct dish:",
-                options=all_dishes,
-                format_func=display_name,
-                index=all_dishes.index(dish) if dish in all_dishes else 0,
-            )
-            if st.button("Update Dish", type="primary"):
-                st.session_state.final_dish = corrected
-                st.session_state.tier_used = "User correction"
-                st.rerun()
-
         # Detailed breakdown of the multi-tier AI inference path
-        with st.expander("⚙️ Pipeline Technical Breakdown", expanded=False):
-            yolo_row = (
-                f'<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;"><span style="color: var(--gb-muted); font-size: 0.84rem;">YOLOv8 Feature</span><span style="color: #FBF8F1; font-weight: 600; font-size: 0.88rem;">{display_name(st.session_state.yolo_suggestion)}</span></div>'
-                if st.session_state.get("yolo_suggestion")
-                else ""
-            )
+        st.markdown('<div class="gb-divider"></div>', unsafe_allow_html=True)
 
-            st.markdown(
-                f"""<div style="display: flex; flex-direction: column; gap: 10px; padding: 6px 0;">
+tab_correct, tab_tech = st.tabs(["✏️ Change Dish", "⚙️ Pipeline Breakdown"])
+
+with tab_correct:
+    all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
+    corrected = st.selectbox(
+        "Select correct dish:",
+        options=all_dishes,
+        format_func=display_name,
+        index=all_dishes.index(dish) if dish in all_dishes else 0,
+        label_visibility="collapsed"
+    )
+    if st.button("Update Dish", type="primary", use_container_width=True):
+        st.session_state.final_dish = corrected
+        st.session_state.tier_used = "User correction"
+        st.rerun()
+
+with tab_tech:
+    yolo_row = (
+        f'<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;"><span style="color: var(--gb-muted); font-size: 0.84rem;">YOLOv8 Feature</span><span style="color: #FBF8F1; font-weight: 600; font-size: 0.88rem;">{display_name(st.session_state.yolo_suggestion)}</span></div>'
+        if st.session_state.get("yolo_suggestion")
+        else ""
+    )
+
+    st.markdown(
+        f"""<div style="display: flex; flex-direction: column; gap: 10px; padding: 6px 0;">
 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
 <span style="color: var(--gb-muted); font-size: 0.84rem;">CNN Classifier</span>
 <span style="color: #FBF8F1; font-weight: 600; font-size: 0.88rem;">{display_name(st.session_state.cnn_class)} <span style="color: #E5A93B; font-family: 'JetBrains Mono', monospace;">({st.session_state.cnn_confidence:.0%})</span></span>
@@ -1346,8 +1351,8 @@ elif st.session_state.stage == "result":
 <span class="tech-pill">{st.session_state.tier_used}</span>
 </div>
 </div>""",
-                unsafe_allow_html=True,
-            )
+        unsafe_allow_html=True,
+    )
 
     st.write("")
     st.button("📸 Analyze Another Photo", on_click=reset)
