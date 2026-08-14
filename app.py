@@ -268,20 +268,15 @@ DISH_CATEGORIES = {
 
 
 def render_interactive_dish_explorer():
-    st.markdown(
-        '<p style="font-size: 0.82rem; font-weight: 600; color: var(--gb-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">Categories</p>',
-        unsafe_allow_html=True,
-    )
-
-    st.markdown('<div class="category-radio">', unsafe_allow_html=True)
+    st.markdown('<div class="category-pill-container">', unsafe_allow_html=True)
     selected_category = st.radio(
         "Filter by category:",
         options=list(DISH_CATEGORIES.keys()),
         index=0,
         horizontal=True,
-        label_visibility="collapsed",
+        label_visibility="collapsed"
     )
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     if not selected_category:
         selected_category = "🍚 Rice & Feasts"
@@ -289,8 +284,8 @@ def render_interactive_dish_explorer():
     category_dishes = DISH_CATEGORIES[selected_category]
 
     st.markdown(
-        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.82rem; font-weight: 600; color: var(--gb-muted); text-transform: uppercase; letter-spacing: 0.05em;">Select Dish</div>',
-        unsafe_allow_html=True,
+        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.8rem; font-weight: 700; color: #A39682; text-transform: uppercase; letter-spacing: 0.05em;">Select Dish</div>', 
+        unsafe_allow_html=True
     )
 
     selected_dish = st.selectbox(
@@ -298,25 +293,25 @@ def render_interactive_dish_explorer():
         options=category_dishes,
         format_func=display_name,
         index=0,
-        label_visibility="collapsed",
+        label_visibility="collapsed"
     )
 
     if selected_dish:
         blurb = DISH_BLURBS.get(selected_dish, "")
         st.markdown(
             f"""<div style="
-                background: linear-gradient(135deg, rgba(229, 169, 59, 0.08) 0%, rgba(20, 16, 11, 0.5) 100%);
+                background: linear-gradient(135deg, rgba(229, 169, 59, 0.08) 0%, rgba(20, 16, 11, 0.6) 100%);
                 border: 1px solid rgba(229, 169, 59, 0.25);
                 border-left: 4px solid #E5A93B;
                 border-radius: 14px;
                 padding: 14px 16px;
                 margin-top: 10px;
-                box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+                box-shadow: 0 4px 14px rgba(0,0,0,0.3);
             ">
                 <div style="font-weight: 800; color: #FBF8F1; font-size: 1.05rem; margin-bottom: 4px;">{display_name(selected_dish)}</div>
                 <div style="color: #A39682; font-size: 0.84rem; line-height: 1.45;">{blurb}</div>
             </div>""",
-            unsafe_allow_html=True,
+            unsafe_allow_html=True
         )
 
 def get_candidate_group(cnn_class: str) -> set:
@@ -859,6 +854,51 @@ div[data-testid="stTabs"] [data-testid="stVerticalBlockBorderWrapper"] {
     font-size: 0.82rem !important;
     font-weight: 600 !important;
     white-space: nowrap !important;
+}
+
+/* --- Fix: Scoped Horizontal Category Filter Pills --- */
+.category-pill-container div[data-testid="stRadio"] {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.category-pill-container div[data-testid="stRadio"] > div {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.category-pill-container div[data-testid="stRadio"] label {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(229, 169, 59, 0.2) !important;
+    border-radius: 999px !important;
+    padding: 6px 14px !important;
+    margin: 0 !important;
+    min-width: auto !important;
+    height: auto !important;
+    width: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+}
+
+.category-pill-container div[data-testid="stRadio"] label:hover {
+    border-color: #E5A93B !important;
+    background: rgba(229, 169, 59, 0.12) !important;
+    transform: translateY(-1px);
+}
+
+.category-pill-container div[data-testid="stRadio"] label span p {
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    color: #FBF8F1 !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
 }
 </style>""",
         unsafe_allow_html=True,
