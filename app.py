@@ -430,7 +430,7 @@ html, body, [class*="css"] {
     color: var(--text-dark);
 }
 
-/* Warm Mobile Screen Backdrop */
+/* Backdrop */
 .stApp { 
     background-color: var(--app-bg);
     background-image: 
@@ -492,7 +492,7 @@ div[data-testid="stTabs"] [aria-selected="true"] {
     box-shadow: 0 3px 12px rgba(0,0,0,0.08) !important;
 }
 
-/* --- Category Capsule Filter Pills (Overrides Streamlit Radio Dots) --- */
+/* --- Category Capsule Filter Pills --- */
 div[data-testid="stRadio"] > div[role="radiogroup"] {
     display: flex !important;
     flex-direction: row !important;
@@ -518,7 +518,6 @@ div[data-testid="stRadio"] label[data-baseweb="radio"] {
     width: auto !important;
 }
 
-/* Hide default radio circle and sub-div elements completely */
 div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
     display: none !important;
 }
@@ -634,7 +633,14 @@ div.stButton > button[kind="primary"]:hover {
     transform: translateY(-2px);
 }
 
-/* Portion Selection Tiles */
+/* --- Responsive Portion Selection Grid --- */
+.portion-grid {
+    display: flex;
+    gap: 8px;
+    margin: 1rem 0;
+    width: 100%;
+}
+
 div[data-testid="column"] [data-testid="stVerticalBlockBorderWrapper"],
 div[data-testid="column"] > div[data-testid="stVerticalBlock"],
 div[data-testid="column"] > div {
@@ -644,31 +650,36 @@ div[data-testid="column"] > div {
     padding: 0 !important;
 }
 
-div[data-testid="column"] button {
-    height: 105px !important;
+/* Custom Portion Card Buttons */
+.portion-col button {
+    height: 90px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     background: #FAF8F3 !important;
     border: 1.5px solid #EBE2CF !important;
-    border-radius: 22px !important;
-    padding: 12px !important;
+    border-radius: 20px !important;
+    padding: 6px 4px !important;
     margin: 0 !important;
+    white-space: nowrap !important;
     transition: all 0.2s ease !important;
 }
 
-div[data-testid="column"] button:hover {
+.portion-col button:hover {
     border-color: var(--gold-primary) !important;
     background: #FDF8EE !important;
-    box-shadow: 0 8px 20px rgba(229, 169, 59, 0.18) !important;
+    box-shadow: 0 6px 16px rgba(229, 169, 59, 0.18) !important;
     transform: translateY(-2px);
 }
 
-div[data-testid="column"] button p {
+.portion-col button p {
     color: var(--text-dark) !important;
     font-weight: 700 !important;
     margin: 0 !important;
+    white-space: nowrap !important;
+    font-size: 0.8rem !important;
+    line-height: 1.3 !important;
 }
 
 /* Verification Alert Callout */
@@ -682,6 +693,20 @@ div[data-testid="column"] button p {
     border-radius: 16px;
     padding: 12px 14px;
     margin: 12px 0 16px 0;
+}
+
+.ingredient-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #FDF9EE 0%, #FAF2DC 100%);
+    border: 1px solid #EFE0BD;
+    border-radius: 16px;
+    padding: 10px 14px;
+    margin: 8px 0 12px 0;
+    color: #1E1B16;
+    font-size: 0.86rem;
+    font-weight: 600;
 }
 
 .tech-pill {
@@ -797,32 +822,30 @@ def render_calorie_hero(lo: int, hi: int):
 
 
 def render_macro_cards(protein_g, carbs_g, fat_g):
-    """Render 4-tile nutritional micro-chips."""
-    col1, col2, col3, col4 = st.columns(4)
+    """Render 4 responsive macro micro-cards without column squishing."""
     fiber_estimate = round(carbs_g * 0.12, 1)
-
-    metrics = [
-        ("🤍 Protein", f"{protein_g}g", col1),
-        ("🌾 Carbs", f"{carbs_g}g", col2),
-        ("🧈 Fat", f"{fat_g}g", col3),
-        ("🍃 Fiber", f"{fiber_estimate}g", col4),
-    ]
-
-    for label, val, col in metrics:
-        with col:
-            st.markdown(
-                f"""<div style="
-                    background: #FAF8F3;
-                    border: 1px solid #EBE2CF;
-                    border-radius: 18px;
-                    padding: 0.75rem 0.4rem;
-                    text-align: center;
-                ">
-                    <div style="font-size: 0.72rem; font-weight: 700; color: #8F887C; margin-bottom: 4px;">{label}</div>
-                    <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.15rem; font-weight: 800;">{val}</div>
-                </div>""",
-                unsafe_allow_html=True,
-            )
+    
+    st.markdown(
+        f"""<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 0.8rem 0 1.2rem 0;">
+    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 10px 4px; text-align: center;">
+        <div style="font-size: 0.72rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🤍 Protein</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.15rem; font-weight: 800;">{protein_g}g</div>
+    </div>
+    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 10px 4px; text-align: center;">
+        <div style="font-size: 0.72rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🌾 Carbs</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.15rem; font-weight: 800;">{carbs_g}g</div>
+    </div>
+    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 10px 4px; text-align: center;">
+        <div style="font-size: 0.72rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🧈 Fat</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.15rem; font-weight: 800;">{fat_g}g</div>
+    </div>
+    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 10px 4px; text-align: center;">
+        <div style="font-size: 0.72rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🍃 Fiber</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.15rem; font-weight: 800;">{fiber_estimate}g</div>
+    </div>
+</div>""",
+        unsafe_allow_html=True,
+    )
 
 
 def render_confidence_bar(confidence):
@@ -934,12 +957,12 @@ with guide_tab:
 <div style="background: #FFFFFF; border: 1px solid #EBE2CF; border-radius: 20px; padding: 14px 8px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
     <div style="font-size: 1.5rem; margin-bottom: 4px;">🔍</div>
     <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-weight: 800; font-size: 0.8rem;">2. Check</div>
-    <div style="color: #8F887C; font-size: 0.72rem; line-height: 1.3; margin-top: 2px;">AI ingredient validation</div>
+    <div style="color: #8F887C; font-size: 0.72rem; line-height: 1.3; margin-top: 2px;">AI ingredient check</div>
 </div>
 <div style="background: #FFFFFF; border: 1px solid #EBE2CF; border-radius: 20px; padding: 14px 8px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
     <div style="font-size: 1.5rem; margin-bottom: 4px;">⚖️</div>
     <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-weight: 800; font-size: 0.8rem;">3. Macros</div>
-    <div style="color: #8F887C; font-size: 0.72rem; line-height: 1.3; margin-top: 2px;">Realistic nutrition range</div>
+    <div style="color: #8F887C; font-size: 0.72rem; line-height: 1.3; margin-top: 2px;">Realistic ranges</div>
 </div>
 </div>""",
         unsafe_allow_html=True,
@@ -1109,8 +1132,12 @@ elif st.session_state.stage == "confirm_dish":
             )
 
         if yolo_suggestion:
-            st.info(
-                f"✨ Visual ingredient inspection detected: **{display_name(yolo_suggestion)}**."
+            st.markdown(
+                f"""<div class="ingredient-badge">
+                    <span style="font-size: 1.1rem;">✨</span>
+                    <span>Visual ingredient inspection detected: <strong style="color: #C28416;">{display_name(yolo_suggestion)}</strong></span>
+                </div>""",
+                unsafe_allow_html=True,
             )
 
         default_choice = yolo_suggestion if yolo_suggestion else cnn_class
@@ -1141,7 +1168,7 @@ elif st.session_state.stage == "confirm_dish":
 
 
 # ============================================================================
-# 10. STAGE 3: SELECT PORTION
+# 10. STAGE 3: SELECT PORTION (Fixed Horizontal Layout)
 # ============================================================================
 
 elif st.session_state.stage == "select_portion":
@@ -1166,26 +1193,32 @@ elif st.session_state.stage == "select_portion":
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            if st.button("🌱\n\nSmall\n\n(~250g)", key="btn_s", use_container_width=True):
+            st.markdown('<div class="portion-col">', unsafe_allow_html=True)
+            if st.button("🌱\n\nSmall (~250g)", key="btn_s", use_container_width=True):
                 st.session_state.portion_size = "S"
                 st.session_state.stage = "result"
                 st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
 
         with col2:
-            if st.button("🍽️\n\nMedium\n\n(~400g)", key="btn_m", use_container_width=True):
+            st.markdown('<div class="portion-col">', unsafe_allow_html=True)
+            if st.button("🍽️\n\nMedium (~400g)", key="btn_m", use_container_width=True):
                 st.session_state.portion_size = "M"
                 st.session_state.stage = "result"
                 st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
 
         with col3:
-            if st.button("👑\n\nLarge\n\n(~550g)", key="btn_l", use_container_width=True):
+            st.markdown('<div class="portion-col">', unsafe_allow_html=True)
+            if st.button("👑\n\nLarge (~550g)", key="btn_l", use_container_width=True):
                 st.session_state.portion_size = "L"
                 st.session_state.stage = "result"
                 st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ============================================================================
-# 11. STAGE 4: NUTRITIONAL BREAKDOWN RESULT
+# 11. STAGE 4: NUTRITIONAL BREAKDOWN RESULT (Fixed Responsive Cards)
 # ============================================================================
 
 elif st.session_state.stage == "result":
