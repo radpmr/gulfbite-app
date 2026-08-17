@@ -582,6 +582,7 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span {
     font-weight: 600 !important;
 }
 
+/* Clean Horizontal Capsule for File Upload Button */
 [data-testid="stFileUploader"] button {
     background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
     border: none !important;
@@ -590,9 +591,23 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span {
     font-weight: 800 !important;
     font-size: 0.88rem !important;
     border-radius: 999px !important;
-    padding: 0.55rem 1.3rem !important;
+    padding: 0.65rem 1.4rem !important;
+    height: auto !important;
+    min-height: 42px !important;
+    width: auto !important;
+    min-width: 120px !important;
+    white-space: nowrap !important;
     box-shadow: 0 4px 14px rgba(229, 169, 59, 0.32) !important;
     transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+[data-testid="stFileUploader"] button p {
+    white-space: nowrap !important;
+    margin: 0 !important;
+    line-height: 1 !important;
 }
 
 [data-testid="stFileUploader"] button:hover {
