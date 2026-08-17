@@ -415,13 +415,13 @@ def inject_theme():
 :root {
     --app-bg: #F9F7F2;
     --card-bg: #FFFFFF;
-    --card-border: rgba(229, 169, 59, 0.16);
+    --card-border: rgba(229, 169, 59, 0.18);
     --gold-primary: #E5A93B;
-    --gold-hover: #D19428;
+    --gold-dark: #C28416;
     --gold-soft: #FDF6E9;
     --gold-dim: #996E21;
     --text-dark: #1E1B16;
-    --text-muted: #8F887C;
+    --text-muted: #7A7468;
     --chip-bg: #F4EFE6;
 }
 
@@ -430,7 +430,7 @@ html, body, [class*="css"] {
     color: var(--text-dark);
 }
 
-/* Warm Mobile Screen Backdrop */
+/* Background Atmosphere */
 .stApp { 
     background-color: var(--app-bg);
     background-image: 
@@ -451,14 +451,51 @@ html, body, [class*="css"] {
     background: var(--card-bg) !important;
     border: 1px solid var(--card-border) !important;
     border-radius: 32px !important;
-    padding: 1.5rem !important;
+    padding: 1.4rem !important;
     box-shadow: 0 20px 45px -12px rgba(229, 169, 59, 0.16), 0 2px 10px rgba(0,0,0,0.02) !important;
 }
 
-/* Modern Rounded File Dropzone */
+/* --- Fixed Tab Bar (No Underlines, Smooth Rounded Pill) --- */
+div[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    background: #EDE6D8 !important;
+    border-radius: 999px !important;
+    padding: 4px !important;
+    gap: 4px !important;
+    border: none !important;
+    display: flex !important;
+    width: 100% !important;
+}
+
+div[data-testid="stTabs"] [data-baseweb="tab-border"],
+div[data-testid="stTabs"] [data-baseweb="tab-highlight"] { 
+    display: none !important; 
+}
+
+div[data-testid="stTabs"] [data-baseweb="tab"] {
+    flex: 1 !important;
+    border-radius: 999px !important;
+    height: 38px !important;
+    color: var(--text-muted) !important;
+    font-weight: 700 !important;
+    font-size: 0.82rem !important;
+    background: transparent !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+}
+
+div[data-testid="stTabs"] [aria-selected="true"] {
+    background: #FFFFFF !important;
+    color: var(--text-dark) !important;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08) !important;
+}
+
+/* --- Clean Modern Dropzone & High-Contrast File Upload Button --- */
 [data-testid="stFileUploaderDropzone"] {
     background: #FAF8F3 !important;
-    border: 2px dashed #E8DCBE !important;
+    border: 2px dashed #E2D5B8 !important;
     border-radius: 24px !important;
     padding: 2.2rem 1.2rem !important;
     transition: all 0.25s ease !important;
@@ -478,11 +515,95 @@ html, body, [class*="css"] {
 [data-testid="stFileUploaderDropzoneInstructions"] > div > span {
     font-family: 'Outfit', sans-serif !important;
     font-size: 1.05rem !important;
-    font-weight: 700 !important;
+    font-weight: 800 !important;
     color: var(--text-dark) !important;
 }
 
-/* Gold Primary Action Buttons */
+[data-testid="stFileUploaderDropzoneInstructions"] > div > small {
+    color: #8C8476 !important; /* Fixed: High-contrast visible text */
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+}
+
+[data-testid="stFileUploader"] button {
+    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
+    border: none !important;
+    color: #1A1305 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 0.88rem !important;
+    border-radius: 999px !important;
+    padding: 0.6rem 1.4rem !important;
+    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.35) !important;
+    transition: all 0.2s ease !important;
+}
+
+[data-testid="stFileUploader"] button:hover {
+    background: linear-gradient(135deg, #FEDD97 0%, #F0B547 100%) !important;
+    box-shadow: 0 6px 18px rgba(229, 169, 59, 0.45) !important;
+    transform: translateY(-2px);
+}
+
+/* --- Fixed Category Capsule Chips (Hide Radio Circles, Horizontal Layout) --- */
+.category-pill-container div[data-testid="stRadio"] {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.category-pill-container div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    background: #F4EDE0 !important;
+    border: 1px solid #E4D8C1 !important;
+    border-radius: 999px !important;
+    padding: 7px 14px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    width: auto !important;
+}
+
+/* Completely remove the default radio circle */
+.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+    display: none !important;
+}
+
+.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
+    background: #EAE0CD !important;
+    border-color: var(--gold-primary) !important;
+    transform: translateY(-1px);
+}
+
+.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
+    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
+    border-color: #D19428 !important;
+    box-shadow: 0 4px 12px rgba(229, 169, 59, 0.3) !important;
+}
+
+.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    color: var(--text-dark) !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+}
+
+.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
+    color: #1A1305 !important;
+}
+
+/* Global Buttons */
 div.stButton > button {
     font-family: 'Outfit', sans-serif;
     border-radius: 999px;
@@ -490,7 +611,7 @@ div.stButton > button {
     background: var(--chip-bg);
     color: var(--text-dark);
     font-weight: 700;
-    font-size: 0.96rem;
+    font-size: 0.95rem;
     padding: 0.85rem 1.5rem;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
@@ -551,63 +672,6 @@ div[data-testid="column"] button p {
     margin: 0 !important;
 }
 
-/* Modern Tab Pill Switchers */
-div[data-testid="stTabs"] [data-baseweb="tab-list"] {
-    background: #EFE9DC !important;
-    border-radius: 999px !important;
-    padding: 4px !important;
-    gap: 4px !important;
-    border: none !important;
-}
-
-div[data-testid="stTabs"] [data-baseweb="tab-border"] { display: none !important; }
-
-div[data-testid="stTabs"] [data-baseweb="tab"] {
-    border-radius: 999px !important;
-    height: 36px !important;
-    color: var(--text-muted) !important;
-    font-weight: 700 !important;
-    font-size: 0.82rem !important;
-    background: transparent !important;
-    border: none !important;
-}
-
-div[data-testid="stTabs"] [aria-selected="true"] {
-    background: #FFFFFF !important;
-    color: var(--text-dark) !important;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.06) !important;
-}
-
-/* Category Filter Chips */
-.category-pill-container div[data-testid="stRadio"] > div {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    gap: 8px !important;
-}
-
-.category-pill-container div[data-testid="stRadio"] label {
-    background: #F4EDE0 !important;
-    border: 1px solid #E6DBC6 !important;
-    border-radius: 999px !important;
-    padding: 6px 14px !important;
-    margin: 0 !important;
-}
-
-.category-pill-container div[data-testid="stRadio"] label:hover {
-    background: #EDE2CE !important;
-}
-
-.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
-    display: none !important;
-}
-
-.category-pill-container div[data-testid="stRadio"] label span p {
-    font-size: 0.82rem !important;
-    font-weight: 700 !important;
-    color: var(--text-dark) !important;
-}
-
 /* Verification Alert Callout */
 .verify-callout {
     display: flex;
@@ -635,7 +699,6 @@ div[data-testid="stTabs"] [aria-selected="true"] {
 </style>""",
         unsafe_allow_html=True,
     )
-
 
 # ============================================================================
 # 4. APP NAVIGATION & MOBILE HEADER
@@ -793,7 +856,7 @@ def render_interactive_dish_explorer():
     category_dishes = DISH_CATEGORIES[selected_category]
 
     st.markdown(
-        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.8rem; font-weight: 800; color: #8F887C; text-transform: uppercase; letter-spacing: 0.04em;">Choose Recipe</div>',
+        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.78rem; font-weight: 800; color: #8F887C; text-transform: uppercase; letter-spacing: 0.05em;">Choose Recipe</div>',
         unsafe_allow_html=True,
     )
 
@@ -816,7 +879,7 @@ def render_interactive_dish_explorer():
                 padding: 14px 16px;
                 margin-top: 10px;
             ">
-                <div style="font-family: 'Outfit', sans-serif; font-weight: 800; color: #1E1B16; font-size: 1.1rem; margin-bottom: 4px;">{display_name(selected_dish)}</div>
+                <div style="font-family: 'Outfit', sans-serif; font-weight: 800; color: #1E1B16; font-size: 1.05rem; margin-bottom: 4px;">{display_name(selected_dish)}</div>
                 <div style="color: #736C61; font-size: 0.84rem; line-height: 1.45;">{blurb}</div>
             </div>""",
             unsafe_allow_html=True,
