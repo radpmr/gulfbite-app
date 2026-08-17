@@ -757,53 +757,29 @@ def render_header():
     """Render sleek mobile navigation header with crisp vector icons."""
     st.markdown(
         """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.4rem; padding: 2px 0;">
-    <!-- Menu Button -->
-    <div style="
-        width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-        display: flex; align-items: center; justify-content: center;
-        border: 1px solid #ECE6DB; cursor: pointer;
-    ">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 7H20M4 12H20M4 17H14" stroke="#1E1B16" stroke-width="2.2" stroke-linecap="round"/>
-        </svg>
-    </div>
-
-    <!-- Right Actions -->
-    <div style="display: flex; gap: 10px; align-items: center;">
-        <!-- Notification Button -->
-        <div style="
-            width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid #ECE6DB; cursor: pointer; position: relative;
-        ">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span style="position: absolute; top: 11px; right: 11px; width: 7px; height: 7px; background: #FF5A1F; border-radius: 50%; border: 1.5px solid #FFFFFF;"></span>
-        </div>
-
-        <!-- Avatar / Brand Pill -->
-        <div style="
-            width: 44px; height: 44px; border-radius: 50%;
-            background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%);
-            display: flex; align-items: center; justify-content: center;
-            color: #1A1305; font-family: 'Outfit', sans-serif; font-weight: 900;
-            font-size: 0.95rem; letter-spacing: 0.02em;
-            box-shadow: 0 6px 16px rgba(229, 169, 59, 0.35);
-        ">
-            GB
-        </div>
-    </div>
+<div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB; cursor: pointer;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 7H20M4 12H20M4 17H14" stroke="#1E1B16" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
 </div>
-
+<div style="display: flex; gap: 10px; align-items: center;">
+<div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB; cursor: pointer; position: relative;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<span style="position: absolute; top: 11px; right: 11px; width: 7px; height: 7px; background: #FF5A1F; border-radius: 50%; border: 1.5px solid #FFFFFF;"></span>
+</div>
+<div style="width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%); display: flex; align-items: center; justify-content: center; color: #1A1305; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 0.95rem; letter-spacing: 0.02em; box-shadow: 0 6px 16px rgba(229, 169, 59, 0.35);">
+GB
+</div>
+</div>
+</div>
 <div style="margin-bottom: 1.4rem;">
-    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.25rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;">
-        <span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition
-    </h1>
-    <p style="color: #8F887C; font-size: 0.88rem; font-weight: 500; margin-top: 6px;">Authentic Gulf Cuisine Recognition & Macro Insights</p>
+<h1 style="font-family: 'Outfit', sans-serif; font-size: 2.25rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;">
+<span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition
+</h1>
+<p style="color: #8F887C; font-size: 0.88rem; font-weight: 500; margin-top: 6px;">Authentic Gulf Cuisine Recognition & Macro Insights</p>
 </div>""",
         unsafe_allow_html=True,
     )
