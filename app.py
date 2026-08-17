@@ -762,7 +762,7 @@ def render_header():
         width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF;
         box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
         display: flex; align-items: center; justify-content: center;
-        border: 1px solid #ECE6DB; cursor: pointer; transition: all 0.2s ease;
+        border: 1px solid #ECE6DB; cursor: pointer;
     ">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 7H20M4 12H20M4 17H14" stroke="#1E1B16" stroke-width="2.2" stroke-linecap="round"/>
@@ -779,8 +779,8 @@ def render_header():
             border: 1px solid #ECE6DB; cursor: pointer; position: relative;
         ">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 8A6 6 0 0 0 6 8C6 15 3 17 3 17H21S18 15 18 8Z" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M13.73 21A2 2 0 0 1 10.27 21" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span style="position: absolute; top: 11px; right: 11px; width: 7px; height: 7px; background: #FF5A1F; border-radius: 50%; border: 1.5px solid #FFFFFF;"></span>
         </div>
