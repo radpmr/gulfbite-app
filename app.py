@@ -720,6 +720,39 @@ div[data-testid="column"] > div {
     color: #059669;
     border: 1px solid #A7F3D0;
 }
+
+/* Responsive Portion Selection Tile Fix */
+div[data-testid="column"] button {
+    height: 100px !important;
+    min-height: 100px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #FAF8F3 !important;
+    border: 1.5px solid #EBE2CF !important;
+    border-radius: 20px !important;
+    padding: 8px 4px !important;
+    margin: 0 !important;
+    transition: all 0.2s ease !important;
+}
+
+div[data-testid="column"] button:hover {
+    border-color: #E5A93B !important;
+    background: #FDF8EE !important;
+    box-shadow: 0 6px 16px rgba(229, 169, 59, 0.18) !important;
+    transform: translateY(-2px);
+}
+
+div[data-testid="column"] button p {
+    color: #1E1B16 !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+    white-space: pre-line !important;
+    text-align: center !important;
+    font-size: 0.85rem !important;
+    line-height: 1.35 !important;
+}
 </style>""",
         unsafe_allow_html=True,
     )
@@ -1171,6 +1204,10 @@ elif st.session_state.stage == "confirm_dish":
 # 10. STAGE 3: SELECT PORTION (Fixed Horizontal Layout)
 # ============================================================================
 
+# ============================================================================
+# 10. STAGE 3: SELECT PORTION
+# ============================================================================
+
 elif st.session_state.stage == "select_portion":
     render_stepper("select_portion", st.session_state.triggered)
 
@@ -1193,28 +1230,22 @@ elif st.session_state.stage == "select_portion":
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.markdown('<div class="portion-col">', unsafe_allow_html=True)
-            if st.button("🌱\n\nSmall (~250g)", key="btn_s", use_container_width=True):
+            if st.button("🌱 Small\n(~250g)", key="btn_s", use_container_width=True):
                 st.session_state.portion_size = "S"
                 st.session_state.stage = "result"
                 st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
 
         with col2:
-            st.markdown('<div class="portion-col">', unsafe_allow_html=True)
-            if st.button("🍽️\n\nMedium (~400g)", key="btn_m", use_container_width=True):
+            if st.button("🍽️ Medium\n(~400g)", key="btn_m", use_container_width=True):
                 st.session_state.portion_size = "M"
                 st.session_state.stage = "result"
                 st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
 
         with col3:
-            st.markdown('<div class="portion-col">', unsafe_allow_html=True)
-            if st.button("👑\n\nLarge (~550g)", key="btn_l", use_container_width=True):
+            if st.button("👑 Large\n(~550g)", key="btn_l", use_container_width=True):
                 st.session_state.portion_size = "L"
                 st.session_state.stage = "result"
                 st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ============================================================================
