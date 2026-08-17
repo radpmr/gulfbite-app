@@ -1,6 +1,6 @@
 """
-GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile App Aesthetic - Gold Edition)
---------------------------------------------------------------------------------------
+GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
+-----------------------------------------------------------------------------
 Identifies authentic Gulf dishes using a multi-tiered pipeline:
 1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
 2. Out-of-distribution / Non-food rejection via margin and entropy checks.
@@ -430,7 +430,7 @@ html, body, [class*="css"] {
     color: var(--text-dark);
 }
 
-/* Background Atmosphere */
+/* Warm Mobile Screen Backdrop */
 .stApp { 
     background-color: var(--app-bg);
     background-image: 
@@ -520,7 +520,7 @@ div[data-testid="stTabs"] [aria-selected="true"] {
 }
 
 [data-testid="stFileUploaderDropzoneInstructions"] > div > small {
-    color: #8C8476 !important; /* Fixed: High-contrast visible text */
+    color: #8C8476 !important;
     font-size: 0.78rem !important;
     font-weight: 600 !important;
 }
@@ -700,6 +700,7 @@ div[data-testid="column"] button p {
         unsafe_allow_html=True,
     )
 
+
 # ============================================================================
 # 4. APP NAVIGATION & MOBILE HEADER
 # ============================================================================
@@ -723,9 +724,9 @@ def render_header():
 
 <div style="margin-bottom: 1.4rem;">
     <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.25rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;">
-        <span style="color: #E5A93B;">Eat</span> Smart Stay<br><span style="color: #E5A93B;">Healthy</span>
+        <span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition
     </h1>
-    <p style="color: #8F887C; font-size: 0.88rem; font-weight: 500; margin-top: 6px;">AI Nutrition Insights for Authentic Gulf Cuisine</p>
+    <p style="color: #8F887C; font-size: 0.88rem; font-weight: 500; margin-top: 6px;">Authentic Gulf Cuisine Recognition & Macro Insights</p>
 </div>""",
         unsafe_allow_html=True,
     )
