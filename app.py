@@ -2,10 +2,10 @@
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
 Identifies authentic Gulf dishes using a multi-tiered pipeline:
-1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
-2. Out-of-distribution / Non-food rejection via margin and entropy checks.
-3. YOLOv8 feature detection for visually ambiguous dishes (e.g., loomi in Machboos).
-4. Portion-based authentic macro and calorie estimation.
+1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring[cite: 1].
+2. Out-of-distribution / Non-food rejection via margin and entropy checks[cite: 1].
+3. YOLOv8 feature detection for visually ambiguous dishes (e.g., loomi in Machboos)[cite: 1].
+4. Portion-based authentic macro and calorie estimation[cite: 1].
 
 Required files in the `models/` directory:
 - models/MobileNetV2_best.keras
@@ -633,14 +633,7 @@ div.stButton > button[kind="primary"]:hover {
     transform: translateY(-2px);
 }
 
-/* --- Responsive Portion Selection Grid --- */
-.portion-grid {
-    display: flex;
-    gap: 8px;
-    margin: 1rem 0;
-    width: 100%;
-}
-
+/* --- Fixed Portion Selection Tiles (No Letter Breaks) --- */
 div[data-testid="column"] [data-testid="stVerticalBlockBorderWrapper"],
 div[data-testid="column"] > div[data-testid="stVerticalBlock"],
 div[data-testid="column"] > div {
@@ -650,9 +643,10 @@ div[data-testid="column"] > div {
     padding: 0 !important;
 }
 
-/* Custom Portion Card Buttons */
-.portion-col button {
-    height: 90px !important;
+div[data-testid="column"] button {
+    height: 95px !important;
+    min-height: 95px !important;
+    width: 100% !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -660,26 +654,29 @@ div[data-testid="column"] > div {
     background: #FAF8F3 !important;
     border: 1.5px solid #EBE2CF !important;
     border-radius: 20px !important;
-    padding: 6px 4px !important;
+    padding: 6px 2px !important;
     margin: 0 !important;
-    white-space: nowrap !important;
     transition: all 0.2s ease !important;
 }
 
-.portion-col button:hover {
+div[data-testid="column"] button:hover {
     border-color: var(--gold-primary) !important;
     background: #FDF8EE !important;
     box-shadow: 0 6px 16px rgba(229, 169, 59, 0.18) !important;
     transform: translateY(-2px);
 }
 
-.portion-col button p {
-    color: var(--text-dark) !important;
+div[data-testid="column"] button p {
+    color: #1E1B16 !important;
     font-weight: 700 !important;
+    font-size: 0.78rem !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.02em !important;
+    white-space: pre-line !important;
+    word-break: keep-all !important;
+    overflow-wrap: normal !important;
+    text-align: center !important;
     margin: 0 !important;
-    white-space: nowrap !important;
-    font-size: 0.8rem !important;
-    line-height: 1.3 !important;
 }
 
 /* Verification Alert Callout */
@@ -719,39 +716,6 @@ div[data-testid="column"] > div {
     background: #ECFDF5;
     color: #059669;
     border: 1px solid #A7F3D0;
-}
-
-/* Responsive Portion Selection Tile Fix */
-div[data-testid="column"] button {
-    height: 100px !important;
-    min-height: 100px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: #FAF8F3 !important;
-    border: 1.5px solid #EBE2CF !important;
-    border-radius: 20px !important;
-    padding: 8px 4px !important;
-    margin: 0 !important;
-    transition: all 0.2s ease !important;
-}
-
-div[data-testid="column"] button:hover {
-    border-color: #E5A93B !important;
-    background: #FDF8EE !important;
-    box-shadow: 0 6px 16px rgba(229, 169, 59, 0.18) !important;
-    transform: translateY(-2px);
-}
-
-div[data-testid="column"] button p {
-    color: #1E1B16 !important;
-    font-weight: 700 !important;
-    margin: 0 !important;
-    white-space: pre-line !important;
-    text-align: center !important;
-    font-size: 0.85rem !important;
-    line-height: 1.35 !important;
 }
 </style>""",
         unsafe_allow_html=True,
@@ -1201,11 +1165,7 @@ elif st.session_state.stage == "confirm_dish":
 
 
 # ============================================================================
-# 10. STAGE 3: SELECT PORTION (Fixed Horizontal Layout)
-# ============================================================================
-
-# ============================================================================
-# 10. STAGE 3: SELECT PORTION
+# 10. STAGE 3: SELECT PORTION (Fixed Horizontal 3-Line Layout)
 # ============================================================================
 
 elif st.session_state.stage == "select_portion":
@@ -1230,26 +1190,26 @@ elif st.session_state.stage == "select_portion":
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            if st.button("🌱 Small\n(~250g)", key="btn_s", use_container_width=True):
+            if st.button("🌱\nSmall\n250g", key="btn_s", use_container_width=True):
                 st.session_state.portion_size = "S"
                 st.session_state.stage = "result"
                 st.rerun()
 
         with col2:
-            if st.button("🍽️ Medium\n(~400g)", key="btn_m", use_container_width=True):
+            if st.button("🍽️\nMedium\n400g", key="btn_m", use_container_width=True):
                 st.session_state.portion_size = "M"
                 st.session_state.stage = "result"
                 st.rerun()
 
         with col3:
-            if st.button("👑 Large\n(~550g)", key="btn_l", use_container_width=True):
+            if st.button("👑\nLarge\n550g", key="btn_l", use_container_width=True):
                 st.session_state.portion_size = "L"
                 st.session_state.stage = "result"
                 st.rerun()
 
 
 # ============================================================================
-# 11. STAGE 4: NUTRITIONAL BREAKDOWN RESULT (Fixed Responsive Cards)
+# 11. STAGE 4: NUTRITIONAL BREAKDOWN RESULT
 # ============================================================================
 
 elif st.session_state.stage == "result":
