@@ -1,5 +1,5 @@
 """
-GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
+GulfBite — Smart Gulf Cuisine Nutrition Assistant
 -----------------------------------------------------------------------------
 Identifies authentic Gulf dishes using a multi-tiered pipeline:
 1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
@@ -844,26 +844,20 @@ def render_calorie_hero(lo: int, hi: int):
 
 
 def render_macro_cards(protein_g, carbs_g, fat_g):
-    """Render 4 responsive macro micro-cards without column squishing."""
-    fiber_estimate = round(carbs_g * 0.12, 1)
-    
+    """Render 3 responsive macro micro-cards without fiber."""
     st.markdown(
-        f"""<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 0.8rem 0 1.2rem 0;">
-    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 10px 4px; text-align: center;">
-        <div style="font-size: 0.72rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🤍 Protein</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.15rem; font-weight: 800;">{protein_g}g</div>
+        f"""<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0.8rem 0 1.2rem 0;">
+    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
+        <div style="font-size: 0.74rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🤍 Protein</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.2rem; font-weight: 800;">{protein_g}g</div>
     </div>
-    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 10px 4px; text-align: center;">
-        <div style="font-size: 0.72rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🌾 Carbs</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.15rem; font-weight: 800;">{carbs_g}g</div>
+    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
+        <div style="font-size: 0.74rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🌾 Carbs</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.2rem; font-weight: 800;">{carbs_g}g</div>
     </div>
-    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 10px 4px; text-align: center;">
-        <div style="font-size: 0.72rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🧈 Fat</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.15rem; font-weight: 800;">{fat_g}g</div>
-    </div>
-    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 10px 4px; text-align: center;">
-        <div style="font-size: 0.72rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🍃 Fiber</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.15rem; font-weight: 800;">{fiber_estimate}g</div>
+    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
+        <div style="font-size: 0.74rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🧈 Fat</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.2rem; font-weight: 800;">{fat_g}g</div>
     </div>
 </div>""",
         unsafe_allow_html=True,
