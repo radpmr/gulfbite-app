@@ -744,6 +744,58 @@ div.stButton > button[kind="primary"]:hover {
     color: #059669;
     border: 1px solid #A7F3D0;
 }
+
+/* --- High-Priority Scoped Full-Width Portion Cards --- */
+.portion-card-group div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+    width: 100% !important;
+}
+
+.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    background: #FAF8F3 !important;
+    border: 1.5px solid #EBE2CF !important;
+    border-radius: 20px !important;
+    padding: 14px 18px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+    display: none !important;
+}
+
+.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
+    background: #FDF9EE !important;
+    border-color: var(--gold-primary) !important;
+    transform: translateY(-1px);
+}
+
+.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
+    background: linear-gradient(135deg, #FDF7EC 0%, #FAF0D8 100%) !important;
+    border-color: var(--gold-primary) !important;
+    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.25) !important;
+}
+
+.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 0.95rem !important;
+    font-weight: 800 !important;
+    color: var(--text-dark) !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+}
+
+.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
+    color: #1A1305 !important;
+}
 </style>""",
         unsafe_allow_html=True,
     )
@@ -1197,7 +1249,7 @@ elif st.session_state.stage == "confirm_dish":
 
 
 # ============================================================================
-# 10. STAGE 3: SELECT PORTION (Segmented Pill Layout)
+# 10. STAGE 3: SELECT PORTION (Full-Width Stacked Cards)
 # ============================================================================
 
 elif st.session_state.stage == "select_portion":
@@ -1221,12 +1273,12 @@ elif st.session_state.stage == "select_portion":
         )
 
         portion_map = {
-            "S": "🌱  Small (250g)",
-            "M": "🍽️  Medium (400g)",
-            "L": "👑  Large (550g)",
+            "S": "🌱   Small   (~250g)",
+            "M": "🍽️   Medium   (~400g)",
+            "L": "👑   Large   (~550g)",
         }
 
-        st.markdown('<div class="portion-selector-container">', unsafe_allow_html=True)
+        st.markdown('<div class="portion-card-group">', unsafe_allow_html=True)
         selected_p = st.radio(
             "Choose portion:",
             options=["S", "M", "L"],
