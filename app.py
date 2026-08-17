@@ -1,11 +1,11 @@
 """
-GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
+GulfBite — Smart Gulf Cuisine Nutrition Assistant
 -----------------------------------------------------------------------------
 Identifies authentic Gulf dishes using a multi-tiered pipeline:
-1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring[cite: 1].
-2. Out-of-distribution / Non-food rejection via margin and entropy checks[cite: 1].
-3. YOLOv8 feature detection for visually ambiguous dishes (e.g., loomi in Machboos)[cite: 1].
-4. Portion-based authentic macro and calorie estimation[cite: 1].
+1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
+2. Out-of-distribution / Non-food rejection via margin and entropy checks.
+3. YOLOv8 feature detection for visually ambiguous dishes (e.g., loomi in Machboos).
+4. Portion-based authentic macro and calorie estimation.
 
 Required files in the `models/` directory:
 - models/MobileNetV2_best.keras
@@ -23,11 +23,11 @@ import numpy as np
 from PIL import Image, ImageOps
 import streamlit as st
 
-# Force CPU inference for stability and suppress TensorFlow verbose logging[cite: 1]
+# Force CPU inference for stability and suppress TensorFlow verbose logging
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
-# Register HEIC/HEIF image support for mobile uploads[cite: 1]
+# Register HEIC/HEIF image support for mobile uploads
 try:
     import pillow_heif
     pillow_heif.register_heif_opener()
@@ -38,17 +38,17 @@ except ImportError:
 # 1. CONFIGURATION & CONSTANTS
 # ============================================================================
 
-MODELS_DIR = "models"[cite: 1]
-CNN_MODEL_PATH = os.path.join(MODELS_DIR, "MobileNetV2_best.keras")[cite: 1]
-CLASS_INDICES_PATH = os.path.join(MODELS_DIR, "class_indices.json")[cite: 1]
+MODELS_DIR = "models"
+CNN_MODEL_PATH = os.path.join(MODELS_DIR, "MobileNetV2_best.keras")
+CLASS_INDICES_PATH = os.path.join(MODELS_DIR, "class_indices.json")
 YOLO_WEIGHTS_PATH = os.path.join(
     MODELS_DIR, "yolov8_ingredient_detector-4", "weights", "best.pt"
-)[cite: 1]
+)
 INGREDIENT_CACHE_PATH = os.path.join(
     MODELS_DIR, "ingredient_nutrition_cache.json"
-)[cite: 1]
+)
 
-# Sets of dishes that frequently confuse the CNN and require verification[cite: 1]
+# Sets of dishes that frequently confuse the CNN and require verification
 TRIGGER_SET = {
     "07_ouzi",
     "01_machboos",
@@ -56,16 +56,16 @@ TRIGGER_SET = {
     "02_kabsa",
     "03_biryani",
     "06_saloona",
-}[cite: 1]
-WRAP_TRIGGER_SET = {"10_shawarma", "11_falafel_wrap"}[cite: 1]
+}
+WRAP_TRIGGER_SET = {"10_shawarma", "11_falafel_wrap"}
 
-# Thresholds for AI confidence and non-food detection[cite: 1]
-CONFIDENCE_THRESHOLD = 0.70[cite: 1]
-MIN_CONFIDENCE = 0.50[cite: 1]
-MIN_MARGIN = 0.15[cite: 1]
-MAX_ENTROPY = 2.50[cite: 1]
+# Thresholds for AI confidence and non-food detection
+CONFIDENCE_THRESHOLD = 0.70
+MIN_CONFIDENCE = 0.50
+MIN_MARGIN = 0.15
+MAX_ENTROPY = 2.50
 
-# Feature-to-dish mappings for YOLO validation[cite: 1]
+# Feature-to-dish mappings for YOLO validation
 YOLO_FEATURE_MAP = {
     "01_machboos": "loomi",
     "07_ouzi": "whole_shank",
@@ -73,10 +73,10 @@ YOLO_FEATURE_MAP = {
     "02_kabsa": "whole_chicken_piece",
     "10_shawarma": "shawarma_meat",
     "11_falafel_wrap": "falafel_ball",
-}[cite: 1]
-FEATURE_TO_DISH = {v: k for k, v in YOLO_FEATURE_MAP.items()}[cite: 1]
+}
+FEATURE_TO_DISH = {v: k for k, v in YOLO_FEATURE_MAP.items()}
 
-# Related dish groups for fallback confirmation[cite: 1]
+# Related dish groups for fallback confirmation
 CONFUSION_GROUPS = {
     "rice_cluster": {
         "01_machboos",
@@ -87,20 +87,20 @@ CONFUSION_GROUPS = {
         "06_saloona",
     },
     "wrap_cluster": {"10_shawarma", "11_falafel_wrap", "12_falafel"},
-}[cite: 1]
+}
 
 GROUP_REASONS = {
     "rice_cluster": "Rice dishes like Machboos, Kabsa, and Biryani share aromatic spice bases, so we double-check.",
     "wrap_cluster": "Wrapped dishes hide their core filling, so we double-check with you.",
-}[cite: 1]
+}
 
 
 def get_group_reason(cnn_class: str) -> Optional[str]:
     """Retrieve an intuitive explanation for why the app is asking for confirmation."""
-    for group_name, group_set in CONFUSION_GROUPS.items():[cite: 1]
-        if cnn_class in group_set:[cite: 1]
-            return GROUP_REASONS.get(group_name)[cite: 1]
-    return None[cite: 1]
+    for group_name, group_set in CONFUSION_GROUPS.items():
+        if cnn_class in group_set:
+            return GROUP_REASONS.get(group_name)
+    return None
 
 
 FEATURE_RELIABILITY = {
@@ -110,9 +110,9 @@ FEATURE_RELIABILITY = {
     "whole_fish": {"status": "insufficient_evidence"},
     "shawarma_meat": {"status": "reliable"},
     "falafel_ball": {"status": "reliable"},
-}[cite: 1]
+}
 
-# Base recipes for Medium portion (grams)[cite: 1]
+# Base recipes for Medium portion (grams)
 DISH_RECIPES = {
     "01_machboos": [
         ("rice", 150),
@@ -203,7 +203,7 @@ DISH_RECIPES = {
         ("ghee", 15),
     ],
     "25_karak_chai": [("milk", 100), ("black_tea", 100), ("sugar", 10)],
-}[cite: 1]
+}
 
 DISH_BLURBS = {
     "01_machboos": "A fragrant spiced rice plate with meat or chicken, infused with black dried lime (loomi).",
@@ -231,16 +231,16 @@ DISH_BLURBS = {
     "23_luqaimat": "Crispy golden fried dough puffs drizzled generously with local date molasses.",
     "24_knafeh": "Warm melted akkawi cheese wrapped in shredded crisp filo pastry soaked in orange blossom syrup.",
     "25_karak_chai": "Rich black tea slow-simmered with evaporated milk and crushed cardamom pods.",
-}[cite: 1]
+}
 
-PORTION_MULTIPLIERS = {"S": 0.7, "M": 1.0, "L": 1.4}[cite: 1]
-PORTION_LABELS = {"S": "Small", "M": "Medium", "L": "Large"}[cite: 1]
-CALORIE_RANGE_PCT = 0.15[cite: 1]
+PORTION_MULTIPLIERS = {"S": 0.7, "M": 1.0, "L": 1.4}
+PORTION_LABELS = {"S": "Small", "M": "Medium", "L": "Large"}
+CALORIE_RANGE_PCT = 0.15
 
 
 def display_name(cls: str) -> str:
     """Clean technical class names into title format (e.g. '01_machboos' -> 'Machboos')."""
-    return cls.split("_", 1)[1].replace("_", " ").title()[cite: 1]
+    return cls.split("_", 1)[1].replace("_", " ").title()
 
 
 DISH_CATEGORIES = {
@@ -273,14 +273,14 @@ DISH_CATEGORIES = {
     ],
     "🥗 Fresh Salads & Dips": ["15_hummus", "16_fattoush", "17_tabbouleh"],
     "🍯 Sweets & Tea": ["23_luqaimat", "24_knafeh", "25_karak_chai"],
-}[cite: 1]
+}
 
 
 def get_candidate_group(cnn_class: str) -> set:
-    for group in CONFUSION_GROUPS.values():[cite: 1]
-        if cnn_class in group:[cite: 1]
-            return group[cite: 1]
-    return {cnn_class}[cite: 1]
+    for group in CONFUSION_GROUPS.values():
+        if cnn_class in group:
+            return group
+    return {cnn_class}
 
 
 # ============================================================================
@@ -289,8 +289,8 @@ def get_candidate_group(cnn_class: str) -> set:
 
 @st.cache_resource
 def load_models():
-    import tensorflow as tf[cite: 1]
-    from ultralytics import YOLO[cite: 1]
+    import tensorflow as tf
+    from ultralytics import YOLO
 
     missing = [
         p
@@ -301,106 +301,106 @@ def load_models():
             INGREDIENT_CACHE_PATH,
         )
         if not os.path.exists(p)
-    ][cite: 1]
-    if missing:[cite: 1]
+    ]
+    if missing:
         raise FileNotFoundError(
             "Missing model file(s):\n"
             + "\n".join(missing)
             + "\n\nPlease ensure model weights are located in the models/ directory."
-        )[cite: 1]
+        )
 
-    cnn_model = tf.keras.models.load_model(CNN_MODEL_PATH)[cite: 1]
-    with open(CLASS_INDICES_PATH) as f:[cite: 1]
-        class_indices = json.load(f)[cite: 1]
-    idx_to_class = {v: k for k, v in class_indices.items()}[cite: 1]
+    cnn_model = tf.keras.models.load_model(CNN_MODEL_PATH)
+    with open(CLASS_INDICES_PATH) as f:
+        class_indices = json.load(f)
+    idx_to_class = {v: k for k, v in class_indices.items()}
 
-    yolo_model = YOLO(YOLO_WEIGHTS_PATH)[cite: 1]
+    yolo_model = YOLO(YOLO_WEIGHTS_PATH)
 
-    with open(INGREDIENT_CACHE_PATH) as f:[cite: 1]
-        ingredient_cache = json.load(f)[cite: 1]
+    with open(INGREDIENT_CACHE_PATH) as f:
+        ingredient_cache = json.load(f)
 
-    return cnn_model, idx_to_class, yolo_model, ingredient_cache[cite: 1]
+    return cnn_model, idx_to_class, yolo_model, ingredient_cache
 
 
 def run_cnn(pil_image, model, idx_to_class, img_size=(224, 224)):
-    from tensorflow.keras.applications.mobilenet_v2 import preprocess_input[cite: 1]
+    from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
-    img = pil_image.convert("RGB").resize(img_size)[cite: 1]
-    arr = np.array(img).astype("float32")[cite: 1]
-    arr = preprocess_input(arr)[cite: 1]
-    arr = np.expand_dims(arr, axis=0)[cite: 1]
+    img = pil_image.convert("RGB").resize(img_size)
+    arr = np.array(img).astype("float32")
+    arr = preprocess_input(arr)
+    arr = np.expand_dims(arr, axis=0)
 
-    preds = model.predict(arr, verbose=0)[0][cite: 1]
+    preds = model.predict(arr, verbose=0)[0]
 
-    sorted_indices = np.argsort(preds)[::-1][cite: 1]
-    top_idx = int(sorted_indices[0])[cite: 1]
-    second_idx = int(sorted_indices[1])[cite: 1]
+    sorted_indices = np.argsort(preds)[::-1]
+    top_idx = int(sorted_indices[0])
+    second_idx = int(sorted_indices[1])
 
-    confidence = float(preds[top_idx])[cite: 1]
-    second_confidence = float(preds[second_idx])[cite: 1]
-    margin = confidence - second_confidence[cite: 1]
+    confidence = float(preds[top_idx])
+    second_confidence = float(preds[second_idx])
+    margin = confidence - second_confidence
 
-    eps = 1e-12[cite: 1]
-    entropy = -np.sum(preds * np.log(preds + eps))[cite: 1]
+    eps = 1e-12
+    entropy = -np.sum(preds * np.log(preds + eps))
 
-    predicted_class = idx_to_class[top_idx][cite: 1]
-    return predicted_class, confidence, margin, entropy[cite: 1]
+    predicted_class = idx_to_class[top_idx]
+    return predicted_class, confidence, margin, entropy
 
 
 def run_yolov8(pil_image, yolo_model, conf_threshold=0.25):
     results = yolo_model.predict(
         np.array(pil_image.convert("RGB")), conf=conf_threshold, verbose=False
-    )[cite: 1]
-    detections = [][cite: 1]
-    r = results[0][cite: 1]
-    for box in r.boxes:[cite: 1]
-        cls_id = int(box.cls[0])[cite: 1]
-        cls_name = yolo_model.names[cls_id][cite: 1]
-        box_conf = float(box.conf[0])[cite: 1]
-        detections.append((cls_name, box_conf))[cite: 1]
-    return detections[cite: 1]
+    )
+    detections = []
+    r = results[0]
+    for box in r.boxes:
+        cls_id = int(box.cls[0])
+        cls_name = yolo_model.names[cls_id]
+        box_conf = float(box.conf[0])
+        detections.append((cls_name, box_conf))
+    return detections
 
 
 def map_detections_to_suggestion(detections, candidates):
-    if not detections:[cite: 1]
-        return None, None, "no_detection"[cite: 1]
+    if not detections:
+        return None, None, "no_detection"
     valid = [
         (FEATURE_TO_DISH[feat], conf, feat)
         for feat, conf in detections
         if feat in FEATURE_TO_DISH and FEATURE_TO_DISH[feat] in candidates
-    ][cite: 1]
-    if not valid:[cite: 1]
-        return None, None, "no_detection"[cite: 1]
-    valid.sort(key=lambda x: x[1], reverse=True)[cite: 1]
-    dish, conf, feature = valid[0][cite: 1]
+    ]
+    if not valid:
+        return None, None, "no_detection"
+    valid.sort(key=lambda x: x[1], reverse=True)
+    dish, conf, feature = valid[0]
     status = FEATURE_RELIABILITY.get(
         feature, {"status": "insufficient_evidence"}
-    )["status"][cite: 1]
-    gated = (dish, conf) if status == "reliable" else None[cite: 1]
-    return (dish, conf), gated, status[cite: 1]
+    )["status"]
+    gated = (dish, conf) if status == "reliable" else None
+    return (dish, conf), gated, status
 
 
 def estimate_nutrition(dish_class, portion_size, ingredient_cache):
-    multiplier = PORTION_MULTIPLIERS[portion_size][cite: 1]
-    totals = {"calories": 0.0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}[cite: 1]
-    missing = [][cite: 1]
-    for ingredient_key, base_grams in DISH_RECIPES[dish_class]:[cite: 1]
-        info = ingredient_cache.get(ingredient_key)[cite: 1]
-        if info is None or info.get("source") == "NONE":[cite: 1]
-            missing.append(ingredient_key)[cite: 1]
-            continue[cite: 1]
-        grams = base_grams * multiplier[cite: 1]
-        for macro in totals:[cite: 1]
-            totals[macro] += info[macro] * (grams / 100)[cite: 1]
-    cal_low = totals["calories"] * (1 - CALORIE_RANGE_PCT)[cite: 1]
-    cal_high = totals["calories"] * (1 + CALORIE_RANGE_PCT)[cite: 1]
+    multiplier = PORTION_MULTIPLIERS[portion_size]
+    totals = {"calories": 0.0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}
+    missing = []
+    for ingredient_key, base_grams in DISH_RECIPES[dish_class]:
+        info = ingredient_cache.get(ingredient_key)
+        if info is None or info.get("source") == "NONE":
+            missing.append(ingredient_key)
+            continue
+        grams = base_grams * multiplier
+        for macro in totals:
+            totals[macro] += info[macro] * (grams / 100)
+    cal_low = totals["calories"] * (1 - CALORIE_RANGE_PCT)
+    cal_high = totals["calories"] * (1 + CALORIE_RANGE_PCT)
     return {
         "calories_range": (round(cal_low), round(cal_high)),
         "protein_g": round(totals["protein"], 1),
         "carbs_g": round(totals["carbs"], 1),
         "fat_g": round(totals["fat"], 1),
         "missing_ingredients": missing,
-    }[cite: 1]
+    }
 
 
 # ============================================================================
@@ -1200,7 +1200,6 @@ elif st.session_state.stage == "select_portion":
             unsafe_allow_html=True,
         )
 
-        # Segmented portion choice selector
         portion_map = {
             "S": "🌱  Small (250g)",
             "M": "🍽️  Medium (400g)",
