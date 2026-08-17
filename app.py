@@ -455,9 +455,9 @@ html, body, [class*="css"] {
     box-shadow: 0 20px 45px -12px rgba(229, 169, 59, 0.16), 0 2px 10px rgba(0,0,0,0.02) !important;
 }
 
-/* --- Fixed Tab Bar (No Underlines, Smooth Rounded Pill) --- */
+/* --- Fixed Tab Bar (Pill Switcher) --- */
 div[data-testid="stTabs"] [data-baseweb="tab-list"] {
-    background: #EDE6D8 !important;
+    background: #EBE4D5 !important;
     border-radius: 999px !important;
     padding: 4px !important;
     gap: 4px !important;
@@ -492,12 +492,70 @@ div[data-testid="stTabs"] [aria-selected="true"] {
     box-shadow: 0 3px 12px rgba(0,0,0,0.08) !important;
 }
 
-/* --- Clean Modern Dropzone & High-Contrast File Upload Button --- */
+/* --- Category Capsule Filter Pills (Overrides Streamlit Radio Dots) --- */
+div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 4px 0 !important;
+}
+
+div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    background: #F4EDE0 !important;
+    border: 1px solid #E4D8C1 !important;
+    border-radius: 999px !important;
+    padding: 7px 14px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: auto !important;
+    width: auto !important;
+}
+
+/* Hide default radio circle and sub-div elements completely */
+div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+    display: none !important;
+}
+
+div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
+    background: #EAE0CD !important;
+    border-color: var(--gold-primary) !important;
+    transform: translateY(-1px);
+}
+
+div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
+    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
+    border-color: #D19428 !important;
+    box-shadow: 0 4px 12px rgba(229, 169, 59, 0.3) !important;
+}
+
+div[data-testid="stRadio"] label[data-baseweb="radio"] p,
+div[data-testid="stRadio"] label[data-baseweb="radio"] span {
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    color: var(--text-dark) !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p,
+div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span {
+    color: #1A1305 !important;
+}
+
+/* --- Clean Modern Dropzone & Button --- */
 [data-testid="stFileUploaderDropzone"] {
     background: #FAF8F3 !important;
     border: 2px dashed #E2D5B8 !important;
     border-radius: 24px !important;
-    padding: 2.2rem 1.2rem !important;
+    padding: 1.8rem 1.2rem !important;
     transition: all 0.25s ease !important;
 }
 
@@ -533,8 +591,8 @@ div[data-testid="stTabs"] [aria-selected="true"] {
     font-weight: 800 !important;
     font-size: 0.88rem !important;
     border-radius: 999px !important;
-    padding: 0.6rem 1.4rem !important;
-    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.35) !important;
+    padding: 0.55rem 1.3rem !important;
+    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.32) !important;
     transition: all 0.2s ease !important;
 }
 
@@ -544,66 +602,7 @@ div[data-testid="stTabs"] [aria-selected="true"] {
     transform: translateY(-2px);
 }
 
-/* --- Fixed Category Capsule Chips (Hide Radio Circles, Horizontal Layout) --- */
-.category-pill-container div[data-testid="stRadio"] {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-}
-
-.category-pill-container div[data-testid="stRadio"] > div[role="radiogroup"] {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    gap: 8px !important;
-    border: none !important;
-    background: transparent !important;
-    padding: 0 !important;
-}
-
-.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"] {
-    background: #F4EDE0 !important;
-    border: 1px solid #E4D8C1 !important;
-    border-radius: 999px !important;
-    padding: 7px 14px !important;
-    margin: 0 !important;
-    cursor: pointer !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    width: auto !important;
-}
-
-/* Completely remove the default radio circle */
-.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
-    display: none !important;
-}
-
-.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
-    background: #EAE0CD !important;
-    border-color: var(--gold-primary) !important;
-    transform: translateY(-1px);
-}
-
-.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
-    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
-    border-color: #D19428 !important;
-    box-shadow: 0 4px 12px rgba(229, 169, 59, 0.3) !important;
-}
-
-.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
-    font-size: 0.8rem !important;
-    font-weight: 700 !important;
-    color: var(--text-dark) !important;
-    white-space: nowrap !important;
-    margin: 0 !important;
-}
-
-.category-pill-container div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
-    color: #1A1305 !important;
-}
-
-/* Global Buttons */
+/* Global Button Styles */
 div.stButton > button {
     font-family: 'Outfit', sans-serif;
     border-radius: 999px;
@@ -841,7 +840,6 @@ def render_confidence_bar(confidence):
 
 
 def render_interactive_dish_explorer():
-    st.markdown('<div class="category-pill-container">', unsafe_allow_html=True)
     selected_category = st.radio(
         "Filter by category:",
         options=list(DISH_CATEGORIES.keys()),
@@ -849,7 +847,6 @@ def render_interactive_dish_explorer():
         horizontal=True,
         label_visibility="collapsed",
     )
-    st.markdown('</div>', unsafe_allow_html=True)
 
     if not selected_category:
         selected_category = "🍚 Rice Dishes"
