@@ -288,7 +288,7 @@ def create_ai_decoded_overlay(pil_image, detections):
         draw.line([x1, y1, x1 + corner_len, y1], fill="#FFFFFF", width=4)
         draw.line([x1, y1, x1, y1 + corner_len], fill="#FFFFFF", width=4)
         draw.line([x2, y1, x2 - corner_len, y1], fill="#FFFFFF", width=4)
-        draw.line([x2, y1, x2, y1 + corner_len], fill="#FFFFFF", width=4)
+        draw.line([x2, y1, x2, y2 + corner_len], fill="#FFFFFF", width=4)
         draw.line([x1, y2, x1 + corner_len, y2], fill="#FFFFFF", width=4)
         draw.line([x1, y2, x1, y2 - corner_len], fill="#FFFFFF", width=4)
         draw.line([x2, y2, x2 - corner_len, y2], fill="#FFFFFF", width=4)
@@ -300,7 +300,7 @@ def create_ai_decoded_overlay(pil_image, detections):
         
         draw.rounded_rectangle([bx, by, bx + 190, by + 26], radius=13, fill=(255, 255, 255, 235), outline="#E5A93B", width=2)
         draw.ellipse([bx + 8, by + 9, bx + 16, by + 17], fill="#E5A93B")
-        draw.text((bx + 22, by + 5), badge_text[:24], fill="#1E1B16")
+        draw.text((bx + 22, by + 5), badge_text[:24], fill="#1A1713")
 
     return img_draw
 
@@ -345,7 +345,7 @@ def estimate_nutrition(dish_class, portion_size, ingredient_cache):
     }
 
 # ============================================================================
-# 3. POLISHED MOBILE APP THEME & CSS
+# 3. POLISHED MOBILE APP THEME & CSS (FIXED RADIO DOTS & ALIGNMENT)
 # ============================================================================
 def inject_theme():
     st.markdown(
@@ -490,7 +490,7 @@ div.stButton > button[kind="primary"] {
     width: 100%;
 }
 
-/* --- Full-Width Portion Selection Cards --- */
+/* --- Full-Width Portion Selection Cards (Hiding Streamlit Radio Bullets Properly) --- */
 .portion-card-group div[data-testid="stRadio"] > div[role="radiogroup"] {
     display: flex !important;
     flex-direction: column !important;
@@ -513,7 +513,8 @@ div.stButton > button[kind="primary"] {
     cursor: pointer !important;
 }
 
-.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+/* Hide radio circle completely and let card act as the toggle */
+.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"] div:has(input[type="radio"]) {
     display: none !important;
 }
 
@@ -536,7 +537,7 @@ div.stButton > button[kind="primary"] {
     margin: 0 !important;
 }
 
-/* iOS-Style Segmented Navigation Bar */
+/* --- iOS-Style Segmented Navigation Bar (Clean Flex & No Overlap) --- */
 .nav-pill-wrapper {
     background: #1A1713 !important;
     border-radius: 999px !important;
@@ -574,7 +575,8 @@ div.stButton > button[kind="primary"] {
     cursor: pointer !important;
 }
 
-.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+/* Hide radio circle inside navigation pills */
+.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] div:has(input[type="radio"]) {
     display: none !important;
 }
 
@@ -967,6 +969,7 @@ def render_segmented_app_navigation():
     }
     default_stage = cur if cur in nav_keys else "home"
 
+    st.markdown('<div class="nav-pill-wrapper">', unsafe_allow_html=True)
     if hasattr(st, "segmented_control"):
         selected_stage = st.segmented_control(
             "Main navigation",
@@ -989,6 +992,7 @@ def render_segmented_app_navigation():
             label_visibility="collapsed",
             key="app_main_nav_fallback",
         )
+    st.markdown('</div>', unsafe_allow_html=True)
 
     if selected_stage and selected_stage != cur and cur in nav_keys:
         st.session_state.stage = selected_stage
