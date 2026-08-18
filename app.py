@@ -4,14 +4,8 @@ GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 Identifies authentic Gulf dishes using a multi-tiered pipeline:
 1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
 2. Out-of-distribution / Non-food rejection via margin and entropy checks.
-3. YOLOv8 feature detection for visually ambiguous dishes (e.g., loomi in Machboos).
-4. Portion-based authentic macro and calorie estimation.
-
-Required files in the `models/` directory:
-- models/MobileNetV2_best.keras
-- models/class_indices.json
-- models/yolov8_ingredient_detector-4/weights/best.pt
-- models/ingredient_nutrition_cache.json
+3. YOLOv8 feature detection with visual bounding overlays & calorie pointers.
+4. Portion-based authentic macro and calorie estimation with SVG Macro Rings.
 """
 
 import json
@@ -20,7 +14,7 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Tuple
 
 import numpy as np
-from PIL import Image, ImageOps
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 import streamlit as st
 
 # Force CPU inference for stability and suppress TensorFlow verbose logging
@@ -59,13 +53,12 @@ TRIGGER_SET = {
 }
 WRAP_TRIGGER_SET = {"10_shawarma", "11_falafel_wrap"}
 
-# Thresholds for AI confidence and non-food detection
 CONFIDENCE_THRESHOLD = 0.70
 MIN_CONFIDENCE = 0.50
 MIN_MARGIN = 0.15
 MAX_ENTROPY = 2.50
 
-# Feature-to-dish mappings for YOLO validation
+# Feature-to-dish mappings for YOLO validation & estimated pointer calories
 YOLO_FEATURE_MAP = {
     "01_machboos": "loomi",
     "07_ouzi": "whole_shank",
@@ -76,7 +69,15 @@ YOLO_FEATURE_MAP = {
 }
 FEATURE_TO_DISH = {v: k for k, v in YOLO_FEATURE_MAP.items()}
 
-# Related dish groups for fallback confirmation
+FEATURE_CALORIE_ESTIMATES = {
+    "loomi": "15 kcal",
+    "whole_chicken_piece": "240 kcal",
+    "whole_shank": "320 kcal",
+    "whole_fish": "210 kcal",
+    "shawarma_meat": "190 kcal",
+    "falafel_ball": "60 kcal",
+}
+
 CONFUSION_GROUPS = {
     "rice_cluster": {
         "01_machboos",
@@ -96,7 +97,6 @@ GROUP_REASONS = {
 
 
 def get_group_reason(cnn_class: str) -> Optional[str]:
-    """Retrieve an intuitive explanation for why the app is asking for confirmation."""
     for group_name, group_set in CONFUSION_GROUPS.items():
         if cnn_class in group_set:
             return GROUP_REASONS.get(group_name)
@@ -114,95 +114,59 @@ FEATURE_RELIABILITY = {
 
 # Base recipes for Medium portion (grams)
 DISH_RECIPES = {
-    "01_machboos": [
-        ("rice", 150),
-        ("chicken", 130),
-        ("olive_oil", 15),
-        ("onion", 20),
-        ("tomato", 15),
-    ],
-    "02_kabsa": [
-        ("rice", 150),
-        ("chicken", 130),
-        ("olive_oil", 15),
-        ("tomato", 20),
-        ("onion", 15),
-    ],
-    "03_biryani": [
-        ("rice", 160),
-        ("chicken", 140),
-        ("olive_oil", 15),
-        ("yogurt", 20),
-        ("onion", 20),
-    ],
+    "01_machboos": [("rice", 150), ("chicken", 130), ("olive_oil", 15), ("onion", 20), ("tomato", 15)],
+    "02_kabsa": [("rice", 150), ("chicken", 130), ("olive_oil", 15), ("tomato", 20), ("onion", 15)],
+    "03_biryani": [("rice", 160), ("chicken", 140), ("olive_oil", 15), ("yogurt", 20), ("onion", 20)],
     "04_harees": [("bulgur", 100), ("lamb", 100), ("ghee", 15)],
-    "05_thareed": [
-        ("pita_bread", 80),
-        ("lamb", 120),
-        ("mixed_vegetables", 60),
-    ],
-    "06_saloona": [
-        ("lamb", 120),
-        ("mixed_vegetables", 100),
-        ("tomato", 40),
-        ("olive_oil", 15),
-    ],
-    "07_ouzi": [
-        ("rice", 150),
-        ("lamb", 180),
-        ("mixed_nuts", 15),
-        ("olive_oil", 15),
-    ],
+    "05_thareed": [("pita_bread", 80), ("lamb", 120), ("mixed_vegetables", 60)],
+    "06_saloona": [("lamb", 120), ("mixed_vegetables", 100), ("tomato", 40), ("olive_oil", 15)],
+    "07_ouzi": [("rice", 150), ("lamb", 180), ("mixed_nuts", 15), ("olive_oil", 15)],
     "08_samak_mashwi": [("fish", 200), ("olive_oil", 10)],
     "09_jisheed": [("rice", 150), ("fish", 100), ("olive_oil", 10)],
-    "10_shawarma": [
-        ("pita_bread", 80),
-        ("chicken", 100),
-        ("garlic_sauce", 20),
-        ("pickles", 10),
-    ],
-    "11_falafel_wrap": [
-        ("pita_bread", 80),
-        ("falafel", 90),
-        ("tahini", 15),
-        ("mixed_vegetables", 30),
-    ],
+    "10_shawarma": [("pita_bread", 80), ("chicken", 100), ("garlic_sauce", 20), ("pickles", 10)],
+    "11_falafel_wrap": [("pita_bread", 80), ("falafel", 90), ("tahini", 15), ("mixed_vegetables", 30)],
     "12_falafel": [("falafel", 120), ("olive_oil", 10)],
-    "13_samboosa": [
-        ("pastry_dough", 60),
-        ("ground_meat", 60),
-        ("olive_oil", 10),
-    ],
-    "14_mutabbaq": [
-        ("pastry_dough", 100),
-        ("ground_meat", 80),
-        ("olive_oil", 15),
-    ],
+    "13_samboosa": [("pastry_dough", 60), ("ground_meat", 60), ("olive_oil", 10)],
+    "14_mutabbaq": [("pastry_dough", 100), ("ground_meat", 80), ("olive_oil", 15)],
     "15_hummus": [("chickpeas", 80), ("tahini", 15), ("olive_oil", 10)],
-    "16_fattoush": [
-        ("mixed_vegetables", 150),
-        ("pita_bread", 20),
-        ("olive_oil", 10),
-    ],
-    "17_tabbouleh": [
-        ("parsley", 80),
-        ("bulgur", 20),
-        ("tomato", 30),
-        ("olive_oil", 15),
-    ],
+    "16_fattoush": [("mixed_vegetables", 150), ("pita_bread", 20), ("olive_oil", 10)],
+    "17_tabbouleh": [("parsley", 80), ("bulgur", 20), ("tomato", 30), ("olive_oil", 15)],
     "18_foul_medames": [("fava_beans", 150), ("olive_oil", 15)],
     "19_shakshuka": [("eggs", 100), ("tomato_sauce", 150), ("olive_oil", 10)],
     "20_balaleet": [("vermicelli", 80), ("sugar", 15), ("eggs", 50)],
     "21_khameer": [("bread_wheat", 80)],
     "22_chebab": [("pancake_batter", 100)],
     "23_luqaimat": [("fried_dough", 100), ("date_syrup", 30)],
-    "24_knafeh": [
-        ("kunafa_dough", 80),
-        ("soft_cheese", 60),
-        ("sugar_syrup", 40),
-        ("ghee", 15),
-    ],
+    "24_knafeh": [("kunafa_dough", 80), ("soft_cheese", 60), ("sugar_syrup", 40), ("ghee", 15)],
     "25_karak_chai": [("milk", 100), ("black_tea", 100), ("sugar", 10)],
+}
+
+DISH_METADATA = {
+    "01_machboos": {"spice": "Aromatic 🌶️🌶️", "prep": "Slow-Simmered ⏳", "density": "High Protein 🥩", "time": "60 min"},
+    "02_kabsa": {"spice": "Aromatic 🌶️🌶️", "prep": "Infused Broth 🍲", "density": "Balanced Macros ⚖️", "time": "50 min"},
+    "03_biryani": {"spice": "Richly Spiced 🌶️🌶️🌶️", "prep": "Dum Layered ♨️", "density": "Carb & Protein 🌾", "time": "55 min"},
+    "04_harees": {"spice": "Mild 🌶️", "prep": "Slow-Beaten ⏳", "density": "Complex Carbs 🌾", "time": "90 min"},
+    "05_thareed": {"spice": "Aromatic 🌶️🌶️", "prep": "Broth Layered 🍲", "density": "High Protein 🥩", "time": "45 min"},
+    "06_saloona": {"spice": "Medium 🌶️🌶️", "prep": "Clay Pot Simmer 🥘", "density": "Micronutrient Rich 🥗", "time": "40 min"},
+    "07_ouzi": {"spice": "Mild & Nutty 🌰", "prep": "Pit Roasted 🔥", "density": "High Protein 🥩", "time": "75 min"},
+    "08_samak_mashwi": {"spice": "Citrus Herb 🍋", "prep": "Charcoal Grilled 🔥", "density": "Lean Protein 🐟", "time": "30 min"},
+    "09_jisheed": {"spice": "Loomi & Turmeric 🍋", "prep": "Pan-Flaked 🍳", "density": "Lean Protein 🐟", "time": "35 min"},
+    "10_shawarma": {"spice": "Garlic Spiced 🧄", "prep": "Vertical Spit 🔥", "density": "High Protein 🥩", "time": "15 min"},
+    "11_falafel_wrap": {"spice": "Herbal Cumin 🌿", "prep": "Crisp Fried 🫓", "density": "Plant Fiber 🌱", "time": "15 min"},
+    "12_falafel": {"spice": "Herbaceous 🌿", "prep": "Golden Fried 🧆", "density": "Plant Protein 🌱", "time": "20 min"},
+    "13_samboosa": {"spice": "Spiced Minced 🌶️", "prep": "Pastry Crisp 🥟", "density": "High Energy ⚡", "time": "20 min"},
+    "14_mutabbaq": {"spice": "Scallion Pepper 🧅", "prep": "Griddle Pan 🍳", "density": "Protein Pastry 🥩", "time": "25 min"},
+    "15_hummus": {"spice": "Tahini Citrus 🍋", "prep": "Cold Blended 🥣", "density": "Heart-Healthy Fats 🥑", "time": "10 min"},
+    "16_fattoush": {"spice": "Sumac Zesty 🍋", "prep": "Fresh Crisp Toss 🥗", "density": "High Fiber 🍃", "time": "15 min"},
+    "17_tabbouleh": {"spice": "Mint Lemon 🌿", "prep": "Fine Chipped 🥗", "density": "Antioxidant Rich 🍃", "time": "20 min"},
+    "18_foul_medames": {"spice": "Cumin Olive Oil 🫒", "prep": "Slow Stewed 🫘", "density": "High Fiber & Protein 🌱", "time": "30 min"},
+    "19_shakshuka": {"spice": "Tomato Cumin 🍅", "prep": "Skillet Poached 🍳", "density": "Lean Protein 🥚", "time": "20 min"},
+    "20_balaleet": {"spice": "Cardamom Saffron 🍯", "prep": "Sweet Savoury Omelette 🍳", "density": "Energy Carbs 🌾", "time": "25 min"},
+    "21_khameer": {"spice": "Date Scented 🌴", "prep": "Tannur Baked 🫓", "density": "Artisan Carbs 🌾", "time": "30 min"},
+    "22_chebab": {"spice": "Cardamom Honey 🍯", "prep": "Golden Griddle 🥞", "density": "Carb Fuel 🌾", "time": "20 min"},
+    "23_luqaimat": {"spice": "Date Molasses 🍯", "prep": "Crisp Puffs 🥟", "density": "Sweet Treat 🍯", "time": "25 min"},
+    "24_knafeh": {"spice": "Orange Blossom 🌸", "prep": "Golden Filo Bake 🧀", "density": "Energy Rich 🧀", "time": "35 min"},
+    "25_karak_chai": {"spice": "Crushed Cardamom ☕", "prep": "Slow Simmered 🫖", "density": "Comfort Beverage 🫖", "time": "15 min"},
 }
 
 DISH_BLURBS = {
@@ -212,7 +176,7 @@ DISH_BLURBS = {
     "04_harees": "Slow-cooked wheat and shredded meat porridge seasoned with aromatic ghee.",
     "05_thareed": "Crisp thin flatbread layered with hearty lamb and slow-simmered vegetable broth.",
     "06_saloona": "A traditional comforting Gulf stew simmered with seasonal vegetables and spices.",
-    "07_ouzi": "Spiced spiced rice loaded with slow-roasted tender lamb and toasted golden nuts.",
+    "07_ouzi": "Spiced rice loaded with slow-roasted tender lamb and toasted golden nuts.",
     "08_samak_mashwi": "Locally caught fish marinated in regional spices and flame-grilled over open coals.",
     "09_jisheed": "Flaked Gulf fish seasoned with dried lime, turmeric, and served over steamed rice.",
     "10_shawarma": "Thinly shaved marinated chicken wrapped in warm pita with garlic toum sauce.",
@@ -239,40 +203,40 @@ CALORIE_RANGE_PCT = 0.15
 
 
 def display_name(cls: str) -> str:
-    """Clean technical class names into title format (e.g. '01_machboos' -> 'Machboos')."""
     return cls.split("_", 1)[1].replace("_", " ").title()
 
 
-DISH_CATEGORIES = {
-    "🍚 Rice Dishes": [
-        "01_machboos",
-        "02_kabsa",
-        "03_biryani",
-        "07_ouzi",
-        "09_jisheed",
-    ],
-    "🥘 Stews & Mains": [
-        "04_harees",
-        "05_thareed",
-        "06_saloona",
-        "08_samak_mashwi",
-    ],
-    "🌯 Wraps & Bites": [
-        "10_shawarma",
-        "11_falafel_wrap",
-        "12_falafel",
-        "13_samboosa",
-        "14_mutabbaq",
-    ],
-    "🫓 Breakfast & Breads": [
-        "18_foul_medames",
-        "19_shakshuka",
-        "20_balaleet",
-        "21_khameer",
-        "22_chebab",
-    ],
-    "🥗 Fresh Salads & Dips": ["15_hummus", "16_fattoush", "17_tabbouleh"],
-    "🍯 Sweets & Tea": ["23_luqaimat", "24_knafeh", "25_karak_chai"],
+DISH_CATEGORIES_DATA = {
+    "Rice Mains": {
+        "icon": "🍚",
+        "count": "5 Dishes",
+        "dishes": ["01_machboos", "02_kabsa", "03_biryani", "07_ouzi", "09_jisheed"],
+    },
+    "Comfort Stews": {
+        "icon": "🥘",
+        "count": "4 Dishes",
+        "dishes": ["04_harees", "05_thareed", "06_saloona", "08_samak_mashwi"],
+    },
+    "Street & Wraps": {
+        "icon": "🌯",
+        "count": "5 Dishes",
+        "dishes": ["10_shawarma", "11_falafel_wrap", "12_falafel", "13_samboosa", "14_mutabbaq"],
+    },
+    "Breads & Morning": {
+        "icon": "🫓",
+        "count": "5 Dishes",
+        "dishes": ["18_foul_medames", "19_shakshuka", "20_balaleet", "21_khameer", "22_chebab"],
+    },
+    "Zesty Salads": {
+        "icon": "🥗",
+        "count": "3 Dishes",
+        "dishes": ["15_hummus", "16_fattoush", "17_tabbouleh"],
+    },
+    "Sweets & Karak": {
+        "icon": "🍯",
+        "count": "3 Dishes",
+        "dishes": ["23_luqaimat", "24_knafeh", "25_karak_chai"],
+    },
 }
 
 
@@ -347,7 +311,8 @@ def run_cnn(pil_image, model, idx_to_class, img_size=(224, 224)):
     return predicted_class, confidence, margin, entropy
 
 
-def run_yolov8(pil_image, yolo_model, conf_threshold=0.25):
+def run_yolov8_with_boxes(pil_image, yolo_model, conf_threshold=0.25):
+    """Run YOLOv8 and return detections with coordinates for visual badge overlay."""
     results = yolo_model.predict(
         np.array(pil_image.convert("RGB")), conf=conf_threshold, verbose=False
     )
@@ -357,8 +322,42 @@ def run_yolov8(pil_image, yolo_model, conf_threshold=0.25):
         cls_id = int(box.cls[0])
         cls_name = yolo_model.names[cls_id]
         box_conf = float(box.conf[0])
-        detections.append((cls_name, box_conf))
+        coords = [float(x) for x in box.xyxy[0].tolist()]
+        detections.append((cls_name, box_conf, coords))
     return detections
+
+
+def create_ai_decoded_overlay(pil_image, detections):
+    """Draw refined gold AI bounding boxes and floating calorie pill pointers on the meal."""
+    img_draw = pil_image.convert("RGB").copy()
+    draw = ImageDraw.Draw(img_draw, "RGBA")
+    w, h = img_draw.size
+
+    for feat, conf, (x1, y1, x2, y2) in detections:
+        # Bounding box with subtle gold border
+        draw.rectangle([x1, y1, x2, y2], outline="#E5A93B", width=max(3, int(w * 0.006)))
+        
+        # Corner accent points
+        corner_len = max(12, int(w * 0.03))
+        draw.line([x1, y1, x1 + corner_len, y1], fill="#FFFFFF", width=4)
+        draw.line([x1, y1, x1, y1 + corner_len], fill="#FFFFFF", width=4)
+        draw.line([x2, y1, x2 - corner_len, y1], fill="#FFFFFF", width=4)
+        draw.line([x2, y1, x2, y1 + corner_len], fill="#FFFFFF", width=4)
+        draw.line([x1, y2, x1 + corner_len, y2], fill="#FFFFFF", width=4)
+        draw.line([x1, y2, x1, y2 - corner_len], fill="#FFFFFF", width=4)
+        draw.line([x2, y2, x2 - corner_len, y2], fill="#FFFFFF", width=4)
+        draw.line([x2, y2, x2, y2 - corner_len], fill="#FFFFFF", width=4)
+
+        # Calorie badge anchor calculation
+        badge_text = f"{feat.replace('_', ' ').title()} • ~{FEATURE_CALORIE_ESTIMATES.get(feat, '120 kcal')}"
+        bx = max(10, min(w - 200, int(x1)))
+        by = max(10, int(y1 - 32))
+        
+        draw.rounded_rectangle([bx, by, bx + 190, by + 26], radius=13, fill=(255, 255, 255, 235), outline="#E5A93B", width=2)
+        draw.ellipse([bx + 8, by + 9, bx + 16, by + 17], fill="#E5A93B")
+        draw.text((bx + 22, by + 5), badge_text[:24], fill="#1E1B16")
+
+    return img_draw
 
 
 def map_detections_to_suggestion(detections, candidates):
@@ -366,7 +365,7 @@ def map_detections_to_suggestion(detections, candidates):
         return None, None, "no_detection"
     valid = [
         (FEATURE_TO_DISH[feat], conf, feat)
-        for feat, conf in detections
+        for feat, conf, _ in detections
         if feat in FEATURE_TO_DISH and FEATURE_TO_DISH[feat] in candidates
     ]
     if not valid:
@@ -404,7 +403,7 @@ def estimate_nutrition(dish_class, portion_size, ingredient_cache):
 
 
 # ============================================================================
-# 3. MODERN LIGHT MOBILE THEME & HERO STYLES
+# 3. MODERN LIGHT MOBILE THEME & COMPONENT STYLES
 # ============================================================================
 
 def inject_theme():
@@ -430,7 +429,6 @@ html, body, [class*="css"] {
     color: var(--text-dark);
 }
 
-/* Backdrop */
 .stApp { 
     background-color: var(--app-bg);
     background-image: 
@@ -451,7 +449,7 @@ html, body, [class*="css"] {
     background: var(--card-bg) !important;
     border: 1px solid var(--card-border) !important;
     border-radius: 32px !important;
-    padding: 1.4rem !important;
+    padding: 1.3rem !important;
     box-shadow: 0 20px 45px -12px rgba(229, 169, 59, 0.16), 0 2px 10px rgba(0,0,0,0.02) !important;
 }
 
@@ -591,31 +589,10 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span {
     font-size: 0.88rem !important;
     border-radius: 999px !important;
     padding: 0.65rem 1.4rem !important;
-    height: auto !important;
     min-height: 42px !important;
-    width: auto !important;
-    min-width: 120px !important;
-    white-space: nowrap !important;
     box-shadow: 0 4px 14px rgba(229, 169, 59, 0.32) !important;
-    transition: all 0.2s ease !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
 }
 
-[data-testid="stFileUploader"] button p {
-    white-space: nowrap !important;
-    margin: 0 !important;
-    line-height: 1 !important;
-}
-
-[data-testid="stFileUploader"] button:hover {
-    background: linear-gradient(135deg, #FEDD97 0%, #F0B547 100%) !important;
-    box-shadow: 0 6px 18px rgba(229, 169, 59, 0.45) !important;
-    transform: translateY(-2px);
-}
-
-/* Global Button Styles */
 div.stButton > button {
     font-family: 'Outfit', sans-serif;
     border-radius: 999px;
@@ -639,12 +616,6 @@ div.stButton > button[kind="primary"] {
     color: #1A1305 !important;
     font-weight: 800;
     box-shadow: 0 10px 24px rgba(229, 169, 59, 0.35) !important;
-}
-
-div.stButton > button[kind="primary"]:hover {
-    background: linear-gradient(135deg, #FDD68A 0%, #F0B547 55%, #DE9A26 100%) !important;
-    box-shadow: 0 12px 28px rgba(229, 169, 59, 0.45) !important;
-    transform: translateY(-2px);
 }
 
 /* --- Full-Width Portion Selection Cards --- */
@@ -684,19 +655,6 @@ div.stButton > button[kind="primary"]:hover {
     background: linear-gradient(135deg, #FDF7EC 0%, #FAF0D8 100%) !important;
     border-color: var(--gold-primary) !important;
     box-shadow: 0 4px 14px rgba(229, 169, 59, 0.25) !important;
-}
-
-.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 0.95rem !important;
-    font-weight: 800 !important;
-    color: var(--text-dark) !important;
-    margin: 0 !important;
-    white-space: nowrap !important;
-}
-
-.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
-    color: #1A1305 !important;
 }
 
 /* Verification Alert Callout */
@@ -741,20 +699,20 @@ div.stButton > button[kind="primary"]:hover {
 /* --- Floating Bottom Navigation Dock --- */
 .floating-bottom-dock {
     position: fixed;
-    bottom: 20px;
+    bottom: 18px;
     left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 32px);
     max-width: 410px;
-    height: 64px;
+    height: 66px;
     background: #1C1917;
-    border-radius: 32px;
+    border-radius: 34px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     padding: 0 14px;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28), 0 4px 12px rgba(0, 0, 0, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.32), 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     z-index: 999999;
 }
 
@@ -767,6 +725,8 @@ div.stButton > button[kind="primary"]:hover {
     font-size: 0.7rem;
     font-weight: 700;
     gap: 3px;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .dock-item.active {
@@ -775,19 +735,26 @@ div.stButton > button[kind="primary"]:hover {
 
 .dock-center-fab {
     position: relative;
-    top: -14px;
-    width: 56px;
-    height: 56px;
-    border-radius: 20px;
+    top: -15px;
+    width: 58px;
+    height: 58px;
+    border-radius: 22px;
     background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 24px rgba(229, 169, 59, 0.45);
+    box-shadow: 0 10px 24px rgba(229, 169, 59, 0.5);
     border: 4px solid #F9F7F2;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --- Get Started Onboarding Hero Styles --- */
+.dock-center-fab:hover {
+    transform: scale(1.06);
+    box-shadow: 0 12px 28px rgba(229, 169, 59, 0.65);
+}
+
+/* --- Hero & Onboarding Styles --- */
 .hero-container {
     position: relative;
     border-radius: 32px;
@@ -861,13 +828,12 @@ div.stButton > button[kind="primary"]:hover {
 
 
 # ============================================================================
-# 4. APP NAVIGATION & MOBILE HEADER
+# 4. APP NAVIGATION, STEPPERS & VISUALIZERS
 # ============================================================================
 
 def render_header():
-    """Render sleek mobile navigation header with crisp vector icons."""
     st.markdown(
-        """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.4rem; padding: 2px 0;">
+        """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 2px 0;">
 <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB; cursor: pointer;">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M4 7H20M4 12H20M4 17H14" stroke="#1E1B16" stroke-width="2.2" stroke-linecap="round"/>
@@ -886,7 +852,7 @@ GB
 </div>
 </div>
 </div>
-<div style="margin-bottom: 1.4rem;">
+<div style="margin-bottom: 1.2rem;">
 <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.25rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;">
 <span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition
 </h1>
@@ -896,8 +862,44 @@ GB
     )
 
 
+def render_segmented_stepper(current_stage: str, triggered: bool):
+    """Render modern segmented story-style progress pill indicators."""
+    steps = [("upload", "1. Scan")]
+    if triggered:
+        steps.append(("confirm_dish", "2. Verify"))
+    steps.append(("select_portion", f"{len(steps)+1}. Portion"))
+    steps.append(("result", f"{len(steps)+2}. Macros"))
+
+    keys = [s[0] for s in steps]
+    active_idx = keys.index(current_stage) if current_stage in keys else 0
+
+    html = ['<div style="margin: 0.2rem 0 1.2rem 0;">']
+    html.append('<div style="display: flex; gap: 6px; width: 100%; margin-bottom: 8px;">')
+    
+    for i in range(len(steps)):
+        if i <= active_idx:
+            bar_bg = "linear-gradient(90deg, #F3C36A 0%, #E5A93B 100%)"
+            bar_shadow = "box-shadow: 0 2px 8px rgba(229, 169, 59, 0.35);"
+        else:
+            bar_bg = "#EBE4D5"
+            bar_shadow = ""
+        html.append(f'<div style="flex: 1; height: 6px; border-radius: 999px; background: {bar_bg}; {bar_shadow}"></div>')
+    
+    html.append('</div>')
+    
+    # Text labels row
+    html.append('<div style="display: flex; justify-content: space-between; padding: 0 2px;">')
+    for i, (_, label) in enumerate(steps):
+        is_active = i == active_idx
+        color = "#1E1B16" if is_active else "#9C9487"
+        weight = "800" if is_active else "600"
+        html.append(f'<span style="font-family: \'Outfit\', sans-serif; font-size: 0.76rem; font-weight: {weight}; color: {color};">{label}</span>')
+    html.append('</div></div>')
+
+    st.markdown("".join(html), unsafe_allow_html=True)
+
+
 def render_bottom_dock():
-    """Render floating dark bottom navigation dock with raised FAB scanner."""
     st.markdown(
         """<div class="floating-bottom-dock">
     <div class="dock-item active">
@@ -914,7 +916,7 @@ def render_bottom_dock():
         </svg>
         <span>Menu</span>
     </div>
-    <div class="dock-center-fab">
+    <div class="dock-center-fab" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A1305" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
             <circle cx="12" cy="13" r="4"></circle>
@@ -938,86 +940,153 @@ def render_bottom_dock():
     )
 
 
-def render_stepper(current_stage: str, triggered: bool):
-    """Render mobile progress chips in warm gold."""
-    steps = [("upload", "Upload")]
-    if triggered:
-        steps.append(("confirm_dish", "Confirm"))
-    steps.append(("select_portion", "Portion"))
-    steps.append(("result", "Macros"))
+def render_category_squircle_cards():
+    """Render 3-column squircle category explorer cards with rich icons."""
+    categories = list(DISH_CATEGORIES_DATA.keys())
+    
+    if "selected_category" not in st.session_state:
+        st.session_state.selected_category = categories[0]
 
-    keys = [s[0] for s in steps]
-    active_idx = keys.index(current_stage) if current_stage in keys else 0
-
-    html = [
-        '<div style="display: flex; align-items: center; justify-content: space-between; margin: 0.4rem 0 1.2rem 0; padding: 0 2px;">'
-    ]
-    for i, (key, label) in enumerate(steps):
-        is_done = i < active_idx
-        is_active = i == active_idx
-
-        bg = "linear-gradient(135deg, #F3C36A, #E5A93B)" if (is_done or is_active) else "#EFEAE0"
-        color = "#1B1304" if (is_done or is_active) else "#A39E96"
-        text_color = "#1E1B16" if (is_done or is_active) else "#A39E96"
-        font_weight = "800" if is_active else "600"
-        glow = "box-shadow: 0 4px 12px rgba(229, 169, 59, 0.35);" if is_active else ""
-
-        html.append(f"""<div style="display: flex; align-items: center; gap: 6px;">
-<div style="width: 24px; height: 24px; border-radius: 50%; background: {bg}; color: {color}; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 800; {glow}">{i + 1}</div>
-<span style="font-family: 'Outfit', sans-serif; color: {text_color}; font-weight: {font_weight}; font-size: 0.84rem;">{label}</span>
-</div>""")
-        if i < len(steps) - 1:
-            line_color = "#E5A93B" if is_done else "#EFEAE0"
-            html.append(
-                f'<div style="flex: 1; min-width: 10px; height: 2.5px; background: {line_color}; margin: 0 6px; border-radius: 2px;"></div>'
+    cols = st.columns(3)
+    for idx, cat_name in enumerate(categories):
+        cat_info = DISH_CATEGORIES_DATA[cat_name]
+        is_active = st.session_state.selected_category == cat_name
+        with cols[idx % 3]:
+            btn_border = "2px solid #E5A93B" if is_active else "1px solid #EAE1CF"
+            btn_bg = "linear-gradient(135deg, #FDF7EC 0%, #FAEED0 100%)" if is_active else "#FFFFFF"
+            shadow = "0 6px 16px rgba(229,169,59,0.22)" if is_active else "0 2px 8px rgba(0,0,0,0.02)"
+            
+            st.markdown(
+                f"""<div style="background: {btn_bg}; border: {btn_border}; border-radius: 20px; padding: 12px 6px; text-align: center; margin-bottom: 8px; box-shadow: {shadow};">
+                    <div style="font-size: 1.6rem; margin-bottom: 2px;">{cat_info['icon']}</div>
+                    <div style="font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 800; color: #1E1B16;">{cat_name}</div>
+                    <div style="font-size: 0.68rem; color: #8F887C; font-weight: 600;">{cat_info['count']}</div>
+                </div>""",
+                unsafe_allow_html=True,
             )
+            if st.button(f"View {cat_info['icon']}", key=f"cat_btn_{idx}", use_container_width=True):
+                st.session_state.selected_category = cat_name
+                st.rerun()
 
-    html.append("</div>")
-    st.markdown("".join(html), unsafe_allow_html=True)
+    active_cat = st.session_state.selected_category
+    dishes = DISH_CATEGORIES_DATA[active_cat]["dishes"]
 
+    selected_dish = st.selectbox(
+        f"Select a {active_cat} dish to preview:",
+        options=dishes,
+        format_func=display_name,
+        index=0,
+        label_visibility="collapsed",
+    )
 
-def render_calorie_hero(lo: int, hi: int):
-    """Render gold-accented calorie highlight banner."""
-    st.markdown(
-        f"""<div style="
-            background: linear-gradient(135deg, #FDF9EE 0%, #FAF3DE 100%);
-            border: 1.5px solid #F3E0B5;
-            border-radius: 24px;
-            padding: 1.2rem 1.4rem;
-            margin: 1rem 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        ">
-            <div>
-                <div style="font-size: 0.75rem; font-weight: 800; color: #D19428; text-transform: uppercase; letter-spacing: 0.05em;">Estimated Energy</div>
-                <div style="font-family: 'Outfit', sans-serif; font-size: 2.3rem; font-weight: 900; color: #1E1B16; line-height: 1.1; margin-top: 2px;">
-                    {lo}&ndash;{hi} <span style="font-size: 1.05rem; font-weight: 600; color: #8F887C;">kcal</span>
+    if selected_dish:
+        meta = DISH_METADATA.get(selected_dish, {"spice": "Aromatic 🌶️", "prep": "Traditional", "density": "Nutritious", "time": "30 min"})
+        blurb = DISH_BLURBS.get(selected_dish, "")
+        st.markdown(
+            f"""<div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 22px; padding: 14px 16px; margin-top: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-family: 'Outfit', sans-serif; font-weight: 900; color: #1E1B16; font-size: 1.1rem;">{display_name(selected_dish)}</div>
+                    <span style="background: #FDF6E9; color: #C28416; font-size: 0.74rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; border: 1px solid #F5E3BE;">⏱️ {meta['time']}</span>
                 </div>
+                <p style="color: #736C61; font-size: 0.84rem; line-height: 1.45; margin: 8px 0 10px 0;">{blurb}</p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <span style="font-size: 0.72rem; font-weight: 700; background: #FFFFFF; border: 1px solid #E2D7C3; padding: 3px 8px; border-radius: 8px;">{meta['spice']}</span>
+                    <span style="font-size: 0.72rem; font-weight: 700; background: #FFFFFF; border: 1px solid #E2D7C3; padding: 3px 8px; border-radius: 8px;">{meta['prep']}</span>
+                    <span style="font-size: 0.72rem; font-weight: 700; background: #FFFFFF; border: 1px solid #E2D7C3; padding: 3px 8px; border-radius: 8px;">{meta['density']}</span>
+                </div>
+            </div>""",
+            unsafe_allow_html=True,
+        )
+
+
+def render_culinary_badges(dish_class: str):
+    """Render authentic Gulf culinary metadata badges."""
+    meta = DISH_METADATA.get(dish_class, {"spice": "Aromatic 🌶️", "prep": "Slow-Simmered ⏳", "density": "Nutrient Rich 🥗", "time": "45 min"})
+    st.markdown(
+        f"""<div style="display: flex; justify-content: space-between; gap: 6px; margin: 0.8rem 0 1rem 0; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+                <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">FLAVOR</div>
+                <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['spice']}</div>
             </div>
-            <div style="background: #FFFFFF; padding: 8px 16px; border-radius: 999px; border: 1.5px solid #E5A93B; color: #B37B1B; font-weight: 800; font-size: 0.92rem; box-shadow: 0 4px 10px rgba(229,169,59,0.15);">
-                ✨ Validated
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+                <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">COOK STYLE</div>
+                <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['prep']}</div>
+            </div>
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+                <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">PROFILE</div>
+                <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['density']}</div>
             </div>
         </div>""",
         unsafe_allow_html=True,
     )
 
 
-def render_macro_cards(protein_g, carbs_g, fat_g):
-    """Render 3 responsive macro micro-cards without fiber."""
+def render_macro_donut_and_cards(protein_g: float, carbs_g: float, fat_g: float, lo: int, hi: int):
+    """Render visual circular donut SVG gauge alongside macronutrient micro-cards."""
+    cal_prot = protein_g * 4
+    cal_carb = carbs_g * 4
+    cal_fat = fat_g * 9
+    total_cal = max(1.0, cal_prot + cal_carb + cal_fat)
+
+    pct_p = cal_prot / total_cal
+    pct_c = cal_carb / total_cal
+    pct_f = cal_fat / total_cal
+
+    circumference = 2 * 3.14159 * 42  # r = 42 -> ~263.89
+    len_p = pct_p * circumference
+    len_c = pct_c * circumference
+    len_f = pct_f * circumference
+
+    off_p = 0
+    off_c = -len_p
+    off_f = -(len_p + len_c)
+
+    svg_donut = f"""<svg width="116" height="116" viewBox="0 0 100 100" style="transform: rotate(-90deg);">
+        <circle cx="50" cy="50" r="42" fill="transparent" stroke="#EFEAE0" stroke-width="12"/>
+        <circle cx="50" cy="50" r="42" fill="transparent" stroke="#E5A93B" stroke-width="12" stroke-dasharray="{len_p:.2f} {circumference:.2f}" stroke-dashoffset="{off_p:.2f}" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="42" fill="transparent" stroke="#059669" stroke-width="12" stroke-dasharray="{len_c:.2f} {circumference:.2f}" stroke-dashoffset="{off_c:.2f}" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="42" fill="transparent" stroke="#FF5A1F" stroke-width="12" stroke-dasharray="{len_f:.2f} {circumference:.2f}" stroke-dashoffset="{off_f:.2f}" stroke-linecap="round"/>
+    </svg>"""
+
+    avg_cal = round((lo + hi) / 2)
+
     st.markdown(
-        f"""<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0.8rem 0 1.2rem 0;">
-    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
+        f"""<div style="background: linear-gradient(135deg, #FDF9EE 0%, #FAF3DE 100%); border: 1.5px solid #F3E0B5; border-radius: 26px; padding: 1.2rem 1.3rem; margin: 1rem 0; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <div style="font-size: 0.74rem; font-weight: 800; color: #D19428; text-transform: uppercase; letter-spacing: 0.05em;">Estimated Energy</div>
+                <div style="font-family: 'Outfit', sans-serif; font-size: 2.1rem; font-weight: 900; color: #1E1B16; line-height: 1.1; margin: 2px 0 6px 0;">
+                    {lo}&ndash;{hi} <span style="font-size: 0.95rem; font-weight: 600; color: #8F887C;">kcal</span>
+                </div>
+                <div style="display: flex; gap: 8px; font-size: 0.72rem; font-weight: 800;">
+                    <span style="color: #E5A93B;">● Prot {pct_p*100:.0f}%</span>
+                    <span style="color: #059669;">● Carb {pct_c*100:.0f}%</span>
+                    <span style="color: #FF5A1F;">● Fat {pct_f*100:.0f}%</span>
+                </div>
+            </div>
+            <div style="position: relative; width: 116px; height: 116px; display: flex; align-items: center; justify-content: center;">
+                {svg_donut}
+                <div style="position: absolute; text-align: center; transform: rotate(0deg);">
+                    <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.1rem; color: #1E1B16; line-height: 1;">{avg_cal}</div>
+                    <div style="font-size: 0.62rem; font-weight: 700; color: #8F887C;">avg kcal</div>
+                </div>
+            </div>
+        </div>""",
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        f"""<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0.6rem 0 1.2rem 0;">
+    <div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
         <div style="font-size: 0.74rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🤍 Protein</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.2rem; font-weight: 800;">{protein_g}g</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{protein_g}g</div>
     </div>
-    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
+    <div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
         <div style="font-size: 0.74rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🌾 Carbs</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.2rem; font-weight: 800;">{carbs_g}g</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{carbs_g}g</div>
     </div>
-    <div style="background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
+    <div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
         <div style="font-size: 0.74rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🧈 Fat</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.2rem; font-weight: 800;">{fat_g}g</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{fat_g}g</div>
     </div>
 </div>""",
         unsafe_allow_html=True,
@@ -1038,51 +1107,6 @@ def render_confidence_bar(confidence):
     )
 
 
-def render_interactive_dish_explorer():
-    selected_category = st.radio(
-        "Filter by category:",
-        options=list(DISH_CATEGORIES.keys()),
-        index=0,
-        horizontal=True,
-        label_visibility="collapsed",
-    )
-
-    if not selected_category:
-        selected_category = "🍚 Rice Dishes"
-
-    category_dishes = DISH_CATEGORIES[selected_category]
-
-    st.markdown(
-        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.78rem; font-weight: 800; color: #8F887C; text-transform: uppercase; letter-spacing: 0.05em;">Choose Recipe</div>',
-        unsafe_allow_html=True,
-    )
-
-    selected_dish = st.selectbox(
-        "Choose a dish to explore:",
-        options=category_dishes,
-        format_func=display_name,
-        index=0,
-        label_visibility="collapsed",
-    )
-
-    if selected_dish:
-        blurb = DISH_BLURBS.get(selected_dish, "")
-        st.markdown(
-            f"""<div style="
-                background: #FAF8F3;
-                border: 1px solid #EBE2CF;
-                border-left: 4px solid #E5A93B;
-                border-radius: 20px;
-                padding: 14px 16px;
-                margin-top: 10px;
-            ">
-                <div style="font-family: 'Outfit', sans-serif; font-weight: 800; color: #1E1B16; font-size: 1.05rem; margin-bottom: 4px;">{display_name(selected_dish)}</div>
-                <div style="color: #736C61; font-size: 0.84rem; line-height: 1.45;">{blurb}</div>
-            </div>""",
-            unsafe_allow_html=True,
-        )
-
-
 # ============================================================================
 # 5. STREAMLIT APP STATE SETUP
 # ============================================================================
@@ -1099,6 +1123,7 @@ if "stage" not in st.session_state:
     st.session_state.stage = "onboarding"
     st.session_state.triggered = False
     st.session_state.image = None
+    st.session_state.annotated_image = None
     st.session_state.cnn_class = None
     st.session_state.cnn_confidence = None
     st.session_state.candidates = None
@@ -1151,7 +1176,7 @@ if st.session_state.stage == "onboarding":
 
 <div style="text-align: center; padding: 0.2rem 0.8rem 1.6rem 0.8rem;">
     <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.45rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;">
-        Your Food,<br><span style="color: #E5A93B;">Decoded By AI</span>
+        <span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition
     </h1>
     <p style="color: #7A7468; font-size: 0.92rem; font-weight: 500; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">
         From authentic Gulf dish recognition to portion-based nutrition — powered by computer vision.
@@ -1173,17 +1198,17 @@ if st.session_state.stage == "onboarding":
 
 
 # ============================================================================
-# 8. SCREEN 1: MAIN SCANNER & EXPLORER
+# 8. SCREEN 1: MAIN SCANNER & SQUIRCLE CATEGORIES EXPLORER
 # ============================================================================
 
 elif st.session_state.stage == "upload":
     render_header()
 
-    guide_tab, dishes_tab = st.tabs(["⚡ Quick Guide", "🍽️ Supported Dishes"])
+    guide_tab, dishes_tab = st.tabs(["⚡ Quick Guide", "🍽️ Supported Dishes (25)"])
 
     with guide_tab:
         st.markdown(
-            """<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0 6px 0;">
+            """<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0 6px 0;">
 <div style="background: #FFFFFF; border: 1px solid #EBE2CF; border-radius: 20px; padding: 14px 8px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
     <div style="font-size: 1.5rem; margin-bottom: 4px;">📸</div>
     <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-weight: 800; font-size: 0.8rem;">1. Snap Meal</div>
@@ -1204,10 +1229,10 @@ elif st.session_state.stage == "upload":
         )
 
     with dishes_tab:
-        render_interactive_dish_explorer()
+        render_category_squircle_cards()
 
-    st.markdown("<div style='margin-bottom: 1.4rem;'></div>", unsafe_allow_html=True)
-    render_stepper("upload", st.session_state.triggered)
+    st.markdown("<div style='margin-bottom: 1.2rem;'></div>", unsafe_allow_html=True)
+    render_segmented_stepper("upload", st.session_state.triggered)
 
     with st.container(border=True):
         st.markdown(
@@ -1289,13 +1314,17 @@ Please upload a clear, top-down photo of a traditional Gulf dish.
                         cnn_class == "03_biryani"
                     )
                     yolo_suggestion, gate_status = None, None
+                    annotated_img = None
                     if run_yolo_here:
-                        detections = run_yolov8(image_to_process, yolo_model)
+                        detections = run_yolov8_with_boxes(image_to_process, yolo_model)
+                        if detections:
+                            annotated_img = create_ai_decoded_overlay(image_to_process, detections)
                         _, gated, gate_status = map_detections_to_suggestion(
                             detections, candidates
                         )
                         yolo_suggestion = gated[0] if gated else None
 
+                    st.session_state.annotated_image = annotated_img
                     st.session_state.candidates = sorted(candidates)
                     st.session_state.yolo_suggestion = yolo_suggestion
                     st.session_state.yolo_gate_status = gate_status
@@ -1311,17 +1340,18 @@ Please upload a clear, top-down photo of a traditional Gulf dish.
 
 
 # ============================================================================
-# 9. SCREEN 2: CONFIRM DISH
+# 9. SCREEN 2: CONFIRM DISH (WITH AI DECODED VISUAL OVERLAY)
 # ============================================================================
 
 elif st.session_state.stage == "confirm_dish":
     render_header()
-    render_stepper("confirm_dish", True)
+    render_segmented_stepper("confirm_dish", True)
 
     with st.container(border=True):
+        display_img = st.session_state.annotated_image if st.session_state.annotated_image else st.session_state.image
         st.image(
-            st.session_state.image,
-            caption="Scanned Plate",
+            display_img,
+            caption="AI Decoded Ingredients & Markers",
             use_column_width=True,
         )
 
@@ -1355,7 +1385,7 @@ elif st.session_state.stage == "confirm_dish":
             st.markdown(
                 f"""<div class="ingredient-badge">
                     <span style="font-size: 1.1rem;">✨</span>
-                    <span>Visual ingredient inspection detected: <strong style="color: #C28416;">{display_name(yolo_suggestion)}</strong></span>
+                    <span>Visual inspection detected marker: <strong style="color: #C28416;">{display_name(yolo_suggestion)}</strong></span>
                 </div>""",
                 unsafe_allow_html=True,
             )
@@ -1395,7 +1425,7 @@ elif st.session_state.stage == "confirm_dish":
 
 elif st.session_state.stage == "select_portion":
     render_header()
-    render_stepper("select_portion", st.session_state.triggered)
+    render_segmented_stepper("select_portion", st.session_state.triggered)
 
     with st.container(border=True):
         st.image(
@@ -1441,12 +1471,12 @@ elif st.session_state.stage == "select_portion":
 
 
 # ============================================================================
-# 11. SCREEN 4: NUTRITIONAL BREAKDOWN RESULT
+# 11. SCREEN 4: NUTRITIONAL BREAKDOWN & MACRO DONUT RING
 # ============================================================================
 
 elif st.session_state.stage == "result":
     render_header()
-    render_stepper("result", st.session_state.triggered)
+    render_segmented_stepper("result", st.session_state.triggered)
 
     with st.container(border=True):
         st.image(
@@ -1481,9 +1511,9 @@ elif st.session_state.stage == "result":
                 unsafe_allow_html=True,
             )
 
-        render_calorie_hero(lo, hi)
-        render_macro_cards(
-            nutrition["protein_g"], nutrition["carbs_g"], nutrition["fat_g"]
+        render_culinary_badges(dish)
+        render_macro_donut_and_cards(
+            nutrition["protein_g"], nutrition["carbs_g"], nutrition["fat_g"], lo, hi
         )
 
         if nutrition["missing_ingredients"]:
