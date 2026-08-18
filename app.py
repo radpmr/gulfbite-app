@@ -2,10 +2,10 @@
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
 Identifies authentic Gulf dishes using a multi-tiered pipeline:
-1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
-2. Out-of-distribution / Non-food rejection via margin and entropy checks.
-3. YOLOv8 feature detection with visual bounding overlays & calorie pointers.
-4. Portion-based authentic macro and calorie estimation with SVG Macro Rings.
+1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring[cite: 1].
+2. Out-of-distribution / Non-food rejection via margin and entropy checks[cite: 1].
+3. YOLOv8 feature detection with visual bounding overlays & calorie pointers[cite: 1].
+4. Portion-based authentic macro and calorie estimation with SVG Macro Rings[cite: 1].
 """
 
 import json
@@ -17,11 +17,11 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageOps
 import streamlit as st
 
-# Force CPU inference for stability and suppress TensorFlow verbose logging
+# Force CPU inference for stability and suppress TensorFlow verbose logging[cite: 1]
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
-# Register HEIC/HEIF image support for mobile uploads
+# Register HEIC/HEIF image support for mobile uploads[cite: 1]
 try:
     import pillow_heif
     pillow_heif.register_heif_opener()
@@ -589,55 +589,24 @@ div.stButton > button[kind="primary"]:hover {
     border: 1px solid #A7F3D0;
 }
 
-/* --- Floating Bottom Navigation Bar --- */
-.bottom-dock-container {
+/* --- Floating Bottom Navigation Dock (Solid Clean Dark Frame) --- */
+.bottom-dock-fixed {
     position: fixed;
-    bottom: 16px;
+    bottom: 18px;
     left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 32px);
     max-width: 410px;
+    height: 64px;
     background: #1C1917;
     border-radius: 36px;
-    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 14px;
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.12);
     z-index: 999999;
-}
-
-.bottom-dock-container div.stButton > button {
-    background: transparent !important;
-    border: none !important;
-    color: #A8A29E !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 0.84rem !important;
-    font-weight: 700 !important;
-    padding: 8px 6px !important;
-    border-radius: 20px !important;
-    box-shadow: none !important;
-}
-
-.bottom-dock-container div.stButton > button:hover {
-    color: #FFFFFF !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-}
-
-.dock-active-btn div.stButton > button {
-    background: rgba(255, 255, 255, 0.14) !important;
-    color: #F3C36A !important;
-    font-weight: 900 !important;
-}
-
-.dock-center-scan div.stButton > button {
-    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
-    color: #1A1305 !important;
-    font-size: 0.92rem !important;
-    font-weight: 900 !important;
-    border-radius: 22px !important;
-    padding: 10px 6px !important;
-    box-shadow: 0 8px 20px rgba(229, 169, 59, 0.45) !important;
-    border: 3px solid #F9F7F2 !important;
-    margin-top: -12px !important;
 }
 
 /* --- Hero & Onboarding Styles --- */
@@ -730,7 +699,6 @@ GB
 
 
 def render_segmented_stepper(current_stage: str, triggered: bool):
-    """Render modern segmented story-style progress pill indicators with strictly sequential numbers."""
     raw_steps = [("upload", "Scan")]
     if triggered:
         raw_steps.append(("confirm_dish", "Verify"))
@@ -768,7 +736,6 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
 
 
 def render_quick_guide():
-    """Render 3 Quick Guide feature cards."""
     st.markdown(
         """<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0 14px 0;">
 <div style="background: #FFFFFF; border: 1px solid #EBE2CF; border-radius: 20px; padding: 14px 8px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
@@ -792,7 +759,6 @@ def render_quick_guide():
 
 
 def render_category_squircle_cards():
-    """Render clean category explorer with select dropdown for full reliability across Streamlit versions."""
     categories = list(DISH_CATEGORIES_DATA.keys())
     
     if "selected_category" not in st.session_state:
@@ -948,36 +914,37 @@ def render_confidence_bar(confidence):
 
 
 def render_bottom_navigation_dock():
-    """Render floating dark bottom navigation dock using responsive Streamlit button row."""
+    """Render floating dark bottom navigation dock with raised FAB scanner."""
     cur = st.session_state.stage
-    st.markdown('<div class="bottom-dock-container">', unsafe_allow_html=True)
-    c1, c2, c3 = st.columns([1, 1, 1])
+    
+    st.markdown(
+        f"""<div class="bottom-dock-fixed">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 6px; color: {'#F3C36A' if cur=='home' else '#A8A29E'}; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.88rem; cursor: pointer;">
+                <span>🏠</span><span>Home</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 6px; color: {'#F3C36A' if cur=='menu' else '#A8A29E'}; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.88rem; cursor: pointer;">
+                <span>📖</span><span>Menu</span>
+            </div>
+            <div style="background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%); border-radius: 20px; padding: 10px 18px; display: flex; align-items: center; justify-content: center; gap: 6px; color: #1A1305; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 0.92rem; box-shadow: 0 6px 18px rgba(229,169,59,0.5); transform: translateY(-4px); cursor: pointer;">
+                <span>📷</span><span>Scan</span>
+            </div>
+        </div>""",
+        unsafe_allow_html=True,
+    )
 
+    c1, c2, c3 = st.columns(3)
     with c1:
-        cls1 = "dock-active-btn" if cur == "home" else ""
-        st.markdown(f'<div class="{cls1}">', unsafe_allow_html=True)
-        if st.button("🏠 Home", key="btn_dock_home", use_container_width=True):
+        if st.button("Go to Home", key="btn_nav_home", use_container_width=True):
             st.session_state.stage = "home"
             st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
     with c2:
-        cls2 = "dock-active-btn" if cur == "menu" else ""
-        st.markdown(f'<div class="{cls2}">', unsafe_allow_html=True)
-        if st.button("📖 Menu", key="btn_dock_menu", use_container_width=True):
+        if st.button("Go to Menu", key="btn_nav_menu", use_container_width=True):
             st.session_state.stage = "menu"
             st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
     with c3:
-        cls3 = "dock-center-scan"
-        st.markdown(f'<div class="{cls3}">', unsafe_allow_html=True)
-        if st.button("📷 Scan", key="btn_dock_scan", use_container_width=True):
+        if st.button("Open Scanner", key="btn_nav_scan", type="primary", use_container_width=True):
             st.session_state.stage = "upload"
             st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ============================================================================
@@ -1158,7 +1125,6 @@ elif st.session_state.stage == "upload":
                     image_to_process, cnn_model, idx_to_class
                 )
 
-                # Non-food guardrail
                 is_non_food = (
                     cnn_confidence < MIN_CONFIDENCE
                     or margin < MIN_MARGIN
