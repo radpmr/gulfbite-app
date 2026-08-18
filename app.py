@@ -345,7 +345,7 @@ def estimate_nutrition(dish_class, portion_size, ingredient_cache):
     }
 
 # ============================================================================
-# 3. ENHANCED MODERN LIGHT MOBILE THEME & CSS
+# 3. POLISHED MOBILE APP THEME & CSS
 # ============================================================================
 def inject_theme():
     st.markdown(
@@ -353,176 +353,147 @@ def inject_theme():
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
 
 :root {
-    --app-bg: #F9F7F2;
+    --app-bg: #F7F5F0;
     --card-bg: #FFFFFF;
-    --card-border: rgba(229, 169, 59, 0.22);
+    --card-border: rgba(229, 169, 59, 0.16);
     --gold-primary: #E5A93B;
     --gold-dark: #C28416;
     --gold-soft: #FDF6E9;
-    --gold-dim: #996E21;
-    --text-dark: #1E1B16;
-    --text-muted: #5C5446;
-    --chip-bg: #F4EFE6;
+    --text-dark: #1A1713;
+    --text-muted: #6B6153;
 }
 
 html, body, [class*="css"] { 
     font-family: 'Plus Jakarta Sans', sans-serif;
     color: var(--text-dark);
+    -webkit-font-smoothing: antialiased;
 }
 
 .stApp { 
     background-color: var(--app-bg);
     background-image: 
-        radial-gradient(circle at 50% -10%, #FBF1DC 0%, transparent 65%),
-        radial-gradient(circle at 100% 100%, #FAF3E3 0%, transparent 50%);
-    color: var(--text-dark);
+        radial-gradient(circle at 50% -5%, #FCEFCF 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, #FAF2DE 0%, transparent 45%);
 }
 
 #MainMenu, footer, header[data-testid="stHeader"] { visibility: hidden; height: 0; }
+
 .block-container {
-    max-width: 440px !important;
-    padding-top: 0.85rem !important;
-    padding-bottom: 5.2rem !important; /* Extra bottom padding for sticky action bar */
-    padding-left: 0.85rem !important;
-    padding-right: 0.85rem !important;
+    max-width: 410px !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 5.5rem !important;
+    padding-left: 0.6rem !important;
+    padding-right: 0.6rem !important;
 }
 
-@media (max-width: 480px) {
-    .block-container {
-        padding-left: 0.55rem !important;
-        padding-right: 0.55rem !important;
-        padding-top: 0.55rem !important;
-    }
-    [data-testid="stVerticalBlockBorderWrapper"] {
-        border-radius: 24px !important;
-        padding: 1.05rem !important;
-    }
-    .ai-scan-hero-wrap {
-        height: 285px !important;
-        border-radius: 24px !important;
-    }
-}
-
-/* Mobile Frame Card Container with Active Tap Feedback */
+/* Simulated Mobile Frame Container */
 [data-testid="stVerticalBlockBorderWrapper"] {
     background: var(--card-bg) !important;
     border: 1px solid var(--card-border) !important;
-    border-radius: 26px !important;
-    padding: 1.05rem !important;
-    box-shadow: 0 14px 34px -14px rgba(120, 83, 20, 0.18), 0 2px 8px rgba(0,0,0,0.025) !important;
-    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+    border-radius: 28px !important;
+    padding: 1.15rem !important;
+    box-shadow: 0 16px 36px -12px rgba(110, 80, 20, 0.12), 0 2px 6px rgba(0,0,0,0.02) !important;
 }
 
-/* --- Clean Modern Dropzone & Button --- */
+/* iOS Status Bar Simulation */
+.ios-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 8px 10px 8px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #1A1713;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.ios-dynamic-island {
+    width: 90px;
+    height: 22px;
+    background: #1A1713;
+    border-radius: 999px;
+    margin: 0 auto;
+}
+
+/* Native Selectboxes & Inputs Styling */
+div[data-baseweb="select"] > div {
+    border-radius: 18px !important;
+    border: 1.5px solid #EAE0CD !important;
+    min-height: 50px !important;
+    background: #FAF8F4 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 700 !important;
+}
+
+div[data-baseweb="select"] > div:hover {
+    border-color: var(--gold-primary) !important;
+}
+
+/* File Uploader Refinement */
 [data-testid="stFileUploaderDropzone"] {
-    background: #FAF8F3 !important;
-    border: 2px dashed #E2D5B8 !important;
+    background: #FAF8F4 !important;
+    border: 2px dashed #DFD2BC !important;
     border-radius: 24px !important;
-    padding: 1.8rem 1.2rem !important;
-    transition: all 0.25s ease !important;
+    padding: 1.6rem 1rem !important;
+    transition: all 0.2s ease !important;
 }
 
 [data-testid="stFileUploaderDropzone"]:hover {
     border-color: var(--gold-primary) !important;
     background: #FDF9EE !important;
-    box-shadow: 0 8px 24px rgba(229, 169, 59, 0.14) !important;
 }
 
-[data-testid="stFileUploaderDropzone"] svg {
-    fill: var(--gold-primary) !important;
-    color: var(--gold-primary) !important;
-}
-
-[data-testid="stFileUploaderDropzoneInstructions"] > div > span {
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 1.05rem !important;
-    font-weight: 800 !important;
-    color: var(--text-dark) !important;
-}
-
-[data-testid="stFileUploaderDropzoneInstructions"] > div > small {
-    color: #5C5446 !important;
-    font-size: 0.82rem !important;
-    font-weight: 700 !important;
-}
-
-[data-testid="stFileUploader"] button {
-    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
-    border: none !important;
-    color: #1A1305 !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-weight: 800 !important;
-    font-size: 0.88rem !important;
-    border-radius: 999px !important;
-    padding: 0.65rem 1.4rem !important;
-    min-height: 42px !important;
-    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.32) !important;
-}
-
-/* Global Buttons with Enhanced Active Press State */
+/* Primary iOS App Buttons */
 div.stButton > button {
     font-family: 'Outfit', sans-serif;
     border-radius: 999px;
     border: none;
-    background: #1C1917;
+    background: #1A1713;
     color: #FFFFFF;
     font-weight: 800;
     font-size: 0.95rem;
     padding: 0.85rem 1.5rem;
-    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.15s ease;
     width: 100%;
-    min-height: 48px;
-}
-
-div.stButton > button:hover {
-    background: #2E2824;
-    transform: translateY(-1px);
-    color: #FFFFFF;
+    min-height: 50px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 
 div.stButton > button:active {
-    transform: scale(0.97) translateY(0);
+    transform: scale(0.97);
 }
 
 div.stButton > button[kind="primary"] {
-    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 55%, #CF8E1D 100%) !important;
+    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 55%, #D4962B 100%) !important;
     color: #1A1305 !important;
-    font-weight: 800;
     box-shadow: 0 10px 24px rgba(229, 169, 59, 0.35) !important;
 }
 
-div.stButton > button[kind="primary"]:hover {
-    background: linear-gradient(135deg, #FDD68A 0%, #F0B547 55%, #DE9A26 100%) !important;
-    color: #1A1305 !important;
-}
-
-/* --- Sticky Bottom Action Bar --- */
+/* Sticky Action Bar for Mobile Thumb Zone */
 .sticky-action-bar {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(249, 247, 242, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(229, 169, 59, 0.25);
-    padding: 12px 16px;
+    background: rgba(247, 245, 240, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(229, 169, 59, 0.2);
+    padding: 12px 18px;
     z-index: 999;
     display: flex;
     justify-content: center;
-    box-shadow: 0 -8px 24px rgba(0,0,0,0.06);
 }
 
 .sticky-action-inner {
-    max-width: 440px;
+    max-width: 410px;
     width: 100%;
 }
 
-/* --- Full-Width Portion Selection Cards with Haptic Tap --- */
+/* --- Full-Width Portion Selection Cards --- */
 .portion-card-group div[data-testid="stRadio"] > div[role="radiogroup"] {
     display: flex !important;
     flex-direction: column !important;
-    flex-wrap: nowrap !important;
     gap: 10px !important;
     width: 100% !important;
 }
@@ -532,13 +503,13 @@ div.stButton > button[kind="primary"]:hover {
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    background: #FAF8F3 !important;
-    border: 1.5px solid #EBE2CF !important;
+    background: #FAF8F4 !important;
+    border: 1.5px solid #EAE0CD !important;
     border-radius: 20px !important;
     padding: 14px 18px !important;
     margin: 0 !important;
     box-sizing: border-box !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.2s ease !important;
     cursor: pointer !important;
 }
 
@@ -549,17 +520,12 @@ div.stButton > button[kind="primary"]:hover {
 .portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
     background: #FDF9EE !important;
     border-color: var(--gold-primary) !important;
-    transform: translateY(-1px);
-}
-
-.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"]:active {
-    transform: scale(0.98);
 }
 
 .portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
     background: linear-gradient(135deg, #FDF7EC 0%, #FAF0D8 100%) !important;
     border-color: var(--gold-primary) !important;
-    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.25) !important;
+    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.2) !important;
 }
 
 .portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
@@ -568,59 +534,15 @@ div.stButton > button[kind="primary"]:hover {
     font-weight: 800 !important;
     color: var(--text-dark) !important;
     margin: 0 !important;
-    white-space: nowrap !important;
 }
 
-.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
-    color: #1A1305 !important;
-}
-
-/* Verification Alert Callout */
-.verify-callout {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    background: #FDF9EE;
-    border: 1px solid #F5E5BE;
-    border-left: 4px solid var(--gold-primary);
-    border-radius: 16px;
-    padding: 12px 14px;
-    margin: 12px 0 16px 0;
-}
-
-.ingredient-badge {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #FDF9EE 0%, #FAF2DC 100%);
-    border: 1px solid #EFE0BD;
-    border-radius: 16px;
-    padding: 10px 14px;
-    margin: 8px 0 12px 0;
-    color: #1E1B16;
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-.tech-pill {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
-    background: #ECFDF5;
-    color: #059669;
-    border: 1px solid #A7F3D0;
-}
-
-/* --- iOS-Style Segmented Navigation Bar (Pill Toggle) --- */
+/* iOS-Style Segmented Navigation Bar */
 .nav-pill-wrapper {
-    background: #1C1917 !important;
+    background: #1A1713 !important;
     border-radius: 999px !important;
     padding: 5px !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
     margin: 0.6rem 0 1.2rem 0 !important;
 }
 
@@ -637,7 +559,6 @@ div.stButton > button[kind="primary"]:hover {
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
-    background: transparent !important;
 }
 
 .nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] {
@@ -651,8 +572,6 @@ div.stButton > button[kind="primary"]:hover {
     padding: 9px 4px !important;
     margin: 0 !important;
     cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    min-width: 0 !important;
 }
 
 .nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
@@ -663,14 +582,13 @@ div.stButton > button[kind="primary"]:hover {
     font-family: 'Outfit', sans-serif !important;
     font-size: 0.85rem !important;
     font-weight: 700 !important;
-    color: #D1CBC5 !important;
+    color: #B5AEA4 !important;
     margin: 0 !important;
-    white-space: nowrap !important;
 }
 
 .nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
     background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
-    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.4) !important;
+    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.35) !important;
 }
 
 .nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
@@ -678,28 +596,7 @@ div.stButton > button[kind="primary"]:hover {
     font-weight: 900 !important;
 }
 
-/* --- Native segmented controls --- */
-div[data-testid="stSegmentedControl"] {
-    width: 100% !important;
-    margin: 0.15rem 0 0.85rem 0 !important;
-}
-div[data-testid="stSegmentedControl"] > div { width: 100% !important; }
-div[data-testid="stSegmentedControl"] button {
-    flex: 1 1 0 !important;
-    min-height: 44px !important;
-    border-radius: 14px !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-weight: 800 !important;
-    border-color: #E8DFCF !important;
-}
-div[data-baseweb="select"] > div {
-    border-radius: 16px !important;
-    border-color: #E8DFCF !important;
-    min-height: 48px !important;
-    background: #FCFAF6 !important;
-}
-
-/* --- Traditional Gulf Cuisine Viewfinder Hero Style --- */
+/* Viewfinder Hero Style */
 .ai-scan-hero-wrap {
     position: relative;
     width: 100%;
@@ -741,7 +638,7 @@ div[data-baseweb="select"] > div {
 .scan-grid-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(229, 169, 59, 0.08) 0%, transparent 50%, rgba(249, 247, 242, 0.4) 100%),
+    background: linear-gradient(180deg, rgba(229, 169, 59, 0.08) 0%, transparent 50%, rgba(247, 245, 240, 0.4) 100%),
                 radial-gradient(circle, rgba(255,255,255,0.05) 10%, transparent 70%);
     z-index: 1;
 }
@@ -750,20 +647,18 @@ div[data-baseweb="select"] > div {
     position: absolute;
     background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1.5px solid #FFFFFF;
     border-radius: 999px;
     padding: 5px 12px;
     font-family: 'Outfit', sans-serif;
     font-weight: 900;
     font-size: 0.85rem;
-    color: #1E1B16;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.16);
+    color: #1A1713;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.14);
     display: flex;
     align-items: center;
     gap: 6px;
     z-index: 4;
-    white-space: nowrap;
 }
 
 .pill-amber-dot {
@@ -772,25 +667,77 @@ div[data-baseweb="select"] > div {
     border-radius: 50%;
     background: #E5A93B;
 }
+
+.verify-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #FDF9EE;
+    border: 1px solid #F5E5BE;
+    border-left: 4px solid var(--gold-primary);
+    border-radius: 16px;
+    padding: 12px 14px;
+    margin: 12px 0 16px 0;
+}
+
+.ingredient-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #FDF9EE 0%, #FAF2DC 100%);
+    border: 1px solid #EFE0BD;
+    border-radius: 16px;
+    padding: 10px 14px;
+    margin: 8px 0 12px 0;
+    color: #1A1713;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.tech-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    background: #ECFDF5;
+    color: #059669;
+    border: 1px solid #A7F3D0;
+}
 </style>""",
         unsafe_allow_html=True,
     )
 
 # ============================================================================
-# 4. APP NAVIGATION, STEPPERS & VISUALIZERS
+# 4. APP NAVIGATION, STEPPERS & HELPERS
 # ============================================================================
+def render_ios_status_bar():
+    st.markdown(
+        """<div class="ios-status-bar">
+            <span>9:41</span>
+            <div class="ios-dynamic-island"></div>
+            <div style="display: flex; gap: 5px; align-items: center;">
+                <span>5G</span>
+                <svg width="15" height="11" viewBox="0 0 16 12" fill="none"><rect x="1" y="4" width="2" height="8" rx="1" fill="#1A1713"/><rect x="5" y="2.5" width="2" height="9.5" rx="1" fill="#1A1713"/><rect x="9" y="1" width="2" height="11" rx="1" fill="#1A1713"/><rect x="13" y="0" width="2" height="12" rx="1" fill="#1A1713"/></svg>
+            </div>
+        </div>""",
+        unsafe_allow_html=True,
+    )
+
 def render_header():
+    render_ios_status_bar()
     st.markdown(
         """<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.9rem;">
 <div style="display:flex; align-items:center; gap:10px;">
-    <div style="width:40px; height:40px; border-radius:14px; background:#1C1917; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(0,0,0,0.10);">
+    <div style="width:40px; height:40px; border-radius:14px; background:#1A1713; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(0,0,0,0.10);">
         <span style="font-family:'Outfit',sans-serif; color:#F3C36A; font-weight:900; font-size:0.88rem;">GB</span>
     </div>
     <div>
         <div style="font-family:'Outfit',sans-serif; font-size:1.42rem; line-height:1.05; font-weight:900; letter-spacing:-0.03em;">
-            <span style="color:#E5A93B;">GulfBite</span> <span style="color:#1E1B16;">AI Nutrition</span>
+            <span style="color:#E5A93B;">GulfBite</span> <span style="color:#1A1713;">AI Nutrition</span>
         </div>
-        <div style="color:#5C5446; font-size:0.78rem; font-weight:700; margin-top:3px;">Gulf cuisine recognition & nutrition</div>
+        <div style="color:#6B6153; font-size:0.78rem; font-weight:700; margin-top:3px;">Gulf cuisine recognition & nutrition</div>
     </div>
 </div>
 <div style="width:40px; height:40px; border-radius:14px; background:#FFFFFF; border:1px solid #ECE6DB; display:flex; align-items:center; justify-content:center; position:relative;">
@@ -812,7 +759,6 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
     raw_steps.append(("result", "Macros"))
 
     steps = [(key, f"{i+1}. {label}") for i, (key, label) in enumerate(raw_steps)]
-
     keys = [s[0] for s in steps]
     active_idx = keys.index(current_stage) if current_stage in keys else 0
 
@@ -829,11 +775,10 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
         html.append(f'<div style="flex: 1; height: 6px; border-radius: 999px; background: {bar_bg}; {bar_shadow}"></div>')
     
     html.append('</div>')
-    
     html.append('<div style="display: flex; justify-content: space-between; padding: 0 2px;">')
     for i, (_, label) in enumerate(steps):
         is_active = i == active_idx
-        color = "#1E1B16" if is_active else "#5C5446"
+        color = "#1A1713" if is_active else "#6B6153"
         weight = "800" if is_active else "700"
         html.append(f'<span style="font-family: \'Outfit\', sans-serif; font-size: 0.78rem; font-weight: {weight}; color: {color};">{label}</span>')
     html.append('</div></div>')
@@ -843,20 +788,20 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
 def render_quick_guide():
     st.markdown(
         """<div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:6px 0 16px 0;">
-<div style="background:#FCFAF6; border:1px solid #EEE5D4; border-radius:18px; padding:12px 8px; text-align:center;">
+<div style="background:#FAF8F4; border:1px solid #EAE0CD; border-radius:18px; padding:12px 8px; text-align:center;">
     <div style="width:30px;height:30px;border-radius:10px;background:#FDF3DD;color:#B97808;display:flex;align-items:center;justify-content:center;margin:0 auto 7px auto;font-family:'Outfit',sans-serif;font-weight:900;">1</div>
-    <div style="font-family:'Outfit',sans-serif;color:#1E1B16;font-weight:900;font-size:0.82rem;">Snap</div>
-    <div style="color:#5C5446;font-size:0.72rem;line-height:1.3;font-weight:600;margin-top:2px;">Top-down meal</div>
+    <div style="font-family:'Outfit',sans-serif;color:#1A1713;font-weight:900;font-size:0.82rem;">Snap</div>
+    <div style="color:#6B6153;font-size:0.72rem;line-height:1.3;font-weight:600;margin-top:2px;">Top-down meal</div>
 </div>
-<div style="background:#FCFAF6; border:1px solid #EEE5D4; border-radius:18px; padding:12px 8px; text-align:center;">
+<div style="background:#FAF8F4; border:1px solid #EAE0CD; border-radius:18px; padding:12px 8px; text-align:center;">
     <div style="width:30px;height:30px;border-radius:10px;background:#FDF3DD;color:#B97808;display:flex;align-items:center;justify-content:center;margin:0 auto 7px auto;font-family:'Outfit',sans-serif;font-weight:900;">2</div>
-    <div style="font-family:'Outfit',sans-serif;color:#1E1B16;font-weight:900;font-size:0.82rem;">Verify</div>
-    <div style="color:#5C5446;font-size:0.72rem;line-height:1.3;font-weight:600;margin-top:2px;">AI dish check</div>
+    <div style="font-family:'Outfit',sans-serif;color:#1A1713;font-weight:900;font-size:0.82rem;">Verify</div>
+    <div style="color:#6B6153;font-size:0.72rem;line-height:1.3;font-weight:600;margin-top:2px;">AI dish check</div>
 </div>
-<div style="background:#FCFAF6; border:1px solid #EEE5D4; border-radius:18px; padding:12px 8px; text-align:center;">
+<div style="background:#FAF8F4; border:1px solid #EAE0CD; border-radius:18px; padding:12px 8px; text-align:center;">
     <div style="width:30px;height:30px;border-radius:10px;background:#FDF3DD;color:#B97808;display:flex;align-items:center;justify-content:center;margin:0 auto 7px auto;font-family:'Outfit',sans-serif;font-weight:900;">3</div>
-    <div style="font-family:'Outfit',sans-serif;color:#1E1B16;font-weight:900;font-size:0.82rem;">Macros</div>
-    <div style="color:#5C5446;font-size:0.72rem;line-height:1.3;font-weight:600;margin-top:2px;">Calories + macros</div>
+    <div style="font-family:'Outfit',sans-serif;color:#1A1713;font-weight:900;font-size:0.82rem;">Macros</div>
+    <div style="color:#6B6153;font-size:0.72rem;line-height:1.3;font-weight:600;margin-top:2px;">Calories + macros</div>
 </div>
 </div>""",
         unsafe_allow_html=True,
@@ -864,7 +809,6 @@ def render_quick_guide():
 
 def render_category_squircle_cards():
     categories = list(DISH_CATEGORIES_DATA.keys())
-    
     if "selected_category" not in st.session_state:
         st.session_state.selected_category = categories[0]
 
@@ -879,7 +823,7 @@ def render_category_squircle_cards():
     dishes = DISH_CATEGORIES_DATA[selected_cat]
 
     st.markdown(
-        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.82rem; font-weight: 800; color: #5C5446; text-transform: uppercase; letter-spacing: 0.05em;">Choose Recipe</div>',
+        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.82rem; font-weight: 800; color: #6B6153; text-transform: uppercase; letter-spacing: 0.05em;">Choose Recipe</div>',
         unsafe_allow_html=True,
     )
 
@@ -895,12 +839,12 @@ def render_category_squircle_cards():
         meta = DISH_METADATA.get(selected_dish, {"spice": "Aromatic 🌶️", "prep": "Traditional", "density": "Nutritious", "time": "30 min"})
         blurb = DISH_BLURBS.get(selected_dish, "")
         st.markdown(
-            f"""<div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 22px; padding: 14px 16px; margin-top: 10px;">
+            f"""<div style="background: #FAF8F4; border: 1.5px solid #EAE0CD; border-radius: 22px; padding: 14px 16px; margin-top: 10px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div style="font-family: 'Outfit', sans-serif; font-weight: 900; color: #1E1B16; font-size: 1.1rem;">{display_name(selected_dish)}</div>
+                    <div style="font-family: 'Outfit', sans-serif; font-weight: 900; color: #1A1713; font-size: 1.1rem;">{display_name(selected_dish)}</div>
                     <span style="background: #FDF6E9; color: #C28416; font-size: 0.78rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; border: 1px solid #F5E3BE;">⏱️ {meta['time']}</span>
                 </div>
-                <p style="color: #5C5446; font-size: 0.88rem; font-weight: 600; line-height: 1.45; margin: 8px 0 10px 0;">{blurb}</p>
+                <p style="color: #6B6153; font-size: 0.88rem; font-weight: 600; line-height: 1.45; margin: 8px 0 10px 0;">{blurb}</p>
                 <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                     <span style="font-size: 0.76rem; font-weight: 700; background: #FFFFFF; border: 1px solid #E2D7C3; padding: 3px 8px; border-radius: 8px;">{meta['spice']}</span>
                     <span style="font-size: 0.76rem; font-weight: 700; background: #FFFFFF; border: 1px solid #E2D7C3; padding: 3px 8px; border-radius: 8px;">{meta['prep']}</span>
@@ -914,17 +858,17 @@ def render_culinary_badges(dish_class: str):
     meta = DISH_METADATA.get(dish_class, {"spice": "Aromatic 🌶️", "prep": "Slow-Simmered ⏳", "density": "Nutrient Rich 🥗", "time": "45 min"})
     st.markdown(
         f"""<div style="display: flex; justify-content: space-between; gap: 6px; margin: 0.8rem 0 1rem 0; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
-                <div style="font-size: 0.72rem; color: #5C5446; font-weight: 800;">FLAVOR</div>
-                <div style="font-size: 0.82rem; font-weight: 900; color: #1E1B16; margin-top: 2px;">{meta['spice']}</div>
+            <div style="flex: 1; min-width: 90px; background: #FAF8F4; border: 1.5px solid #EAE0CD; border-radius: 14px; padding: 8px 6px; text-align: center;">
+                <div style="font-size: 0.72rem; color: #6B6153; font-weight: 800;">FLAVOR</div>
+                <div style="font-size: 0.82rem; font-weight: 900; color: #1A1713; margin-top: 2px;">{meta['spice']}</div>
             </div>
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
-                <div style="font-size: 0.72rem; color: #5C5446; font-weight: 800;">COOK STYLE</div>
-                <div style="font-size: 0.82rem; font-weight: 900; color: #1E1B16; margin-top: 2px;">{meta['prep']}</div>
+            <div style="flex: 1; min-width: 90px; background: #FAF8F4; border: 1.5px solid #EAE0CD; border-radius: 14px; padding: 8px 6px; text-align: center;">
+                <div style="font-size: 0.72rem; color: #6B6153; font-weight: 800;">COOK STYLE</div>
+                <div style="font-size: 0.82rem; font-weight: 900; color: #1A1713; margin-top: 2px;">{meta['prep']}</div>
             </div>
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
-                <div style="font-size: 0.72rem; color: #5C5446; font-weight: 800;">PROFILE</div>
-                <div style="font-size: 0.82rem; font-weight: 900; color: #1E1B16; margin-top: 2px;">{meta['density']}</div>
+            <div style="flex: 1; min-width: 90px; background: #FAF8F4; border: 1.5px solid #EAE0CD; border-radius: 14px; padding: 8px 6px; text-align: center;">
+                <div style="font-size: 0.72rem; color: #6B6153; font-weight: 800;">PROFILE</div>
+                <div style="font-size: 0.82rem; font-weight: 900; color: #1A1713; margin-top: 2px;">{meta['density']}</div>
             </div>
         </div>""",
         unsafe_allow_html=True,
@@ -962,8 +906,8 @@ def render_macro_donut_and_cards(protein_g: float, carbs_g: float, fat_g: float,
         f"""<div style="background: linear-gradient(135deg, #FDF9EE 0%, #FAF3DE 100%); border: 1.5px solid #F3E0B5; border-radius: 26px; padding: 1.2rem 1.3rem; margin: 1rem 0; display: flex; align-items: center; justify-content: space-between;">
             <div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #C28416; text-transform: uppercase; letter-spacing: 0.05em;">Estimated calories</div>
-                <div style="font-family: 'Outfit', sans-serif; font-size: 2.1rem; font-weight: 900; color: #1E1B16; line-height: 1.1; margin: 2px 0 6px 0;">
-                    {lo}&ndash;{hi} <span style="font-size: 0.95rem; font-weight: 700; color: #5C5446;">kcal</span>
+                <div style="font-family: 'Outfit', sans-serif; font-size: 2.1rem; font-weight: 900; color: #1A1713; line-height: 1.1; margin: 2px 0 6px 0;">
+                    {lo}&ndash;{hi} <span style="font-size: 0.95rem; font-weight: 700; color: #6B6153;">kcal</span>
                 </div>
                 <div style="display: flex; gap: 8px; font-size: 0.76rem; font-weight: 800;">
                     <span style="color: #C28416;">● Prot {pct_p*100:.0f}%</span>
@@ -974,8 +918,8 @@ def render_macro_donut_and_cards(protein_g: float, carbs_g: float, fat_g: float,
             <div style="position: relative; width: 116px; height: 116px; display: flex; align-items: center; justify-content: center;">
                 {svg_donut}
                 <div style="position: absolute; text-align: center; transform: rotate(0deg);">
-                    <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.1rem; color: #1E1B16; line-height: 1;">{avg_cal}</div>
-                    <div style="font-size: 0.68rem; font-weight: 800; color: #5C5446;">midpoint</div>
+                    <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.1rem; color: #1A1713; line-height: 1;">{avg_cal}</div>
+                    <div style="font-size: 0.68rem; font-weight: 800; color: #6B6153;">midpoint</div>
                 </div>
             </div>
         </div>""",
@@ -984,17 +928,17 @@ def render_macro_donut_and_cards(protein_g: float, carbs_g: float, fat_g: float,
 
     st.markdown(
         f"""<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0.6rem 0 1.2rem 0;">
-    <div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
-        <div style="font-size: 0.78rem; font-weight: 800; color: #5C5446; margin-bottom: 2px;">🤍 Protein</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{protein_g}g</div>
+    <div style="background: #FAF8F4; border: 1.5px solid #EAE0CD; border-radius: 18px; padding: 12px 6px; text-align: center;">
+        <div style="font-size: 0.78rem; font-weight: 800; color: #6B6153; margin-bottom: 2px;">🤍 Protein</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1A1713; font-size: 1.25rem; font-weight: 900;">{protein_g}g</div>
     </div>
-    <div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
-        <div style="font-size: 0.78rem; font-weight: 800; color: #5C5446; margin-bottom: 2px;">🌾 Carbs</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{carbs_g}g</div>
+    <div style="background: #FAF8F4; border: 1.5px solid #EAE0CD; border-radius: 18px; padding: 12px 6px; text-align: center;">
+        <div style="font-size: 0.78rem; font-weight: 800; color: #6B6153; margin-bottom: 2px;">🌾 Carbs</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1A1713; font-size: 1.25rem; font-weight: 900;">{carbs_g}g</div>
     </div>
-    <div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
-        <div style="font-size: 0.78rem; font-weight: 800; color: #5C5446; margin-bottom: 2px;">🧈 Fat</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{fat_g}g</div>
+    <div style="background: #FAF8F4; border: 1.5px solid #EAE0CD; border-radius: 18px; padding: 12px 6px; text-align: center;">
+        <div style="font-size: 0.78rem; font-weight: 800; color: #6B6153; margin-bottom: 2px;">🧈 Fat</div>
+        <div style="font-family: 'Outfit', sans-serif; color: #1A1713; font-size: 1.25rem; font-weight: 900;">{fat_g}g</div>
     </div>
 </div>""",
         unsafe_allow_html=True,
@@ -1004,7 +948,7 @@ def render_confidence_bar(confidence):
     pct = confidence * 100
     st.markdown(
         f"""<div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.6rem;">
-            <span style="font-size: 0.85rem; color: #5C5446; font-weight: 700;">Recognition confidence</span>
+            <span style="font-size: 0.85rem; color: #6B6153; font-weight: 700;">Recognition confidence</span>
             <span style="font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 900; color: #C28416;">{pct:.0f}%</span>
         </div>
         <div style="height: 7px; border-radius: 999px; background: #EFEAE0; overflow: hidden; margin: 0.35rem 0 0.8rem 0;">
@@ -1021,7 +965,6 @@ def render_segmented_app_navigation():
         "menu": "☰  Menu",
         "upload": "◉  Scan",
     }
-
     default_stage = cur if cur in nav_keys else "home"
 
     if hasattr(st, "segmented_control"):
@@ -1114,11 +1057,12 @@ except FileNotFoundError as e:
 # 7. SCREEN 0: "GET STARTED" ONBOARDING HERO
 # ============================================================================
 if st.session_state.stage == "onboarding":
+    render_ios_status_bar()
     st.markdown(
         """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 2px 0;">
 <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB;">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M4 7H20M4 12H20M4 17H14" stroke="#1E1B16" stroke-width="2.2" stroke-linecap="round"/>
+<path d="M4 7H20M4 12H20M4 17H14" stroke="#1A1713" stroke-width="2.2" stroke-linecap="round"/>
 </svg>
 </div>
 <div style="display: flex; gap: 10px; align-items: center;">
@@ -1150,8 +1094,8 @@ GB
 <div class="scan-metric-pill" style="bottom: 38px; left: 45px;"><span class="pill-amber-dot"></span><span>110 kcal</span></div>
 </div>
 <div style="text-align: center; padding: 0.2rem 0.8rem 1.4rem 0.8rem;">
-<h1 style="font-family: 'Outfit', sans-serif; font-size: 2.35rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;"><span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition</h1>
-<p style="color: #5C5446; font-size: 0.95rem; font-weight: 600; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">From scanning to tracking — recognize traditional Gulf dishes and calculate macros automatically.</p>
+<h1 style="font-family: 'Outfit', sans-serif; font-size: 2.35rem; font-weight: 900; line-height: 1.15; color: #1A1713; margin: 0; letter-spacing: -0.03em;"><span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition</h1>
+<p style="color: #6B6153; font-size: 0.95rem; font-weight: 600; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">From scanning to tracking — recognize traditional Gulf dishes and calculate macros automatically.</p>
 <div style="display:inline-flex;align-items:center;gap:7px;background:#FDF6E9;border:1px solid #F1DFC0;border-radius:999px;padding:6px 10px;margin-bottom:10px;color:#9A6B16;font-size:0.78rem;font-weight:800;">AI-assisted • Gulf-specific • Macro estimates</div>
 </div>""",
         unsafe_allow_html=True,
@@ -1171,7 +1115,7 @@ elif st.session_state.stage == "home":
     render_segmented_app_navigation()
 
     st.markdown(
-        '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1E1B16; margin-bottom: 8px;">How it works</div>',
+        '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1A1713; margin-bottom: 8px;">How it works</div>',
         unsafe_allow_html=True,
     )
     render_quick_guide()
@@ -1179,8 +1123,8 @@ elif st.session_state.stage == "home":
     with st.container(border=True):
         st.markdown(
             """<div style="text-align:left; padding:4px 2px 2px 2px;">
-                <div style="font-family:'Outfit',sans-serif;font-size:1.22rem;font-weight:900;color:#1E1B16;">Scan a Gulf meal</div>
-                <p style="color:#5C5446;font-size:0.88rem;font-weight:600;line-height:1.45;margin:5px 0 13px 0;">
+                <div style="font-family:'Outfit',sans-serif;font-size:1.22rem;font-weight:900;color:#1A1713;">Scan a Gulf meal</div>
+                <p style="color:#6B6153;font-size:0.88rem;font-weight:600;line-height:1.45;margin:5px 0 13px 0;">
                     Take or upload a clear top-down photo. GulfBite will identify the dish, verify uncertain matches and estimate calories and macros.
                 </p>
             </div>""",
@@ -1200,7 +1144,7 @@ elif st.session_state.stage == "menu":
     render_segmented_app_navigation()
 
     st.markdown(
-        '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1E1B16; margin-bottom: 8px;">🍲 Supported Dishes (25)</div>',
+        '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1A1713; margin-bottom: 8px;">🍲 Supported Dishes (25)</div>',
         unsafe_allow_html=True,
     )
     render_category_squircle_cards()
@@ -1216,14 +1160,13 @@ elif st.session_state.stage == "upload":
     with st.container(border=True):
         st.markdown(
             """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-                <div style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1E1B16;">Scan Your Plate</div>
+                <div style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1A1713;">Scan Your Plate</div>
                 <span style="background: #FDF6E9; color: #C28416; font-size: 0.78rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; border: 1px solid #F5E3BE;">Top-down</span>
             </div>""",
             unsafe_allow_html=True,
         )
 
         image_to_process = None
-
         if hasattr(st, "segmented_control"):
             input_mode = st.segmented_control(
                 "Photo source",
@@ -1281,7 +1224,7 @@ elif st.session_state.stage == "upload":
                         f"""<div style="background: #FFF5F5; border: 1px solid #FED7D7; border-radius: 22px; padding: 18px; margin-top: 14px; text-align: center;">
 <div style="font-size: 2rem; margin-bottom: 4px;">🍽️❓</div>
 <div style="color: #E53E3E; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem;">No Supported Gulf Dish Found</div>
-<div style="color: #5C5446; font-size: 0.85rem; font-weight: 600; line-height: 1.45; margin-top: 4px;">
+<div style="color: #6B6153; font-size: 0.85rem; font-weight: 600; line-height: 1.45; margin-top: 4px;">
 Please upload a clear, top-down photo of a traditional Gulf dish.
 </div>
 </div>""",
@@ -1362,7 +1305,7 @@ elif st.session_state.stage == "confirm_dish":
 
         st.markdown(
             f"""<div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.6rem;">
-                <div style="font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 900; color: #1E1B16;">
+                <div style="font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 900; color: #1A1713;">
                     Initial Match: <span style="color: #E5A93B;">{display_name(cnn_class)}</span>
                 </div>
             </div>""",
@@ -1376,7 +1319,7 @@ elif st.session_state.stage == "confirm_dish":
             st.markdown(
                 f"""<div class="verify-callout">
                     <span style="font-size: 1.1rem; line-height: 1;">🔍</span>
-                    <span style="color: #5C5446; font-size: 0.88rem; font-weight: 600; line-height: 1.4;">{reason}</span>
+                    <span style="color: #6B6153; font-size: 0.88rem; font-weight: 600; line-height: 1.4;">{reason}</span>
                 </div>""",
                 unsafe_allow_html=True,
             )
@@ -1398,7 +1341,7 @@ elif st.session_state.stage == "confirm_dish":
         )
 
         st.markdown(
-            '<p style="font-family: \'Outfit\', sans-serif; font-size: 0.92rem; font-weight: 800; color: #1E1B16; margin: 12px 0 6px 0;">Select your dish:</p>',
+            '<p style="font-family: \'Outfit\', sans-serif; font-size: 0.92rem; font-weight: 800; color: #1A1713; margin: 12px 0 6px 0;">Select your dish:</p>',
             unsafe_allow_html=True,
         )
 
@@ -1433,10 +1376,10 @@ elif st.session_state.stage == "select_portion":
         )
 
         st.markdown(
-            f"""<div style="font-family: 'Outfit', sans-serif; font-size: 1.65rem; font-weight: 900; color: #1E1B16; margin: 0.6rem 0 0.2rem 0;">
+            f"""<div style="font-family: 'Outfit', sans-serif; font-size: 1.65rem; font-weight: 900; color: #1A1713; margin: 0.6rem 0 0.2rem 0;">
                 {display_name(st.session_state.final_dish)}
             </div>
-            <p style="color: #5C5446; font-size: 0.88rem; font-weight: 600; margin-bottom: 1.2rem;">
+            <p style="color: #6B6153; font-size: 0.88rem; font-weight: 600; margin-bottom: 1.2rem;">
                 Select your portion size to calculate authentic nutrition values:
             </p>""",
             unsafe_allow_html=True,
@@ -1506,8 +1449,8 @@ elif st.session_state.stage == "result":
         st.markdown(
             f"""<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem;">
                 <div>
-                    <div style="font-family: 'Outfit', sans-serif; font-size: 1.65rem; font-weight: 900; color: #1E1B16;">{display_name(dish)}</div>
-                    <div style="color: #5C5446; font-size: 0.88rem; font-weight: 700;">Portion size: <strong style="color:#C28416;">{PORTION_LABELS[st.session_state.portion_size]}</strong></div>
+                    <div style="font-family: 'Outfit', sans-serif; font-size: 1.65rem; font-weight: 900; color: #1A1713;">{display_name(dish)}</div>
+                    <div style="color: #6B6153; font-size: 0.88rem; font-weight: 700;">Portion size: <strong style="color:#C28416;">{PORTION_LABELS[st.session_state.portion_size]}</strong></div>
                 </div>
             </div>""",
             unsafe_allow_html=True,
@@ -1516,7 +1459,7 @@ elif st.session_state.stage == "result":
         blurb = DISH_BLURBS.get(dish)
         if blurb:
             st.markdown(
-                f'<p style="color: #5C5446; font-size: 0.88rem; font-weight: 600; line-height: 1.45; margin: 0.6rem 0 0 0;">{blurb}</p>',
+                f'<p style="color: #6B6153; font-size: 0.88rem; font-weight: 600; line-height: 1.45; margin: 0.6rem 0 0 0;">{blurb}</p>',
                 unsafe_allow_html=True,
             )
 
@@ -1552,23 +1495,23 @@ elif st.session_state.stage == "result":
 
         with tab_tech:
             yolo_row = (
-                f'<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EBE2CF; padding-bottom: 8px;"><span style="color: #5C5446; font-size: 0.85rem; font-weight: 700;">YOLOv8 Feature</span><span style="color: #1E1B16; font-weight: 800; font-size: 0.88rem;">{display_name(st.session_state.yolo_suggestion)}</span></div>'
+                f'<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EAE0CD; padding-bottom: 8px;"><span style="color: #6B6153; font-size: 0.85rem; font-weight: 700;">YOLOv8 Feature</span><span style="color: #1A1713; font-weight: 800; font-size: 0.88rem;">{display_name(st.session_state.yolo_suggestion)}</span></div>'
                 if st.session_state.get("yolo_suggestion")
                 else ""
             )
 
             st.markdown(
                 f"""<div style="display: flex; flex-direction: column; gap: 10px; padding: 6px 0;">
-<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EBE2CF; padding-bottom: 8px;">
-<span style="color: #5C5446; font-size: 0.85rem; font-weight: 700;">CNN Classifier</span>
-<span style="color: #1E1B16; font-weight: 800; font-size: 0.88rem;">{display_name(st.session_state.cnn_class)} <span style="color: #C28416; font-family: 'JetBrains Mono', monospace;">({st.session_state.cnn_confidence:.0%})</span></span>
+<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EAE0CD; padding-bottom: 8px;">
+<span style="color: #6B6153; font-size: 0.85rem; font-weight: 700;">CNN Classifier</span>
+<span style="color: #1A1713; font-weight: 800; font-size: 0.88rem;">{display_name(st.session_state.cnn_class)} <span style="color: #C28416; font-family: 'JetBrains Mono', monospace;">({st.session_state.cnn_confidence:.0%})</span></span>
 </div>{yolo_row}
-<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EBE2CF; padding-bottom: 8px;">
-<span style="color: #5C5446; font-size: 0.85rem; font-weight: 700;">Confirmed Dish</span>
-<span style="color: #1E1B16; font-weight: 900; font-size: 0.88rem;">{display_name(dish)}</span>
+<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EAE0CD; padding-bottom: 8px;">
+<span style="color: #6B6153; font-size: 0.85rem; font-weight: 700;">Confirmed Dish</span>
+<span style="color: #1A1713; font-weight: 900; font-size: 0.88rem;">{display_name(dish)}</span>
 </div>
 <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 2px;">
-<span style="color: #5C5446; font-size: 0.85rem; font-weight: 700;">Pipeline Path</span>
+<span style="color: #6B6153; font-size: 0.85rem; font-weight: 700;">Pipeline Path</span>
 <span class="tech-pill">{st.session_state.tier_used}</span>
 </div>
 </div>""",
