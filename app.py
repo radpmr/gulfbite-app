@@ -589,7 +589,7 @@ div.stButton > button[kind="primary"]:hover {
     border: 1px solid #A7F3D0;
 }
 
-/* --- Floating Bottom Navigation Dock (Solid Clean Dark Frame) --- */
+/* --- Floating Bottom Navigation Dock --- */
 .bottom-dock-fixed {
     position: fixed;
     bottom: 18px;
@@ -607,6 +607,43 @@ div.stButton > button[kind="primary"]:hover {
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.12);
     z-index: 999999;
+}
+
+.dock-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #A8A29E;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.88rem;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.dock-item.active {
+    color: #F3C36A;
+}
+
+.dock-scan-pill {
+    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%);
+    border-radius: 20px;
+    padding: 9px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #1A1305 !important;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: 0.9rem;
+    box-shadow: 0 6px 18px rgba(229, 169, 59, 0.45);
+    transform: translateY(-4px);
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 /* --- Hero & Onboarding Styles --- */
@@ -914,41 +951,27 @@ def render_confidence_bar(confidence):
 
 
 def render_bottom_navigation_dock():
-    """Render floating dark bottom navigation dock with raised FAB scanner."""
+    """Render floating dark bottom navigation dock."""
     cur = st.session_state.stage
     
     st.markdown(
         f"""<div class="bottom-dock-fixed">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 6px; color: {'#F3C36A' if cur=='home' else '#A8A29E'}; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.88rem; cursor: pointer;">
+            <a href="?nav=home" target="_self" class="dock-item {'active' if cur=='home' else ''}">
                 <span>🏠</span><span>Home</span>
-            </div>
-            <div style="display: flex; align-items: center; justify-content: center; gap: 6px; color: {'#F3C36A' if cur=='menu' else '#A8A29E'}; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.88rem; cursor: pointer;">
+            </a>
+            <a href="?nav=menu" target="_self" class="dock-item {'active' if cur=='menu' else ''}">
                 <span>📖</span><span>Menu</span>
-            </div>
-            <div style="background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%); border-radius: 20px; padding: 10px 18px; display: flex; align-items: center; justify-content: center; gap: 6px; color: #1A1305; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 0.92rem; box-shadow: 0 6px 18px rgba(229,169,59,0.5); transform: translateY(-4px); cursor: pointer;">
+            </a>
+            <a href="?nav=upload" target="_self" class="dock-scan-pill">
                 <span>📷</span><span>Scan</span>
-            </div>
+            </a>
         </div>""",
         unsafe_allow_html=True,
     )
 
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        if st.button("Go to Home", key="btn_nav_home", use_container_width=True):
-            st.session_state.stage = "home"
-            st.rerun()
-    with c2:
-        if st.button("Go to Menu", key="btn_nav_menu", use_container_width=True):
-            st.session_state.stage = "menu"
-            st.rerun()
-    with c3:
-        if st.button("Open Scanner", key="btn_nav_scan", type="primary", use_container_width=True):
-            st.session_state.stage = "upload"
-            st.rerun()
-
 
 # ============================================================================
-# 5. STREAMLIT APP STATE SETUP
+# 5. STREAMLIT APP STATE & ROUTING
 # ============================================================================
 
 st.set_page_config(
@@ -958,6 +981,14 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 inject_theme()
+
+# Query param navigation handler
+query_params = st.query_params
+if "nav" in query_params:
+    target_stage = query_params["nav"]
+    if target_stage in ["home", "menu", "upload"]:
+        st.session_state.stage = target_stage
+        st.query_params.clear()
 
 if "stage" not in st.session_state:
     st.session_state.stage = "onboarding"
