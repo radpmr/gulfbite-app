@@ -313,7 +313,7 @@ def create_ai_decoded_overlay(pil_image, detections):
         draw.line([x2, y1, x2, y1 + corner_len], fill="#FFFFFF", width=4)
         draw.line([x1, y2, x1 + corner_len, y2], fill="#FFFFFF", width=4)
         draw.line([x1, y2, x1, y2 - corner_len], fill="#FFFFFF", width=4)
-        draw.line([x2, y2, x2 - corner_len, y2], fill="#FFFFFF", width=4)
+        draw.line([x1, y2, x1, y2 - corner_len], fill="#FFFFFF", width=4)
         draw.line([x2, y2, x2, y2 - corner_len], fill="#FFFFFF", width=4)
 
         badge_text = f"{feat.replace('_', ' ').title()} • ~{FEATURE_CALORIE_ESTIMATES.get(feat, '120 kcal')}"
@@ -859,15 +859,15 @@ def render_culinary_badges(dish_class: str):
     meta = DISH_METADATA.get(dish_class, {"spice": "Aromatic 🌶️", "prep": "Slow-Simmered ⏳", "density": "Nutrient Rich 🥗", "time": "45 min"})
     st.markdown(
         f"""<div style="display: flex; justify-content: space-between; gap: 6px; margin: 0.8rem 0 1rem 0; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">FLAVOR</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['spice']}</div>
             </div>
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">COOK STYLE</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['prep']}</div>
             </div>
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">PROFILE</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['density']}</div>
             </div>
@@ -969,7 +969,7 @@ def render_inframe_navigation():
     with c1:
         active_cls = "nav-active-slot" if cur == "home" else ""
         st.markdown(f'<div class="{active_cls}">', unsafe_allow_html=True)
-        if st.button("🏠 Home", key="btn_nav_home", use_container_width=True):
+        if st.button("🏠 Home", key="btn_nav_home"):
             st.session_state.stage = "home"
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
@@ -977,14 +977,14 @@ def render_inframe_navigation():
     with c2:
         active_cls = "nav-active-slot" if cur == "menu" else ""
         st.markdown(f'<div class="{active_cls}">', unsafe_allow_html=True)
-        if st.button("📖 Menu", key="btn_nav_menu", use_container_width=True):
+        if st.button("📖 Menu", key="btn_nav_menu"):
             st.session_state.stage = "menu"
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
     with c3:
         st.markdown('<div class="nav-scan-slot">', unsafe_allow_html=True)
-        if st.button("📷 Scan", key="btn_nav_scan", use_container_width=True):
+        if st.button("📷 Scan", key="btn_nav_scan"):
             st.session_state.stage = "upload"
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
