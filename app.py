@@ -837,7 +837,7 @@ def render_category_squircle_cards():
 
     if selected_dish:
         meta = DISH_METADATA.get(selected_dish, {"spice": "Aromatic 🌶️", "prep": "Traditional", "density": "Nutritious", "time": "30 min"})
-        blurb = DISH_BLURBS.get(selected_dish, "")[cite: 1]
+        blurb = DISH_BLURBS.get(selected_dish, "")
         st.markdown(
             f"""<div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 22px; padding: 14px 16px; margin-top: 10px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -962,14 +962,14 @@ def render_confidence_bar(confidence):
 
 
 def render_inframe_navigation():
-    cur = st.session_state.stage
+    cur = st.session_state.get("stage", "home")
     st.markdown('<div class="inframe-nav-bar">', unsafe_allow_html=True)
     c1, c2, c3 = st.columns([1, 1, 1.2])
 
     with c1:
         active_cls = "nav-active-slot" if cur == "home" else ""
         st.markdown(f'<div class="{active_cls}">', unsafe_allow_html=True)
-        if st.button("🏠 Home", key="btn_nav_home", use_column_width=True):
+        if st.button("🏠 Home", key="btn_nav_home", use_container_width=True):
             st.session_state.stage = "home"
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
@@ -977,14 +977,14 @@ def render_inframe_navigation():
     with c2:
         active_cls = "nav-active-slot" if cur == "menu" else ""
         st.markdown(f'<div class="{active_cls}">', unsafe_allow_html=True)
-        if st.button("📖 Menu", key="btn_nav_menu", use_column_width=True):
+        if st.button("📖 Menu", key="btn_nav_menu", use_container_width=True):
             st.session_state.stage = "menu"
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
     with c3:
         st.markdown('<div class="nav-scan-slot">', unsafe_allow_html=True)
-        if st.button("📷 Scan", key="btn_nav_scan", use_column_width=True):
+        if st.button("📷 Scan", key="btn_nav_scan", use_container_width=True):
             st.session_state.stage = "upload"
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
@@ -1061,7 +1061,6 @@ except FileNotFoundError as e:
 # ============================================================================
 
 if st.session_state.stage == "onboarding":
-    # Header with GB branding & Notification Bell
     st.markdown(
         """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 2px 0;">
 <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB;">
@@ -1085,7 +1084,6 @@ GB
         unsafe_allow_html=True,
     )
 
-    # Single Plate AI Scanner Viewfinder with Corner Reticles & Number-Only Badges
     st.markdown(
         """<div class="ai-scan-hero-wrap">
     <div class="viewfinder-corner corner-tl"></div>
