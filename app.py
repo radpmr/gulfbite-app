@@ -1490,7 +1490,7 @@ elif st.session_state.stage == "result":
 <span style="color: #1E1B16; font-weight: 700; font-size: 0.88rem;">{display_name(st.session_state.cnn_class)} <span style="color: #E5A93B; font-family: 'JetBrains Mono', monospace;">({st.session_state.cnn_confidence:.0%})</span></span>
 </div>
 {yolo_row}
-<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EBE2CF; padding-bottom: 8px;">
+<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px subtitle; border-bottom: 1px solid #EBE2CF; padding-bottom: 8px;">
 <span style="color: #8F887C; font-size: 0.84rem;">Confirmed Dish</span>
 <span style="color: #1E1B16; font-weight: 800; font-size: 0.88rem;">{display_name(dish)}</span>
 </div>
