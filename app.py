@@ -150,7 +150,7 @@ DISH_METADATA = {
     "09_jisheed": {"spice": "Loomi & Turmeric 🍋", "prep": "Pan-Flaked 🍳", "density": "Lean Protein 🐟", "time": "35 min"},
     "10_shawarma": {"spice": "Garlic Spiced 🧄", "prep": "Vertical Spit 🔥", "density": "High Protein 🥩", "time": "15 min"},
     "11_falafel_wrap": {"spice": "Herbal Cumin 🌿", "prep": "Crisp Fried 🫓", "density": "Plant Fiber 🌱", "time": "15 min"},
-    "12_falafel": {"spice": "Herbaceous 🌿", "prep": "Golden Fried 🫆", "density": "Plant Protein 🌱", "time": "20 min"},
+    "12_falafel": {"spice": "Herbaceous 🌿", "prep": "Golden Fried 🧆", "density": "Plant Protein 🌱", "time": "20 min"},
     "13_samboosa": {"spice": "Spiced Minced 🌶️", "prep": "Pastry Crisp 🥟", "density": "High Energy ⚡", "time": "20 min"},
     "14_mutabbaq": {"spice": "Scallion Pepper 🧅", "prep": "Griddle Pan 🍳", "density": "Protein Pastry 🥩", "time": "25 min"},
     "15_hummus": {"spice": "Tahini Citrus 🍋", "prep": "Cold Blended 🥣", "density": "Heart-Healthy Fats 🥑", "time": "10 min"},
@@ -644,14 +644,14 @@ div.stButton > button[kind="primary"]:hover {
     font-weight: 900 !important;
 }
 
-/* --- Single Biryani Viewfinder Hero Style --- */
+/* --- Single Chicken Machboos Viewfinder Hero Style --- */
 .ai-scan-hero-wrap {
     position: relative;
     width: 100%;
     height: 340px;
     border-radius: 28px;
     overflow: hidden;
-    background-image: url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80');
+    background-image: url('https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?auto=format&fit=crop&w=800&q=80');
     background-size: cover;
     background-position: center;
     box-shadow: 0 16px 36px -10px rgba(0,0,0,0.18);
@@ -1089,7 +1089,7 @@ GB
     )
 
     st.markdown(
-        """<div class="ai-scan-hero-wrap" style="background-image: url('https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?auto=format&fit=crop&w=800&q=80');">
+        """<div class="ai-scan-hero-wrap">
 <div class="viewfinder-corner corner-tl"></div>
 <div class="viewfinder-corner corner-tr"></div>
 <div class="viewfinder-corner corner-bl"></div>
