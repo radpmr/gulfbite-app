@@ -313,7 +313,7 @@ def create_ai_decoded_overlay(pil_image, detections):
         draw.line([x2, y1, x2, y1 + corner_len], fill="#FFFFFF", width=4)
         draw.line([x1, y2, x1 + corner_len, y2], fill="#FFFFFF", width=4)
         draw.line([x1, y2, x1, y2 - corner_len], fill="#FFFFFF", width=4)
-        draw.line([x1, y2, x1, y2 - corner_len], fill="#FFFFFF", width=4)
+        draw.line([x2, y2, x2 - corner_len, y2], fill="#FFFFFF", width=4)
         draw.line([x2, y2, x2, y2 - corner_len], fill="#FFFFFF", width=4)
 
         badge_text = f"{feat.replace('_', ' ').title()} • ~{FEATURE_CALORIE_ESTIMATES.get(feat, '120 kcal')}"
