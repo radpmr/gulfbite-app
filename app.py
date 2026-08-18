@@ -150,7 +150,7 @@ DISH_METADATA = {
     "09_jisheed": {"spice": "Loomi & Turmeric 🍋", "prep": "Pan-Flaked 🍳", "density": "Lean Protein 🐟", "time": "35 min"},
     "10_shawarma": {"spice": "Garlic Spiced 🧄", "prep": "Vertical Spit 🔥", "density": "High Protein 🥩", "time": "15 min"},
     "11_falafel_wrap": {"spice": "Herbal Cumin 🌿", "prep": "Crisp Fried 🫓", "density": "Plant Fiber 🌱", "time": "15 min"},
-    "12_falafel": {"spice": "Herbaceous 🌿", "prep": "Golden Fried 🧆", "density": "Plant Protein 🌱", "time": "20 min"},
+    "12_falafel": {"spice": "Herbaceous 🌿", "prep": "Golden Fried 🫆", "density": "Plant Protein 🌱", "time": "20 min"},
     "13_samboosa": {"spice": "Spiced Minced 🌶️", "prep": "Pastry Crisp 🥟", "density": "High Energy ⚡", "time": "20 min"},
     "14_mutabbaq": {"spice": "Scallion Pepper 🧅", "prep": "Griddle Pan 🍳", "density": "Protein Pastry 🥩", "time": "25 min"},
     "15_hummus": {"spice": "Tahini Citrus 🍋", "prep": "Cold Blended 🥣", "density": "Heart-Healthy Fats 🥑", "time": "10 min"},
@@ -644,7 +644,7 @@ div.stButton > button[kind="primary"]:hover {
     font-weight: 900 !important;
 }
 
-/* --- Single Dish AI Scanner Viewfinder Hero Style --- */
+/* --- Single Biryani Viewfinder Hero Style --- */
 .ai-scan-hero-wrap {
     position: relative;
     width: 100%;
@@ -1089,7 +1089,7 @@ GB
     )
 
     st.markdown(
-        """<div class="ai-scan-hero-wrap">
+        """<div class="ai-scan-hero-wrap" style="background-image: url('https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?auto=format&fit=crop&w=800&q=80');">
 <div class="viewfinder-corner corner-tl"></div>
 <div class="viewfinder-corner corner-tr"></div>
 <div class="viewfinder-corner corner-bl"></div>
@@ -1102,7 +1102,7 @@ GB
 </div>
 <div style="text-align: center; padding: 0.2rem 0.8rem 1.4rem 0.8rem;">
 <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.35rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;"><span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition</h1>
-<p style="color: #7A7468; font-size: 0.92rem; font-weight: 500; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">From scanning to tracking — recognize traditional Gulf dishes and calculate macros automatically.</p>
+<p style="color: #7A7468; font-size: 0.92rem; font-weight: 500; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">From scanning to tracking — recognize traditional Biryani and Gulf dishes and calculate macros automatically.</p>
 <div style="display: flex; justify-content: center; gap: 6px; margin-bottom: 22px;"><span style="width: 24px; height: 6px; border-radius: 999px; background: #1C1917;"></span><span style="width: 6px; height: 6px; border-radius: 50%; background: #D6CFBE;"></span><span style="width: 6px; height: 6px; border-radius: 50%; background: #D6CFBE;"></span></div>
 </div>""",
         unsafe_allow_html=True,
@@ -1407,7 +1407,7 @@ elif st.session_state.stage == "result":
     with st.container(border=True):
         st.image(
             st.session_state.image,
-            caption="Scanned Plate,
+            caption="Scanned Plate",
             use_column_width=True,
         )
 
