@@ -2,10 +2,10 @@
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
 Identifies authentic Gulf dishes using a multi-tiered pipeline:
-1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring[cite: 1].
-2. Out-of-distribution / Non-food rejection via margin and entropy checks[cite: 1].
-3. YOLOv8 feature detection with visual bounding overlays & calorie pointers[cite: 1].
-4. Portion-based authentic macro and calorie estimation with SVG Macro Rings[cite: 1].
+1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
+2. Out-of-distribution / Non-food rejection via margin and entropy checks.
+3. YOLOv8 feature detection with visual bounding overlays & calorie pointers.
+4. Portion-based authentic macro and calorie estimation with SVG Macro Rings.
 """
 
 import json
@@ -17,11 +17,11 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageOps
 import streamlit as st
 
-# Force CPU inference for stability and suppress TensorFlow verbose logging[cite: 1]
+# Force CPU inference for stability and suppress TensorFlow verbose logging
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
-# Register HEIC/HEIF image support for mobile uploads[cite: 1]
+# Register HEIC/HEIF image support for mobile uploads
 try:
     import pillow_heif
     pillow_heif.register_heif_opener()
@@ -1050,10 +1050,10 @@ def reset():
 # ============================================================================
 
 try:
-    cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()[cite: 1]
-except FileNotFoundError as e:[cite: 1]
-    st.error(str(e))[cite: 1]
-    st.stop()[cite: 1]
+    cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()
+except FileNotFoundError as e:
+    st.error(str(e))
+    st.stop()
 
 
 # ============================================================================
@@ -1203,31 +1203,31 @@ elif st.session_state.stage == "upload":
             "Upload meal photo",
             type=["jpg", "jpeg", "png", "heic", "heif"],
             label_visibility="collapsed",
-        )[cite: 1]
+        )
 
-        if uploaded is not None:[cite: 1]
-            image_to_process = ImageOps.exif_transpose(Image.open(uploaded))[cite: 1]
+        if uploaded is not None:
+            image_to_process = ImageOps.exif_transpose(Image.open(uploaded))
 
-        if image_to_process is not None:[cite: 1]
-            st.session_state.image = image_to_process[cite: 1]
+        if image_to_process is not None:
+            st.session_state.image = image_to_process
             st.image(
                 image_to_process,
                 caption="Scanned Plate",
                 use_column_width=True,
-            )[cite: 1]
+            )
 
             with st.spinner("Analyzing ingredients & calculating nutritional profile..."):
                 cnn_class, cnn_confidence, margin, entropy = run_cnn(
                     image_to_process, cnn_model, idx_to_class
-                )[cite: 1]
+                )
 
                 is_non_food = (
                     cnn_confidence < MIN_CONFIDENCE
                     or margin < MIN_MARGIN
                     or entropy > MAX_ENTROPY
-                )[cite: 1]
+                )
 
-                if is_non_food:[cite: 1]
+                if is_non_food:
                     st.markdown(
                         f"""<div style="background: #FFF5F5; border: 1px solid #FED7D7; border-radius: 22px; padding: 18px; margin-top: 14px; text-align: center;">
 <div style="font-size: 2rem; margin-bottom: 4px;">🍽️❓</div>
@@ -1237,57 +1237,57 @@ Please upload a clear, top-down photo of a traditional Gulf dish.
 </div>
 </div>""",
                         unsafe_allow_html=True,
-                    )[cite: 1]
-                    st.write("")[cite: 1]
+                    )
+                    st.write("")
                     st.button(
                         "🔄 Try Another Photo",
                         on_click=reset,
                         use_container_width=True,
-                    )[cite: 1]
-                    st.stop()[cite: 1]
+                    )
+                    st.stop()
 
                 triggered = (
                     cnn_confidence < CONFIDENCE_THRESHOLD
                     or cnn_class in TRIGGER_SET
                     or cnn_class in WRAP_TRIGGER_SET
-                )[cite: 1]
+                )
 
-                st.session_state.cnn_class = cnn_class[cite: 1]
-                st.session_state.cnn_confidence = cnn_confidence[cite: 1]
-                st.session_state.triggered = triggered[cite: 1]
+                st.session_state.cnn_class = cnn_class
+                st.session_state.cnn_confidence = cnn_confidence
+                st.session_state.triggered = triggered
 
-                if not triggered:[cite: 1]
-                    st.session_state.final_dish = cnn_class[cite: 1]
-                    st.session_state.tier_used = "CNN direct match"[cite: 1]
-                    st.session_state.stage = "select_portion"[cite: 1]
-                    st.rerun()[cite: 1]
+                if not triggered:
+                    st.session_state.final_dish = cnn_class
+                    st.session_state.tier_used = "CNN direct match"
+                    st.session_state.stage = "select_portion"
+                    st.rerun()
                 else:
-                    candidates = get_candidate_group(cnn_class)[cite: 1]
+                    candidates = get_candidate_group(cnn_class)
                     run_yolo_here = (cnn_class in YOLO_FEATURE_MAP) or (
                         cnn_class == "03_biryani"
-                    )[cite: 1]
+                    )
                     yolo_suggestion, gate_status = None, None
                     annotated_img = None
-                    if run_yolo_here:[cite: 1]
-                        detections = run_yolov8_with_boxes(image_to_process, yolo_model)[cite: 1]
-                        if detections:[cite: 1]
-                            annotated_img = create_ai_decoded_overlay(image_to_process, detections)[cite: 1]
+                    if run_yolo_here:
+                        detections = run_yolov8_with_boxes(image_to_process, yolo_model)
+                        if detections:
+                            annotated_img = create_ai_decoded_overlay(image_to_process, detections)
                         _, gated, gate_status = map_detections_to_suggestion(
                             detections, candidates
-                        )[cite: 1]
-                        yolo_suggestion = gated[0] if gated else None[cite: 1]
+                        )
+                        yolo_suggestion = gated[0] if gated else None
 
                     st.session_state.annotated_image = annotated_img
-                    st.session_state.candidates = sorted(candidates)[cite: 1]
-                    st.session_state.yolo_suggestion = yolo_suggestion[cite: 1]
-                    st.session_state.yolo_gate_status = gate_status[cite: 1]
+                    st.session_state.candidates = sorted(candidates)
+                    st.session_state.yolo_suggestion = yolo_suggestion
+                    st.session_state.yolo_gate_status = gate_status
                     st.session_state.tier_used = (
                         "CNN + YOLO + user confirm"
                         if yolo_suggestion
                         else "CNN + user confirm"
-                    )[cite: 1]
-                    st.session_state.stage = "confirm_dish"[cite: 1]
-                    st.rerun()[cite: 1]
+                    )
+                    st.session_state.stage = "confirm_dish"
+                    st.rerun()
 
     render_inframe_navigation()
 
@@ -1298,20 +1298,20 @@ Please upload a clear, top-down photo of a traditional Gulf dish.
 
 elif st.session_state.stage == "confirm_dish":
     render_header()
-    render_segmented_stepper("confirm_dish", True)[cite: 1]
+    render_segmented_stepper("confirm_dish", True)
 
-    with st.container(border=True):[cite: 1]
+    with st.container(border=True):
         display_img = st.session_state.annotated_image if st.session_state.annotated_image else st.session_state.image
         st.image(
             display_img,
             caption="AI Decoded Ingredients & Markers",
             use_column_width=True,
-        )[cite: 1]
+        )
 
-        cnn_class = st.session_state.cnn_class[cite: 1]
-        cnn_conf = st.session_state.cnn_confidence[cite: 1]
-        candidates = st.session_state.candidates[cite: 1]
-        yolo_suggestion = st.session_state.yolo_suggestion[cite: 1]
+        cnn_class = st.session_state.cnn_class
+        cnn_conf = st.session_state.cnn_confidence
+        candidates = st.session_state.candidates
+        yolo_suggestion = st.session_state.yolo_suggestion
 
         st.markdown(
             f"""<div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.6rem;">
@@ -1320,21 +1320,21 @@ elif st.session_state.stage == "confirm_dish":
                 </div>
             </div>""",
             unsafe_allow_html=True,
-        )[cite: 1]
+        )
 
-        render_confidence_bar(cnn_conf)[cite: 1]
+        render_confidence_bar(cnn_conf)
 
-        reason = get_group_reason(cnn_class)[cite: 1]
-        if reason:[cite: 1]
+        reason = get_group_reason(cnn_class)
+        if reason:
             st.markdown(
                 f"""<div class="verify-callout">
                     <span style="font-size: 1.1rem; line-height: 1;">🔍</span>
                     <span style="color: #736C61; font-size: 0.84rem; line-height: 1.4;">{reason}</span>
                 </div>""",
                 unsafe_allow_html=True,
-            )[cite: 1]
+            )
 
-        if yolo_suggestion:[cite: 1]
+        if yolo_suggestion:
             st.markdown(
                 f"""<div class="ingredient-badge">
                     <span style="font-size: 1.1rem;">✨</span>
@@ -1343,17 +1343,17 @@ elif st.session_state.stage == "confirm_dish":
                 unsafe_allow_html=True,
             )
 
-        default_choice = yolo_suggestion if yolo_suggestion else cnn_class[cite: 1]
+        default_choice = yolo_suggestion if yolo_suggestion else cnn_class
         default_idx = (
             candidates.index(default_choice)
             if default_choice in candidates
             else 0
-        )[cite: 1]
+        )
 
         st.markdown(
             '<p style="font-family: \'Outfit\', sans-serif; font-size: 0.88rem; font-weight: 800; color: #1E1B16; margin: 12px 0 6px 0;">Select your dish:</p>',
             unsafe_allow_html=True,
-        )[cite: 1]
+        )
 
         choice = st.radio(
             "Select matching dish:",
@@ -1361,13 +1361,13 @@ elif st.session_state.stage == "confirm_dish":
             format_func=lambda x: f"🍲 {display_name(x)}",
             index=default_idx,
             label_visibility="collapsed",
-        )[cite: 1]
+        )
 
-        st.write("")[cite: 1]
-        if st.button("Confirm Dish & Continue →", type="primary"):[cite: 1]
-            st.session_state.final_dish = choice[cite: 1]
-            st.session_state.stage = "select_portion"[cite: 1]
-            st.rerun()[cite: 1]
+        st.write("")
+        if st.button("Confirm Dish & Continue →", type="primary"):
+            st.session_state.final_dish = choice
+            st.session_state.stage = "select_portion"
+            st.rerun()
 
     render_inframe_navigation()
 
@@ -1378,14 +1378,14 @@ elif st.session_state.stage == "confirm_dish":
 
 elif st.session_state.stage == "select_portion":
     render_header()
-    render_segmented_stepper("select_portion", st.session_state.get("triggered", False))[cite: 1]
+    render_segmented_stepper("select_portion", st.session_state.get("triggered", False))
 
-    with st.container(border=True):[cite: 1]
+    with st.container(border=True):
         st.image(
             st.session_state.image,
             caption="Scanned Plate",
             use_column_width=True,
-        )[cite: 1]
+        )
 
         st.markdown(
             f"""<div style="font-family: 'Outfit', sans-serif; font-size: 1.65rem; font-weight: 900; color: #1E1B16; margin: 0.6rem 0 0.2rem 0;">
@@ -1395,15 +1395,15 @@ elif st.session_state.stage == "select_portion":
                 Select your portion size to calculate authentic nutrition values:
             </p>""",
             unsafe_allow_html=True,
-        )[cite: 1]
+        )
 
         portion_map = {
             "S": "🌱   Small   (~250g)",
             "M": "🍽️   Medium   (~400g)",
             "L": "👑   Large   (~550g)",
-        }[cite: 1]
+        }
 
-        st.markdown('<div class="portion-card-group">', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<div class="portion-card-group">', unsafe_allow_html=True)
         selected_p = st.radio(
             "Choose portion:",
             options=["S", "M", "L"],
@@ -1411,14 +1411,14 @@ elif st.session_state.stage == "select_portion":
             index=1,
             horizontal=False,
             label_visibility="collapsed",
-        )[cite: 1]
-        st.markdown('</div>', unsafe_allow_html=True)[cite: 1]
+        )
+        st.markdown('</div>', unsafe_allow_html=True)
 
-        st.write("")[cite: 1]
-        if st.button("Calculate Nutrition →", type="primary", use_container_width=True):[cite: 1]
-            st.session_state.portion_size = selected_p[cite: 1]
-            st.session_state.stage = "result"[cite: 1]
-            st.rerun()[cite: 1]
+        st.write("")
+        if st.button("Calculate Nutrition →", type="primary", use_container_width=True):
+            st.session_state.portion_size = selected_p
+            st.session_state.stage = "result"
+            st.rerun()
 
     render_inframe_navigation()
 
@@ -1429,23 +1429,23 @@ elif st.session_state.stage == "select_portion":
 
 elif st.session_state.stage == "result":
     render_header()
-    render_segmented_stepper("result", st.session_state.get("triggered", False))[cite: 1]
+    render_segmented_stepper("result", st.session_state.get("triggered", False))
 
-    with st.container(border=True):[cite: 1]
+    with st.container(border=True):
         st.image(
             st.session_state.image,
             caption="Scanned Plate",
             use_column_width=True,
-        )[cite: 1]
+        )
 
-        dish = st.session_state.get("final_dish")[cite: 1]
-        if not dish:[cite: 1]
-            dish = st.session_state.get("cnn_class", "01_machboos")[cite: 1]
+        dish = st.session_state.get("final_dish")
+        if not dish:
+            dish = st.session_state.get("cnn_class", "01_machboos")
 
         nutrition = estimate_nutrition(
             dish, st.session_state.portion_size, ingredient_cache
-        )[cite: 1]
-        lo, hi = nutrition["calories_range"][cite: 1]
+        )
+        lo, hi = nutrition["calories_range"]
 
         st.markdown(
             f"""<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem;">
@@ -1457,30 +1457,30 @@ elif st.session_state.stage == "result":
             unsafe_allow_html=True,
         )
 
-        blurb = DISH_BLURBS.get(dish)[cite: 1]
-        if blurb:[cite: 1]
+        blurb = DISH_BLURBS.get(dish)
+        if blurb:
             st.markdown(
                 f'<p style="color: #736C61; font-size: 0.84rem; line-height: 1.45; margin: 0.6rem 0 0 0;">{blurb}</p>',
                 unsafe_allow_html=True,
             )
 
-        render_culinary_badges(dish)[cite: 1]
+        render_culinary_badges(dish)
         render_macro_donut_and_cards(
             nutrition["protein_g"], nutrition["carbs_g"], nutrition["fat_g"], lo, hi
-        )[cite: 1]
+        )
 
-        if nutrition["missing_ingredients"]:[cite: 1]
+        if nutrition["missing_ingredients"]:
             st.warning(
                 f"Missing standard data for: {', '.join(nutrition['missing_ingredients'])}."
-            )[cite: 1]
+            )
 
-        st.markdown("<div style='margin-top: 1.2rem;'></div>", unsafe_allow_html=True)[cite: 1]
+        st.markdown("<div style='margin-top: 1.2rem;'></div>", unsafe_allow_html=True)
 
-        tab_correct, tab_tech = st.tabs(["✏️ Edit Dish", "⚙️ Pipeline Info"])[cite: 1]
+        tab_correct, tab_tech = st.tabs(["✏️ Edit Dish", "⚙️ Pipeline Info"])
 
         with tab_correct:
-            all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)[cite: 1]
-            current_idx = all_dishes.index(dish) if dish in all_dishes else 0[cite: 1]
+            all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
+            current_idx = all_dishes.index(dish) if dish in all_dishes else 0
 
             corrected = st.selectbox(
                 "Select correct dish:",
@@ -1488,18 +1488,18 @@ elif st.session_state.stage == "result":
                 format_func=display_name,
                 index=current_idx,
                 label_visibility="collapsed",
-            )[cite: 1]
-            if st.button("Update Dish", type="primary", use_container_width=True):[cite: 1]
-                st.session_state.final_dish = corrected[cite: 1]
-                st.session_state.tier_used = "User correction"[cite: 1]
-                st.rerun()[cite: 1]
+            )
+            if st.button("Update Dish", type="primary", use_container_width=True):
+                st.session_state.final_dish = corrected
+                st.session_state.tier_used = "User correction"
+                st.rerun()
 
         with tab_tech:
             yolo_row = (
                 f'<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EBE2CF; padding-bottom: 8px;"><span style="color: #8F887C; font-size: 0.84rem;">YOLOv8 Feature</span><span style="color: #1E1B16; font-weight: 700; font-size: 0.88rem;">{display_name(st.session_state.yolo_suggestion)}</span></div>'
                 if st.session_state.get("yolo_suggestion")
                 else ""
-            )[cite: 1]
+            )
 
             st.markdown(
                 f"""<div style="display: flex; flex-direction: column; gap: 10px; padding: 6px 0;">
@@ -1518,9 +1518,9 @@ elif st.session_state.stage == "result":
 </div>
 </div>""",
                 unsafe_allow_html=True,
-            )[cite: 1]
+            )
 
-    st.write("")[cite: 1]
-    st.button("📸 Scan Another Plate", on_click=reset)[cite: 1]
+    st.write("")
+    st.button("📸 Scan Another Plate", on_click=reset)
 
     render_inframe_navigation()
