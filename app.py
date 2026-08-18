@@ -951,7 +951,7 @@ def render_confidence_bar(confidence):
 
 
 def render_bottom_navigation_dock():
-    """Render floating dark bottom navigation dock with direct navigation triggers."""
+    """Render floating dark bottom navigation dock with query params routing."""
     cur = st.session_state.stage
     
     st.markdown(
@@ -971,7 +971,7 @@ def render_bottom_navigation_dock():
 
 
 # ============================================================================
-# 5. STREAMLIT APP STATE & ROUTING
+# 5. STREAMLIT APP STATE & ROUTING (SAFE RE-INIT)
 # ============================================================================
 
 st.set_page_config(
@@ -982,15 +982,45 @@ st.set_page_config(
 )
 inject_theme()
 
-query_params = st.query_params
-if "nav" in query_params:
-    target_stage = query_params["nav"]
-    if target_stage in ["home", "menu", "upload"]:
-        st.session_state.stage = target_stage
-        st.query_params.clear()
-
+# Ensure all session state keys exist before any render calls
 if "stage" not in st.session_state:
     st.session_state.stage = "onboarding"
+if "triggered" not in st.session_state:
+    st.session_state.triggered = False
+if "image" not in st.session_state:
+    st.session_state.image = None
+if "annotated_image" not in st.session_state:
+    st.session_state.annotated_image = None
+if "cnn_class" not in st.session_state:
+    st.session_state.cnn_class = None
+if "cnn_confidence" not in st.session_state:
+    st.session_state.cnn_confidence = None
+if "candidates" not in st.session_state:
+    st.session_state.candidates = None
+if "yolo_suggestion" not in st.session_state:
+    st.session_state.yolo_suggestion = None
+if "yolo_gate_status" not in st.session_state:
+    st.session_state.yolo_gate_status = None
+if "tier_used" not in st.session_state:
+    st.session_state.tier_used = None
+if "final_dish" not in st.session_state:
+    st.session_state.final_dish = None
+if "portion_size" not in st.session_state:
+    st.session_state.portion_size = "M"
+
+# Safe query parameter check
+try:
+    if "nav" in st.query_params:
+        target_stage = st.query_params["nav"]
+        if target_stage in ["home", "menu", "upload"]:
+            st.session_state.stage = target_stage
+            st.query_params.clear()
+except Exception:
+    pass
+
+
+def reset():
+    st.session_state.stage = "upload"
     st.session_state.triggered = False
     st.session_state.image = None
     st.session_state.annotated_image = None
@@ -1002,11 +1032,6 @@ if "stage" not in st.session_state:
     st.session_state.tier_used = None
     st.session_state.final_dish = None
     st.session_state.portion_size = "M"
-
-
-def reset():
-    for key in list(st.session_state.keys()):
-        del st.session_state[key]
 
 
 # ============================================================================
@@ -1025,7 +1050,7 @@ except FileNotFoundError as e:
 # ============================================================================
 
 if st.session_state.stage == "onboarding":
-    # Clean branded navigation header
+    # Header with GB branding
     st.markdown(
         """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 2px 0;">
 <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB;">
@@ -1145,7 +1170,7 @@ elif st.session_state.stage == "menu":
 
 elif st.session_state.stage == "upload":
     render_header()
-    render_segmented_stepper("upload", st.session_state.triggered)
+    render_segmented_stepper("upload", st.session_state.get("triggered", False))
 
     with st.container(border=True):
         st.markdown(
@@ -1337,7 +1362,7 @@ elif st.session_state.stage == "confirm_dish":
 
 elif st.session_state.stage == "select_portion":
     render_header()
-    render_segmented_stepper("select_portion", st.session_state.triggered)
+    render_segmented_stepper("select_portion", st.session_state.get("triggered", False))
 
     with st.container(border=True):
         st.image(
@@ -1388,7 +1413,7 @@ elif st.session_state.stage == "select_portion":
 
 elif st.session_state.stage == "result":
     render_header()
-    render_segmented_stepper("result", st.session_state.triggered)
+    render_segmented_stepper("result", st.session_state.get("triggered", False))
 
     with st.container(border=True):
         st.image(
