@@ -1102,7 +1102,7 @@ GB
 </div>
 <div style="text-align: center; padding: 0.2rem 0.8rem 1.4rem 0.8rem;">
 <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.35rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;"><span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition</h1>
-<p style="color: #7A7468; font-size: 0.92rem; font-weight: 500; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">From scanning to tracking — recognize traditional Biryani and Gulf dishes and calculate macros automatically.</p>
+<p style="color: #7A7468; font-size: 0.92rem; font-weight: 500; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">From scanning to tracking — recognize traditional Chicken Machboos and Gulf dishes and calculate macros automatically.</p>
 <div style="display: flex; justify-content: center; gap: 6px; margin-bottom: 22px;"><span style="width: 24px; height: 6px; border-radius: 999px; background: #1C1917;"></span><span style="width: 6px; height: 6px; border-radius: 50%; background: #D6CFBE;"></span><span style="width: 6px; height: 6px; border-radius: 50%; background: #D6CFBE;"></span></div>
 </div>""",
         unsafe_allow_html=True,
@@ -1413,7 +1413,7 @@ elif st.session_state.stage == "result":
 
         dish = st.session_state.get("final_dish")
         if not dish:
-            dish = st.session_state.get("cnn_class", "03_biryani")
+            dish = st.session_state.get("cnn_class", "01_machboos")
 
         nutrition = estimate_nutrition(
             dish, st.session_state.portion_size, ingredient_cache
