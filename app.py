@@ -589,21 +589,30 @@ div.stButton > button[kind="primary"]:hover {
     border: 1px solid #A7F3D0;
 }
 
-/* --- Native Segmented App Navigation Bar --- */
+/* --- Clean Segmented App Navigation Bar (Pill Toggle) --- */
+.nav-pill-wrapper {
+    background: #1C1917 !important;
+    border-radius: 999px !important;
+    padding: 5px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+    margin: 0.6rem 0 1.2rem 0 !important;
+}
+
+.nav-pill-wrapper div[data-testid="stRadio"] {
+    width: 100% !important;
+}
+
 .nav-pill-wrapper div[data-testid="stRadio"] > div[role="radiogroup"] {
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: space-between !important;
-    background: #1C1917 !important;
-    border-radius: 999px !important;
-    padding: 5px !important;
     gap: 4px !important;
     width: 100% !important;
-    box-sizing: border-box !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
-    margin: 0.6rem 0 1.2rem 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
 }
 
 .nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] {
