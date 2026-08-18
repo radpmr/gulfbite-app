@@ -589,17 +589,19 @@ div.stButton > button[kind="primary"]:hover {
     border: 1px solid #A7F3D0;
 }
 
-/* --- In-Frame App Navigation Bar --- */
+/* --- In-Frame App Navigation Bar Fix (Prevent Vertical Stacking) --- */
 .inframe-nav-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     background: #1C1917;
     border-radius: 999px;
-    padding: 6px 12px;
+    padding: 6px 10px;
     margin-top: 1.4rem;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.inframe-nav-bar [data-testid="stHorizontalBlock"] {
+    align-items: center !important;
+    gap: 4px !important;
 }
 
 .inframe-nav-bar div.stButton > button {
@@ -607,11 +609,13 @@ div.stButton > button[kind="primary"]:hover {
     border: none !important;
     color: #A8A29E !important;
     font-family: 'Outfit', sans-serif !important;
-    font-size: 0.84rem !important;
+    font-size: 0.8rem !important;
     font-weight: 800 !important;
-    padding: 8px 4px !important;
+    padding: 8px 2px !important;
     border-radius: 999px !important;
     box-shadow: none !important;
+    white-space: nowrap !important;
+    width: 100% !important;
 }
 
 .inframe-nav-bar div.stButton > button:hover {
@@ -629,7 +633,7 @@ div.stButton > button[kind="primary"]:hover {
     color: #1A1305 !important;
     font-weight: 900 !important;
     border-radius: 999px !important;
-    padding: 8px 12px !important;
+    padding: 8px 8px !important;
     box-shadow: 0 4px 14px rgba(229, 169, 59, 0.45) !important;
 }
 
