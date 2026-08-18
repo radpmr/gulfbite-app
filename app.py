@@ -408,7 +408,7 @@ html, body, [class*="css"] {
 .block-container { 
     max-width: 440px !important; 
     padding-top: 1.2rem !important; 
-    padding-bottom: 2.5rem !important; 
+    padding-bottom: 2rem !important; 
 }
 
 /* Mobile Frame Card Container */
@@ -589,16 +589,13 @@ div.stButton > button[kind="primary"]:hover {
     border: 1px solid #A7F3D0;
 }
 
-/* --- In-Frame App Navigation Bar --- */
+/* --- In-Frame App Navigation Bar (Horizontal Segmented Pills) --- */
 .inframe-nav-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     background: #1C1917;
     border-radius: 999px;
-    padding: 6px 12px;
+    padding: 6px;
     margin-top: 1.4rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -612,6 +609,7 @@ div.stButton > button[kind="primary"]:hover {
     padding: 8px 4px !important;
     border-radius: 999px !important;
     box-shadow: none !important;
+    white-space: nowrap !important;
 }
 
 .inframe-nav-bar div.stButton > button:hover {
@@ -633,12 +631,11 @@ div.stButton > button[kind="primary"]:hover {
     box-shadow: 0 4px 14px rgba(229, 169, 59, 0.45) !important;
 }
 
-/* --- 4-Dish Creative Collage Grid --- */
+/* --- 4-Dish Grid Collage Styles --- */
 .gulf-grid-collage {
-    position: relative;
     border-radius: 28px;
     overflow: hidden;
-    height: 350px;
+    height: 340px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -657,20 +654,20 @@ div.stButton > button[kind="primary"]:hover {
 .grid-cell-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%);
+    background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.42) 100%);
 }
 
 .micro-pill {
     position: absolute;
     background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid #FFFFFF;
     border-radius: 999px;
     padding: 4px 9px;
     font-family: 'Outfit', sans-serif;
     font-weight: 800;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     color: #1E1B16;
     box-shadow: 0 4px 12px rgba(0,0,0,0.18);
     display: flex;
@@ -1037,7 +1034,7 @@ except FileNotFoundError as e:
 
 
 # ============================================================================
-# 7. SCREEN 0: "GET STARTED" ONBOARDING HERO (FEATURING SHAWRAMA, KARAK, MACHBOOS, KUNAFE)
+# 7. SCREEN 0: "GET STARTED" ONBOARDING HERO
 # ============================================================================
 
 if st.session_state.stage == "onboarding":
@@ -1065,40 +1062,33 @@ GB
         unsafe_allow_html=True,
     )
 
-    # 4-Dish Creative Visual Collage (Shawarma, Karak Chai, Machboos, Kunafe)
+    # 4-Dish Clean Collage (Machboos, Shawarma, Karak Chai, Kunafe)
     st.markdown(
         """<div class="gulf-grid-collage">
-    <!-- Top Left: Machboos -->
     <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=400&q=80');">
         <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="top: 10px; left: 10px;">
+        <div class="micro-pill" style="top: 8px; left: 8px;">
             <span class="pill-dot"></span>
             <span>Machboos • 680 kcal</span>
         </div>
     </div>
-
-    <!-- Top Right: Shawarma -->
     <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=400&q=80');">
         <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="top: 10px; right: 10px;">
+        <div class="micro-pill" style="top: 8px; right: 8px;">
             <span class="pill-dot"></span>
             <span>Shawarma • 420 kcal</span>
         </div>
     </div>
-
-    <!-- Bottom Left: Karak Chai -->
     <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=400&q=80');">
         <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="bottom: 10px; left: 10px;">
+        <div class="micro-pill" style="bottom: 8px; left: 8px;">
             <span class="pill-dot"></span>
             <span>Karak Chai • 130 kcal</span>
         </div>
     </div>
-
-    <!-- Bottom Right: Kunafe -->
     <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=400&q=80');">
         <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="bottom: 10px; right: 10px;">
+        <div class="micro-pill" style="bottom: 8px; right: 8px;">
             <span class="pill-dot"></span>
             <span>Kunafe • 450 kcal</span>
         </div>
