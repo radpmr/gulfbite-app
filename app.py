@@ -345,7 +345,7 @@ def estimate_nutrition(dish_class, portion_size, ingredient_cache):
     }
 
 # ============================================================================
-# 3. POLISHED MOBILE APP THEME & CSS (WITHOUT IOS STATUS BAR)
+# 3. POLISHED MOBILE APP THEME & CSS (CLEANED RADIO BUTTONS & SELECTBOXES)
 # ============================================================================
 def inject_theme():
     st.markdown(
@@ -395,14 +395,20 @@ html, body, [class*="css"] {
     box-shadow: 0 16px 36px -12px rgba(110, 80, 20, 0.12), 0 2px 6px rgba(0,0,0,0.02) !important;
 }
 
-/* Native Selectboxes & Inputs Styling */
+/* Native Selectboxes & Inputs Styling - High Contrast Text */
 div[data-baseweb="select"] > div {
     border-radius: 18px !important;
     border: 1.5px solid #EAE0CD !important;
     min-height: 50px !important;
     background: #FAF8F4 !important;
     font-family: 'Outfit', sans-serif !important;
-    font-weight: 700 !important;
+    font-weight: 800 !important;
+    color: #1A1713 !important;
+}
+
+div[data-baseweb="select"] span {
+    color: #1A1713 !important;
+    font-weight: 800 !important;
 }
 
 div[data-baseweb="select"] > div:hover {
@@ -516,7 +522,7 @@ div.stButton > button[kind="primary"] {
     margin: 0 !important;
 }
 
-/* --- Segmented Navigation Bar --- */
+/* --- Segmented Navigation Bar (Clean Pill Toggle) --- */
 .nav-pill-wrapper {
     background: #1A1713 !important;
     border-radius: 999px !important;
@@ -554,6 +560,7 @@ div.stButton > button[kind="primary"] {
     cursor: pointer !important;
 }
 
+/* Hide radio buttons cleanly */
 .nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] div:has(input[type="radio"]) {
     display: none !important;
 }
