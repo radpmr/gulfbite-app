@@ -651,7 +651,7 @@ div.stButton > button[kind="primary"]:hover {
     height: 340px;
     border-radius: 28px;
     overflow: hidden;
-    background-image: url('https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?auto=format&fit=crop&w=800&q=80');
+    background-image: url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80');
     background-size: cover;
     background-position: center;
     box-shadow: 0 16px 36px -10px rgba(0,0,0,0.18);
