@@ -42,7 +42,6 @@ INGREDIENT_CACHE_PATH = os.path.join(
     MODELS_DIR, "ingredient_nutrition_cache.json"
 )
 
-# Sets of dishes that frequently confuse the CNN and require verification
 TRIGGER_SET = {
     "07_ouzi",
     "01_machboos",
@@ -111,7 +110,6 @@ FEATURE_RELIABILITY = {
     "falafel_ball": {"status": "reliable"},
 }
 
-# Base recipes for Medium portion (grams)
 DISH_RECIPES = {
     "01_machboos": [("rice", 150), ("chicken", 130), ("olive_oil", 15), ("onion", 20), ("tomato", 15)],
     "02_kabsa": [("rice", 150), ("chicken", 130), ("olive_oil", 15), ("tomato", 20), ("onion", 15)],
@@ -206,30 +204,12 @@ def display_name(cls: str) -> str:
 
 
 DISH_CATEGORIES_DATA = {
-    "🍚 Rice Mains": {
-        "count": "5 Dishes",
-        "dishes": ["01_machboos", "02_kabsa", "03_biryani", "07_ouzi", "09_jisheed"],
-    },
-    "🥘 Stews & Mains": {
-        "count": "4 Dishes",
-        "dishes": ["04_harees", "05_thareed", "06_saloona", "08_samak_mashwi"],
-    },
-    "🌯 Wraps & Bites": {
-        "count": "5 Dishes",
-        "dishes": ["10_shawarma", "11_falafel_wrap", "12_falafel", "13_samboosa", "14_mutabbaq"],
-    },
-    "🫓 Breads & Morning": {
-        "count": "5 Dishes",
-        "dishes": ["18_foul_medames", "19_shakshuka", "20_balaleet", "21_khameer", "22_chebab"],
-    },
-    "🥗 Fresh Salads": {
-        "count": "3 Dishes",
-        "dishes": ["15_hummus", "16_fattoush", "17_tabbouleh"],
-    },
-    "🍯 Sweets & Karak": {
-        "count": "3 Dishes",
-        "dishes": ["23_luqaimat", "24_knafeh", "25_karak_chai"],
-    },
+    "🍚 Rice Mains": ["01_machboos", "02_kabsa", "03_biryani", "07_ouzi", "09_jisheed"],
+    "🥘 Stews & Mains": ["04_harees", "05_thareed", "06_saloona", "08_samak_mashwi"],
+    "🌯 Wraps & Bites": ["10_shawarma", "11_falafel_wrap", "12_falafel", "13_samboosa", "14_mutabbaq"],
+    "🫓 Breads & Morning": ["18_foul_medames", "19_shakshuka", "20_balaleet", "21_khameer", "22_chebab"],
+    "🥗 Fresh Salads": ["15_hummus", "16_fattoush", "17_tabbouleh"],
+    "🍯 Sweets & Karak": ["23_luqaimat", "24_knafeh", "25_karak_chai"],
 }
 
 
@@ -440,59 +420,6 @@ html, body, [class*="css"] {
     box-shadow: 0 20px 45px -12px rgba(229, 169, 59, 0.16), 0 2px 10px rgba(0,0,0,0.02) !important;
 }
 
-/* --- Clean Category Selector Pills --- */
-.category-pill-group div[data-testid="stRadio"] > div[role="radiogroup"] {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    gap: 8px !important;
-    background: transparent !important;
-    border: none !important;
-    padding: 4px 0 !important;
-}
-
-.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"] {
-    background: #F4EDE0 !important;
-    border: 1px solid #E4D8C1 !important;
-    border-radius: 999px !important;
-    padding: 8px 16px !important;
-    margin: 0 !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
-    display: none !important;
-}
-
-.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
-    background: #EAE0CD !important;
-    border-color: var(--gold-primary) !important;
-    transform: translateY(-1px);
-}
-
-.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
-    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
-    border-color: #D19428 !important;
-    box-shadow: 0 4px 12px rgba(229, 169, 59, 0.3) !important;
-}
-
-.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 0.84rem !important;
-    font-weight: 800 !important;
-    color: var(--text-dark) !important;
-    white-space: nowrap !important;
-    margin: 0 !important;
-}
-
-.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
-    color: #1A1305 !important;
-}
-
 /* --- Clean Modern Dropzone & Button --- */
 [data-testid="stFileUploaderDropzone"] {
     background: #FAF8F3 !important;
@@ -662,8 +589,8 @@ div.stButton > button[kind="primary"]:hover {
     border: 1px solid #A7F3D0;
 }
 
-/* --- Floating Bottom Navigation Dock --- */
-.bottom-dock-wrapper {
+/* --- Floating Bottom Navigation Bar --- */
+.bottom-dock-container {
     position: fixed;
     bottom: 16px;
     left: 50%;
@@ -672,71 +599,45 @@ div.stButton > button[kind="primary"]:hover {
     max-width: 410px;
     background: #1C1917;
     border-radius: 36px;
-    padding: 6px 8px;
+    padding: 6px 12px;
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.12);
     z-index: 999999;
 }
 
-.bottom-dock-wrapper div[data-testid="stRadio"] > div[role="radiogroup"] {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-around !important;
-    align-items: center !important;
-    gap: 4px !important;
+.bottom-dock-container div.stButton > button {
     background: transparent !important;
     border: none !important;
-    width: 100% !important;
-}
-
-.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] {
-    background: transparent !important;
-    border: none !important;
-    border-radius: 20px !important;
-    padding: 8px 12px !important;
-    margin: 0 !important;
-    cursor: pointer !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    transition: all 0.2s ease !important;
-}
-
-.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
-    display: none !important;
-}
-
-.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 0.8rem !important;
-    font-weight: 700 !important;
     color: #A8A29E !important;
-    margin: 0 !important;
-    white-space: nowrap !important;
-}
-
-.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
-    background: rgba(255, 255, 255, 0.12) !important;
-}
-
-.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
-    color: #F3C36A !important;
-    font-weight: 800 !important;
-}
-
-/* Center camera scan button styling */
-.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:nth-child(3) {
-    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 0.84rem !important;
+    font-weight: 700 !important;
+    padding: 8px 6px !important;
     border-radius: 20px !important;
-    padding: 10px 16px !important;
-    box-shadow: 0 6px 18px rgba(229, 169, 59, 0.45) !important;
-    transform: translateY(-4px);
+    box-shadow: none !important;
 }
 
-.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:nth-child(3) span p {
-    color: #1A1305 !important;
+.bottom-dock-container div.stButton > button:hover {
+    color: #FFFFFF !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.dock-active-btn div.stButton > button {
+    background: rgba(255, 255, 255, 0.14) !important;
+    color: #F3C36A !important;
     font-weight: 900 !important;
-    font-size: 0.88rem !important;
+}
+
+.dock-center-scan div.stButton > button {
+    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
+    color: #1A1305 !important;
+    font-size: 0.92rem !important;
+    font-weight: 900 !important;
+    border-radius: 22px !important;
+    padding: 10px 6px !important;
+    box-shadow: 0 8px 20px rgba(229, 169, 59, 0.45) !important;
+    border: 3px solid #F9F7F2 !important;
+    margin-top: -12px !important;
 }
 
 /* --- Hero & Onboarding Styles --- */
@@ -891,20 +792,21 @@ def render_quick_guide():
 
 
 def render_category_squircle_cards():
-    """Render clean category filter pills with instant recipe inspector."""
+    """Render clean category explorer with select dropdown for full reliability across Streamlit versions."""
     categories = list(DISH_CATEGORIES_DATA.keys())
     
-    st.markdown('<div class="category-pill-group">', unsafe_allow_html=True)
-    selected_cat = st.radio(
-        "Filter Category:",
-        options=categories,
-        index=0,
-        horizontal=True,
-        label_visibility="collapsed",
-    )
-    st.markdown('</div>', unsafe_allow_html=True)
+    if "selected_category" not in st.session_state:
+        st.session_state.selected_category = categories[0]
 
-    dishes = DISH_CATEGORIES_DATA[selected_cat]["dishes"]
+    selected_cat = st.selectbox(
+        "Filter by Category:",
+        options=categories,
+        index=categories.index(st.session_state.selected_category) if st.session_state.selected_category in categories else 0,
+        key="cat_select_box",
+    )
+    st.session_state.selected_category = selected_cat
+
+    dishes = DISH_CATEGORIES_DATA[selected_cat]
 
     st.markdown(
         '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.78rem; font-weight: 800; color: #8F887C; text-transform: uppercase; letter-spacing: 0.05em;">Choose Recipe</div>',
@@ -1046,31 +948,36 @@ def render_confidence_bar(confidence):
 
 
 def render_bottom_navigation_dock():
-    """Render floating dark bottom navigation dock with raised FAB scanner."""
-    nav_map = {
-        "home": "🏠 Home",
-        "menu": "📖 Menu",
-        "upload": "📷 Scan",
-    }
-    
-    current_key = st.session_state.stage if st.session_state.stage in ["home", "menu", "upload"] else "home"
-    options = ["home", "menu", "upload"]
-    
-    st.markdown('<div class="bottom-dock-wrapper">', unsafe_allow_html=True)
-    selected = st.radio(
-        "Dock Navigation",
-        options=options,
-        format_func=lambda x: nav_map[x],
-        index=options.index(current_key),
-        horizontal=True,
-        label_visibility="collapsed",
-        key="dock_radio_nav",
-    )
-    st.markdown('</div>', unsafe_allow_html=True)
+    """Render floating dark bottom navigation dock using responsive Streamlit button row."""
+    cur = st.session_state.stage
+    st.markdown('<div class="bottom-dock-container">', unsafe_allow_html=True)
+    c1, c2, c3 = st.columns([1, 1, 1])
 
-    if selected != st.session_state.stage and st.session_state.stage in ["home", "menu", "upload"]:
-        st.session_state.stage = selected
-        st.rerun()
+    with c1:
+        cls1 = "dock-active-btn" if cur == "home" else ""
+        st.markdown(f'<div class="{cls1}">', unsafe_allow_html=True)
+        if st.button("🏠 Home", key="btn_dock_home", use_container_width=True):
+            st.session_state.stage = "home"
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with c2:
+        cls2 = "dock-active-btn" if cur == "menu" else ""
+        st.markdown(f'<div class="{cls2}">', unsafe_allow_html=True)
+        if st.button("📖 Menu", key="btn_dock_menu", use_container_width=True):
+            st.session_state.stage = "menu"
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with c3:
+        cls3 = "dock-center-scan"
+        st.markdown(f'<div class="{cls3}">', unsafe_allow_html=True)
+        if st.button("📷 Scan", key="btn_dock_scan", use_container_width=True):
+            st.session_state.stage = "upload"
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ============================================================================
