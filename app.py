@@ -345,7 +345,7 @@ def estimate_nutrition(dish_class, portion_size, ingredient_cache):
     }
 
 # ============================================================================
-# 3. POLISHED MOBILE APP THEME & CSS (FIXED RADIO DOTS & ALIGNMENT)
+# 3. POLISHED MOBILE APP THEME & CSS (WITHOUT IOS STATUS BAR)
 # ============================================================================
 def inject_theme():
     st.markdown(
@@ -380,7 +380,7 @@ html, body, [class*="css"] {
 
 .block-container {
     max-width: 410px !important;
-    padding-top: 0.5rem !important;
+    padding-top: 1.2rem !important;
     padding-bottom: 5.5rem !important;
     padding-left: 0.6rem !important;
     padding-right: 0.6rem !important;
@@ -393,26 +393,6 @@ html, body, [class*="css"] {
     border-radius: 28px !important;
     padding: 1.15rem !important;
     box-shadow: 0 16px 36px -12px rgba(110, 80, 20, 0.12), 0 2px 6px rgba(0,0,0,0.02) !important;
-}
-
-/* iOS Status Bar Simulation */
-.ios-status-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2px 8px 10px 8px;
-    font-size: 0.78rem;
-    font-weight: 800;
-    color: #1A1713;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
-.ios-dynamic-island {
-    width: 90px;
-    height: 22px;
-    background: #1A1713;
-    border-radius: 999px;
-    margin: 0 auto;
 }
 
 /* Native Selectboxes & Inputs Styling */
@@ -490,7 +470,7 @@ div.stButton > button[kind="primary"] {
     width: 100%;
 }
 
-/* --- Full-Width Portion Selection Cards (Hiding Streamlit Radio Bullets Properly) --- */
+/* --- Full-Width Portion Selection Cards --- */
 .portion-card-group div[data-testid="stRadio"] > div[role="radiogroup"] {
     display: flex !important;
     flex-direction: column !important;
@@ -513,7 +493,6 @@ div.stButton > button[kind="primary"] {
     cursor: pointer !important;
 }
 
-/* Hide radio circle completely and let card act as the toggle */
 .portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"] div:has(input[type="radio"]) {
     display: none !important;
 }
@@ -537,7 +516,7 @@ div.stButton > button[kind="primary"] {
     margin: 0 !important;
 }
 
-/* --- iOS-Style Segmented Navigation Bar (Clean Flex & No Overlap) --- */
+/* --- Segmented Navigation Bar --- */
 .nav-pill-wrapper {
     background: #1A1713 !important;
     border-radius: 999px !important;
@@ -575,7 +554,6 @@ div.stButton > button[kind="primary"] {
     cursor: pointer !important;
 }
 
-/* Hide radio circle inside navigation pills */
 .nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] div:has(input[type="radio"]) {
     display: none !important;
 }
@@ -714,21 +692,7 @@ div.stButton > button[kind="primary"] {
 # ============================================================================
 # 4. APP NAVIGATION, STEPPERS & HELPERS
 # ============================================================================
-def render_ios_status_bar():
-    st.markdown(
-        """<div class="ios-status-bar">
-            <span>9:41</span>
-            <div class="ios-dynamic-island"></div>
-            <div style="display: flex; gap: 5px; align-items: center;">
-                <span>5G</span>
-                <svg width="15" height="11" viewBox="0 0 16 12" fill="none"><rect x="1" y="4" width="2" height="8" rx="1" fill="#1A1713"/><rect x="5" y="2.5" width="2" height="9.5" rx="1" fill="#1A1713"/><rect x="9" y="1" width="2" height="11" rx="1" fill="#1A1713"/><rect x="13" y="0" width="2" height="12" rx="1" fill="#1A1713"/></svg>
-            </div>
-        </div>""",
-        unsafe_allow_html=True,
-    )
-
 def render_header():
-    render_ios_status_bar()
     st.markdown(
         """<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.9rem;">
 <div style="display:flex; align-items:center; gap:10px;">
@@ -1061,7 +1025,6 @@ except FileNotFoundError as e:
 # 7. SCREEN 0: "GET STARTED" ONBOARDING HERO
 # ============================================================================
 if st.session_state.stage == "onboarding":
-    render_ios_status_bar()
     st.markdown(
         """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 2px 0;">
 <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB;">
