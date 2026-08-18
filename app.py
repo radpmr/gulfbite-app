@@ -415,7 +415,7 @@ html, body, [class*="css"] {
 
 .block-container {
     max-width: 460px !important;
-    padding: 1rem 1rem 2.8rem 1rem !important;
+    padding: 1rem 1rem 3rem 1rem !important;
 }
 
 /* Reduce Streamlit's default vertical gaps so the app feels like a mobile product. */
@@ -597,7 +597,7 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     font-weight: 800 !important;
 }
 [data-testid="stFileUploaderDropzoneInstructions"] small {
-    color: #7F766A !important;
+    color: #665F56 !important;
     opacity: 1 !important;
     font-weight: 600 !important;
 }
@@ -727,7 +727,7 @@ div[data-testid="stTabs"] [aria-selected="true"] {
 
 /* Small screens */
 @media (max-width: 480px) {
-    .block-container { padding: .72rem .72rem 2.25rem .72rem !important; }
+    .block-container { padding: .72rem .72rem 2.55rem .72rem !important; }
     [data-testid="stVerticalBlockBorderWrapper"] { border-radius: 20px !important; padding: .9rem !important; }
     .gulf-grid-collage { height: 270px; border-radius: 20px; }
 }
@@ -740,8 +740,15 @@ div[data-testid="stTabs"] [aria-selected="true"] {
 # 4. APP NAVIGATION, STEPPERS & VISUALIZERS
 # ============================================================================
 
-def segmented_choice(label, options, default=None, key=None, label_visibility="collapsed"):
-    """Use Streamlit segmented_control when available, with a radio fallback."""
+def segmented_choice(
+    label,
+    options,
+    default=None,
+    key=None,
+    label_visibility="collapsed",
+    format_func=None,
+):
+    """Use Streamlit segmented_control when available, with a clean radio fallback."""
     if hasattr(st, "segmented_control"):
         kwargs = {
             "label": label,
@@ -749,8 +756,10 @@ def segmented_choice(label, options, default=None, key=None, label_visibility="c
             "key": key,
             "selection_mode": "single",
             "label_visibility": label_visibility,
+            "width": "stretch",
         }
-        # Avoid Streamlit's "default + existing session_state" warning.
+        if format_func is not None:
+            kwargs["format_func"] = format_func
         if not (key and key in st.session_state):
             kwargs["default"] = default
         return st.segmented_control(**kwargs)
@@ -759,6 +768,7 @@ def segmented_choice(label, options, default=None, key=None, label_visibility="c
         default_idx = options.index(st.session_state[key])
     else:
         default_idx = options.index(default) if default in options else 0
+
     return st.radio(
         label,
         options=options,
@@ -766,7 +776,50 @@ def segmented_choice(label, options, default=None, key=None, label_visibility="c
         horizontal=True,
         key=key,
         label_visibility=label_visibility,
+        format_func=(format_func if format_func is not None else str),
     )
+
+
+def line_icon(name: str, size: int = 24, color: str = "#D99926") -> str:
+    """Small inline SVG icon set used by GulfBite cards and callouts."""
+    icons = {
+        "camera": (
+            '<path d="M4 7.5h3l1.4-2h7.2l1.4 2h3a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.5a2 2 0 0 1 2-2Z"/>'
+            '<circle cx="12" cy="13.5" r="4"/>'
+        ),
+        "sparkles": (
+            '<path d="m12 3 1.15 3.35L16.5 7.5l-3.35 1.15L12 12l-1.15-3.35L7.5 7.5l3.35-1.15L12 3Z"/>'
+            '<path d="m18.5 12.5.7 2.05 2.05.7-2.05.7-.7 2.05-.7-2.05-2.05-.7 2.05-.7.7-2.05Z"/>'
+            '<path d="m5.5 13 .8 2.3 2.2.8-2.2.8-.8 2.3-.8-2.3-2.2-.8 2.2-.8.8-2.3Z"/>'
+        ),
+        "nutrition": (
+            '<circle cx="12" cy="12" r="8"/>'
+            '<path d="M12 4v8l5.7 5.7"/>'
+            '<path d="M12 12 6.3 17.7"/>'
+        ),
+        "search": (
+            '<circle cx="10.5" cy="10.5" r="5.5"/>'
+            '<path d="m15 15 5 5"/>'
+        ),
+    }
+    paths = icons.get(name, icons["camera"])
+    return (
+        f'<svg width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" '
+        f'xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:block;">'
+        f'<g stroke="{color}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">{paths}</g></svg>'
+    )
+
+
+def onboarding_calories(dish_key: str, ingredient_cache, fallback: int) -> int:
+    """Use GulfBite's own medium-portion nutrition estimator for onboarding sample kcal."""
+    try:
+        nutrition = estimate_nutrition(dish_key, "M", ingredient_cache)
+        low, high = nutrition["calories_range"]
+        if low > 0 and high > 0:
+            return round((low + high) / 2)
+    except Exception:
+        pass
+    return fallback
 
 
 def render_header(compact: bool = True):
@@ -777,7 +830,7 @@ def render_header(compact: bool = True):
 <div style="display:flex;align-items:center;gap:10px;min-width:0;">
     <div style="width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#F4C66F,#E5A93B);display:flex;align-items:center;justify-content:center;box-shadow:0 7px 16px rgba(229,169,59,.22);font-family:'Outfit',sans-serif;font-weight:900;color:#1A1305;">GB</div>
     <div style="min-width:0;">
-        <div style="font-family:'Outfit',sans-serif;font-size:{title_size};font-weight:900;line-height:1;letter-spacing:-.025em;color:#1E1B16;white-space:nowrap;"><span style="color:#D99926;">GulfBite</span> AI</div>
+        <div style="font-family:'Outfit',sans-serif;font-size:{title_size};font-weight:900;line-height:1;letter-spacing:-.025em;color:#1E1B16;white-space:nowrap;"><span style="color:#D99926;">GulfBite</span><span style="display:inline-block;margin-left:7px;">AI</span></div>
         <div style="font-size:.72rem;color:#91897D;font-weight:600;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;">{subtitle}</div>
     </div>
 </div>
@@ -793,21 +846,25 @@ def render_header(compact: bool = True):
 
 
 def render_main_navigation():
-    nav_options = ["🏠 Home", "📖 Menu", "📷 Scan"]
+    nav_options = ["Home", "Menu", "Scan"]
+    nav_labels = {
+        "Home": ":material/home: Home",
+        "Menu": ":material/menu_book: Menu",
+        "Scan": ":material/photo_camera: Scan",
+    }
 
-    # Buttons elsewhere in the UI set a pending destination. Apply it before
-    # the navigation widget is instantiated on this rerun.
     pending = st.session_state.pop("pending_main_section", None)
     if pending in nav_options:
         st.session_state.main_section = pending
         st.session_state.main_nav_segment = pending
 
-    current = st.session_state.get("main_section", "🏠 Home")
+    current = st.session_state.get("main_section", "Home")
     selected = segmented_choice(
         "Main navigation",
         nav_options,
         default=current if current in nav_options else nav_options[0],
         key="main_nav_segment",
+        format_func=lambda option: nav_labels[option],
     )
     if selected:
         st.session_state.main_section = selected
@@ -862,20 +919,23 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
     )
 
 def render_quick_guide():
+    camera_icon = line_icon("camera", 25)
+    sparkle_icon = line_icon("sparkles", 25)
+    nutrition_icon = line_icon("nutrition", 25)
     st.markdown(
-        """<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:4px 0 12px 0;">
+        f"""<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:4px 0 12px 0;">
 <div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px 6px;text-align:center;">
-    <div style="font-size:1.3rem;margin-bottom:3px;">📸</div>
+    <div style="width:30px;height:30px;margin:0 auto 4px auto;display:flex;align-items:center;justify-content:center;">{camera_icon}</div>
     <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:.76rem;color:#1E1B16;">Snap</div>
     <div style="font-size:.66rem;color:#90887C;line-height:1.25;margin-top:2px;">Top-down plate</div>
 </div>
 <div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px 6px;text-align:center;">
-    <div style="font-size:1.3rem;margin-bottom:3px;">✨</div>
+    <div style="width:30px;height:30px;margin:0 auto 4px auto;display:flex;align-items:center;justify-content:center;">{sparkle_icon}</div>
     <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:.76rem;color:#1E1B16;">Recognize</div>
     <div style="font-size:.66rem;color:#90887C;line-height:1.25;margin-top:2px;">AI dish check</div>
 </div>
 <div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px 6px;text-align:center;">
-    <div style="font-size:1.3rem;margin-bottom:3px;">🥗</div>
+    <div style="width:30px;height:30px;margin:0 auto 4px auto;display:flex;align-items:center;justify-content:center;">{nutrition_icon}</div>
     <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:.76rem;color:#1E1B16;">Track</div>
     <div style="font-size:.66rem;color:#90887C;line-height:1.25;margin-top:2px;">Calories + macros</div>
 </div>
@@ -886,7 +946,11 @@ def render_quick_guide():
 
 def render_scan_input():
     """Render camera/upload source selector and return a PIL image or None."""
-    sources = ["📷 Camera", "⬆️ Upload"] if hasattr(st, "camera_input") else ["⬆️ Upload"]
+    sources = ["Camera", "Upload"] if hasattr(st, "camera_input") else ["Upload"]
+    source_labels = {
+        "Camera": ":material/photo_camera: Camera",
+        "Upload": ":material/upload: Upload",
+    }
     default_source = st.session_state.get("scan_source", sources[0])
     if default_source not in sources:
         default_source = sources[0]
@@ -896,11 +960,12 @@ def render_scan_input():
         sources,
         default=default_source,
         key="scan_source_segment",
+        format_func=lambda option: source_labels[option],
     )
     st.session_state.scan_source = source or default_source
 
     image_file = None
-    if st.session_state.scan_source == "📷 Camera" and hasattr(st, "camera_input"):
+    if st.session_state.scan_source == "Camera" and hasattr(st, "camera_input"):
         image_file = st.camera_input("Take a clear top-down photo", label_visibility="collapsed")
     else:
         image_file = st.file_uploader(
@@ -912,7 +977,6 @@ def render_scan_input():
 
     if image_file is None:
         return None
-
     return ImageOps.exif_transpose(Image.open(image_file))
 
 
@@ -1108,9 +1172,9 @@ if "final_dish" not in st.session_state:
 if "portion_size" not in st.session_state:
     st.session_state.portion_size = "M"
 if "main_section" not in st.session_state:
-    st.session_state.main_section = "🏠 Home"
+    st.session_state.main_section = "Home"
 if "scan_source" not in st.session_state:
-    st.session_state.scan_source = "📷 Camera"
+    st.session_state.scan_source = "Camera"
 
 
 def reset(open_scan=True):
@@ -1126,7 +1190,7 @@ def reset(open_scan=True):
     st.session_state.tier_used = None
     st.session_state.final_dish = None
     st.session_state.portion_size = "M"
-    st.session_state.main_section = "📷 Scan" if open_scan else "🏠 Home"
+    st.session_state.main_section = "Scan" if open_scan else "Home"
     st.session_state.pending_main_section = st.session_state.main_section
 
 
@@ -1148,21 +1212,25 @@ except FileNotFoundError as e:
 if st.session_state.stage == "onboarding":
     render_header(compact=True)
 
-    # Visual sample of the supported Gulf-food domain. Labels intentionally avoid
-    # presenting fixed calories before a real plate has been analyzed.
+    # The collage behaves like an already-scanned preview. Calories are derived
+    # from the app's own medium-portion estimator so the samples stay internally consistent.
+    machboos_kcal = onboarding_calories("01_machboos", ingredient_cache, 620)
+    shawarma_kcal = onboarding_calories("10_shawarma", ingredient_cache, 430)
+    karak_kcal = onboarding_calories("25_karak_chai", ingredient_cache, 130)
+
     st.markdown(
-        """<div class="gulf-grid-collage">
-    <div class="grid-cell" style="background-image:url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=700&q=82');">
+        f"""<div class="gulf-grid-collage">
+    <div class="grid-cell" style="background-image:url('https://www.travelstart.co.za/blog/wp-content/uploads/2022/08/GettyImages-1404492122-780x685.jpg');background-position:center;">
         <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="bottom:10px;left:10px;"><span class="pill-dot"></span><span>Machboos</span></div>
+        <div class="micro-pill" style="bottom:10px;left:10px;"><span class="pill-dot"></span><span>Lamb Machboos · {machboos_kcal} kcal</span></div>
     </div>
     <div class="grid-cell" style="background-image:url('https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=500&q=82');">
         <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="top:10px;left:10px;"><span class="pill-dot"></span><span>Shawarma</span></div>
+        <div class="micro-pill" style="top:10px;left:10px;"><span class="pill-dot"></span><span>Shawarma · {shawarma_kcal} kcal</span></div>
     </div>
-    <div class="grid-cell" style="background-image:url('https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=82');">
+    <div class="grid-cell" style="background-image:url('https://www.timeoutabudhabi.com/cloud/timeoutabudhabi/2022/08/22/Milky-Karak-Cafeteria.jpg');background-position:center;">
         <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="bottom:10px;right:10px;"><span class="pill-dot"></span><span>Karak</span></div>
+        <div class="micro-pill" style="bottom:10px;right:10px;"><span class="pill-dot"></span><span>Karak Chai · {karak_kcal} kcal</span></div>
     </div>
 </div>
 <div style="padding:.1rem .2rem .7rem .2rem;">
@@ -1173,9 +1241,9 @@ if st.session_state.stage == "onboarding":
         unsafe_allow_html=True,
     )
 
-    if st.button("Start scanning →", key="btn_get_started", type="primary", use_container_width=True):
+    if st.button("Scan your plate →", key="btn_get_started", type="primary", use_container_width=True):
         st.session_state.stage = "main"
-        st.session_state.main_section = "🏠 Home"
+        st.session_state.main_section = "Home"
         st.rerun()
 
 
@@ -1187,7 +1255,7 @@ elif st.session_state.stage in ["main", "upload"]:
     render_header(compact=True)
     active_section = render_main_navigation()
 
-    if active_section == "🏠 Home":
+    if active_section == "Home":
         st.markdown(
             '<div style="font-family:\'Outfit\',sans-serif;font-size:1.05rem;font-weight:900;color:#1E1B16;margin:5px 0 7px 0;">How GulfBite works</div>',
             unsafe_allow_html=True,
@@ -1196,19 +1264,19 @@ elif st.session_state.stage in ["main", "upload"]:
 
         with st.container(border=True):
             st.markdown(
-                """<div style="padding:2px 2px 5px 2px;">
+                f"""<div style="padding:2px 2px 5px 2px;">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
     <div>
         <div style="font-family:'Outfit',sans-serif;font-size:1.18rem;font-weight:900;color:#1E1B16;">Scan your next meal</div>
         <div style="font-size:.79rem;color:#8B8377;line-height:1.45;margin-top:4px;">Best results come from one clear plate photographed from above.</div>
     </div>
-    <div style="width:54px;height:54px;border-radius:18px;background:#FFF7E7;border:1px solid #F0D8A5;display:flex;align-items:center;justify-content:center;font-size:1.65rem;flex:0 0 auto;">📷</div>
+    <div style="width:54px;height:54px;border-radius:18px;background:#FFF7E7;border:1px solid #F0D8A5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{line_icon("camera", 28)}</div>
 </div>
 </div>""",
                 unsafe_allow_html=True,
             )
-            if st.button("Scan a plate →", type="primary", use_container_width=True, key="home_scan_cta"):
-                st.session_state.pending_main_section = "📷 Scan"
+            if st.button("Scan your plate →", type="primary", use_container_width=True, key="home_scan_cta"):
+                st.session_state.pending_main_section = "Scan"
                 st.rerun()
 
         st.markdown(
@@ -1222,17 +1290,18 @@ elif st.session_state.stage in ["main", "upload"]:
     <div style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:900;margin-top:3px;">Calories + macros</div>
 </div>
 </div>
-<div style="height:10px;"></div>""",
+<div style="height:16px;"></div>""",
             unsafe_allow_html=True,
         )
 
-    elif active_section == "📖 Menu":
+    elif active_section == "Menu":
         st.markdown(
             '<div style="font-family:\'Outfit\',sans-serif;font-size:1.05rem;font-weight:900;color:#1E1B16;margin:5px 0 7px 0;">Explore supported dishes</div>',
             unsafe_allow_html=True,
         )
         st.caption("Browse the 25 dishes currently recognized by the model.")
         render_category_squircle_cards()
+        st.markdown('<div style="height:16px;"></div>', unsafe_allow_html=True)
 
     else:  # 📷 Scan
         render_segmented_stepper("upload", st.session_state.get("triggered", False))
@@ -1252,7 +1321,7 @@ elif st.session_state.stage in ["main", "upload"]:
             image_to_process = render_scan_input()
 
             st.markdown(
-                '<div style="font-size:.72rem;color:#7E7569;line-height:1.4;margin-top:4px;">Tip: keep the full plate visible, use good lighting, and avoid heavy filters.</div>',
+                '<div style="font-size:.72rem;color:#665F56;line-height:1.4;margin-top:4px;">Tip: keep the full plate visible, use good lighting, and avoid heavy filters.</div>',
                 unsafe_allow_html=True,
             )
 
@@ -1355,7 +1424,7 @@ elif st.session_state.stage == "confirm_dish":
         if reason:
             st.markdown(
                 f"""<div class="verify-callout">
-                    <span style="font-size: 1.1rem; line-height: 1;">🔍</span>
+                    <span style="flex:0 0 auto;margin-top:1px;">{line_icon("search", 19)}</span>
                     <span style="color: #736C61; font-size: 0.84rem; line-height: 1.4;">{reason}</span>
                 </div>""",
                 unsafe_allow_html=True,
@@ -1364,7 +1433,7 @@ elif st.session_state.stage == "confirm_dish":
         if yolo_suggestion:
             st.markdown(
                 f"""<div class="ingredient-badge">
-                    <span style="font-size: 1.1rem;">✨</span>
+                    <span style="flex:0 0 auto;">{line_icon("sparkles", 19)}</span>
                     <span>Visual inspection detected marker: <strong style="color: #C28416;">{display_name(yolo_suggestion)}</strong></span>
                 </div>""",
                 unsafe_allow_html=True,
