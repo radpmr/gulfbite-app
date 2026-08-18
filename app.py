@@ -150,7 +150,7 @@ DISH_METADATA = {
     "09_jisheed": {"spice": "Loomi & Turmeric 🍋", "prep": "Pan-Flaked 🍳", "density": "Lean Protein 🐟", "time": "35 min"},
     "10_shawarma": {"spice": "Garlic Spiced 🧄", "prep": "Vertical Spit 🔥", "density": "High Protein 🥩", "time": "15 min"},
     "11_falafel_wrap": {"spice": "Herbal Cumin 🌿", "prep": "Crisp Fried 🫓", "density": "Plant Fiber 🌱", "time": "15 min"},
-    "12_falafel": {"spice": "Herbaceous 🌿", "prep": "Golden Fried 🧆", "density": "Plant Protein 🌱", "time": "20 min"},
+    "12_falafel": {"spice": "Herbaceous 🌿", "prep": "Golden Fried 🫆", "density": "Plant Protein 🌱", "time": "20 min"},
     "13_samboosa": {"spice": "Spiced Minced 🌶️", "prep": "Pastry Crisp 🥟", "density": "High Energy ⚡", "time": "20 min"},
     "14_mutabbaq": {"spice": "Scallion Pepper 🧅", "prep": "Griddle Pan 🍳", "density": "Protein Pastry 🥩", "time": "25 min"},
     "15_hummus": {"spice": "Tahini Citrus 🍋", "prep": "Cold Blended 🥣", "density": "Heart-Healthy Fats 🥑", "time": "10 min"},
@@ -630,6 +630,7 @@ div.stButton > button[kind="primary"]:hover {
     min-width: 0 !important;
 }
 
+/* Remove default Streamlit radio bullet/circle styling entirely */
 .nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
     display: none !important;
 }
