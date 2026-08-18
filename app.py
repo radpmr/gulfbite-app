@@ -379,308 +379,274 @@ def inject_theme():
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
 
 :root {
-    --app-bg: #F9F7F2;
-    --card-bg: #FFFFFF;
-    --card-border: rgba(229, 169, 59, 0.18);
-    --gold-primary: #E5A93B;
-    --gold-dark: #C28416;
-    --gold-soft: #FDF6E9;
-    --gold-dim: #996E21;
-    --text-dark: #1E1B16;
-    --text-muted: #7A7468;
-    --chip-bg: #F4EFE6;
+    --app-bg: #F7F4ED;
+    --surface: #FFFFFF;
+    --surface-soft: #FCFAF6;
+    --gold: #E5A93B;
+    --gold-2: #F3C36A;
+    --gold-dark: #B9780E;
+    --gold-soft: #FFF7E7;
+    --ink: #1E1B16;
+    --muted: #7D766B;
+    --line: #EAE2D4;
+    --danger: #C2413A;
+    --success: #18795B;
 }
 
-html, body, [class*="css"] { 
+html, body, [class*="css"] {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    color: var(--text-dark);
+    color: var(--ink);
 }
 
-.stApp { 
-    background-color: var(--app-bg);
-    background-image: 
-        radial-gradient(circle at 50% -10%, #FBF1DC 0%, transparent 65%),
-        radial-gradient(circle at 100% 100%, #FAF3E3 0%, transparent 50%);
-    color: var(--text-dark);
+.stApp {
+    background:
+        radial-gradient(circle at 50% -8%, rgba(243,195,106,.23) 0%, rgba(243,195,106,0) 42%),
+        linear-gradient(180deg, #FBF8F0 0%, var(--app-bg) 100%);
+    color: var(--ink);
 }
 
-#MainMenu, footer, header[data-testid="stHeader"] { visibility: hidden; height: 0; }
-.block-container { 
-    max-width: 440px !important; 
-    padding-top: 1.2rem !important; 
-    padding-bottom: 2rem !important; 
+#MainMenu, footer, header[data-testid="stHeader"] {
+    visibility: hidden;
+    height: 0;
 }
 
-/* Mobile Frame Card Container */
+.block-container {
+    max-width: 460px !important;
+    padding: 1rem 1rem 2rem 1rem !important;
+}
+
+/* Reduce Streamlit's default vertical gaps so the app feels like a mobile product. */
+[data-testid="stVerticalBlock"] { gap: .72rem !important; }
+[data-testid="stElementContainer"] { margin-bottom: 0 !important; }
+
+/* General cards */
 [data-testid="stVerticalBlockBorderWrapper"] {
-    background: var(--card-bg) !important;
-    border: 1px solid var(--card-border) !important;
-    border-radius: 32px !important;
-    padding: 1.3rem !important;
-    box-shadow: 0 20px 45px -12px rgba(229, 169, 59, 0.16), 0 2px 10px rgba(0,0,0,0.02) !important;
-}
-
-/* --- Clean Modern Dropzone & Button --- */
-[data-testid="stFileUploaderDropzone"] {
-    background: #FAF8F3 !important;
-    border: 2px dashed #E2D5B8 !important;
+    background: rgba(255,255,255,.96) !important;
+    border: 1px solid rgba(229,169,59,.20) !important;
     border-radius: 24px !important;
-    padding: 1.8rem 1.2rem !important;
-    transition: all 0.25s ease !important;
+    padding: 1rem !important;
+    box-shadow: 0 14px 34px -20px rgba(68,45,9,.28), 0 1px 3px rgba(0,0,0,.025) !important;
 }
 
-[data-testid="stFileUploaderDropzone"]:hover {
-    border-color: var(--gold-primary) !important;
-    background: #FDF9EE !important;
-    box-shadow: 0 8px 24px rgba(229, 169, 59, 0.14) !important;
-}
-
-[data-testid="stFileUploaderDropzone"] svg {
-    fill: var(--gold-primary) !important;
-    color: var(--gold-primary) !important;
-}
-
-[data-testid="stFileUploaderDropzoneInstructions"] > div > span {
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 1.05rem !important;
-    font-weight: 800 !important;
-    color: var(--text-dark) !important;
-}
-
-[data-testid="stFileUploaderDropzoneInstructions"] > div > small {
-    color: #8C8476 !important;
-    font-size: 0.78rem !important;
-    font-weight: 600 !important;
-}
-
-[data-testid="stFileUploader"] button {
-    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
-    border: none !important;
-    color: #1A1305 !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-weight: 800 !important;
-    font-size: 0.88rem !important;
-    border-radius: 999px !important;
-    padding: 0.65rem 1.4rem !important;
-    min-height: 42px !important;
-    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.32) !important;
-}
-
-/* Global Buttons */
+/* Buttons */
 div.stButton > button {
-    font-family: 'Outfit', sans-serif;
-    border-radius: 999px;
-    border: none;
-    background: #1C1917;
-    color: #FFFFFF;
-    font-weight: 800;
-    font-size: 0.95rem;
-    padding: 0.85rem 1.5rem;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 48px;
     width: 100%;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    background: #1D1A16;
+    color: #FFFFFF;
+    font-family: 'Outfit', sans-serif;
+    font-size: .94rem;
+    font-weight: 800;
+    letter-spacing: .005em;
+    box-shadow: none;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
 }
 
 div.stButton > button:hover {
-    background: #2E2824;
-    transform: translateY(-1px);
+    background: #2A251F;
     color: #FFFFFF;
+    border-color: transparent;
+    transform: translateY(-1px);
 }
 
 div.stButton > button[kind="primary"] {
-    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 55%, #CF8E1D 100%) !important;
-    color: #1A1305 !important;
-    font-weight: 800;
-    box-shadow: 0 10px 24px rgba(229, 169, 59, 0.35) !important;
+    background: linear-gradient(135deg, var(--gold-2) 0%, var(--gold) 62%, #D79620 100%) !important;
+    color: #171007 !important;
+    box-shadow: 0 9px 20px rgba(229,169,59,.26) !important;
 }
 
 div.stButton > button[kind="primary"]:hover {
-    background: linear-gradient(135deg, #FDD68A 0%, #F0B547 55%, #DE9A26 100%) !important;
-    color: #1A1305 !important;
+    background: linear-gradient(135deg, #F8CF80 0%, #EAB34C 62%, #D99A29 100%) !important;
 }
 
-/* --- Full-Width Portion Selection Cards --- */
-.portion-card-group div[data-testid="stRadio"] > div[role="radiogroup"] {
-    display: flex !important;
-    flex-direction: column !important;
-    flex-wrap: nowrap !important;
-    gap: 10px !important;
+/* Selects */
+[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+    min-height: 48px !important;
+    border-radius: 15px !important;
+    border-color: var(--line) !important;
+    background: var(--surface-soft) !important;
+    box-shadow: none !important;
+}
+
+/* Native segmented controls — used for app navigation, image source and portion. */
+[data-testid="stSegmentedControl"] {
     width: 100% !important;
 }
-
-.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"] {
+[data-testid="stSegmentedControl"] > div {
     width: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    background: #FAF8F3 !important;
-    border: 1.5px solid #EBE2CF !important;
-    border-radius: 20px !important;
-    padding: 14px 18px !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
-
-.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
-    display: none !important;
+[data-testid="stSegmentedControl"] [role="radiogroup"] {
+    width: 100% !important;
+    gap: 5px !important;
 }
-
-.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
-    background: #FDF9EE !important;
-    border-color: var(--gold-primary) !important;
-    transform: translateY(-1px);
-}
-
-.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
-    background: linear-gradient(135deg, #FDF7EC 0%, #FAF0D8 100%) !important;
-    border-color: var(--gold-primary) !important;
-    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.25) !important;
-}
-
-.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
+[data-testid="stSegmentedControl"] button {
+    flex: 1 1 0 !important;
+    min-height: 42px !important;
+    border-radius: 13px !important;
     font-family: 'Outfit', sans-serif !important;
-    font-size: 0.95rem !important;
     font-weight: 800 !important;
-    color: var(--text-dark) !important;
-    margin: 0 !important;
-    white-space: nowrap !important;
 }
 
-.portion-card-group div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
-    color: #1A1305 !important;
+/* Fallback radio used only when segmented_control is unavailable. */
+.compact-radio div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 6px !important;
+    width: 100% !important;
+}
+.compact-radio div[data-testid="stRadio"] label {
+    flex: 1 1 0 !important;
 }
 
-/* Verification Alert Callout */
+/* Upload zone */
+[data-testid="stFileUploaderDropzone"] {
+    min-height: 150px !important;
+    padding: 1.3rem 1rem !important;
+    border: 1.5px dashed #DBC99E !important;
+    border-radius: 18px !important;
+    background: #FBF8F1 !important;
+    transition: .2s ease !important;
+}
+[data-testid="stFileUploaderDropzone"]:hover {
+    border-color: var(--gold) !important;
+    background: #FFF9EC !important;
+    box-shadow: 0 8px 22px rgba(229,169,59,.10) !important;
+}
+[data-testid="stFileUploaderDropzone"] svg {
+    color: var(--gold) !important;
+    fill: var(--gold) !important;
+}
+[data-testid="stFileUploader"] button {
+    border-radius: 12px !important;
+    border: 1px solid #E5D8BC !important;
+    background: #FFFFFF !important;
+    color: var(--ink) !important;
+    font-weight: 800 !important;
+}
+
+/* Camera input */
+[data-testid="stCameraInput"] {
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+/* Secondary result tabs only (main navigation no longer uses tabs). */
+div[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    gap: 6px !important;
+    border-bottom: 1px solid var(--line) !important;
+}
+div[data-testid="stTabs"] [data-baseweb="tab"] {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    color: #8A8275 !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+}
+div[data-testid="stTabs"] [aria-selected="true"] {
+    color: var(--ink) !important;
+}
+
+/* Verification / model feedback */
 .verify-callout {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    background: #FDF9EE;
-    border: 1px solid #F5E5BE;
-    border-left: 4px solid var(--gold-primary);
-    border-radius: 16px;
-    padding: 12px 14px;
-    margin: 12px 0 16px 0;
+    background: #FFF9EC;
+    border: 1px solid #F2DEAF;
+    border-left: 4px solid var(--gold);
+    border-radius: 14px;
+    padding: 11px 12px;
+    margin: 10px 0 13px 0;
 }
 
 .ingredient-badge {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, #FDF9EE 0%, #FAF2DC 100%);
-    border: 1px solid #EFE0BD;
-    border-radius: 16px;
-    padding: 10px 14px;
+    background: linear-gradient(135deg, #FFF8E9 0%, #FBF1D9 100%);
+    border: 1px solid #EEDBB0;
+    border-radius: 14px;
+    padding: 10px 12px;
     margin: 8px 0 12px 0;
-    color: #1E1B16;
-    font-size: 0.86rem;
+    color: var(--ink);
+    font-size: .84rem;
     font-weight: 600;
 }
 
 .tech-pill {
     display: inline-block;
-    padding: 4px 10px;
+    max-width: 190px;
+    padding: 4px 9px;
     border-radius: 999px;
-    font-size: 0.76rem;
+    font-size: .70rem;
     font-weight: 700;
     font-family: 'JetBrains Mono', monospace;
     background: #ECFDF5;
-    color: #059669;
-    border: 1px solid #A7F3D0;
+    color: #08785D;
+    border: 1px solid #B8EAD9;
+    text-align: right;
 }
 
-/* --- Clean In-Frame Mobile Navigation Tabs --- */
-div[data-testid="stTabs"] [data-baseweb="tab-list"] {
-    background: #1C1917 !important;
-    border-radius: 999px !important;
-    padding: 5px !important;
-    gap: 4px !important;
-    border: none !important;
-    display: flex !important;
-    width: 100% !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16) !important;
-    margin-bottom: 1.2rem !important;
-}
-
-div[data-testid="stTabs"] [data-baseweb="tab-border"],
-div[data-testid="stTabs"] [data-baseweb="tab-highlight"] { 
-    display: none !important; 
-}
-
-div[data-testid="stTabs"] [data-baseweb="tab"] {
-    flex: 1 !important;
-    border-radius: 999px !important;
-    height: 42px !important;
-    color: #A8A29E !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-weight: 800 !important;
-    font-size: 0.88rem !important;
-    background: transparent !important;
-    border: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    transition: all 0.2s ease !important;
-    white-space: nowrap !important;
-}
-
-div[data-testid="stTabs"] [aria-selected="true"] {
-    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
-    color: #1A1305 !important;
-    box-shadow: 0 4px 12px rgba(229, 169, 59, 0.4) !important;
-}
-
-/* --- 4-Dish Grid Collage Styles --- */
+/* Onboarding collage */
 .gulf-grid-collage {
-    border-radius: 28px;
-    overflow: hidden;
-    height: 340px;
+    position: relative;
+    height: 292px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.08fr .92fr;
     grid-template-rows: 1fr 1fr;
-    gap: 4px;
-    background: #EBE4D5;
-    box-shadow: 0 16px 36px -10px rgba(0,0,0,0.14);
-    margin-bottom: 1.2rem;
+    gap: 5px;
+    overflow: hidden;
+    border-radius: 24px;
+    background: #E9E0D0;
+    box-shadow: 0 20px 38px -22px rgba(0,0,0,.34);
+    margin-bottom: 1rem;
 }
-
 .grid-cell {
     position: relative;
     background-size: cover;
     background-position: center;
 }
-
+.grid-cell:first-child { grid-row: 1 / span 2; }
 .grid-cell-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.42) 100%);
+    background: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.35));
 }
-
 .micro-pill {
     position: absolute;
-    background: rgba(255, 255, 255, 0.94);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    max-width: calc(100% - 16px);
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.93);
+    border: 1px solid rgba(255,255,255,.9);
+    box-shadow: 0 4px 14px rgba(0,0,0,.14);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid #FFFFFF;
-    border-radius: 999px;
-    padding: 4px 9px;
+    color: var(--ink);
     font-family: 'Outfit', sans-serif;
+    font-size: .68rem;
     font-weight: 800;
-    font-size: 0.7rem;
-    color: #1E1B16;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    z-index: 2;
     white-space: nowrap;
 }
-
 .pill-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #E5A93B;
+    background: var(--gold);
+    flex: 0 0 auto;
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+    .block-container { padding: .72rem .72rem 1.5rem .72rem !important; }
+    [data-testid="stVerticalBlockBorderWrapper"] { border-radius: 20px !important; padding: .9rem !important; }
+    .gulf-grid-collage { height: 270px; border-radius: 20px; }
 }
 </style>""",
         unsafe_allow_html=True,
@@ -691,35 +657,78 @@ div[data-testid="stTabs"] [aria-selected="true"] {
 # 4. APP NAVIGATION, STEPPERS & VISUALIZERS
 # ============================================================================
 
-def render_header():
+def segmented_choice(label, options, default=None, key=None, label_visibility="collapsed"):
+    """Use Streamlit segmented_control when available, with a radio fallback."""
+    if hasattr(st, "segmented_control"):
+        kwargs = {
+            "label": label,
+            "options": options,
+            "key": key,
+            "selection_mode": "single",
+            "label_visibility": label_visibility,
+        }
+        # Avoid Streamlit's "default + existing session_state" warning.
+        if not (key and key in st.session_state):
+            kwargs["default"] = default
+        return st.segmented_control(**kwargs)
+
+    if key and key in st.session_state and st.session_state[key] in options:
+        default_idx = options.index(st.session_state[key])
+    else:
+        default_idx = options.index(default) if default in options else 0
+    return st.radio(
+        label,
+        options=options,
+        index=default_idx,
+        horizontal=True,
+        key=key,
+        label_visibility=label_visibility,
+    )
+
+
+def render_header(compact: bool = True):
+    title_size = "1.55rem" if compact else "1.85rem"
+    subtitle = "Gulf cuisine recognition • calories • macros"
     st.markdown(
-        """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 2px 0;">
-<div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB; cursor: pointer;">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M4 7H20M4 12H20M4 17H14" stroke="#1E1B16" stroke-width="2.2" stroke-linecap="round"/>
-</svg>
+        f"""<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;">
+<div style="display:flex;align-items:center;gap:10px;min-width:0;">
+    <div style="width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#F4C66F,#E5A93B);display:flex;align-items:center;justify-content:center;box-shadow:0 7px 16px rgba(229,169,59,.22);font-family:'Outfit',sans-serif;font-weight:900;color:#1A1305;">GB</div>
+    <div style="min-width:0;">
+        <div style="font-family:'Outfit',sans-serif;font-size:{title_size};font-weight:900;line-height:1;letter-spacing:-.025em;color:#1E1B16;white-space:nowrap;"><span style="color:#D99926;">GulfBite</span> AI</div>
+        <div style="font-size:.72rem;color:#91897D;font-weight:600;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;">{subtitle}</div>
+    </div>
 </div>
-<div style="display: flex; gap: 10px; align-items: center;">
-<div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB; cursor: pointer; position: relative;">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-<span style="position: absolute; top: 11px; right: 11px; width: 7px; height: 7px; background: #FF5A1F; border-radius: 50%; border: 1.5px solid #FFFFFF;"></span>
+<div style="display:flex;align-items:center;gap:8px;">
+    <div style="width:38px;height:38px;border-radius:13px;background:#FFFFFF;border:1px solid #EBE4D8;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.035);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#D99926" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="#D99926" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;background:#E5553F;border-radius:50%;border:1.5px solid white;"></span>
+    </div>
 </div>
-<div style="width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%); display: flex; align-items: center; justify-content: center; color: #1A1305; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 0.95rem; letter-spacing: 0.02em; box-shadow: 0 6px 16px rgba(229, 169, 59, 0.35);">
-GB
-</div>
-</div>
-</div>
-<div style="margin-bottom: 1.2rem;">
-<h1 style="font-family: 'Outfit', sans-serif; font-size: 2.25rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;">
-<span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition
-</h1>
-<p style="color: #8F887C; font-size: 0.88rem; font-weight: 500; margin-top: 6px;">Authentic Gulf Cuisine Recognition & Macro Insights</p>
 </div>""",
         unsafe_allow_html=True,
     )
+
+
+def render_main_navigation():
+    nav_options = ["🏠 Home", "📖 Menu", "📷 Scan"]
+
+    # Buttons elsewhere in the UI set a pending destination. Apply it before
+    # the navigation widget is instantiated on this rerun.
+    pending = st.session_state.pop("pending_main_section", None)
+    if pending in nav_options:
+        st.session_state.main_section = pending
+        st.session_state.main_nav_segment = pending
+
+    current = st.session_state.get("main_section", "🏠 Home")
+    selected = segmented_choice(
+        "Main navigation",
+        nav_options,
+        default=current if current in nav_options else nav_options[0],
+        key="main_nav_segment",
+    )
+    if selected:
+        st.session_state.main_section = selected
+    return st.session_state.get("main_section", nav_options[0])
 
 
 def render_segmented_stepper(current_stage: str, triggered: bool):
@@ -729,57 +738,83 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
     raw_steps.append(("select_portion", "Portion"))
     raw_steps.append(("result", "Macros"))
 
-    steps = [(key, f"{i+1}. {label}") for i, (key, label) in enumerate(raw_steps)]
-
-    keys = [s[0] for s in steps]
+    keys = [key for key, _ in raw_steps]
     active_idx = keys.index(current_stage) if current_stage in keys else 0
 
-    html = ['<div style="margin: 0.2rem 0 1.2rem 0;">']
-    html.append('<div style="display: flex; gap: 6px; width: 100%; margin-bottom: 8px;">')
-    
-    for i in range(len(steps)):
-        if i <= active_idx:
-            bar_bg = "linear-gradient(90deg, #F3C36A 0%, #E5A93B 100%)"
-            bar_shadow = "box-shadow: 0 2px 8px rgba(229, 169, 59, 0.35);"
-        else:
-            bar_bg = "#EBE4D5"
-            bar_shadow = ""
-        html.append(f'<div style="flex: 1; height: 6px; border-radius: 999px; background: {bar_bg}; {bar_shadow}"></div>')
-    
-    html.append('</div>')
-    
-    html.append('<div style="display: flex; justify-content: space-between; padding: 0 2px;">')
-    for i, (_, label) in enumerate(steps):
-        is_active = i == active_idx
-        color = "#1E1B16" if is_active else "#9C9487"
-        weight = "800" if is_active else "600"
-        html.append(f'<span style="font-family: \'Outfit\', sans-serif; font-size: 0.76rem; font-weight: {weight}; color: {color};">{label}</span>')
-    html.append('</div></div>')
+    segments = []
+    labels = []
+    for i, (_, label) in enumerate(raw_steps):
+        active = i <= active_idx
+        current = i == active_idx
+        bg = "linear-gradient(90deg,#F3C36A,#E5A93B)" if active else "#EAE4D8"
+        shadow = "box-shadow:0 2px 8px rgba(229,169,59,.22);" if active else ""
+        segments.append(f'<div style="flex:1;height:5px;border-radius:999px;background:{bg};{shadow}"></div>')
+        color = "#1E1B16" if current else "#9A9286"
+        weight = "900" if current else "700"
+        labels.append(f'<span style="font-family:\'Outfit\',sans-serif;font-size:.70rem;font-weight:{weight};color:{color};">{i+1}. {label}</span>')
 
-    st.markdown("".join(html), unsafe_allow_html=True)
+    st.markdown(
+        '<div style="margin:.15rem 0 .9rem 0;">'
+        '<div style="display:flex;gap:6px;margin-bottom:7px;">' + ''.join(segments) + '</div>'
+        '<div style="display:flex;justify-content:space-between;padding:0 1px;">' + ''.join(labels) + '</div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
 
 
 def render_quick_guide():
     st.markdown(
-        """<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0 14px 0;">
-<div style="background: #FFFFFF; border: 1px solid #EBE2CF; border-radius: 20px; padding: 14px 8px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-    <div style="font-size: 1.5rem; margin-bottom: 4px;">📸</div>
-    <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-weight: 800; font-size: 0.8rem;">1. Snap Meal</div>
-    <div style="color: #8F887C; font-size: 0.72rem; line-height: 1.3; margin-top: 2px;">Top-down plate photo</div>
+        """<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:4px 0 12px 0;">
+<div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px 6px;text-align:center;">
+    <div style="font-size:1.3rem;margin-bottom:3px;">📸</div>
+    <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:.76rem;color:#1E1B16;">Snap</div>
+    <div style="font-size:.66rem;color:#90887C;line-height:1.25;margin-top:2px;">Top-down plate</div>
 </div>
-<div style="background: #FFFFFF; border: 1px solid #EBE2CF; border-radius: 20px; padding: 14px 8px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-    <div style="font-size: 1.5rem; margin-bottom: 4px;">🔍</div>
-    <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-weight: 800; font-size: 0.8rem;">2. AI Verify</div>
-    <div style="color: #8F887C; font-size: 0.72rem; line-height: 1.3; margin-top: 2px;">Smart recipe check</div>
+<div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px 6px;text-align:center;">
+    <div style="font-size:1.3rem;margin-bottom:3px;">✨</div>
+    <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:.76rem;color:#1E1B16;">Recognize</div>
+    <div style="font-size:.66rem;color:#90887C;line-height:1.25;margin-top:2px;">AI dish check</div>
 </div>
-<div style="background: #FFFFFF; border: 1px solid #EBE2CF; border-radius: 20px; padding: 14px 8px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-    <div style="font-size: 1.5rem; margin-bottom: 4px;">⚖️</div>
-    <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-weight: 800; font-size: 0.8rem;">3. Get Macros</div>
-    <div style="color: #8F887C; font-size: 0.72rem; line-height: 1.3; margin-top: 2px;">Authentic range data</div>
+<div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px 6px;text-align:center;">
+    <div style="font-size:1.3rem;margin-bottom:3px;">🥗</div>
+    <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:.76rem;color:#1E1B16;">Track</div>
+    <div style="font-size:.66rem;color:#90887C;line-height:1.25;margin-top:2px;">Calories + macros</div>
 </div>
 </div>""",
         unsafe_allow_html=True,
     )
+
+
+def render_scan_input():
+    """Render camera/upload source selector and return a PIL image or None."""
+    sources = ["📷 Camera", "⬆️ Upload"] if hasattr(st, "camera_input") else ["⬆️ Upload"]
+    default_source = st.session_state.get("scan_source", sources[0])
+    if default_source not in sources:
+        default_source = sources[0]
+
+    source = segmented_choice(
+        "Photo source",
+        sources,
+        default=default_source,
+        key="scan_source_segment",
+    )
+    st.session_state.scan_source = source or default_source
+
+    image_file = None
+    if st.session_state.scan_source == "📷 Camera" and hasattr(st, "camera_input"):
+        image_file = st.camera_input("Take a clear top-down photo", label_visibility="collapsed")
+    else:
+        image_file = st.file_uploader(
+            "Upload meal photo",
+            type=["jpg", "jpeg", "png", "heic", "heif"],
+            label_visibility="collapsed",
+            key="meal_upload",
+        )
+
+    if image_file is None:
+        return None
+
+    return ImageOps.exif_transpose(Image.open(image_file))
 
 
 def render_category_squircle_cards():
@@ -927,7 +962,7 @@ def render_confidence_bar(confidence):
     pct = confidence * 100
     st.markdown(
         f"""<div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.6rem;">
-            <span style="font-size: 0.82rem; color: #8F887C; font-weight: 600;">Match Accuracy</span>
+            <span style="font-size: 0.82rem; color: #8F887C; font-weight: 600;">Recognition confidence</span>
             <span style="font-family: 'Outfit', sans-serif; font-size: 0.92rem; font-weight: 800; color: #E5A93B;">{pct:.0f}%</span>
         </div>
         <div style="height: 7px; border-radius: 999px; background: #EFEAE0; overflow: hidden; margin: 0.35rem 0 0.8rem 0;">
@@ -973,9 +1008,13 @@ if "final_dish" not in st.session_state:
     st.session_state.final_dish = None
 if "portion_size" not in st.session_state:
     st.session_state.portion_size = "M"
+if "main_section" not in st.session_state:
+    st.session_state.main_section = "🏠 Home"
+if "scan_source" not in st.session_state:
+    st.session_state.scan_source = "📷 Camera"
 
 
-def reset():
+def reset(open_scan=True):
     st.session_state.stage = "main"
     st.session_state.triggered = False
     st.session_state.image = None
@@ -988,6 +1027,8 @@ def reset():
     st.session_state.tier_used = None
     st.session_state.final_dish = None
     st.session_state.portion_size = "M"
+    st.session_state.main_section = "📷 Scan" if open_scan else "🏠 Home"
+    st.session_state.pending_main_section = st.session_state.main_section
 
 
 # ============================================================================
@@ -1006,81 +1047,36 @@ except FileNotFoundError as e:
 # ============================================================================
 
 if st.session_state.stage == "onboarding":
-    # Header with GB branding & Notification Bell
-    st.markdown(
-        """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 2px 0;">
-<div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB;">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M4 7H20M4 12H20M4 17H14" stroke="#1E1B16" stroke-width="2.2" stroke-linecap="round"/>
-</svg>
-</div>
-<div style="display: flex; gap: 10px; align-items: center;">
-<div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB; position: relative;">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-<span style="position: absolute; top: 11px; right: 11px; width: 7px; height: 7px; background: #FF5A1F; border-radius: 50%; border: 1.5px solid #FFFFFF;"></span>
-</div>
-<div style="width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%); display: flex; align-items: center; justify-content: center; color: #1A1305; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 0.95rem; letter-spacing: 0.02em; box-shadow: 0 6px 16px rgba(229, 169, 59, 0.35);">
-GB
-</div>
-</div>
-</div>""",
-        unsafe_allow_html=True,
-    )
+    render_header(compact=True)
 
-    # 4-Dish Clean Collage (Machboos, Shawarma, Karak Chai, Kunafe)
+    # Visual sample of the supported Gulf-food domain. Labels intentionally avoid
+    # presenting fixed calories before a real plate has been analyzed.
     st.markdown(
         """<div class="gulf-grid-collage">
-    <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=400&q=80');">
+    <div class="grid-cell" style="background-image:url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=700&q=82');">
         <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="top: 8px; left: 8px;">
-            <span class="pill-dot"></span>
-            <span>Machboos • 680 kcal</span>
-        </div>
+        <div class="micro-pill" style="bottom:10px;left:10px;"><span class="pill-dot"></span><span>Machboos</span></div>
     </div>
-    <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=400&q=80');">
+    <div class="grid-cell" style="background-image:url('https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=500&q=82');">
         <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="top: 8px; right: 8px;">
-            <span class="pill-dot"></span>
-            <span>Shawarma • 420 kcal</span>
-        </div>
+        <div class="micro-pill" style="top:10px;left:10px;"><span class="pill-dot"></span><span>Shawarma</span></div>
     </div>
-    <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=400&q=80');">
+    <div class="grid-cell" style="background-image:url('https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=82');">
         <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="bottom: 8px; left: 8px;">
-            <span class="pill-dot"></span>
-            <span>Karak Chai • 130 kcal</span>
-        </div>
-    </div>
-    <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=400&q=80');">
-        <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="bottom: 8px; right: 8px;">
-            <span class="pill-dot"></span>
-            <span>Kunafe • 450 kcal</span>
-        </div>
+        <div class="micro-pill" style="bottom:10px;right:10px;"><span class="pill-dot"></span><span>Karak</span></div>
     </div>
 </div>
-
-<div style="text-align: center; padding: 0.2rem 0.8rem 1.4rem 0.8rem;">
-    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.35rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;">
-        <span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition
-    </h1>
-    <p style="color: #7A7468; font-size: 0.92rem; font-weight: 500; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">
-        From Machboos and Shawarma to Karak and Kunafe — authenticate your plate and calculate authentic macros instantly.
-    </p>
-    <div style="display: flex; justify-content: center; gap: 6px; margin-bottom: 22px;">
-        <span style="width: 24px; height: 6px; border-radius: 999px; background: #1C1917;"></span>
-        <span style="width: 6px; height: 6px; border-radius: 50%; background: #D6CFBE;"></span>
-        <span style="width: 6px; height: 6px; border-radius: 50%; background: #D6CFBE;"></span>
-    </div>
+<div style="padding:.1rem .2rem .7rem .2rem;">
+    <div style="display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:#FFF7E7;border:1px solid #F0D9A8;color:#B9780E;font-size:.70rem;font-weight:800;margin-bottom:9px;">25 Gulf dishes • AI-assisted recognition</div>
+    <h1 style="font-family:'Outfit',sans-serif;font-size:2.15rem;font-weight:900;line-height:1.06;color:#1E1B16;margin:0;letter-spacing:-.035em;">Know your Gulf plate.<br><span style="color:#D99A28;">Track it smarter.</span></h1>
+    <p style="color:#7C756A;font-size:.88rem;font-weight:500;margin:10px 0 7px 0;line-height:1.5;">Photograph a traditional Gulf dish, verify the AI match when needed, choose your portion, and view estimated calories and macros.</p>
 </div>""",
         unsafe_allow_html=True,
     )
 
-    if st.button("Get Started →", key="btn_get_started", use_container_width=True):
+    if st.button("Start scanning →", key="btn_get_started", type="primary", use_container_width=True):
         st.session_state.stage = "main"
+        st.session_state.main_section = "🏠 Home"
         st.rerun()
 
 
@@ -1089,68 +1085,82 @@ GB
 # ============================================================================
 
 elif st.session_state.stage in ["main", "upload"]:
-    render_header()
+    render_header(compact=True)
+    active_section = render_main_navigation()
 
-    tab_home, tab_menu, tab_scan = st.tabs(["🏠 Home", "📖 Menu", "📷 Scan"])
-
-    with tab_home:
+    if active_section == "🏠 Home":
         st.markdown(
-            '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1E1B16; margin-bottom: 8px;">✨ Quick Guide</div>',
+            '<div style="font-family:\'Outfit\',sans-serif;font-size:1.05rem;font-weight:900;color:#1E1B16;margin:5px 0 7px 0;">How GulfBite works</div>',
             unsafe_allow_html=True,
         )
         render_quick_guide()
 
         with st.container(border=True):
             st.markdown(
-                """<div style="text-align: center; padding: 10px 6px;">
-                    <div style="font-size: 2.2rem; margin-bottom: 4px;">📸</div>
-                    <div style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 900; color: #1E1B16;">Ready to Track Your Meal?</div>
-                    <p style="color: #8F887C; font-size: 0.86rem; line-height: 1.4; margin: 6px 0 0 0;">
-                        Head over to the <strong>📷 Scan</strong> tab above to photograph or upload your plate.
-                    </p>
-                </div>""",
+                """<div style="padding:2px 2px 5px 2px;">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div>
+        <div style="font-family:'Outfit',sans-serif;font-size:1.18rem;font-weight:900;color:#1E1B16;">Scan your next meal</div>
+        <div style="font-size:.79rem;color:#8B8377;line-height:1.45;margin-top:4px;">Best results come from one clear plate photographed from above.</div>
+    </div>
+    <div style="width:54px;height:54px;border-radius:18px;background:#FFF7E7;border:1px solid #F0D8A5;display:flex;align-items:center;justify-content:center;font-size:1.65rem;flex:0 0 auto;">📷</div>
+</div>
+</div>""",
                 unsafe_allow_html=True,
             )
+            if st.button("Scan a plate →", type="primary", use_container_width=True, key="home_scan_cta"):
+                st.session_state.pending_main_section = "📷 Scan"
+                st.rerun()
 
-    with tab_menu:
         st.markdown(
-            '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1E1B16; margin-bottom: 8px;">🍲 Supported Dishes (25)</div>',
+            """<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px;">
+<div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px;">
+    <div style="font-size:.68rem;color:#948B7F;font-weight:800;text-transform:uppercase;letter-spacing:.04em;">Recognition</div>
+    <div style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:900;margin-top:3px;">25 Gulf dishes</div>
+</div>
+<div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px;">
+    <div style="font-size:.68rem;color:#948B7F;font-weight:800;text-transform:uppercase;letter-spacing:.04em;">Output</div>
+    <div style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:900;margin-top:3px;">Calories + macros</div>
+</div>
+</div>""",
             unsafe_allow_html=True,
         )
+
+    elif active_section == "📖 Menu":
+        st.markdown(
+            '<div style="font-family:\'Outfit\',sans-serif;font-size:1.05rem;font-weight:900;color:#1E1B16;margin:5px 0 7px 0;">Explore supported dishes</div>',
+            unsafe_allow_html=True,
+        )
+        st.caption("Browse the 25 dishes currently recognized by the model.")
         render_category_squircle_cards()
 
-    with tab_scan:
+    else:  # 📷 Scan
         render_segmented_stepper("upload", st.session_state.get("triggered", False))
 
         with st.container(border=True):
             st.markdown(
-                """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-                    <div style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: #1E1B16;">Scan Your Plate</div>
-                    <span style="background: #FDF6E9; color: #C28416; font-size: 0.76rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; border: 1px solid #F5E3BE;">Top-down</span>
-                </div>""",
+                """<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:9px;">
+<div>
+    <div style="font-family:'Outfit',sans-serif;font-size:1.12rem;font-weight:900;color:#1E1B16;">Scan your plate</div>
+    <div style="font-size:.76rem;color:#91897D;margin-top:2px;">Camera or photo upload</div>
+</div>
+<span style="background:#FFF7E7;color:#B9780E;font-size:.70rem;font-weight:800;padding:5px 9px;border-radius:999px;border:1px solid #EED8A8;">Top-down works best</span>
+</div>""",
                 unsafe_allow_html=True,
             )
 
-            image_to_process = None
+            image_to_process = render_scan_input()
 
-            uploaded = st.file_uploader(
-                "Upload meal photo",
-                type=["jpg", "jpeg", "png", "heic", "heif"],
-                label_visibility="collapsed",
+            st.markdown(
+                '<div style="font-size:.72rem;color:#91897D;line-height:1.4;margin-top:2px;">Tip: keep the full plate visible, use good lighting, and avoid heavy filters.</div>',
+                unsafe_allow_html=True,
             )
-
-            if uploaded is not None:
-                image_to_process = ImageOps.exif_transpose(Image.open(uploaded))
 
             if image_to_process is not None:
                 st.session_state.image = image_to_process
-                st.image(
-                    image_to_process,
-                    caption="Scanned Plate",
-                    use_column_width=True,
-                )
+                st.image(image_to_process, caption="Meal preview", use_column_width=True)
 
-                with st.spinner("Analyzing ingredients & calculating nutritional profile..."):
+                with st.spinner("Recognizing dish and checking visual markers..."):
                     cnn_class, cnn_confidence, margin, entropy = run_cnn(
                         image_to_process, cnn_model, idx_to_class
                     )
@@ -1163,21 +1173,13 @@ elif st.session_state.stage in ["main", "upload"]:
 
                     if is_non_food:
                         st.markdown(
-                            f"""<div style="background: #FFF5F5; border: 1px solid #FED7D7; border-radius: 22px; padding: 18px; margin-top: 14px; text-align: center;">
-    <div style="font-size: 2rem; margin-bottom: 4px;">🍽️❓</div>
-    <div style="color: #E53E3E; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem;">No Supported Gulf Dish Found</div>
-    <div style="color: #718096; font-size: 0.82rem; line-height: 1.45; margin-top: 4px;">
-    Please upload a clear, top-down photo of a traditional Gulf dish.
-    </div>
-    </div>""",
+                            """<div style="background:#FFF5F3;border:1px solid #F3D0CB;border-radius:16px;padding:15px;margin-top:10px;">
+<div style="font-family:'Outfit',sans-serif;font-weight:900;color:#B33C34;">No supported Gulf dish detected</div>
+<div style="color:#7D756B;font-size:.80rem;line-height:1.45;margin-top:4px;">Try a clearer top-down image with one traditional Gulf dish filling most of the frame.</div>
+</div>""",
                             unsafe_allow_html=True,
                         )
-                        st.write("")
-                        st.button(
-                            "🔄 Try Another Photo",
-                            on_click=reset,
-                            use_container_width=True,
-                        )
+                        st.button("Try another photo", on_click=reset, use_container_width=True)
                         st.stop()
 
                     triggered = (
@@ -1197,29 +1199,22 @@ elif st.session_state.stage in ["main", "upload"]:
                         st.rerun()
                     else:
                         candidates = get_candidate_group(cnn_class)
-                        run_yolo_here = (cnn_class in YOLO_FEATURE_MAP) or (
-                            cnn_class == "03_biryani"
-                        )
+                        run_yolo_here = (cnn_class in YOLO_FEATURE_MAP) or (cnn_class == "03_biryani")
                         yolo_suggestion, gate_status = None, None
                         annotated_img = None
+
                         if run_yolo_here:
                             detections = run_yolov8_with_boxes(image_to_process, yolo_model)
                             if detections:
                                 annotated_img = create_ai_decoded_overlay(image_to_process, detections)
-                            _, gated, gate_status = map_detections_to_suggestion(
-                                detections, candidates
-                            )
+                            _, gated, gate_status = map_detections_to_suggestion(detections, candidates)
                             yolo_suggestion = gated[0] if gated else None
 
                         st.session_state.annotated_image = annotated_img
                         st.session_state.candidates = sorted(candidates)
                         st.session_state.yolo_suggestion = yolo_suggestion
                         st.session_state.yolo_gate_status = gate_status
-                        st.session_state.tier_used = (
-                            "CNN + YOLO + user confirm"
-                            if yolo_suggestion
-                            else "CNN + user confirm"
-                        )
+                        st.session_state.tier_used = "CNN + YOLO + user confirm" if yolo_suggestion else "CNN + user confirm"
                         st.session_state.stage = "confirm_dish"
                         st.rerun()
 
@@ -1287,16 +1282,16 @@ elif st.session_state.stage == "confirm_dish":
             unsafe_allow_html=True,
         )
 
-        choice = st.radio(
+        choice = st.selectbox(
             "Select matching dish:",
             options=candidates,
             format_func=lambda x: f"🍲 {display_name(x)}",
             index=default_idx,
             label_visibility="collapsed",
+            key="dish_confirmation_select",
         )
 
-        st.write("")
-        if st.button("Confirm Dish & Continue →", type="primary"):
+        if st.button("Confirm dish →", type="primary", use_container_width=True):
             st.session_state.final_dish = choice
             st.session_state.stage = "select_portion"
             st.rerun()
@@ -1327,25 +1322,29 @@ elif st.session_state.stage == "select_portion":
             unsafe_allow_html=True,
         )
 
-        portion_map = {
-            "S": "🌱   Small   (~250g)",
-            "M": "🍽️   Medium   (~400g)",
-            "L": "👑   Large   (~550g)",
+        portion_labels = ["Small · ~250g", "Medium · ~400g", "Large · ~550g"]
+        portion_lookup = {
+            "Small · ~250g": "S",
+            "Medium · ~400g": "M",
+            "Large · ~550g": "L",
         }
-
-        st.markdown('<div class="portion-card-group">', unsafe_allow_html=True)
-        selected_p = st.radio(
-            "Choose portion:",
-            options=["S", "M", "L"],
-            format_func=lambda x: portion_map[x],
-            index=1,
-            horizontal=False,
-            label_visibility="collapsed",
+        default_label = {"S": portion_labels[0], "M": portion_labels[1], "L": portion_labels[2]}.get(
+            st.session_state.get("portion_size", "M"), portion_labels[1]
         )
-        st.markdown('</div>', unsafe_allow_html=True)
+        selected_label = segmented_choice(
+            "Choose portion",
+            portion_labels,
+            default=default_label,
+            key="portion_segment",
+        )
+        selected_p = portion_lookup.get(selected_label, "M")
 
-        st.write("")
-        if st.button("Calculate Nutrition →", type="primary", use_container_width=True):
+        st.markdown(
+            '<div style="display:flex;justify-content:space-between;font-size:.70rem;color:#938B7F;margin-top:4px;"><span>Light meal</span><span>Typical plate</span><span>Large serving</span></div>',
+            unsafe_allow_html=True,
+        )
+
+        if st.button("Calculate nutrition →", type="primary", use_container_width=True):
             st.session_state.portion_size = selected_p
             st.session_state.stage = "result"
             st.rerun()
@@ -1449,4 +1448,4 @@ elif st.session_state.stage == "result":
             )
 
     st.write("")
-    st.button("📸 Scan Another Plate", on_click=reset)
+    st.button("📸 Scan another plate", on_click=reset, use_container_width=True)
