@@ -644,7 +644,7 @@ div.stButton > button[kind="primary"]:hover {
     font-weight: 900 !important;
 }
 
-/* --- Get Started Screen Single Viewfinder Hero Style (Gulf Feast Dish) --- */
+/* --- Single Dish AI Scanner Viewfinder Hero Style --- */
 .ai-scan-hero-wrap {
     position: relative;
     width: 100%;
@@ -970,6 +970,30 @@ def render_confidence_bar(confidence):
         </div>""",
         unsafe_allow_html=True,
     )
+
+
+def render_segmented_app_navigation():
+    cur = st.session_state.get("stage", "home")
+    nav_keys = ["home", "menu", "upload"]
+    nav_labels = ["🏠 Home", "📖 Menu", "📷 Scan"]
+    
+    current_idx = nav_keys.index(cur) if cur in nav_keys else 0
+
+    st.markdown('<div class="nav-pill-wrapper">', unsafe_allow_html=True)
+    selected_label = st.radio(
+        "Navigation",
+        options=nav_labels,
+        index=current_idx,
+        horizontal=True,
+        label_visibility="collapsed",
+        key="app_main_nav_radio",
+    )
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    selected_stage = nav_keys[nav_labels.index(selected_label)]
+    if selected_stage != cur and cur in nav_keys:
+        st.session_state.stage = selected_stage
+        st.rerun()
 
 
 # ============================================================================
@@ -1383,13 +1407,13 @@ elif st.session_state.stage == "result":
     with st.container(border=True):
         st.image(
             st.session_state.image,
-            caption="Scanned Plate",
+            caption="Scanned Plate,
             use_column_width=True,
         )
 
         dish = st.session_state.get("final_dish")
         if not dish:
-            dish = st.session_state.get("cnn_class", "01_machboos")
+            dish = st.session_state.get("cnn_class", "03_biryani")
 
         nutrition = estimate_nutrition(
             dish, st.session_state.portion_size, ingredient_cache
