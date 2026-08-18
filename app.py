@@ -2,10 +2,10 @@
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
 Identifies authentic Gulf dishes using a multi-tiered pipeline:
-1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring[cite: 1].
-2. Out-of-distribution / Non-food rejection via margin and entropy checks[cite: 1].
-3. YOLOv8 feature detection with visual bounding overlays & calorie pointers[cite: 1].
-4. Portion-based authentic macro and calorie estimation with SVG Macro Rings[cite: 1].
+1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
+2. Out-of-distribution / Non-food rejection via margin and entropy checks.
+3. YOLOv8 feature detection with visual bounding overlays & calorie pointers.
+4. Portion-based authentic macro and calorie estimation with SVG Macro Rings.
 """
 
 import json
@@ -17,11 +17,11 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageOps
 import streamlit as st
 
-# Force CPU inference for stability and suppress TensorFlow verbose logging[cite: 1]
+# Force CPU inference for stability and suppress TensorFlow verbose logging
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
-# Register HEIC/HEIF image support for mobile uploads[cite: 1]
+# Register HEIC/HEIF image support for mobile uploads
 try:
     import pillow_heif
     pillow_heif.register_heif_opener()
@@ -32,15 +32,15 @@ except ImportError:
 # 1. CONFIGURATION & CONSTANTS
 # ============================================================================
 
-MODELS_DIR = "models"[cite: 1]
-CNN_MODEL_PATH = os.path.join(MODELS_DIR, "MobileNetV2_best.keras")[cite: 1]
-CLASS_INDICES_PATH = os.path.join(MODELS_DIR, "class_indices.json")[cite: 1]
+MODELS_DIR = "models"
+CNN_MODEL_PATH = os.path.join(MODELS_DIR, "MobileNetV2_best.keras")
+CLASS_INDICES_PATH = os.path.join(MODELS_DIR, "class_indices.json")
 YOLO_WEIGHTS_PATH = os.path.join(
     MODELS_DIR, "yolov8_ingredient_detector-4", "weights", "best.pt"
-)[cite: 1]
+)
 INGREDIENT_CACHE_PATH = os.path.join(
     MODELS_DIR, "ingredient_nutrition_cache.json"
-)[cite: 1]
+)
 
 TRIGGER_SET = {
     "07_ouzi",
@@ -49,13 +49,13 @@ TRIGGER_SET = {
     "02_kabsa",
     "03_biryani",
     "06_saloona",
-}[cite: 1]
-WRAP_TRIGGER_SET = {"10_shawarma", "11_falafel_wrap"}[cite: 1]
+}
+WRAP_TRIGGER_SET = {"10_shawarma", "11_falafel_wrap"}
 
-CONFIDENCE_THRESHOLD = 0.70[cite: 1]
-MIN_CONFIDENCE = 0.50[cite: 1]
-MIN_MARGIN = 0.15[cite: 1]
-MAX_ENTROPY = 2.50[cite: 1]
+CONFIDENCE_THRESHOLD = 0.70
+MIN_CONFIDENCE = 0.50
+MIN_MARGIN = 0.15
+MAX_ENTROPY = 2.50
 
 YOLO_FEATURE_MAP = {
     "01_machboos": "loomi",
@@ -64,8 +64,8 @@ YOLO_FEATURE_MAP = {
     "02_kabsa": "whole_chicken_piece",
     "10_shawarma": "shawarma_meat",
     "11_falafel_wrap": "falafel_ball",
-}[cite: 1]
-FEATURE_TO_DISH = {v: k for k, v in YOLO_FEATURE_MAP.items()}[cite: 1]
+}
+FEATURE_TO_DISH = {v: k for k, v in YOLO_FEATURE_MAP.items()}
 
 FEATURE_CALORIE_ESTIMATES = {
     "loomi": "15 kcal",
@@ -86,56 +86,56 @@ CONFUSION_GROUPS = {
         "06_saloona",
     },
     "wrap_cluster": {"10_shawarma", "11_falafel_wrap", "12_falafel"},
-}[cite: 1]
+}
 
 GROUP_REASONS = {
     "rice_cluster": "Rice dishes like Machboos, Kabsa, and Biryani share aromatic spice bases, so we double-check.",
     "wrap_cluster": "Wrapped dishes hide their core filling, so we double-check with you.",
-}[cite: 1]
+}
 
 
 def get_group_reason(cnn_class: str) -> Optional[str]:
-    for group_name, group_set in CONFUSION_GROUPS.items():[cite: 1]
-        if cnn_class in group_set:[cite: 1]
-            return GROUP_REASONS.get(group_name)[cite: 1]
-    return None[cite: 1]
+    for group_name, group_set in CONFUSION_GROUPS.items():
+        if cnn_class in group_set:
+            return GROUP_REASONS.get(group_name)
+    return None
 
 
 FEATURE_RELIABILITY = {
-    "loomi": {"status": "reliable"},[cite: 1]
-    "whole_chicken_piece": {"status": "unreliable"},[cite: 1]
-    "whole_shank": {"status": "insufficient_evidence"},[cite: 1]
-    "whole_fish": {"status": "insufficient_evidence"},[cite: 1]
-    "shawarma_meat": {"status": "reliable"},[cite: 1]
-    "falafel_ball": {"status": "reliable"},[cite: 1]
-}[cite: 1]
+    "loomi": {"status": "reliable"},
+    "whole_chicken_piece": {"status": "unreliable"},
+    "whole_shank": {"status": "insufficient_evidence"},
+    "whole_fish": {"status": "insufficient_evidence"},
+    "shawarma_meat": {"status": "reliable"},
+    "falafel_ball": {"status": "reliable"},
+}
 
 DISH_RECIPES = {
-    "01_machboos": [("rice", 150), ("chicken", 130), ("olive_oil", 15), ("onion", 20), ("tomato", 15)],[cite: 1]
-    "02_kabsa": [("rice", 150), ("chicken", 130), ("olive_oil", 15), ("tomato", 20), ("onion", 15)],[cite: 1]
-    "03_biryani": [("rice", 160), ("chicken", 140), ("olive_oil", 15), ("yogurt", 20), ("onion", 20)],[cite: 1]
-    "04_harees": [("bulgur", 100), ("lamb", 100), ("ghee", 15)],[cite: 1]
-    "05_thareed": [("pita_bread", 80), ("lamb", 120), ("mixed_vegetables", 60)],[cite: 1]
-    "06_saloona": [("lamb", 120), ("mixed_vegetables", 100), ("tomato", 40), ("olive_oil", 15)],[cite: 1]
-    "07_ouzi": [("rice", 150), ("lamb", 180), ("mixed_nuts", 15), ("olive_oil", 15)],[cite: 1]
-    "08_samak_mashwi": [("fish", 200), ("olive_oil", 10)],[cite: 1]
-    "09_jisheed": [("rice", 150), ("fish", 100), ("olive_oil", 10)],[cite: 1]
-    "10_shawarma": [("pita_bread", 80), ("chicken", 100), ("garlic_sauce", 20), ("pickles", 10)],[cite: 1]
-    "11_falafel_wrap": [("pita_bread", 80), ("falafel", 90), ("tahini", 15), ("mixed_vegetables", 30)],[cite: 1]
-    "12_falafel": [("falafel", 120), ("olive_oil", 10)],[cite: 1]
-    "13_samboosa": [("pastry_dough", 60), ("ground_meat", 60), ("olive_oil", 10)],[cite: 1]
-    "14_mutabbaq": [("pastry_dough", 100), ("ground_meat", 80), ("olive_oil", 15)],[cite: 1]
-    "15_hummus": [("chickpeas", 80), ("tahini", 15), ("olive_oil", 10)],[cite: 1]
-    "16_fattoush": [("mixed_vegetables", 150), ("pita_bread", 20), ("olive_oil", 10)],[cite: 1]
-    "17_tabbouleh": [("parsley", 80), ("bulgur", 20), ("tomato", 30), ("olive_oil", 15)],[cite: 1]
-    "18_foul_medames": [("fava_beans", 150), ("olive_oil", 15)],[cite: 1]
-    "19_shakshuka": [("eggs", 100), ("tomato_sauce", 150), ("olive_oil", 10)],[cite: 1]
-    "20_balaleet": [("vermicelli", 80), ("sugar", 15), ("eggs", 50)],[cite: 1]
-    "21_khameer": [("bread_wheat", 80)],[cite: 1]
-    "22_chebab": [("pancake_batter", 100)],[cite: 1]
-    "23_luqaimat": [("fried_dough", 100), ("date_syrup", 30)],[cite: 1]
-    "24_knafeh": [("kunafa_dough", 80), ("soft_cheese", 60), ("sugar_syrup", 40), ("ghee", 15)],[cite: 1]
-    "25_karak_chai": [("milk", 100), ("black_tea", 100), ("sugar", 10)],[cite: 1]
+    "01_machboos": [("rice", 150), ("chicken", 130), ("olive_oil", 15), ("onion", 20), ("tomato", 15)],
+    "02_kabsa": [("rice", 150), ("chicken", 130), ("olive_oil", 15), ("tomato", 20), ("onion", 15)],
+    "03_biryani": [("rice", 160), ("chicken", 140), ("olive_oil", 15), ("yogurt", 20), ("onion", 20)],
+    "04_harees": [("bulgur", 100), ("lamb", 100), ("ghee", 15)],
+    "05_thareed": [("pita_bread", 80), ("lamb", 120), ("mixed_vegetables", 60)],
+    "06_saloona": [("lamb", 120), ("mixed_vegetables", 100), ("tomato", 40), ("olive_oil", 15)],
+    "07_ouzi": [("rice", 150), ("lamb", 180), ("mixed_nuts", 15), ("olive_oil", 15)],
+    "08_samak_mashwi": [("fish", 200), ("olive_oil", 10)],
+    "09_jisheed": [("rice", 150), ("fish", 100), ("olive_oil", 10)],
+    "10_shawarma": [("pita_bread", 80), ("chicken", 100), ("garlic_sauce", 20), ("pickles", 10)],
+    "11_falafel_wrap": [("pita_bread", 80), ("falafel", 90), ("tahini", 15), ("mixed_vegetables", 30)],
+    "12_falafel": [("falafel", 120), ("olive_oil", 10)],
+    "13_samboosa": [("pastry_dough", 60), ("ground_meat", 60), ("olive_oil", 10)],
+    "14_mutabbaq": [("pastry_dough", 100), ("ground_meat", 80), ("olive_oil", 15)],
+    "15_hummus": [("chickpeas", 80), ("tahini", 15), ("olive_oil", 10)],
+    "16_fattoush": [("mixed_vegetables", 150), ("pita_bread", 20), ("olive_oil", 10)],
+    "17_tabbouleh": [("parsley", 80), ("bulgur", 20), ("tomato", 30), ("olive_oil", 15)],
+    "18_foul_medames": [("fava_beans", 150), ("olive_oil", 15)],
+    "19_shakshuka": [("eggs", 100), ("tomato_sauce", 150), ("olive_oil", 10)],
+    "20_balaleet": [("vermicelli", 80), ("sugar", 15), ("eggs", 50)],
+    "21_khameer": [("bread_wheat", 80)],
+    "22_chebab": [("pancake_batter", 100)],
+    "23_luqaimat": [("fried_dough", 100), ("date_syrup", 30)],
+    "24_knafeh": [("kunafa_dough", 80), ("soft_cheese", 60), ("sugar_syrup", 40), ("ghee", 15)],
+    "25_karak_chai": [("milk", 100), ("black_tea", 100), ("sugar", 10)],
 }
 
 DISH_METADATA = {
@@ -167,40 +167,40 @@ DISH_METADATA = {
 }
 
 DISH_BLURBS = {
-    "01_machboos": "A fragrant spiced rice plate with meat or chicken, infused with black dried lime (loomi).",[cite: 1]
-    "02_kabsa": "Saudi Arabia's signature spiced rice dish finished with saffron, tomatoes, and tender meat.",[cite: 1]
-    "03_biryani": "Richly layered basmati rice spiced with cloves, cardamoms, and marinated chicken.",[cite: 1]
-    "04_harees": "Slow-cooked wheat and shredded meat porridge seasoned with aromatic ghee.",[cite: 1]
-    "05_thareed": "Crisp thin flatbread layered with hearty lamb and slow-simmered vegetable broth.",[cite: 1]
-    "06_saloona": "A traditional comforting Gulf stew simmered with seasonal vegetables and spices.",[cite: 1]
+    "01_machboos": "A fragrant spiced rice plate with meat or chicken, infused with black dried lime (loomi).",
+    "02_kabsa": "Saudi Arabia's signature spiced rice dish finished with saffron, tomatoes, and tender meat.",
+    "03_biryani": "Richly layered basmati rice spiced with cloves, cardamoms, and marinated chicken.",
+    "04_harees": "Slow-cooked wheat and shredded meat porridge seasoned with aromatic ghee.",
+    "05_thareed": "Crisp thin flatbread layered with hearty lamb and slow-simmered vegetable broth.",
+    "06_saloona": "A traditional comforting Gulf stew simmered with seasonal vegetables and spices.",
     "07_ouzi": "Spiced rice loaded with slow-roasted tender lamb and toasted golden nuts.",
-    "08_samak_mashwi": "Locally caught fish marinated in regional spices and flame-grilled over open coals.",[cite: 1]
-    "09_jisheed": "Flaked Gulf fish seasoned with dried lime, turmeric, and served over steamed rice.",[cite: 1]
-    "10_shawarma": "Thinly shaved marinated chicken wrapped in warm pita with garlic toum sauce.",[cite: 1]
-    "11_falafel_wrap": "Crisp golden chickpea falafels with fresh salad and silky tahini sauce in a warm wrap.",[cite: 1]
-    "12_falafel": "Deep-fried seasoned chickpea fritters with garlic, parsley, and roasted coriander.",[cite: 1]
-    "13_samboosa": "Crispy golden fried pastry triangles filled with spiced minced meat or vegetables.",[cite: 1]
-    "14_mutabbaq": "Folded pan-fried thin pastry stuffed with spiced meat, eggs, and scallions.",[cite: 1]
-    "15_hummus": "Silky blended chickpeas with tahini, lemon juice, and extra virgin olive oil.",[cite: 1]
-    "16_fattoush": "Crunchy garden salad tossed with toasted pita crisps, pomegranate molasses, and sumac.",[cite: 1]
-    "17_tabbouleh": "Finely chopped fresh parsley salad with bulgur, tomatoes, mint, and lemon olive dressing.",[cite: 1]
-    "18_foul_medames": "Slow-cooked creamy fava beans dressed with cumin, garlic, and cold-pressed olive oil.",[cite: 1]
-    "19_shakshuka": "Gently poached farm eggs in a skillet of spiced tomato, bell pepper, and cumin sauce.",[cite: 1]
-    "20_balaleet": "Sweet cardamom-saffron vermicelli noodles crowned with a savoury spiced omelette.",[cite: 1]
-    "21_khameer": "Fluffy yeast leavened bread dusted with sesame seeds and dates.",[cite: 1]
-    "22_chebab": "Golden Emirati pancakes scented with cardamom, saffron, and drizzled with honey.",[cite: 1]
-    "23_luqaimat": "Crispy golden fried dough puffs drizzled generously with local date molasses.",[cite: 1]
-    "24_knafeh": "Warm melted akkawi cheese wrapped in shredded crisp filo pastry soaked in orange blossom syrup.",[cite: 1]
-    "25_karak_chai": "Rich black tea slow-simmered with evaporated milk and crushed cardamom pods.",[cite: 1]
+    "08_samak_mashwi": "Locally caught fish marinated in regional spices and flame-grilled over open coals.",
+    "09_jisheed": "Flaked Gulf fish seasoned with dried lime, turmeric, and served over steamed rice.",
+    "10_shawarma": "Thinly shaved marinated chicken wrapped in warm pita with garlic toum sauce.",
+    "11_falafel_wrap": "Crisp golden chickpea falafels with fresh salad and silky tahini sauce in a warm wrap.",
+    "12_falafel": "Deep-fried seasoned chickpea fritters with garlic, parsley, and roasted coriander.",
+    "13_samboosa": "Crispy golden fried pastry triangles filled with spiced minced meat or vegetables.",
+    "14_mutabbaq": "Folded pan-fried thin pastry stuffed with spiced meat, eggs, and scallions.",
+    "15_hummus": "Silky blended chickpeas with tahini, lemon juice, and extra virgin olive oil.",
+    "16_fattoush": "Crunchy garden salad tossed with toasted pita crisps, pomegranate molasses, and sumac.",
+    "17_tabbouleh": "Finely chopped fresh parsley salad with bulgur, tomatoes, mint, and lemon olive dressing.",
+    "18_foul_medames": "Slow-cooked creamy fava beans dressed with cumin, garlic, and cold-pressed olive oil.",
+    "19_shakshuka": "Gently poached farm eggs in a skillet of spiced tomato, bell pepper, and cumin sauce.",
+    "20_balaleet": "Sweet cardamom-saffron vermicelli noodles crowned with a savoury spiced omelette.",
+    "21_khameer": "Fluffy yeast leavened bread dusted with sesame seeds and dates.",
+    "22_chebab": "Golden Emirati pancakes scented with cardamom, saffron, and drizzled with honey.",
+    "23_luqaimat": "Crispy golden fried dough puffs drizzled generously with local date molasses.",
+    "24_knafeh": "Warm melted akkawi cheese wrapped in shredded crisp filo pastry soaked in orange blossom syrup.",
+    "25_karak_chai": "Rich black tea slow-simmered with evaporated milk and crushed cardamom pods.",
 }
 
-PORTION_MULTIPLIERS = {"S": 0.7, "M": 1.0, "L": 1.4}[cite: 1]
-PORTION_LABELS = {"S": "Small", "M": "Medium", "L": "Large"}[cite: 1]
-CALORIE_RANGE_PCT = 0.15[cite: 1]
+PORTION_MULTIPLIERS = {"S": 0.7, "M": 1.0, "L": 1.4}
+PORTION_LABELS = {"S": "Small", "M": "Medium", "L": "Large"}
+CALORIE_RANGE_PCT = 0.15
 
 
 def display_name(cls: str) -> str:
-    return cls.split("_", 1)[1].replace("_", " ").title()[cite: 1]
+    return cls.split("_", 1)[1].replace("_", " ").title()
 
 
 DISH_CATEGORIES_DATA = {
@@ -214,10 +214,10 @@ DISH_CATEGORIES_DATA = {
 
 
 def get_candidate_group(cnn_class: str) -> set:
-    for group in CONFUSION_GROUPS.values():[cite: 1]
-        if cnn_class in group:[cite: 1]
-            return group[cite: 1]
-    return {cnn_class}[cite: 1]
+    for group in CONFUSION_GROUPS.values():
+        if cnn_class in group:
+            return group
+    return {cnn_class}
 
 
 # ============================================================================
@@ -226,8 +226,8 @@ def get_candidate_group(cnn_class: str) -> set:
 
 @st.cache_resource
 def load_models():
-    import tensorflow as tf[cite: 1]
-    from ultralytics import YOLO[cite: 1]
+    import tensorflow as tf
+    from ultralytics import YOLO
 
     missing = [
         p
@@ -238,65 +238,65 @@ def load_models():
             INGREDIENT_CACHE_PATH,
         )
         if not os.path.exists(p)
-    ][cite: 1]
-    if missing:[cite: 1]
+    ]
+    if missing:
         raise FileNotFoundError(
             "Missing model file(s):\n"
             + "\n".join(missing)
             + "\n\nPlease ensure model weights are located in the models/ directory."
-        )[cite: 1]
+        )
 
-    cnn_model = tf.keras.models.load_model(CNN_MODEL_PATH)[cite: 1]
-    with open(CLASS_INDICES_PATH) as f:[cite: 1]
-        class_indices = json.load(f)[cite: 1]
-    idx_to_class = {v: k for k, v in class_indices.items()}[cite: 1]
+    cnn_model = tf.keras.models.load_model(CNN_MODEL_PATH)
+    with open(CLASS_INDICES_PATH) as f:
+        class_indices = json.load(f)
+    idx_to_class = {v: k for k, v in class_indices.items()}
 
-    yolo_model = YOLO(YOLO_WEIGHTS_PATH)[cite: 1]
+    yolo_model = YOLO(YOLO_WEIGHTS_PATH)
 
-    with open(INGREDIENT_CACHE_PATH) as f:[cite: 1]
-        ingredient_cache = json.load(f)[cite: 1]
+    with open(INGREDIENT_CACHE_PATH) as f:
+        ingredient_cache = json.load(f)
 
-    return cnn_model, idx_to_class, yolo_model, ingredient_cache[cite: 1]
+    return cnn_model, idx_to_class, yolo_model, ingredient_cache
 
 
 def run_cnn(pil_image, model, idx_to_class, img_size=(224, 224)):
-    from tensorflow.keras.applications.mobilenet_v2 import preprocess_input[cite: 1]
+    from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
-    img = pil_image.convert("RGB").resize(img_size)[cite: 1]
-    arr = np.array(img).astype("float32")[cite: 1]
-    arr = preprocess_input(arr)[cite: 1]
-    arr = np.expand_dims(arr, axis=0)[cite: 1]
+    img = pil_image.convert("RGB").resize(img_size)
+    arr = np.array(img).astype("float32")
+    arr = preprocess_input(arr)
+    arr = np.expand_dims(arr, axis=0)
 
-    preds = model.predict(arr, verbose=0)[0][cite: 1]
+    preds = model.predict(arr, verbose=0)[0]
 
-    sorted_indices = np.argsort(preds)[::-1][cite: 1]
-    top_idx = int(sorted_indices[0])[cite: 1]
-    second_idx = int(sorted_indices[1])[cite: 1]
+    sorted_indices = np.argsort(preds)[::-1]
+    top_idx = int(sorted_indices[0])
+    second_idx = int(sorted_indices[1])
 
-    confidence = float(preds[top_idx])[cite: 1]
-    second_confidence = float(preds[second_idx])[cite: 1]
-    margin = confidence - second_confidence[cite: 1]
+    confidence = float(preds[top_idx])
+    second_confidence = float(preds[second_idx])
+    margin = confidence - second_confidence
 
-    eps = 1e-12[cite: 1]
-    entropy = -np.sum(preds * np.log(preds + eps))[cite: 1]
+    eps = 1e-12
+    entropy = -np.sum(preds * np.log(preds + eps))
 
-    predicted_class = idx_to_class[top_idx][cite: 1]
-    return predicted_class, confidence, margin, entropy[cite: 1]
+    predicted_class = idx_to_class[top_idx]
+    return predicted_class, confidence, margin, entropy
 
 
 def run_yolov8_with_boxes(pil_image, yolo_model, conf_threshold=0.25):
     results = yolo_model.predict(
         np.array(pil_image.convert("RGB")), conf=conf_threshold, verbose=False
-    )[cite: 1]
-    detections = [][cite: 1]
-    r = results[0][cite: 1]
-    for box in r.boxes:[cite: 1]
-        cls_id = int(box.cls[0])[cite: 1]
-        cls_name = yolo_model.names[cls_id][cite: 1]
-        box_conf = float(box.conf[0])[cite: 1]
+    )
+    detections = []
+    r = results[0]
+    for box in r.boxes:
+        cls_id = int(box.cls[0])
+        cls_name = yolo_model.names[cls_id]
+        box_conf = float(box.conf[0])
         coords = [float(x) for x in box.xyxy[0].tolist()]
-        detections.append((cls_name, box_conf, coords))[cite: 1]
-    return detections[cite: 1]
+        detections.append((cls_name, box_conf, coords))
+    return detections
 
 
 def create_ai_decoded_overlay(pil_image, detections):
@@ -308,7 +308,7 @@ def create_ai_decoded_overlay(pil_image, detections):
         draw.rectangle([x1, y1, x2, y2], outline="#E5A93B", width=max(3, int(w * 0.006)))
         corner_len = max(12, int(w * 0.03))
         draw.line([x1, y1, x1 + corner_len, y1], fill="#FFFFFF", width=4)
-        draw.line([x1, y1, x1 + corner_len], fill="#FFFFFF", width=4)
+        draw.line([x1, y1, x1, y1 + corner_len], fill="#FFFFFF", width=4)
         draw.line([x2, y1, x2 - corner_len, y1], fill="#FFFFFF", width=4)
         draw.line([x2, y1, x2, y1 + corner_len], fill="#FFFFFF", width=4)
         draw.line([x1, y2, x1 + corner_len, y2], fill="#FFFFFF", width=4)
@@ -328,45 +328,45 @@ def create_ai_decoded_overlay(pil_image, detections):
 
 
 def map_detections_to_suggestion(detections, candidates):
-    if not detections:[cite: 1]
-        return None, None, "no_detection"[cite: 1]
+    if not detections:
+        return None, None, "no_detection"
     valid = [
         (FEATURE_TO_DISH[feat], conf, feat)
         for feat, conf, _ in detections
         if feat in FEATURE_TO_DISH and FEATURE_TO_DISH[feat] in candidates
-    ][cite: 1]
-    if not valid:[cite: 1]
-        return None, None, "no_detection"[cite: 1]
-    valid.sort(key=lambda x: x[1], reverse=True)[cite: 1]
-    dish, conf, feature = valid[0][cite: 1]
+    ]
+    if not valid:
+        return None, None, "no_detection"
+    valid.sort(key=lambda x: x[1], reverse=True)
+    dish, conf, feature = valid[0]
     status = FEATURE_RELIABILITY.get(
         feature, {"status": "insufficient_evidence"}
-    )["status"][cite: 1]
-    gated = (dish, conf) if status == "reliable" else None[cite: 1]
-    return (dish, conf), gated, status[cite: 1]
+    )["status"]
+    gated = (dish, conf) if status == "reliable" else None
+    return (dish, conf), gated, status
 
 
 def estimate_nutrition(dish_class, portion_size, ingredient_cache):
-    multiplier = PORTION_MULTIPLIERS[portion_size][cite: 1]
-    totals = {"calories": 0.0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}[cite: 1]
-    missing = [][cite: 1]
-    for ingredient_key, base_grams in DISH_RECIPES[dish_class]:[cite: 1]
-        info = ingredient_cache.get(ingredient_key)[cite: 1]
-        if info is None or info.get("source") == "NONE":[cite: 1]
-            missing.append(ingredient_key)[cite: 1]
-            continue[cite: 1]
-        grams = base_grams * multiplier[cite: 1]
-        for macro in totals:[cite: 1]
-            totals[macro] += info[macro] * (grams / 100)[cite: 1]
-    cal_low = totals["calories"] * (1 - CALORIE_RANGE_PCT)[cite: 1]
-    cal_high = totals["calories"] * (1 + CALORIE_RANGE_PCT)[cite: 1]
+    multiplier = PORTION_MULTIPLIERS[portion_size]
+    totals = {"calories": 0.0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}
+    missing = []
+    for ingredient_key, base_grams in DISH_RECIPES[dish_class]:
+        info = ingredient_cache.get(ingredient_key)
+        if info is None or info.get("source") == "NONE":
+            missing.append(ingredient_key)
+            continue
+        grams = base_grams * multiplier
+        for macro in totals:
+            totals[macro] += info[macro] * (grams / 100)
+    cal_low = totals["calories"] * (1 - CALORIE_RANGE_PCT)
+    cal_high = totals["calories"] * (1 + CALORIE_RANGE_PCT)
     return {
-        "calories_range": (round(cal_low), round(cal_high)),[cite: 1]
-        "protein_g": round(totals["protein"], 1),[cite: 1]
-        "carbs_g": round(totals["carbs"], 1),[cite: 1]
-        "fat_g": round(totals["fat"], 1),[cite: 1]
-        "missing_ingredients": missing,[cite: 1]
-    }[cite: 1]
+        "calories_range": (round(cal_low), round(cal_high)),
+        "protein_g": round(totals["protein"], 1),
+        "carbs_g": round(totals["carbs"], 1),
+        "fat_g": round(totals["fat"], 1),
+        "missing_ingredients": missing,
+    }
 
 
 # ============================================================================
@@ -589,7 +589,7 @@ div.stButton > button[kind="primary"]:hover {
     border: 1px solid #A7F3D0;
 }
 
-/* --- In-Frame App Navigation Bar (Attached, Not Floating) --- */
+/* --- In-Frame App Navigation Bar --- */
 .inframe-nav-bar {
     display: flex;
     align-items: center;
@@ -633,52 +633,56 @@ div.stButton > button[kind="primary"]:hover {
     box-shadow: 0 4px 14px rgba(229, 169, 59, 0.45) !important;
 }
 
-/* --- Hero & Onboarding Styles --- */
-.hero-container {
+/* --- 4-Dish Creative Collage Grid --- */
+.gulf-grid-collage {
     position: relative;
-    border-radius: 32px;
+    border-radius: 28px;
     overflow: hidden;
+    height: 350px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 4px;
+    background: #EBE4D5;
+    box-shadow: 0 16px 36px -10px rgba(0,0,0,0.14);
     margin-bottom: 1.2rem;
-    box-shadow: 0 16px 36px -10px rgba(0,0,0,0.12);
 }
 
-.hero-img-wrap {
+.grid-cell {
     position: relative;
-    width: 100%;
-    height: 350px;
-    background-image: url('https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=800&q=80');
     background-size: cover;
     background-position: center;
-    border-radius: 28px;
 }
 
-.hero-overlay {
+.grid-cell-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(249,247,242,0.1) 45%, #F9F7F2 100%);
+    background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%);
 }
 
-.floating-pill {
+.micro-pill {
     position: absolute;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1.5px solid #FFFFFF;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid #FFFFFF;
     border-radius: 999px;
-    padding: 6px 14px;
+    padding: 4px 9px;
     font-family: 'Outfit', sans-serif;
     font-weight: 800;
-    font-size: 0.84rem;
+    font-size: 0.72rem;
     color: #1E1B16;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
+    z-index: 2;
+    white-space: nowrap;
 }
 
 .pill-dot {
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: #E5A93B;
 }
@@ -813,7 +817,7 @@ def render_category_squircle_cards():
 
     if selected_dish:
         meta = DISH_METADATA.get(selected_dish, {"spice": "Aromatic 🌶️", "prep": "Traditional", "density": "Nutritious", "time": "30 min"})
-        blurb = DISH_BLURBS.get(selected_dish, "")[cite: 1]
+        blurb = DISH_BLURBS.get(selected_dish, "")
         st.markdown(
             f"""<div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 22px; padding: 14px 16px; margin-top: 10px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -938,7 +942,6 @@ def render_confidence_bar(confidence):
 
 
 def render_inframe_navigation():
-    """Render unified navigation bar attached inside the card without extra spacing."""
     cur = st.session_state.stage
     st.markdown('<div class="inframe-nav-bar">', unsafe_allow_html=True)
     c1, c2, c3 = st.columns([1, 1, 1.2])
@@ -1027,18 +1030,18 @@ def reset():
 # ============================================================================
 
 try:
-    cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()[cite: 1]
-except FileNotFoundError as e:[cite: 1]
-    st.error(str(e))[cite: 1]
-    st.stop()[cite: 1]
+    cnn_model, idx_to_class, yolo_model, ingredient_cache = load_models()
+except FileNotFoundError as e:
+    st.error(str(e))
+    st.stop()
 
 
 # ============================================================================
-# 7. SCREEN 0: "GET STARTED" ONBOARDING HERO
+# 7. SCREEN 0: "GET STARTED" ONBOARDING HERO (FEATURING SHAWRAMA, KARAK, MACHBOOS, KUNAFE)
 # ============================================================================
 
 if st.session_state.stage == "onboarding":
-    # Header with GB branding
+    # Header with GB branding & Notification Bell
     st.markdown(
         """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 2px 0;">
 <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB;">
@@ -1062,23 +1065,43 @@ GB
         unsafe_allow_html=True,
     )
 
-    # Hero visual with authentic saffron spiced rice plate
+    # 4-Dish Creative Visual Collage (Shawarma, Karak Chai, Machboos, Kunafe)
     st.markdown(
-        """<div class="hero-container">
-    <div class="hero-img-wrap">
-        <div class="floating-pill" style="top: 26px; left: 16px;">
+        """<div class="gulf-grid-collage">
+    <!-- Top Left: Machboos -->
+    <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=400&q=80');">
+        <div class="grid-cell-overlay"></div>
+        <div class="micro-pill" style="top: 10px; left: 10px;">
             <span class="pill-dot"></span>
-            <span>170 kcal</span>
+            <span>Machboos • 680 kcal</span>
         </div>
-        <div class="floating-pill" style="top: 130px; left: 50%; transform: translateX(-50%);">
+    </div>
+
+    <!-- Top Right: Shawarma -->
+    <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=400&q=80');">
+        <div class="grid-cell-overlay"></div>
+        <div class="micro-pill" style="top: 10px; right: 10px;">
             <span class="pill-dot"></span>
-            <span>90 kcal</span>
+            <span>Shawarma • 420 kcal</span>
         </div>
-        <div class="floating-pill" style="top: 36px; right: 16px;">
+    </div>
+
+    <!-- Bottom Left: Karak Chai -->
+    <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=400&q=80');">
+        <div class="grid-cell-overlay"></div>
+        <div class="micro-pill" style="bottom: 10px; left: 10px;">
             <span class="pill-dot"></span>
-            <span>110 kcal</span>
+            <span>Karak Chai • 130 kcal</span>
         </div>
-        <div class="hero-overlay"></div>
+    </div>
+
+    <!-- Bottom Right: Kunafe -->
+    <div class="grid-cell" style="background-image: url('https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=400&q=80');">
+        <div class="grid-cell-overlay"></div>
+        <div class="micro-pill" style="bottom: 10px; right: 10px;">
+            <span class="pill-dot"></span>
+            <span>Kunafe • 450 kcal</span>
+        </div>
     </div>
 </div>
 
@@ -1087,7 +1110,7 @@ GB
         <span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition
     </h1>
     <p style="color: #7A7468; font-size: 0.92rem; font-weight: 500; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">
-        From authentic Gulf dish recognition to portion-based nutrition — powered by computer vision.
+        From Machboos and Shawarma to Karak and Kunafe — authenticate your plate and calculate authentic macros instantly.
     </p>
     <div style="display: flex; justify-content: center; gap: 6px; margin-bottom: 22px;">
         <span style="width: 24px; height: 6px; border-radius: 999px; background: #1C1917;"></span>
@@ -1167,37 +1190,37 @@ elif st.session_state.stage == "upload":
             unsafe_allow_html=True,
         )
 
-        image_to_process = None[cite: 1]
+        image_to_process = None
 
         uploaded = st.file_uploader(
             "Upload meal photo",
             type=["jpg", "jpeg", "png", "heic", "heif"],
             label_visibility="collapsed",
-        )[cite: 1]
+        )
 
-        if uploaded is not None:[cite: 1]
-            image_to_process = ImageOps.exif_transpose(Image.open(uploaded))[cite: 1]
+        if uploaded is not None:
+            image_to_process = ImageOps.exif_transpose(Image.open(uploaded))
 
-        if image_to_process is not None:[cite: 1]
-            st.session_state.image = image_to_process[cite: 1]
+        if image_to_process is not None:
+            st.session_state.image = image_to_process
             st.image(
                 image_to_process,
                 caption="Scanned Plate",
                 use_column_width=True,
-            )[cite: 1]
+            )
 
             with st.spinner("Analyzing ingredients & calculating nutritional profile..."):
                 cnn_class, cnn_confidence, margin, entropy = run_cnn(
                     image_to_process, cnn_model, idx_to_class
-                )[cite: 1]
+                )
 
                 is_non_food = (
                     cnn_confidence < MIN_CONFIDENCE
                     or margin < MIN_MARGIN
                     or entropy > MAX_ENTROPY
-                )[cite: 1]
+                )
 
-                if is_non_food:[cite: 1]
+                if is_non_food:
                     st.markdown(
                         f"""<div style="background: #FFF5F5; border: 1px solid #FED7D7; border-radius: 22px; padding: 18px; margin-top: 14px; text-align: center;">
 <div style="font-size: 2rem; margin-bottom: 4px;">🍽️❓</div>
@@ -1207,57 +1230,57 @@ Please upload a clear, top-down photo of a traditional Gulf dish.
 </div>
 </div>""",
                         unsafe_allow_html=True,
-                    )[cite: 1]
-                    st.write("")[cite: 1]
+                    )
+                    st.write("")
                     st.button(
                         "🔄 Try Another Photo",
                         on_click=reset,
                         use_container_width=True,
-                    )[cite: 1]
-                    st.stop()[cite: 1]
+                    )
+                    st.stop()
 
                 triggered = (
                     cnn_confidence < CONFIDENCE_THRESHOLD
                     or cnn_class in TRIGGER_SET
                     or cnn_class in WRAP_TRIGGER_SET
-                )[cite: 1]
+                )
 
-                st.session_state.cnn_class = cnn_class[cite: 1]
-                st.session_state.cnn_confidence = cnn_confidence[cite: 1]
-                st.session_state.triggered = triggered[cite: 1]
+                st.session_state.cnn_class = cnn_class
+                st.session_state.cnn_confidence = cnn_confidence
+                st.session_state.triggered = triggered
 
-                if not triggered:[cite: 1]
-                    st.session_state.final_dish = cnn_class[cite: 1]
-                    st.session_state.tier_used = "CNN direct match"[cite: 1]
-                    st.session_state.stage = "select_portion"[cite: 1]
-                    st.rerun()[cite: 1]
+                if not triggered:
+                    st.session_state.final_dish = cnn_class
+                    st.session_state.tier_used = "CNN direct match"
+                    st.session_state.stage = "select_portion"
+                    st.rerun()
                 else:
-                    candidates = get_candidate_group(cnn_class)[cite: 1]
+                    candidates = get_candidate_group(cnn_class)
                     run_yolo_here = (cnn_class in YOLO_FEATURE_MAP) or (
                         cnn_class == "03_biryani"
-                    )[cite: 1]
-                    yolo_suggestion, gate_status = None, None[cite: 1]
+                    )
+                    yolo_suggestion, gate_status = None, None
                     annotated_img = None
-                    if run_yolo_here:[cite: 1]
-                        detections = run_yolov8_with_boxes(image_to_process, yolo_model)[cite: 1]
+                    if run_yolo_here:
+                        detections = run_yolov8_with_boxes(image_to_process, yolo_model)
                         if detections:
                             annotated_img = create_ai_decoded_overlay(image_to_process, detections)
                         _, gated, gate_status = map_detections_to_suggestion(
                             detections, candidates
-                        )[cite: 1]
-                        yolo_suggestion = gated[0] if gated else None[cite: 1]
+                        )
+                        yolo_suggestion = gated[0] if gated else None
 
                     st.session_state.annotated_image = annotated_img
-                    st.session_state.candidates = sorted(candidates)[cite: 1]
-                    st.session_state.yolo_suggestion = yolo_suggestion[cite: 1]
-                    st.session_state.yolo_gate_status = gate_status[cite: 1]
+                    st.session_state.candidates = sorted(candidates)
+                    st.session_state.yolo_suggestion = yolo_suggestion
+                    st.session_state.yolo_gate_status = gate_status
                     st.session_state.tier_used = (
                         "CNN + YOLO + user confirm"
                         if yolo_suggestion
                         else "CNN + user confirm"
-                    )[cite: 1]
-                    st.session_state.stage = "confirm_dish"[cite: 1]
-                    st.rerun()[cite: 1]
+                    )
+                    st.session_state.stage = "confirm_dish"
+                    st.rerun()
 
     render_inframe_navigation()
 
@@ -1266,11 +1289,11 @@ Please upload a clear, top-down photo of a traditional Gulf dish.
 # 11. SCREEN 4: CONFIRM DISH (WITH AI DECODED VISUAL OVERLAY)
 # ============================================================================
 
-elif st.session_state.stage == "confirm_dish":[cite: 1]
+elif st.session_state.stage == "confirm_dish":
     render_header()
-    render_segmented_stepper("confirm_dish", True)[cite: 1]
+    render_segmented_stepper("confirm_dish", True)
 
-    with st.container(border=True):[cite: 1]
+    with st.container(border=True):
         display_img = st.session_state.annotated_image if st.session_state.annotated_image else st.session_state.image
         st.image(
             display_img,
@@ -1278,10 +1301,10 @@ elif st.session_state.stage == "confirm_dish":[cite: 1]
             use_column_width=True,
         )
 
-        cnn_class = st.session_state.cnn_class[cite: 1]
-        cnn_conf = st.session_state.cnn_confidence[cite: 1]
-        candidates = st.session_state.candidates[cite: 1]
-        yolo_suggestion = st.session_state.yolo_suggestion[cite: 1]
+        cnn_class = st.session_state.cnn_class
+        cnn_conf = st.session_state.cnn_confidence
+        candidates = st.session_state.candidates
+        yolo_suggestion = st.session_state.yolo_suggestion
 
         st.markdown(
             f"""<div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.6rem;">
@@ -1290,21 +1313,21 @@ elif st.session_state.stage == "confirm_dish":[cite: 1]
                 </div>
             </div>""",
             unsafe_allow_html=True,
-        )[cite: 1]
+        )
 
-        render_confidence_bar(cnn_conf)[cite: 1]
+        render_confidence_bar(cnn_conf)
 
-        reason = get_group_reason(cnn_class)[cite: 1]
-        if reason:[cite: 1]
+        reason = get_group_reason(cnn_class)
+        if reason:
             st.markdown(
                 f"""<div class="verify-callout">
                     <span style="font-size: 1.1rem; line-height: 1;">🔍</span>
                     <span style="color: #736C61; font-size: 0.84rem; line-height: 1.4;">{reason}</span>
                 </div>""",
                 unsafe_allow_html=True,
-            )[cite: 1]
+            )
 
-        if yolo_suggestion:[cite: 1]
+        if yolo_suggestion:
             st.markdown(
                 f"""<div class="ingredient-badge">
                     <span style="font-size: 1.1rem;">✨</span>
@@ -1313,17 +1336,17 @@ elif st.session_state.stage == "confirm_dish":[cite: 1]
                 unsafe_allow_html=True,
             )
 
-        default_choice = yolo_suggestion if yolo_suggestion else cnn_class[cite: 1]
+        default_choice = yolo_suggestion if yolo_suggestion else cnn_class
         default_idx = (
             candidates.index(default_choice)
             if default_choice in candidates
             else 0
-        )[cite: 1]
+        )
 
         st.markdown(
             '<p style="font-family: \'Outfit\', sans-serif; font-size: 0.88rem; font-weight: 800; color: #1E1B16; margin: 12px 0 6px 0;">Select your dish:</p>',
             unsafe_allow_html=True,
-        )[cite: 1]
+        )
 
         choice = st.radio(
             "Select matching dish:",
@@ -1331,13 +1354,13 @@ elif st.session_state.stage == "confirm_dish":[cite: 1]
             format_func=lambda x: f"🍲 {display_name(x)}",
             index=default_idx,
             label_visibility="collapsed",
-        )[cite: 1]
+        )
 
-        st.write("")[cite: 1]
-        if st.button("Confirm Dish & Continue →", type="primary"):[cite: 1]
-            st.session_state.final_dish = choice[cite: 1]
-            st.session_state.stage = "select_portion"[cite: 1]
-            st.rerun()[cite: 1]
+        st.write("")
+        if st.button("Confirm Dish & Continue →", type="primary"):
+            st.session_state.final_dish = choice
+            st.session_state.stage = "select_portion"
+            st.rerun()
 
     render_inframe_navigation()
 
@@ -1346,16 +1369,16 @@ elif st.session_state.stage == "confirm_dish":[cite: 1]
 # 12. SCREEN 5: SELECT PORTION
 # ============================================================================
 
-elif st.session_state.stage == "select_portion":[cite: 1]
+elif st.session_state.stage == "select_portion":
     render_header()
     render_segmented_stepper("select_portion", st.session_state.get("triggered", False))
 
-    with st.container(border=True):[cite: 1]
+    with st.container(border=True):
         st.image(
             st.session_state.image,
             caption="Scanned Plate",
             use_column_width=True,
-        )[cite: 1]
+        )
 
         st.markdown(
             f"""<div style="font-family: 'Outfit', sans-serif; font-size: 1.65rem; font-weight: 900; color: #1E1B16; margin: 0.6rem 0 0.2rem 0;">
@@ -1365,15 +1388,15 @@ elif st.session_state.stage == "select_portion":[cite: 1]
                 Select your portion size to calculate authentic nutrition values:
             </p>""",
             unsafe_allow_html=True,
-        )[cite: 1]
+        )
 
         portion_map = {
             "S": "🌱   Small   (~250g)",
             "M": "🍽️   Medium   (~400g)",
             "L": "👑   Large   (~550g)",
-        }[cite: 1]
+        }
 
-        st.markdown('<div class="portion-card-group">', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<div class="portion-card-group">', unsafe_allow_html=True)
         selected_p = st.radio(
             "Choose portion:",
             options=["S", "M", "L"],
@@ -1381,14 +1404,14 @@ elif st.session_state.stage == "select_portion":[cite: 1]
             index=1,
             horizontal=False,
             label_visibility="collapsed",
-        )[cite: 1]
-        st.markdown('</div>', unsafe_allow_html=True)[cite: 1]
+        )
+        st.markdown('</div>', unsafe_allow_html=True)
 
-        st.write("")[cite: 1]
-        if st.button("Calculate Nutrition →", type="primary", use_container_width=True):[cite: 1]
-            st.session_state.portion_size = selected_p[cite: 1]
-            st.session_state.stage = "result"[cite: 1]
-            st.rerun()[cite: 1]
+        st.write("")
+        if st.button("Calculate Nutrition →", type="primary", use_container_width=True):
+            st.session_state.portion_size = selected_p
+            st.session_state.stage = "result"
+            st.rerun()
 
     render_inframe_navigation()
 
@@ -1397,25 +1420,25 @@ elif st.session_state.stage == "select_portion":[cite: 1]
 # 13. SCREEN 6: NUTRITIONAL BREAKDOWN RESULT & MACRO RING
 # ============================================================================
 
-elif st.session_state.stage == "result":[cite: 1]
+elif st.session_state.stage == "result":
     render_header()
     render_segmented_stepper("result", st.session_state.get("triggered", False))
 
-    with st.container(border=True):[cite: 1]
+    with st.container(border=True):
         st.image(
             st.session_state.image,
             caption="Scanned Plate",
             use_column_width=True,
-        )[cite: 1]
+        )
 
-        dish = st.session_state.get("final_dish")[cite: 1]
-        if not dish:[cite: 1]
-            dish = st.session_state.get("cnn_class", "01_machboos")[cite: 1]
+        dish = st.session_state.get("final_dish")
+        if not dish:
+            dish = st.session_state.get("cnn_class", "01_machboos")
 
         nutrition = estimate_nutrition(
             dish, st.session_state.portion_size, ingredient_cache
-        )[cite: 1]
-        lo, hi = nutrition["calories_range"][cite: 1]
+        )
+        lo, hi = nutrition["calories_range"]
 
         st.markdown(
             f"""<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem;">
@@ -1427,8 +1450,8 @@ elif st.session_state.stage == "result":[cite: 1]
             unsafe_allow_html=True,
         )
 
-        blurb = DISH_BLURBS.get(dish)[cite: 1]
-        if blurb:[cite: 1]
+        blurb = DISH_BLURBS.get(dish)
+        if blurb:
             st.markdown(
                 f'<p style="color: #736C61; font-size: 0.84rem; line-height: 1.45; margin: 0.6rem 0 0 0;">{blurb}</p>',
                 unsafe_allow_html=True,
@@ -1439,18 +1462,18 @@ elif st.session_state.stage == "result":[cite: 1]
             nutrition["protein_g"], nutrition["carbs_g"], nutrition["fat_g"], lo, hi
         )
 
-        if nutrition["missing_ingredients"]:[cite: 1]
+        if nutrition["missing_ingredients"]:
             st.warning(
                 f"Missing standard data for: {', '.join(nutrition['missing_ingredients'])}."
-            )[cite: 1]
+            )
 
-        st.markdown("<div style='margin-top: 1.2rem;'></div>", unsafe_allow_html=True)[cite: 1]
+        st.markdown("<div style='margin-top: 1.2rem;'></div>", unsafe_allow_html=True)
 
-        tab_correct, tab_tech = st.tabs(["✏️ Edit Dish", "⚙️ Pipeline Info"])[cite: 1]
+        tab_correct, tab_tech = st.tabs(["✏️ Edit Dish", "⚙️ Pipeline Info"])
 
         with tab_correct:
-            all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)[cite: 1]
-            current_idx = all_dishes.index(dish) if dish in all_dishes else 0[cite: 1]
+            all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
+            current_idx = all_dishes.index(dish) if dish in all_dishes else 0
 
             corrected = st.selectbox(
                 "Select correct dish:",
@@ -1458,18 +1481,18 @@ elif st.session_state.stage == "result":[cite: 1]
                 format_func=display_name,
                 index=current_idx,
                 label_visibility="collapsed",
-            )[cite: 1]
-            if st.button("Update Dish", type="primary", use_container_width=True):[cite: 1]
-                st.session_state.final_dish = corrected[cite: 1]
-                st.session_state.tier_used = "User correction"[cite: 1]
-                st.rerun()[cite: 1]
+            )
+            if st.button("Update Dish", type="primary", use_container_width=True):
+                st.session_state.final_dish = corrected
+                st.session_state.tier_used = "User correction"
+                st.rerun()
 
         with tab_tech:
             yolo_row = (
                 f'<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EBE2CF; padding-bottom: 8px;"><span style="color: #8F887C; font-size: 0.84rem;">YOLOv8 Feature</span><span style="color: #1E1B16; font-weight: 700; font-size: 0.88rem;">{display_name(st.session_state.yolo_suggestion)}</span></div>'
                 if st.session_state.get("yolo_suggestion")
                 else ""
-            )[cite: 1]
+            )
 
             st.markdown(
                 f"""<div style="display: flex; flex-direction: column; gap: 10px; padding: 6px 0;">
@@ -1488,9 +1511,9 @@ elif st.session_state.stage == "result":[cite: 1]
 </div>
 </div>""",
                 unsafe_allow_html=True,
-            )[cite: 1]
+            )
 
-    st.write("")[cite: 1]
-    st.button("📸 Scan Another Plate", on_click=reset)[cite: 1]
+    st.write("")
+    st.button("📸 Scan Another Plate", on_click=reset)
 
     render_inframe_navigation()
