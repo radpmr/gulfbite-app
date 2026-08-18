@@ -58,7 +58,6 @@ MIN_CONFIDENCE = 0.50
 MIN_MARGIN = 0.15
 MAX_ENTROPY = 2.50
 
-# Feature-to-dish mappings for YOLO validation & estimated pointer calories
 YOLO_FEATURE_MAP = {
     "01_machboos": "loomi",
     "07_ouzi": "whole_shank",
@@ -207,33 +206,27 @@ def display_name(cls: str) -> str:
 
 
 DISH_CATEGORIES_DATA = {
-    "Rice Mains": {
-        "icon": "🍚",
+    "🍚 Rice Mains": {
         "count": "5 Dishes",
         "dishes": ["01_machboos", "02_kabsa", "03_biryani", "07_ouzi", "09_jisheed"],
     },
-    "Comfort Stews": {
-        "icon": "🥘",
+    "🥘 Stews & Mains": {
         "count": "4 Dishes",
         "dishes": ["04_harees", "05_thareed", "06_saloona", "08_samak_mashwi"],
     },
-    "Street & Wraps": {
-        "icon": "🌯",
+    "🌯 Wraps & Bites": {
         "count": "5 Dishes",
         "dishes": ["10_shawarma", "11_falafel_wrap", "12_falafel", "13_samboosa", "14_mutabbaq"],
     },
-    "Breads & Morning": {
-        "icon": "🫓",
+    "🫓 Breads & Morning": {
         "count": "5 Dishes",
         "dishes": ["18_foul_medames", "19_shakshuka", "20_balaleet", "21_khameer", "22_chebab"],
     },
-    "Zesty Salads": {
-        "icon": "🥗",
+    "🥗 Fresh Salads": {
         "count": "3 Dishes",
         "dishes": ["15_hummus", "16_fattoush", "17_tabbouleh"],
     },
-    "Sweets & Karak": {
-        "icon": "🍯",
+    "🍯 Sweets & Karak": {
         "count": "3 Dishes",
         "dishes": ["23_luqaimat", "24_knafeh", "25_karak_chai"],
     },
@@ -397,7 +390,7 @@ def estimate_nutrition(dish_class, portion_size, ingredient_cache):
 
 
 # ============================================================================
-# 3. MODERN LIGHT MOBILE THEME
+# 3. MODERN LIGHT MOBILE THEME & CSS
 # ============================================================================
 
 def inject_theme():
@@ -447,6 +440,59 @@ html, body, [class*="css"] {
     box-shadow: 0 20px 45px -12px rgba(229, 169, 59, 0.16), 0 2px 10px rgba(0,0,0,0.02) !important;
 }
 
+/* --- Clean Category Selector Pills --- */
+.category-pill-group div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 4px 0 !important;
+}
+
+.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    background: #F4EDE0 !important;
+    border: 1px solid #E4D8C1 !important;
+    border-radius: 999px !important;
+    padding: 8px 16px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+    display: none !important;
+}
+
+.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
+    background: #EAE0CD !important;
+    border-color: var(--gold-primary) !important;
+    transform: translateY(-1px);
+}
+
+.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
+    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
+    border-color: #D19428 !important;
+    box-shadow: 0 4px 12px rgba(229, 169, 59, 0.3) !important;
+}
+
+.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 0.84rem !important;
+    font-weight: 800 !important;
+    color: var(--text-dark) !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+}
+
+.category-pill-group div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
+    color: #1A1305 !important;
+}
+
 /* --- Clean Modern Dropzone & Button --- */
 [data-testid="stFileUploaderDropzone"] {
     background: #FAF8F3 !important;
@@ -493,13 +539,14 @@ html, body, [class*="css"] {
     box-shadow: 0 4px 14px rgba(229, 169, 59, 0.32) !important;
 }
 
+/* Global Buttons */
 div.stButton > button {
     font-family: 'Outfit', sans-serif;
     border-radius: 999px;
     border: none;
-    background: var(--chip-bg);
-    color: var(--text-dark);
-    font-weight: 700;
+    background: #1C1917;
+    color: #FFFFFF;
+    font-weight: 800;
     font-size: 0.95rem;
     padding: 0.85rem 1.5rem;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -507,8 +554,9 @@ div.stButton > button {
 }
 
 div.stButton > button:hover {
-    background: #EAE3D5;
+    background: #2E2824;
     transform: translateY(-1px);
+    color: #FFFFFF;
 }
 
 div.stButton > button[kind="primary"] {
@@ -516,6 +564,11 @@ div.stButton > button[kind="primary"] {
     color: #1A1305 !important;
     font-weight: 800;
     box-shadow: 0 10px 24px rgba(229, 169, 59, 0.35) !important;
+}
+
+div.stButton > button[kind="primary"]:hover {
+    background: linear-gradient(135deg, #FDD68A 0%, #F0B547 55%, #DE9A26 100%) !important;
+    color: #1A1305 !important;
 }
 
 /* --- Full-Width Portion Selection Cards --- */
@@ -610,7 +663,7 @@ div.stButton > button[kind="primary"] {
 }
 
 /* --- Floating Bottom Navigation Dock --- */
-.floating-bottom-dock {
+.bottom-dock-wrapper {
     position: fixed;
     bottom: 16px;
     left: 50%;
@@ -618,54 +671,72 @@ div.stButton > button[kind="primary"] {
     width: calc(100% - 32px);
     max-width: 410px;
     background: #1C1917;
-    border-radius: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 14px;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.32), 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 36px;
+    padding: 6px 8px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.12);
     z-index: 999999;
 }
 
-.dock-btn {
+.bottom-dock-wrapper div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    gap: 4px !important;
     background: transparent !important;
     border: none !important;
-    color: #A8A29E !important;
-    font-size: 0.72rem !important;
-    font-weight: 800 !important;
-    font-family: 'Outfit', sans-serif !important;
-    padding: 6px 12px !important;
-    border-radius: 16px !important;
-    box-shadow: none !important;
-    width: auto !important;
+    width: 100% !important;
 }
 
-.dock-btn:hover {
-    color: #FFFFFF !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-}
-
-.dock-btn.active {
-    color: #E5A93B !important;
-}
-
-.dock-scan-btn button {
-    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
-    color: #1A1305 !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-weight: 900 !important;
-    font-size: 1.1rem !important;
+.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    background: transparent !important;
+    border: none !important;
     border-radius: 20px !important;
-    width: 54px !important;
-    height: 54px !important;
-    padding: 0 !important;
+    padding: 8px 12px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    box-shadow: 0 10px 24px rgba(229, 169, 59, 0.5) !important;
-    border: 3.5px solid #F9F7F2 !important;
-    margin-top: -18px !important;
+    transition: all 0.2s ease !important;
+}
+
+.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+    display: none !important;
+}
+
+.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    color: #A8A29E !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+}
+
+.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
+    background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
+    color: #F3C36A !important;
+    font-weight: 800 !important;
+}
+
+/* Center camera scan button styling */
+.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:nth-child(3) {
+    background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
+    border-radius: 20px !important;
+    padding: 10px 16px !important;
+    box-shadow: 0 6px 18px rgba(229, 169, 59, 0.45) !important;
+    transform: translateY(-4px);
+}
+
+.bottom-dock-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:nth-child(3) span p {
+    color: #1A1305 !important;
+    font-weight: 900 !important;
+    font-size: 0.88rem !important;
 }
 
 /* --- Hero & Onboarding Styles --- */
@@ -716,25 +787,6 @@ div.stButton > button[kind="primary"] {
     height: 7px;
     border-radius: 50%;
     background: #E5A93B;
-}
-
-.onboarding-btn button {
-    background: #1C1917 !important;
-    color: #FFFFFF !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 1.05rem !important;
-    font-weight: 800 !important;
-    padding: 0.95rem 1.5rem !important;
-    border-radius: 999px !important;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.22) !important;
-    border: none !important;
-    transition: all 0.2s ease !important;
-}
-
-.onboarding-btn button:hover {
-    background: #2E2824 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 16px 32px rgba(0,0,0,0.3) !important;
 }
 </style>""",
         unsafe_allow_html=True,
@@ -839,38 +891,28 @@ def render_quick_guide():
 
 
 def render_category_squircle_cards():
-    """Render 3-column squircle category explorer cards with rich icons."""
+    """Render clean category filter pills with instant recipe inspector."""
     categories = list(DISH_CATEGORIES_DATA.keys())
     
-    if "selected_category" not in st.session_state:
-        st.session_state.selected_category = categories[0]
+    st.markdown('<div class="category-pill-group">', unsafe_allow_html=True)
+    selected_cat = st.radio(
+        "Filter Category:",
+        options=categories,
+        index=0,
+        horizontal=True,
+        label_visibility="collapsed",
+    )
+    st.markdown('</div>', unsafe_allow_html=True)
 
-    cols = st.columns(3)
-    for idx, cat_name in enumerate(categories):
-        cat_info = DISH_CATEGORIES_DATA[cat_name]
-        is_active = st.session_state.selected_category == cat_name
-        with cols[idx % 3]:
-            btn_border = "2px solid #E5A93B" if is_active else "1px solid #EAE1CF"
-            btn_bg = "linear-gradient(135deg, #FDF7EC 0%, #FAEED0 100%)" if is_active else "#FFFFFF"
-            shadow = "0 6px 16px rgba(229,169,59,0.22)" if is_active else "0 2px 8px rgba(0,0,0,0.02)"
-            
-            st.markdown(
-                f"""<div style="background: {btn_bg}; border: {btn_border}; border-radius: 20px; padding: 12px 6px; text-align: center; margin-bottom: 8px; box-shadow: {shadow};">
-                    <div style="font-size: 1.6rem; margin-bottom: 2px;">{cat_info['icon']}</div>
-                    <div style="font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 800; color: #1E1B16;">{cat_name}</div>
-                    <div style="font-size: 0.68rem; color: #8F887C; font-weight: 600;">{cat_info['count']}</div>
-                </div>""",
-                unsafe_allow_html=True,
-            )
-            if st.button(f"View {cat_info['icon']}", key=f"cat_btn_{idx}", use_container_width=True):
-                st.session_state.selected_category = cat_name
-                st.rerun()
+    dishes = DISH_CATEGORIES_DATA[selected_cat]["dishes"]
 
-    active_cat = st.session_state.selected_category
-    dishes = DISH_CATEGORIES_DATA[active_cat]["dishes"]
+    st.markdown(
+        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.78rem; font-weight: 800; color: #8F887C; text-transform: uppercase; letter-spacing: 0.05em;">Choose Recipe</div>',
+        unsafe_allow_html=True,
+    )
 
     selected_dish = st.selectbox(
-        f"Select a {active_cat} dish to explore:",
+        f"Select a {selected_cat} dish to explore:",
         options=dishes,
         format_func=display_name,
         index=0,
@@ -1004,38 +1046,31 @@ def render_confidence_bar(confidence):
 
 
 def render_bottom_navigation_dock():
-    """Render interactive floating navigation dock linking Home, Menu, and Camera Scanner."""
-    st.markdown('<div class="floating-bottom-dock">', unsafe_allow_html=True)
-    c1, c2, c3, c4, c5 = st.columns([1, 1, 1.2, 1, 1])
-
-    with c1:
-        if st.button("🏠 Home", key="dock_home", use_container_width=True):
-            st.session_state.stage = "home"
-            st.rerun()
-
-    with c2:
-        if st.button("📖 Menu", key="dock_menu", use_container_width=True):
-            st.session_state.stage = "menu"
-            st.rerun()
-
-    with c3:
-        st.markdown('<div class="dock-scan-btn">', unsafe_allow_html=True)
-        if st.button("📷", key="dock_camera", use_container_width=True):
-            st.session_state.stage = "upload"
-            st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    with c4:
-        if st.button("⭐ Saved", key="dock_saved", use_container_width=True):
-            st.session_state.stage = "menu"
-            st.rerun()
-
-    with c5:
-        if st.button("⚙️ Info", key="dock_info", use_container_width=True):
-            st.session_state.stage = "home"
-            st.rerun()
-
+    """Render floating dark bottom navigation dock with raised FAB scanner."""
+    nav_map = {
+        "home": "🏠 Home",
+        "menu": "📖 Menu",
+        "upload": "📷 Scan",
+    }
+    
+    current_key = st.session_state.stage if st.session_state.stage in ["home", "menu", "upload"] else "home"
+    options = ["home", "menu", "upload"]
+    
+    st.markdown('<div class="bottom-dock-wrapper">', unsafe_allow_html=True)
+    selected = st.radio(
+        "Dock Navigation",
+        options=options,
+        format_func=lambda x: nav_map[x],
+        index=options.index(current_key),
+        horizontal=True,
+        label_visibility="collapsed",
+        key="dock_radio_nav",
+    )
     st.markdown('</div>', unsafe_allow_html=True)
+
+    if selected != st.session_state.stage and st.session_state.stage in ["home", "menu", "upload"]:
+        st.session_state.stage = selected
+        st.rerun()
 
 
 # ============================================================================
@@ -1121,15 +1156,13 @@ if st.session_state.stage == "onboarding":
         unsafe_allow_html=True,
     )
 
-    st.markdown('<div class="onboarding-btn">', unsafe_allow_html=True)
     if st.button("Get Started →", key="btn_get_started", use_container_width=True):
         st.session_state.stage = "home"
         st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ============================================================================
-# 8. SCREEN 1: HOME (QUICK GUIDE & APP OVERVIEW)
+# 8. SCREEN 1: HOME (QUICK GUIDE & SCAN LAUNCHER)
 # ============================================================================
 
 elif st.session_state.stage == "home":
