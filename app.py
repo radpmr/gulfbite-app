@@ -589,140 +589,96 @@ div.stButton > button[kind="primary"]:hover {
     border: 1px solid #A7F3D0;
 }
 
-/* --- Clean Segmented App Navigation Bar (Pill Toggle) --- */
-.nav-pill-wrapper {
+/* --- Clean In-Frame Mobile Navigation Tabs --- */
+div[data-testid="stTabs"] [data-baseweb="tab-list"] {
     background: #1C1917 !important;
     border-radius: 999px !important;
     padding: 5px !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
-    margin: 0.6rem 0 1.2rem 0 !important;
-}
-
-.nav-pill-wrapper div[data-testid="stRadio"] {
-    width: 100% !important;
-}
-
-.nav-pill-wrapper div[data-testid="stRadio"] > div[role="radiogroup"] {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
     gap: 4px !important;
+    border: none !important;
+    display: flex !important;
     width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: transparent !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16) !important;
+    margin-bottom: 1.2rem !important;
 }
 
-.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] {
-    flex: 1 1 0 !important;
+div[data-testid="stTabs"] [data-baseweb="tab-border"],
+div[data-testid="stTabs"] [data-baseweb="tab-highlight"] { 
+    display: none !important; 
+}
+
+div[data-testid="stTabs"] [data-baseweb="tab"] {
+    flex: 1 !important;
+    border-radius: 999px !important;
+    height: 42px !important;
+    color: #A8A29E !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 0.88rem !important;
+    background: transparent !important;
+    border: none !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background: transparent !important;
-    border: none !important;
-    border-radius: 999px !important;
-    padding: 8px 4px !important;
-    margin: 0 !important;
-    cursor: pointer !important;
     transition: all 0.2s ease !important;
-    min-width: 0 !important;
-}
-
-.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
-    display: none !important;
-}
-
-.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 0.82rem !important;
-    font-weight: 700 !important;
-    color: #A8A29E !important;
-    margin: 0 !important;
     white-space: nowrap !important;
 }
 
-.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
+div[data-testid="stTabs"] [aria-selected="true"] {
     background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
-    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.4) !important;
-}
-
-.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
     color: #1A1305 !important;
-    font-weight: 900 !important;
+    box-shadow: 0 4px 12px rgba(229, 169, 59, 0.4) !important;
 }
 
-/* --- Single Traditional Biryani Viewfinder Hero Style --- */
-.ai-scan-hero-wrap {
-    position: relative;
-    width: 100%;
-    height: 340px;
+/* --- 4-Dish Grid Collage Styles --- */
+.gulf-grid-collage {
     border-radius: 28px;
     overflow: hidden;
-    background-image: url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80');
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 16px 36px -10px rgba(0,0,0,0.18);
+    height: 340px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 4px;
+    background: #EBE4D5;
+    box-shadow: 0 16px 36px -10px rgba(0,0,0,0.14);
     margin-bottom: 1.2rem;
 }
 
-.viewfinder-corner {
-    position: absolute;
-    width: 38px;
-    height: 38px;
-    border-color: #E5A93B;
-    border-style: solid;
-    pointer-events: none;
-    z-index: 3;
-}
-.corner-tl { top: 22px; left: 22px; border-width: 4.5px 0 0 4.5px; border-top-left-radius: 14px; }
-.corner-tr { top: 22px; right: 22px; border-width: 4.5px 4.5px 0 0; border-top-right-radius: 14px; }
-.corner-bl { bottom: 22px; left: 22px; border-width: 0 0 4.5px 4.5px; border-bottom-left-radius: 14px; }
-.corner-br { bottom: 22px; right: 22px; border-width: 0 4.5px 4.5px 0; border-bottom-right-radius: 14px; }
-
-.scan-laser-line {
-    position: absolute;
-    top: 48%;
-    left: 12px;
-    right: 12px;
-    height: 2.5px;
-    background: linear-gradient(90deg, transparent 0%, #F3C36A 20%, #FFE8B2 50%, #F3C36A 80%, transparent 100%);
-    box-shadow: 0 0 12px 3px rgba(229, 169, 59, 0.75);
-    z-index: 2;
+.grid-cell {
+    position: relative;
+    background-size: cover;
+    background-position: center;
 }
 
-.scan-grid-overlay {
+.grid-cell-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(229, 169, 59, 0.08) 0%, transparent 50%, rgba(249, 247, 242, 0.4) 100%),
-                radial-gradient(circle, rgba(255,255,255,0.05) 10%, transparent 70%);
-    z-index: 1;
+    background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.42) 100%);
 }
 
-.scan-metric-pill {
+.micro-pill {
     position: absolute;
     background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid #FFFFFF;
+    border: 1px solid #FFFFFF;
     border-radius: 999px;
-    padding: 5px 12px;
+    padding: 4px 9px;
     font-family: 'Outfit', sans-serif;
-    font-weight: 900;
-    font-size: 0.82rem;
+    font-weight: 800;
+    font-size: 0.7rem;
     color: #1E1B16;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.16);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
     display: flex;
     align-items: center;
-    gap: 6px;
-    z-index: 4;
+    gap: 4px;
+    z-index: 2;
     white-space: nowrap;
 }
 
-.pill-amber-dot {
-    width: 7px;
-    height: 7px;
+.pill-dot {
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: #E5A93B;
 }
@@ -879,15 +835,15 @@ def render_culinary_badges(dish_class: str):
     meta = DISH_METADATA.get(dish_class, {"spice": "Aromatic 🌶️", "prep": "Slow-Simmered ⏳", "density": "Nutrient Rich 🥗", "time": "45 min"})
     st.markdown(
         f"""<div style="display: flex; justify-content: space-between; gap: 6px; margin: 0.8rem 0 1rem 0; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">FLAVOR</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['spice']}</div>
             </div>
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">COOK STYLE</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['prep']}</div>
             </div>
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">PROFILE</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['density']}</div>
             </div>
