@@ -644,14 +644,14 @@ div.stButton > button[kind="primary"]:hover {
     font-weight: 900 !important;
 }
 
-/* --- Get Started Screen Single Viewfinder Hero Style --- */
+/* --- Get Started Screen Authentic Gulf Feast Hero Style --- */
 .ai-scan-hero-wrap {
     position: relative;
     width: 100%;
     height: 340px;
     border-radius: 28px;
     overflow: hidden;
-    background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80');
+    background-image: url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80');
     background-size: cover;
     background-position: center;
     box-shadow: 0 16px 36px -10px rgba(0,0,0,0.18);
@@ -870,15 +870,15 @@ def render_culinary_badges(dish_class: str):
     meta = DISH_METADATA.get(dish_class, {"spice": "Aromatic 🌶️", "prep": "Slow-Simmered ⏳", "density": "Nutrient Rich 🥗", "time": "45 min"})
     st.markdown(
         f"""<div style="display: flex; justify-content: space-between; gap: 6px; margin: 0.8rem 0 1rem 0; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">FLAVOR</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['spice']}</div>
             </div>
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">COOK STYLE</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['prep']}</div>
             </div>
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">PROFILE</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['density']}</div>
             </div>
