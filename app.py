@@ -589,52 +589,59 @@ div.stButton > button[kind="primary"]:hover {
     border: 1px solid #A7F3D0;
 }
 
-/* --- In-Frame App Navigation Bar Fix (Prevent Vertical Stacking) --- */
-.inframe-nav-bar {
-    background: #1C1917;
-    border-radius: 999px;
-    padding: 6px 10px;
-    margin-top: 1.4rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.inframe-nav-bar [data-testid="stHorizontalBlock"] {
+/* --- Native Segmented App Navigation Bar --- */
+.nav-pill-wrapper div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: flex !important;
+    flex-direction: row !important;
     align-items: center !important;
+    justify-content: space-between !important;
+    background: #1C1917 !important;
+    border-radius: 999px !important;
+    padding: 5px !important;
     gap: 4px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+    margin: 0.6rem 0 1.2rem 0 !important;
 }
 
-.inframe-nav-bar div.stButton > button {
+.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    flex: 1 1 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     background: transparent !important;
     border: none !important;
-    color: #A8A29E !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 0.8rem !important;
-    font-weight: 800 !important;
-    padding: 8px 2px !important;
     border-radius: 999px !important;
-    box-shadow: none !important;
+    padding: 8px 4px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    min-width: 0 !important;
+}
+
+.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+    display: none !important;
+}
+
+.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"] span p {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    color: #A8A29E !important;
+    margin: 0 !important;
     white-space: nowrap !important;
-    width: 100% !important;
 }
 
-.inframe-nav-bar div.stButton > button:hover {
-    color: #FFFFFF !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-}
-
-.nav-active-slot div.stButton > button {
-    color: #F3C36A !important;
-    background: rgba(255, 255, 255, 0.12) !important;
-}
-
-.nav-scan-slot div.stButton > button {
+.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
     background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
+    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.4) !important;
+}
+
+.nav-pill-wrapper div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span p {
     color: #1A1305 !important;
     font-weight: 900 !important;
-    border-radius: 999px !important;
-    padding: 8px 8px !important;
-    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.45) !important;
 }
 
 /* --- Get Started Screen Single Viewfinder Hero Style --- */
@@ -863,15 +870,15 @@ def render_culinary_badges(dish_class: str):
     meta = DISH_METADATA.get(dish_class, {"spice": "Aromatic 🌶️", "prep": "Slow-Simmered ⏳", "density": "Nutrient Rich 🥗", "time": "45 min"})
     st.markdown(
         f"""<div style="display: flex; justify-content: space-between; gap: 6px; margin: 0.8rem 0 1rem 0; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">FLAVOR</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['spice']}</div>
             </div>
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">COOK STYLE</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['prep']}</div>
             </div>
-            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
+            <div style="flex: 1; min-width: 90px; background: #FAF8F3; border: 1px solid #EBE2CF; border-radius: 14px; padding: 8px 6px; text-align: center;">
                 <div style="font-size: 0.68rem; color: #8F887C; font-weight: 700;">PROFILE</div>
                 <div style="font-size: 0.78rem; font-weight: 800; color: #1E1B16; margin-top: 2px;">{meta['density']}</div>
             </div>
@@ -965,35 +972,28 @@ def render_confidence_bar(confidence):
     )
 
 
-def render_inframe_navigation():
+def render_segmented_app_navigation():
     cur = st.session_state.get("stage", "home")
-    st.markdown('<div class="inframe-nav-bar">', unsafe_allow_html=True)
-    c1, c2, c3 = st.columns([1, 1, 1.2])
+    nav_keys = ["home", "menu", "upload"]
+    nav_labels = ["🏠 Home", "📖 Menu", "📷 Scan"]
+    
+    current_idx = nav_keys.index(cur) if cur in nav_keys else 0
 
-    with c1:
-        active_cls = "nav-active-slot" if cur == "home" else ""
-        st.markdown(f'<div class="{active_cls}">', unsafe_allow_html=True)
-        if st.button("🏠 Home", key="btn_nav_home"):
-            st.session_state.stage = "home"
-            st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    with c2:
-        active_cls = "nav-active-slot" if cur == "menu" else ""
-        st.markdown(f'<div class="{active_cls}">', unsafe_allow_html=True)
-        if st.button("📖 Menu", key="btn_nav_menu"):
-            st.session_state.stage = "menu"
-            st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    with c3:
-        st.markdown('<div class="nav-scan-slot">', unsafe_allow_html=True)
-        if st.button("📷 Scan", key="btn_nav_scan"):
-            st.session_state.stage = "upload"
-            st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
+    st.markdown('<div class="nav-pill-wrapper">', unsafe_allow_html=True)
+    selected_label = st.radio(
+        "Navigation",
+        options=nav_labels,
+        index=current_idx,
+        horizontal=True,
+        label_visibility="collapsed",
+        key="app_main_nav_radio",
+    )
     st.markdown('</div>', unsafe_allow_html=True)
+
+    selected_stage = nav_keys[nav_labels.index(selected_label)]
+    if selected_stage != cur and cur in nav_keys:
+        st.session_state.stage = selected_stage
+        st.rerun()
 
 
 # ============================================================================
@@ -1090,42 +1090,20 @@ GB
 
     st.markdown(
         """<div class="ai-scan-hero-wrap">
-    <div class="viewfinder-corner corner-tl"></div>
-    <div class="viewfinder-corner corner-tr"></div>
-    <div class="viewfinder-corner corner-bl"></div>
-    <div class="viewfinder-corner corner-br"></div>
-
-    <div class="scan-laser-line"></div>
-    <div class="scan-grid-overlay"></div>
-
-    <div class="scan-metric-pill" style="top: 36px; left: 34px;">
-        <span class="pill-amber-dot"></span>
-        <span>170 kcal</span>
-    </div>
-
-    <div class="scan-metric-pill" style="top: 110px; right: 32px;">
-        <span class="pill-amber-dot"></span>
-        <span>90 kcal</span>
-    </div>
-
-    <div class="scan-metric-pill" style="bottom: 38px; left: 45px;">
-        <span class="pill-amber-dot"></span>
-        <span>110 kcal</span>
-    </div>
+<div class="viewfinder-corner corner-tl"></div>
+<div class="viewfinder-corner corner-tr"></div>
+<div class="viewfinder-corner corner-bl"></div>
+<div class="viewfinder-corner corner-br"></div>
+<div class="scan-laser-line"></div>
+<div class="scan-grid-overlay"></div>
+<div class="scan-metric-pill" style="top: 36px; left: 34px;"><span class="pill-amber-dot"></span><span>170 kcal</span></div>
+<div class="scan-metric-pill" style="top: 110px; right: 32px;"><span class="pill-amber-dot"></span><span>90 kcal</span></div>
+<div class="scan-metric-pill" style="bottom: 38px; left: 45px;"><span class="pill-amber-dot"></span><span>110 kcal</span></div>
 </div>
-
 <div style="text-align: center; padding: 0.2rem 0.8rem 1.4rem 0.8rem;">
-    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.35rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;">
-        <span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition
-    </h1>
-    <p style="color: #7A7468; font-size: 0.92rem; font-weight: 500; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">
-        From scanning to tracking — recognize traditional Gulf dishes and calculate macros automatically.
-    </p>
-    <div style="display: flex; justify-content: center; gap: 6px; margin-bottom: 22px;">
-        <span style="width: 24px; height: 6px; border-radius: 999px; background: #1C1917;"></span>
-        <span style="width: 6px; height: 6px; border-radius: 50%; background: #D6CFBE;"></span>
-        <span style="width: 6px; height: 6px; border-radius: 50%; background: #D6CFBE;"></span>
-    </div>
+<h1 style="font-family: 'Outfit', sans-serif; font-size: 2.35rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;"><span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition</h1>
+<p style="color: #7A7468; font-size: 0.92rem; font-weight: 500; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">From scanning to tracking — recognize traditional Gulf dishes and calculate macros automatically.</p>
+<div style="display: flex; justify-content: center; gap: 6px; margin-bottom: 22px;"><span style="width: 24px; height: 6px; border-radius: 999px; background: #1C1917;"></span><span style="width: 6px; height: 6px; border-radius: 50%; background: #D6CFBE;"></span><span style="width: 6px; height: 6px; border-radius: 50%; background: #D6CFBE;"></span></div>
 </div>""",
         unsafe_allow_html=True,
     )
@@ -1141,6 +1119,7 @@ GB
 
 elif st.session_state.stage == "home":
     render_header()
+    render_segmented_app_navigation()
 
     st.markdown(
         '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1E1B16; margin-bottom: 8px;">✨ Quick Guide</div>',
@@ -1163,8 +1142,6 @@ elif st.session_state.stage == "home":
             st.session_state.stage = "upload"
             st.rerun()
 
-    render_inframe_navigation()
-
 
 # ============================================================================
 # 9. SCREEN 2: MENU (25 SUPPORTED GULF DISHES)
@@ -1172,14 +1149,13 @@ elif st.session_state.stage == "home":
 
 elif st.session_state.stage == "menu":
     render_header()
+    render_segmented_app_navigation()
 
     st.markdown(
         '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1E1B16; margin-bottom: 8px;">🍲 Supported Dishes (25)</div>',
         unsafe_allow_html=True,
     )
     render_category_squircle_cards()
-
-    render_inframe_navigation()
 
 
 # ============================================================================
@@ -1188,6 +1164,7 @@ elif st.session_state.stage == "menu":
 
 elif st.session_state.stage == "upload":
     render_header()
+    render_segmented_app_navigation()
     render_segmented_stepper("upload", st.session_state.get("triggered", False))
 
     with st.container(border=True):
@@ -1291,8 +1268,6 @@ Please upload a clear, top-down photo of a traditional Gulf dish.
                     st.session_state.stage = "confirm_dish"
                     st.rerun()
 
-    render_inframe_navigation()
-
 
 # ============================================================================
 # 11. SCREEN 4: CONFIRM DISH (WITH AI DECODED VISUAL OVERLAY)
@@ -1371,8 +1346,6 @@ elif st.session_state.stage == "confirm_dish":
             st.session_state.stage = "select_portion"
             st.rerun()
 
-    render_inframe_navigation()
-
 
 # ============================================================================
 # 12. SCREEN 5: SELECT PORTION
@@ -1421,8 +1394,6 @@ elif st.session_state.stage == "select_portion":
             st.session_state.portion_size = selected_p
             st.session_state.stage = "result"
             st.rerun()
-
-    render_inframe_navigation()
 
 
 # ============================================================================
@@ -1524,5 +1495,3 @@ elif st.session_state.stage == "result":
 
     st.write("")
     st.button("📸 Scan Another Plate", on_click=reset)
-
-    render_inframe_navigation()
