@@ -589,46 +589,45 @@ div.stButton > button[kind="primary"]:hover {
     border: 1px solid #A7F3D0;
 }
 
-/* --- In-Frame App Navigation Bar (Horizontal Segmented Pills) --- */
-.inframe-nav-bar {
-    background: #1C1917;
-    border-radius: 999px;
-    padding: 6px;
-    margin-top: 1.4rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+/* --- Clean In-Frame Mobile Navigation Tabs --- */
+div[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    background: #1C1917 !important;
+    border-radius: 999px !important;
+    padding: 5px !important;
+    gap: 4px !important;
+    border: none !important;
+    display: flex !important;
+    width: 100% !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16) !important;
+    margin-bottom: 1.2rem !important;
 }
 
-.inframe-nav-bar div.stButton > button {
-    background: transparent !important;
-    border: none !important;
+div[data-testid="stTabs"] [data-baseweb="tab-border"],
+div[data-testid="stTabs"] [data-baseweb="tab-highlight"] { 
+    display: none !important; 
+}
+
+div[data-testid="stTabs"] [data-baseweb="tab"] {
+    flex: 1 !important;
+    border-radius: 999px !important;
+    height: 42px !important;
     color: #A8A29E !important;
     font-family: 'Outfit', sans-serif !important;
-    font-size: 0.84rem !important;
     font-weight: 800 !important;
-    padding: 8px 4px !important;
-    border-radius: 999px !important;
-    box-shadow: none !important;
+    font-size: 0.88rem !important;
+    background: transparent !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
     white-space: nowrap !important;
 }
 
-.inframe-nav-bar div.stButton > button:hover {
-    color: #FFFFFF !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-}
-
-.nav-active-slot div.stButton > button {
-    color: #F3C36A !important;
-    background: rgba(255, 255, 255, 0.12) !important;
-}
-
-.nav-scan-slot div.stButton > button {
+div[data-testid="stTabs"] [aria-selected="true"] {
     background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%) !important;
     color: #1A1305 !important;
-    font-weight: 900 !important;
-    border-radius: 999px !important;
-    padding: 8px 12px !important;
-    box-shadow: 0 4px 14px rgba(229, 169, 59, 0.45) !important;
+    box-shadow: 0 4px 12px rgba(229, 169, 59, 0.4) !important;
 }
 
 /* --- 4-Dish Grid Collage Styles --- */
@@ -938,37 +937,6 @@ def render_confidence_bar(confidence):
     )
 
 
-def render_inframe_navigation():
-    cur = st.session_state.stage
-    st.markdown('<div class="inframe-nav-bar">', unsafe_allow_html=True)
-    c1, c2, c3 = st.columns([1, 1, 1.2])
-
-    with c1:
-        active_cls = "nav-active-slot" if cur == "home" else ""
-        st.markdown(f'<div class="{active_cls}">', unsafe_allow_html=True)
-        if st.button("🏠 Home", key="btn_nav_home", use_container_width=True):
-            st.session_state.stage = "home"
-            st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    with c2:
-        active_cls = "nav-active-slot" if cur == "menu" else ""
-        st.markdown(f'<div class="{active_cls}">', unsafe_allow_html=True)
-        if st.button("📖 Menu", key="btn_nav_menu", use_container_width=True):
-            st.session_state.stage = "menu"
-            st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    with c3:
-        st.markdown('<div class="nav-scan-slot">', unsafe_allow_html=True)
-        if st.button("📷 Scan", key="btn_nav_scan", use_container_width=True):
-            st.session_state.stage = "upload"
-            st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe_allow_html=True)
-
-
 # ============================================================================
 # 5. STREAMLIT APP STATE & ROUTING
 # ============================================================================
@@ -1008,7 +976,7 @@ if "portion_size" not in st.session_state:
 
 
 def reset():
-    st.session_state.stage = "upload"
+    st.session_state.stage = "main"
     st.session_state.triggered = False
     st.session_state.image = None
     st.session_state.annotated_image = None
@@ -1112,171 +1080,152 @@ GB
     )
 
     if st.button("Get Started →", key="btn_get_started", use_container_width=True):
-        st.session_state.stage = "home"
+        st.session_state.stage = "main"
         st.rerun()
 
 
 # ============================================================================
-# 8. SCREEN 1: HOME (QUICK GUIDE & SCAN LAUNCHER)
+# 8. SCREEN 1: MAIN NAVIGATION (HOME / MENU / SCAN)
 # ============================================================================
 
-elif st.session_state.stage == "home":
+elif st.session_state.stage in ["main", "upload"]:
     render_header()
 
-    st.markdown(
-        '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1E1B16; margin-bottom: 8px;">✨ Quick Guide</div>',
-        unsafe_allow_html=True,
-    )
-    render_quick_guide()
+    tab_home, tab_menu, tab_scan = st.tabs(["🏠 Home", "📖 Menu", "📷 Scan"])
 
-    with st.container(border=True):
+    with tab_home:
         st.markdown(
-            """<div style="text-align: center; padding: 10px 6px;">
-                <div style="font-size: 2.2rem; margin-bottom: 4px;">📸</div>
-                <div style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 900; color: #1E1B16;">Ready to Track Your Meal?</div>
-                <p style="color: #8F887C; font-size: 0.86rem; line-height: 1.4; margin: 6px 0 16px 0;">
-                    Snap or upload a top-down photo of your plate to calculate calories and macros automatically.
-                </p>
-            </div>""",
+            '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1E1B16; margin-bottom: 8px;">✨ Quick Guide</div>',
             unsafe_allow_html=True,
         )
-        if st.button("Scan Plate Now 📷", type="primary", use_container_width=True):
-            st.session_state.stage = "upload"
-            st.rerun()
+        render_quick_guide()
 
-    render_inframe_navigation()
-
-
-# ============================================================================
-# 9. SCREEN 2: MENU (25 SUPPORTED GULF DISHES)
-# ============================================================================
-
-elif st.session_state.stage == "menu":
-    render_header()
-
-    st.markdown(
-        '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1E1B16; margin-bottom: 8px;">🍲 Supported Dishes (25)</div>',
-        unsafe_allow_html=True,
-    )
-    render_category_squircle_cards()
-
-    render_inframe_navigation()
-
-
-# ============================================================================
-# 10. SCREEN 3: UPLOAD / CAMERA SCANNER SCREEN
-# ============================================================================
-
-elif st.session_state.stage == "upload":
-    render_header()
-    render_segmented_stepper("upload", st.session_state.get("triggered", False))
-
-    with st.container(border=True):
-        st.markdown(
-            """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-                <div style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: #1E1B16;">Scan Your Plate</div>
-                <span style="background: #FDF6E9; color: #C28416; font-size: 0.76rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; border: 1px solid #F5E3BE;">Top-down</span>
-            </div>""",
-            unsafe_allow_html=True,
-        )
-
-        image_to_process = None
-
-        uploaded = st.file_uploader(
-            "Upload meal photo",
-            type=["jpg", "jpeg", "png", "heic", "heif"],
-            label_visibility="collapsed",
-        )
-
-        if uploaded is not None:
-            image_to_process = ImageOps.exif_transpose(Image.open(uploaded))
-
-        if image_to_process is not None:
-            st.session_state.image = image_to_process
-            st.image(
-                image_to_process,
-                caption="Scanned Plate",
-                use_column_width=True,
+        with st.container(border=True):
+            st.markdown(
+                """<div style="text-align: center; padding: 10px 6px;">
+                    <div style="font-size: 2.2rem; margin-bottom: 4px;">📸</div>
+                    <div style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 900; color: #1E1B16;">Ready to Track Your Meal?</div>
+                    <p style="color: #8F887C; font-size: 0.86rem; line-height: 1.4; margin: 6px 0 0 0;">
+                        Head over to the <strong>📷 Scan</strong> tab above to photograph or upload your plate.
+                    </p>
+                </div>""",
+                unsafe_allow_html=True,
             )
 
-            with st.spinner("Analyzing ingredients & calculating nutritional profile..."):
-                cnn_class, cnn_confidence, margin, entropy = run_cnn(
-                    image_to_process, cnn_model, idx_to_class
+    with tab_menu:
+        st.markdown(
+            '<div style="font-family: \'Outfit\', sans-serif; font-size: 1.1rem; font-weight: 900; color: #1E1B16; margin-bottom: 8px;">🍲 Supported Dishes (25)</div>',
+            unsafe_allow_html=True,
+        )
+        render_category_squircle_cards()
+
+    with tab_scan:
+        render_segmented_stepper("upload", st.session_state.get("triggered", False))
+
+        with st.container(border=True):
+            st.markdown(
+                """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                    <div style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: #1E1B16;">Scan Your Plate</div>
+                    <span style="background: #FDF6E9; color: #C28416; font-size: 0.76rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; border: 1px solid #F5E3BE;">Top-down</span>
+                </div>""",
+                unsafe_allow_html=True,
+            )
+
+            image_to_process = None
+
+            uploaded = st.file_uploader(
+                "Upload meal photo",
+                type=["jpg", "jpeg", "png", "heic", "heif"],
+                label_visibility="collapsed",
+            )
+
+            if uploaded is not None:
+                image_to_process = ImageOps.exif_transpose(Image.open(uploaded))
+
+            if image_to_process is not None:
+                st.session_state.image = image_to_process
+                st.image(
+                    image_to_process,
+                    caption="Scanned Plate",
+                    use_column_width=True,
                 )
 
-                is_non_food = (
-                    cnn_confidence < MIN_CONFIDENCE
-                    or margin < MIN_MARGIN
-                    or entropy > MAX_ENTROPY
-                )
-
-                if is_non_food:
-                    st.markdown(
-                        f"""<div style="background: #FFF5F5; border: 1px solid #FED7D7; border-radius: 22px; padding: 18px; margin-top: 14px; text-align: center;">
-<div style="font-size: 2rem; margin-bottom: 4px;">🍽️❓</div>
-<div style="color: #E53E3E; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem;">No Supported Gulf Dish Found</div>
-<div style="color: #718096; font-size: 0.82rem; line-height: 1.45; margin-top: 4px;">
-Please upload a clear, top-down photo of a traditional Gulf dish.
-</div>
-</div>""",
-                        unsafe_allow_html=True,
+                with st.spinner("Analyzing ingredients & calculating nutritional profile..."):
+                    cnn_class, cnn_confidence, margin, entropy = run_cnn(
+                        image_to_process, cnn_model, idx_to_class
                     )
-                    st.write("")
-                    st.button(
-                        "🔄 Try Another Photo",
-                        on_click=reset,
-                        use_container_width=True,
+
+                    is_non_food = (
+                        cnn_confidence < MIN_CONFIDENCE
+                        or margin < MIN_MARGIN
+                        or entropy > MAX_ENTROPY
                     )
-                    st.stop()
 
-                triggered = (
-                    cnn_confidence < CONFIDENCE_THRESHOLD
-                    or cnn_class in TRIGGER_SET
-                    or cnn_class in WRAP_TRIGGER_SET
-                )
-
-                st.session_state.cnn_class = cnn_class
-                st.session_state.cnn_confidence = cnn_confidence
-                st.session_state.triggered = triggered
-
-                if not triggered:
-                    st.session_state.final_dish = cnn_class
-                    st.session_state.tier_used = "CNN direct match"
-                    st.session_state.stage = "select_portion"
-                    st.rerun()
-                else:
-                    candidates = get_candidate_group(cnn_class)
-                    run_yolo_here = (cnn_class in YOLO_FEATURE_MAP) or (
-                        cnn_class == "03_biryani"
-                    )
-                    yolo_suggestion, gate_status = None, None
-                    annotated_img = None
-                    if run_yolo_here:
-                        detections = run_yolov8_with_boxes(image_to_process, yolo_model)
-                        if detections:
-                            annotated_img = create_ai_decoded_overlay(image_to_process, detections)
-                        _, gated, gate_status = map_detections_to_suggestion(
-                            detections, candidates
+                    if is_non_food:
+                        st.markdown(
+                            f"""<div style="background: #FFF5F5; border: 1px solid #FED7D7; border-radius: 22px; padding: 18px; margin-top: 14px; text-align: center;">
+    <div style="font-size: 2rem; margin-bottom: 4px;">🍽️❓</div>
+    <div style="color: #E53E3E; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem;">No Supported Gulf Dish Found</div>
+    <div style="color: #718096; font-size: 0.82rem; line-height: 1.45; margin-top: 4px;">
+    Please upload a clear, top-down photo of a traditional Gulf dish.
+    </div>
+    </div>""",
+                            unsafe_allow_html=True,
                         )
-                        yolo_suggestion = gated[0] if gated else None
+                        st.write("")
+                        st.button(
+                            "🔄 Try Another Photo",
+                            on_click=reset,
+                            use_container_width=True,
+                        )
+                        st.stop()
 
-                    st.session_state.annotated_image = annotated_img
-                    st.session_state.candidates = sorted(candidates)
-                    st.session_state.yolo_suggestion = yolo_suggestion
-                    st.session_state.yolo_gate_status = gate_status
-                    st.session_state.tier_used = (
-                        "CNN + YOLO + user confirm"
-                        if yolo_suggestion
-                        else "CNN + user confirm"
+                    triggered = (
+                        cnn_confidence < CONFIDENCE_THRESHOLD
+                        or cnn_class in TRIGGER_SET
+                        or cnn_class in WRAP_TRIGGER_SET
                     )
-                    st.session_state.stage = "confirm_dish"
-                    st.rerun()
 
-    render_inframe_navigation()
+                    st.session_state.cnn_class = cnn_class
+                    st.session_state.cnn_confidence = cnn_confidence
+                    st.session_state.triggered = triggered
+
+                    if not triggered:
+                        st.session_state.final_dish = cnn_class
+                        st.session_state.tier_used = "CNN direct match"
+                        st.session_state.stage = "select_portion"
+                        st.rerun()
+                    else:
+                        candidates = get_candidate_group(cnn_class)
+                        run_yolo_here = (cnn_class in YOLO_FEATURE_MAP) or (
+                            cnn_class == "03_biryani"
+                        )
+                        yolo_suggestion, gate_status = None, None
+                        annotated_img = None
+                        if run_yolo_here:
+                            detections = run_yolov8_with_boxes(image_to_process, yolo_model)
+                            if detections:
+                                annotated_img = create_ai_decoded_overlay(image_to_process, detections)
+                            _, gated, gate_status = map_detections_to_suggestion(
+                                detections, candidates
+                            )
+                            yolo_suggestion = gated[0] if gated else None
+
+                        st.session_state.annotated_image = annotated_img
+                        st.session_state.candidates = sorted(candidates)
+                        st.session_state.yolo_suggestion = yolo_suggestion
+                        st.session_state.yolo_gate_status = gate_status
+                        st.session_state.tier_used = (
+                            "CNN + YOLO + user confirm"
+                            if yolo_suggestion
+                            else "CNN + user confirm"
+                        )
+                        st.session_state.stage = "confirm_dish"
+                        st.rerun()
 
 
 # ============================================================================
-# 11. SCREEN 4: CONFIRM DISH (WITH AI DECODED VISUAL OVERLAY)
+# 9. SCREEN 2: CONFIRM DISH (WITH AI DECODED VISUAL OVERLAY)
 # ============================================================================
 
 elif st.session_state.stage == "confirm_dish":
@@ -1352,11 +1301,9 @@ elif st.session_state.stage == "confirm_dish":
             st.session_state.stage = "select_portion"
             st.rerun()
 
-    render_inframe_navigation()
-
 
 # ============================================================================
-# 12. SCREEN 5: SELECT PORTION
+# 10. SCREEN 3: SELECT PORTION
 # ============================================================================
 
 elif st.session_state.stage == "select_portion":
@@ -1403,11 +1350,9 @@ elif st.session_state.stage == "select_portion":
             st.session_state.stage = "result"
             st.rerun()
 
-    render_inframe_navigation()
-
 
 # ============================================================================
-# 13. SCREEN 6: NUTRITIONAL BREAKDOWN RESULT & MACRO RING
+# 11. SCREEN 4: NUTRITIONAL BREAKDOWN RESULT & MACRO RING
 # ============================================================================
 
 elif st.session_state.stage == "result":
@@ -1505,5 +1450,3 @@ elif st.session_state.stage == "result":
 
     st.write("")
     st.button("📸 Scan Another Plate", on_click=reset)
-
-    render_inframe_navigation()
