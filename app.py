@@ -2,10 +2,10 @@
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
 Identifies authentic Gulf dishes using a multi-tiered pipeline:
-1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring[cite: 1].
-2. Out-of-distribution / Non-food rejection via margin and entropy checks[cite: 1].
-3. YOLOv8 feature detection with visual bounding overlays & calorie pointers[cite: 1].
-4. Portion-based authentic macro and calorie estimation with SVG Macro Rings[cite: 1].
+1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
+2. Out-of-distribution / Non-food rejection via margin and entropy checks.
+3. YOLOv8 feature detection with visual bounding overlays & calorie pointers.
+4. Portion-based authentic macro and calorie estimation with SVG Macro Rings.
 """
 
 import json
@@ -17,11 +17,11 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageOps
 import streamlit as st
 
-# Force CPU inference for stability and suppress TensorFlow verbose logging[cite: 1]
+# Force CPU inference for stability and suppress TensorFlow verbose logging
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
-# Register HEIC/HEIF image support for mobile uploads[cite: 1]
+# Register HEIC/HEIF image support for mobile uploads
 try:
     import pillow_heif
     pillow_heif.register_heif_opener()
@@ -659,7 +659,7 @@ div.stButton > button[kind="primary"]:hover {
     position: relative;
     width: 100%;
     height: 350px;
-    background-image: url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80');
+    background-image: url('https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=800&q=80');
     background-size: cover;
     background-position: center;
     border-radius: 28px;
@@ -951,7 +951,7 @@ def render_confidence_bar(confidence):
 
 
 def render_bottom_navigation_dock():
-    """Render floating dark bottom navigation dock."""
+    """Render floating dark bottom navigation dock with direct navigation triggers."""
     cur = st.session_state.stage
     
     st.markdown(
@@ -982,7 +982,6 @@ st.set_page_config(
 )
 inject_theme()
 
-# Query param navigation handler
 query_params = st.query_params
 if "nav" in query_params:
     target_stage = query_params["nav"]
@@ -1026,6 +1025,31 @@ except FileNotFoundError as e:
 # ============================================================================
 
 if st.session_state.stage == "onboarding":
+    # Clean branded navigation header
+    st.markdown(
+        """<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 2px 0;">
+<div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 7H20M4 12H20M4 17H14" stroke="#1E1B16" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
+</div>
+<div style="display: flex; gap: 10px; align-items: center;">
+<div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; align-items: center; justify-content: center; border: 1px solid #ECE6DB; position: relative;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="#E5A93B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<span style="position: absolute; top: 11px; right: 11px; width: 7px; height: 7px; background: #FF5A1F; border-radius: 50%; border: 1.5px solid #FFFFFF;"></span>
+</div>
+<div style="width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #F3C36A 0%, #E5A93B 100%); display: flex; align-items: center; justify-content: center; color: #1A1305; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 0.95rem; letter-spacing: 0.02em; box-shadow: 0 6px 16px rgba(229, 169, 59, 0.35);">
+GB
+</div>
+</div>
+</div>""",
+        unsafe_allow_html=True,
+    )
+
+    # Hero visual with authentic saffron spiced rice plate
     st.markdown(
         """<div class="hero-container">
     <div class="hero-img-wrap">
@@ -1045,8 +1069,8 @@ if st.session_state.stage == "onboarding":
     </div>
 </div>
 
-<div style="text-align: center; padding: 0.2rem 0.8rem 1.6rem 0.8rem;">
-    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.45rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;">
+<div style="text-align: center; padding: 0.2rem 0.8rem 1.4rem 0.8rem;">
+    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.35rem; font-weight: 900; line-height: 1.15; color: #1E1B16; margin: 0; letter-spacing: -0.03em;">
         <span style="color: #E5A93B;">GulfBite</span><br>AI Nutrition
     </h1>
     <p style="color: #7A7468; font-size: 0.92rem; font-weight: 500; margin: 10px auto 20px auto; max-width: 320px; line-height: 1.45;">
