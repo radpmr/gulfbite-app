@@ -1,3 +1,6 @@
+
+
+
 """
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
@@ -412,7 +415,7 @@ html, body, [class*="css"] {
 
 .block-container {
     max-width: 460px !important;
-    padding: 1rem 1rem 2rem 1rem !important;
+    padding: 1rem 1rem 2.8rem 1rem !important;
 }
 
 /* Reduce Streamlit's default vertical gaps so the app feels like a mobile product. */
@@ -461,13 +464,32 @@ div.stButton > button[kind="primary"]:hover {
     background: linear-gradient(135deg, #F8CF80 0%, #EAB34C 62%, #D99A29 100%) !important;
 }
 
-/* Selects */
+/* Selects — clearer text and stronger control contrast. */
 [data-testid="stSelectbox"] [data-baseweb="select"] > div {
     min-height: 48px !important;
     border-radius: 15px !important;
-    border-color: var(--line) !important;
-    background: var(--surface-soft) !important;
+    border-color: #E5D8BF !important;
+    background: #FFFDF9 !important;
     box-shadow: none !important;
+}
+[data-testid="stSelectbox"] [data-baseweb="select"] span,
+[data-testid="stSelectbox"] [data-baseweb="select"] div {
+    color: var(--ink) !important;
+    opacity: 1 !important;
+}
+[data-testid="stSelectbox"] label,
+[data-testid="stSelectbox"] label p {
+    color: #8A8174 !important;
+    font-weight: 700 !important;
+}
+[data-testid="stSelectbox"] svg {
+    color: #B88423 !important;
+    fill: #B88423 !important;
+}
+[data-testid="stCaptionContainer"],
+[data-testid="stCaptionContainer"] p {
+    color: #81786C !important;
+    opacity: 1 !important;
 }
 
 /* Native segmented controls — used for app navigation, image source and portion. */
@@ -479,25 +501,75 @@ div.stButton > button[kind="primary"]:hover {
 }
 [data-testid="stSegmentedControl"] [role="radiogroup"] {
     width: 100% !important;
-    gap: 5px !important;
+    gap: 6px !important;
 }
 [data-testid="stSegmentedControl"] button {
     flex: 1 1 0 !important;
     min-height: 42px !important;
     border-radius: 13px !important;
+    border: 1px solid #E9E0D1 !important;
+    background: #FFFDF9 !important;
+    color: #7D7468 !important;
     font-family: 'Outfit', sans-serif !important;
     font-weight: 800 !important;
+    box-shadow: none !important;
+}
+[data-testid="stSegmentedControl"] button[aria-pressed="true"],
+[data-testid="stSegmentedControl"] button[data-selected="true"] {
+    background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
+    border-color: #E5A93B !important;
+    color: #171007 !important;
+    box-shadow: 0 5px 14px rgba(229,169,59,.22) !important;
+}
+[data-testid="stSegmentedControl"] input,
+[data-testid="stSegmentedControl"] [data-baseweb="radio"] > div:first-child {
+    display: none !important;
 }
 
-/* Fallback radio used only when segmented_control is unavailable. */
-.compact-radio div[data-testid="stRadio"] > div[role="radiogroup"] {
+/*
+   Older Streamlit versions fall back to st.radio(). Convert those radios to
+   real pill controls so no native black/gold radio circles are visible.
+*/
+div[data-testid="stRadio"] > div[role="radiogroup"] {
     display: flex !important;
     flex-direction: row !important;
     gap: 6px !important;
     width: 100% !important;
 }
-.compact-radio div[data-testid="stRadio"] label {
+div[data-testid="stRadio"] label[data-baseweb="radio"] {
     flex: 1 1 0 !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 9px 7px !important;
+    margin: 0 !important;
+    border: 1px solid #E9E0D1 !important;
+    border-radius: 13px !important;
+    background: #FFFDF9 !important;
+    transition: all .18s ease !important;
+    cursor: pointer !important;
+}
+div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+    display: none !important;
+}
+div[data-testid="stRadio"] label[data-baseweb="radio"] span,
+div[data-testid="stRadio"] label[data-baseweb="radio"] p {
+    color: #7D7468 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .82rem !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+}
+div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
+    background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
+    border-color: #E5A93B !important;
+    box-shadow: 0 5px 14px rgba(229,169,59,.22) !important;
+}
+div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span,
+div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
+    color: #171007 !important;
 }
 
 /* Upload zone */
@@ -517,6 +589,17 @@ div.stButton > button[kind="primary"]:hover {
 [data-testid="stFileUploaderDropzone"] svg {
     color: var(--gold) !important;
     fill: var(--gold) !important;
+}
+[data-testid="stFileUploaderDropzoneInstructions"] span {
+    color: var(--ink) !important;
+    opacity: 1 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+}
+[data-testid="stFileUploaderDropzoneInstructions"] small {
+    color: #7F766A !important;
+    opacity: 1 !important;
+    font-weight: 600 !important;
 }
 [data-testid="stFileUploader"] button {
     border-radius: 12px !important;
@@ -621,7 +704,7 @@ div[data-testid="stTabs"] [aria-selected="true"] {
     align-items: center;
     gap: 5px;
     max-width: calc(100% - 16px);
-    padding: 5px 9px;
+    padding: 4px 8px;
     border-radius: 999px;
     background: rgba(255,255,255,.93);
     border: 1px solid rgba(255,255,255,.9);
@@ -630,7 +713,7 @@ div[data-testid="stTabs"] [aria-selected="true"] {
     -webkit-backdrop-filter: blur(8px);
     color: var(--ink);
     font-family: 'Outfit', sans-serif;
-    font-size: .68rem;
+    font-size: .64rem;
     font-weight: 800;
     white-space: nowrap;
 }
@@ -644,7 +727,7 @@ div[data-testid="stTabs"] [aria-selected="true"] {
 
 /* Small screens */
 @media (max-width: 480px) {
-    .block-container { padding: .72rem .72rem 1.5rem .72rem !important; }
+    .block-container { padding: .72rem .72rem 2.25rem .72rem !important; }
     [data-testid="stVerticalBlockBorderWrapper"] { border-radius: 20px !important; padding: .9rem !important; }
     .gulf-grid-collage { height: 270px; border-radius: 20px; }
 }
@@ -690,7 +773,7 @@ def render_header(compact: bool = True):
     title_size = "1.55rem" if compact else "1.85rem"
     subtitle = "Gulf cuisine recognition • calories • macros"
     st.markdown(
-        f"""<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;">
+        f"""<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.58rem;">
 <div style="display:flex;align-items:center;gap:10px;min-width:0;">
     <div style="width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#F4C66F,#E5A93B);display:flex;align-items:center;justify-content:center;box-shadow:0 7px 16px rgba(229,169,59,.22);font-family:'Outfit',sans-serif;font-weight:900;color:#1A1305;">GB</div>
     <div style="min-width:0;">
@@ -744,14 +827,31 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
     segments = []
     labels = []
     for i, (_, label) in enumerate(raw_steps):
-        active = i <= active_idx
-        current = i == active_idx
-        bg = "linear-gradient(90deg,#F3C36A,#E5A93B)" if active else "#EAE4D8"
-        shadow = "box-shadow:0 2px 8px rgba(229,169,59,.22);" if active else ""
-        segments.append(f'<div style="flex:1;height:5px;border-radius:999px;background:{bg};{shadow}"></div>')
-        color = "#1E1B16" if current else "#9A9286"
-        weight = "900" if current else "700"
-        labels.append(f'<span style="font-family:\'Outfit\',sans-serif;font-size:.70rem;font-weight:{weight};color:{color};">{i+1}. {label}</span>')
+        if i < active_idx:
+            bg = "#F2D79D"
+            shadow = ""
+            label_text = f"✓ {label}"
+            color = "#B8862E"
+            weight = "700"
+        elif i == active_idx:
+            bg = "linear-gradient(90deg,#F3C36A,#E5A93B)"
+            shadow = "box-shadow:0 2px 8px rgba(229,169,59,.24);"
+            label_text = f"{i+1}. {label}"
+            color = "#1E1B16"
+            weight = "900"
+        else:
+            bg = "#EAE4D8"
+            shadow = ""
+            label_text = f"{i+1}. {label}"
+            color = "#9A9286"
+            weight = "650"
+
+        segments.append(
+            f'<div style="flex:1;height:5px;border-radius:999px;background:{bg};{shadow}"></div>'
+        )
+        labels.append(
+            f"<span style=\"font-family:'Outfit',sans-serif;font-size:.70rem;font-weight:{weight};color:{color};\">{label_text}</span>"
+        )
 
     st.markdown(
         '<div style="margin:.15rem 0 .9rem 0;">'
@@ -760,7 +860,6 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
         '</div>',
         unsafe_allow_html=True,
     )
-
 
 def render_quick_guide():
     st.markdown(
@@ -1122,7 +1221,8 @@ elif st.session_state.stage in ["main", "upload"]:
     <div style="font-size:.68rem;color:#948B7F;font-weight:800;text-transform:uppercase;letter-spacing:.04em;">Output</div>
     <div style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:900;margin-top:3px;">Calories + macros</div>
 </div>
-</div>""",
+</div>
+<div style="height:10px;"></div>""",
             unsafe_allow_html=True,
         )
 
@@ -1142,7 +1242,7 @@ elif st.session_state.stage in ["main", "upload"]:
                 """<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:9px;">
 <div>
     <div style="font-family:'Outfit',sans-serif;font-size:1.12rem;font-weight:900;color:#1E1B16;">Scan your plate</div>
-    <div style="font-size:.76rem;color:#91897D;margin-top:2px;">Camera or photo upload</div>
+    <div style="font-size:.76rem;color:#7E7569;margin-top:2px;font-weight:600;">Camera or photo upload</div>
 </div>
 <span style="background:#FFF7E7;color:#B9780E;font-size:.70rem;font-weight:800;padding:5px 9px;border-radius:999px;border:1px solid #EED8A8;">Top-down works best</span>
 </div>""",
@@ -1152,7 +1252,7 @@ elif st.session_state.stage in ["main", "upload"]:
             image_to_process = render_scan_input()
 
             st.markdown(
-                '<div style="font-size:.72rem;color:#91897D;line-height:1.4;margin-top:2px;">Tip: keep the full plate visible, use good lighting, and avoid heavy filters.</div>',
+                '<div style="font-size:.72rem;color:#7E7569;line-height:1.4;margin-top:4px;">Tip: keep the full plate visible, use good lighting, and avoid heavy filters.</div>',
                 unsafe_allow_html=True,
             )
 
