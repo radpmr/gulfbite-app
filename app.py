@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_BOTTOM_NAV_NO_GHOST_SLOT_2026_08_19
 # BUILD: GULFBITE_SESSION_SAFE_BOTTOM_NAV_2026_08_19
 # BUILD: GULFBITE_REBUILT_FROM_PASTED_MARKDOWN_3_UPLOAD_ONLY_BOTTOM_NAV
 """
@@ -608,6 +609,25 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     min-width: 0 !important;
 }
 .st-key-gulf_bottom_nav [data-testid="stVerticalBlock"] { gap: 0 !important; }
+
+/* Remove the empty in-flow Streamlit placeholder created by the fixed nav.
+   The actual .st-key-gulf_bottom_nav remains position:fixed at the viewport bottom. */
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-gulf_bottom_nav),
+[data-testid="stElementContainer"]:has(.st-key-gulf_bottom_nav) {
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-gulf_bottom_nav) > div {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
 .st-key-gulf_bottom_nav div.stButton { width: 100% !important; }
 .st-key-gulf_bottom_nav div.stButton > button {
     min-height: 58px !important;
