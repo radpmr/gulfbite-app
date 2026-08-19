@@ -3901,6 +3901,180 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   MENU NATIVE CLICK FIX
+   Native Streamlit buttons keep all selection inside the app.
+   ========================================================================== */
+
+/* Category chips */
+.st-key-menu_category_chips {
+    margin: 8px 0 10px 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.st-key-menu_category_chips [data-testid="stHorizontalBlock"] {
+    gap: 6px !important;
+    margin-bottom: 6px !important;
+}
+.st-key-menu_category_chips button {
+    min-height: 34px !important;
+    height: 34px !important;
+    padding: 0 9px !important;
+    border-radius: 999px !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .68rem !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+}
+.st-key-menu_category_chips button[kind="secondary"],
+.st-key-menu_category_chips button[data-testid="stBaseButton-secondary"] {
+    border: 1px solid #E4D8C5 !important;
+    background: #FFFDF9 !important;
+    color: #6F675D !important;
+    box-shadow: none !important;
+}
+.st-key-menu_category_chips button[kind="primary"],
+.st-key-menu_category_chips button[data-testid="stBaseButton-primary"] {
+    border: 1px solid #E3A332 !important;
+    background: linear-gradient(135deg,#F8CB70 0%,#E8AA2E 100%) !important;
+    color: #17130D !important;
+    box-shadow: 0 4px 10px rgba(216,149,24,.15) !important;
+}
+
+/* Dish grid */
+.st-key-menu_dish_grid_native {
+    margin: 2px 0 12px 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.st-key-menu_dish_grid_native [data-testid="stHorizontalBlock"] {
+    gap: 8px !important;
+    margin-bottom: 8px !important;
+}
+
+.st-key-menu_dish_grid_native [class*="st-key-menu_card_"] {
+    min-height: 82px !important;
+    padding: 8px !important;
+    border: 1px solid #E8DED0 !important;
+    border-radius: 16px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 3px 10px rgba(68,46,12,.035) !important;
+}
+
+.menu-native-card-visual {
+    display: grid !important;
+    grid-template-columns: 48px minmax(0,1fr) !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+    margin-bottom: 7px !important;
+}
+.menu-native-icon {
+    width: 48px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+    background: linear-gradient(145deg,#FFF4D7 0%,#F5D69B 100%) !important;
+    font-size: 1.25rem !important;
+}
+.menu-native-copy {
+    min-width: 0 !important;
+}
+.menu-native-name {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .76rem !important;
+    line-height: 1.15 !important;
+    font-weight: 900 !important;
+    color: #1E1B16 !important;
+}
+.menu-native-meta {
+    margin-top: 3px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: .56rem !important;
+    font-weight: 650 !important;
+    color: #948B7E !important;
+}
+
+.st-key-menu_dish_grid_native [class*="st-key-menu_card_"] button {
+    min-height: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .66rem !important;
+    font-weight: 800 !important;
+}
+.st-key-menu_dish_grid_native [class*="st-key-menu_card_"] button[kind="secondary"],
+.st-key-menu_dish_grid_native [class*="st-key-menu_card_"] button[data-testid="stBaseButton-secondary"] {
+    border: 1px solid #E4D8C5 !important;
+    background: #FFFDF9 !important;
+    color: #806F57 !important;
+    box-shadow: none !important;
+}
+.st-key-menu_dish_grid_native [class*="st-key-menu_card_"] button[kind="primary"],
+.st-key-menu_dish_grid_native [class*="st-key-menu_card_"] button[data-testid="stBaseButton-primary"] {
+    border: 1px solid #E2A333 !important;
+    background: linear-gradient(135deg,#F8CB70 0%,#E8AA2E 100%) !important;
+    color: #17130D !important;
+    box-shadow: none !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-menu_category_chips button {
+        min-height: 32px !important;
+        height: 32px !important;
+        padding: 0 7px !important;
+        font-size: .61rem !important;
+    }
+
+    .st-key-menu_dish_grid_native [data-testid="stHorizontalBlock"] {
+        gap: 7px !important;
+    }
+
+    .st-key-menu_dish_grid_native [class*="st-key-menu_card_"] {
+        min-height: 76px !important;
+        padding: 7px !important;
+        border-radius: 14px !important;
+    }
+
+    .menu-native-card-visual {
+        grid-template-columns: 42px minmax(0,1fr) !important;
+        gap: 7px !important;
+    }
+
+    .menu-native-icon {
+        width: 42px !important;
+        height: 42px !important;
+        border-radius: 11px !important;
+        font-size: 1.05rem !important;
+    }
+
+    .menu-native-name {
+        font-size: .68rem !important;
+    }
+
+    .menu-native-meta {
+        font-size: .51rem !important;
+    }
+
+    .st-key-menu_dish_grid_native [class*="st-key-menu_card_"] button {
+        min-height: 30px !important;
+        height: 30px !important;
+        font-size: .61rem !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -4233,78 +4407,29 @@ def render_workflow_image(image, caption: str, variant: str):
 
 
 def consume_favourite_query():
-    """Consume Home favourite and Menu link query parameters."""
+    """Open a Home favourite directly in Menu."""
     fav = st.query_params.get("fav")
-    if fav:
-        fav_map = {
-            "machboos": ("🍚 Rice & Grains", "01_machboos"),
-            "shawarma": ("🌯 Street Food & Snacks", "10_shawarma"),
-            "karak": ("🍰 Sweets & Drinks", "25_karak_chai"),
-        }
+    if not fav:
+        return
 
-        if fav in fav_map:
-            category, dish_key = fav_map[fav]
-            st.session_state.main_section = "Menu"
-            st.session_state.stage = "main"
-            st.session_state.cat_select_box = category
-            st.session_state.selected_category = category
-            st.session_state.dish_select_box = dish_key
+    fav_map = {
+        "machboos": ("🍚 Rice & Grains", "01_machboos"),
+        "shawarma": ("🌯 Street Food & Snacks", "10_shawarma"),
+        "karak": ("🍰 Sweets & Drinks", "25_karak_chai"),
+    }
 
-        try:
-            del st.query_params["fav"]
-        except Exception:
-            pass
-
-    menu_cat = st.query_params.get("menu_cat")
-    if menu_cat:
-        category_lookup = {
-            "all": "✨ All Dishes",
-            "rice": "🍚 Rice & Grains",
-            "stews": "🥘 Stews & Slow-Cooked",
-            "seafood": "🐟 Seafood",
-            "street": "🌯 Street Food & Snacks",
-            "breakfast": "🍳 Breakfast & Breads",
-            "mezze": "🥣 Mezze & Salads",
-            "sweets": "🍰 Sweets & Drinks",
-        }
-
-        if menu_cat in category_lookup:
-            category = category_lookup[menu_cat]
-            dishes = DISH_CATEGORIES_DATA.get(category, [])
-            st.session_state.main_section = "Menu"
-            st.session_state.stage = "main"
-            st.session_state.cat_select_box = category
-            st.session_state.selected_category = category
-
-            if dishes:
-                current_dish = st.session_state.get("dish_select_box")
-                if current_dish not in dishes:
-                    st.session_state.dish_select_box = dishes[0]
-
-        try:
-            del st.query_params["menu_cat"]
-        except Exception:
-            pass
-
-    menu_dish = st.query_params.get("menu_dish")
-    if menu_dish and menu_dish in DISH_METADATA:
-        # Find the most specific non-All category for this dish.
-        dish_category = "✨ All Dishes"
-        for category, category_dishes in DISH_CATEGORIES_DATA.items():
-            if category != "✨ All Dishes" and menu_dish in category_dishes:
-                dish_category = category
-                break
-
+    if fav in fav_map:
+        category, dish_key = fav_map[fav]
         st.session_state.main_section = "Menu"
         st.session_state.stage = "main"
-        st.session_state.cat_select_box = dish_category
-        st.session_state.selected_category = dish_category
-        st.session_state.dish_select_box = menu_dish
+        st.session_state.cat_select_box = category
+        st.session_state.selected_category = category
+        st.session_state.dish_select_box = dish_key
 
-        try:
-            del st.query_params["menu_dish"]
-        except Exception:
-            pass
+    try:
+        del st.query_params["fav"]
+    except Exception:
+        pass
 
 
 def render_quick_guide():
@@ -4357,7 +4482,11 @@ def render_scan_input():
 
 
 def render_category_squircle_cards():
-    """Interactive Menu: category chips, responsive dish cards, detail panel."""
+    """Interactive Menu using native Streamlit controls only.
+
+    Categories and dishes update in-place without browser navigation,
+    query parameters, or opening a new page/tab.
+    """
     categories = list(DISH_CATEGORIES_DATA.keys())
 
     if (
@@ -4377,31 +4506,44 @@ def render_category_squircle_cards():
 
     selected_dish = st.session_state.dish_select_box
 
-    category_links = [
-        ("all", "All", "✨ All Dishes"),
-        ("rice", "Rice", "🍚 Rice & Grains"),
-        ("stews", "Stews", "🥘 Stews & Slow-Cooked"),
-        ("seafood", "Seafood", "🐟 Seafood"),
-        ("street", "Street Food", "🌯 Street Food & Snacks"),
-        ("breakfast", "Breakfast", "🍳 Breakfast & Breads"),
-        ("mezze", "Mezze", "🥣 Mezze & Salads"),
-        ("sweets", "Sweets", "🍰 Sweets & Drinks"),
+    # ---------- Category chips ----------
+    category_items = [
+        ("All", "✨ All Dishes"),
+        ("Rice", "🍚 Rice & Grains"),
+        ("Stews", "🥘 Stews & Slow-Cooked"),
+        ("Seafood", "🐟 Seafood"),
+        ("Street Food", "🌯 Street Food & Snacks"),
+        ("Breakfast", "🍳 Breakfast & Breads"),
+        ("Mezze", "🥣 Mezze & Salads"),
+        ("Sweets", "🍰 Sweets & Drinks"),
     ]
 
-    chips = []
-    for slug, label, category in category_links:
-        active = " active" if selected_cat == category else ""
-        chips.append(
-            f'<a class="menu-category-chip{active}" href="?menu_cat={slug}">{label}</a>'
-        )
+    with st.container(key="menu_category_chips"):
+        # Four chips per row keeps the layout responsive and avoids horizontal
+        # browser navigation links.
+        for row_start in range(0, len(category_items), 4):
+            row_items = category_items[row_start:row_start + 4]
+            cols = st.columns(len(row_items), gap="small")
+            for col, (label, category) in zip(cols, row_items):
+                with col:
+                    if st.button(
+                        label,
+                        key=f"menu_cat_btn_{row_start}_{label}",
+                        type="primary" if selected_cat == category else "secondary",
+                        use_container_width=True,
+                    ):
+                        st.session_state.cat_select_box = category
+                        st.session_state.selected_category = category
+                        new_dishes = DISH_CATEGORIES_DATA[category]
+                        st.session_state.dish_select_box = new_dishes[0]
+                        st.rerun()
 
-    st.markdown(
-        '<div class="menu-chip-scroll">' + "".join(chips) + '</div>',
-        unsafe_allow_html=True,
-    )
+    # Refresh state after a category button click/rerun.
+    selected_cat = st.session_state.cat_select_box
+    dishes = DISH_CATEGORIES_DATA[selected_cat]
+    selected_dish = st.session_state.dish_select_box
 
-    # Visual card accents by dish family. Cards stay image-like even when
-    # external food imagery is unavailable for every one of the 25 classes.
+    # ---------- Dish cards ----------
     family_visuals = {
         "01_machboos": ("🍚", "Rice main"),
         "02_kabsa": ("🍗", "Rice main"),
@@ -4430,27 +4572,42 @@ def render_category_squircle_cards():
         "25_karak_chai": ("☕", "Drink"),
     }
 
-    dish_cards = []
-    for dish in dishes:
-        icon, family = family_visuals.get(dish, ("🍽️", "Gulf dish"))
-        selected = " selected" if dish == selected_dish else ""
-        meta = DISH_METADATA.get(dish, {})
-        time = meta.get("time", "30 min")
-        dish_cards.append(
-            f'<a class="menu-dish-card{selected}" href="?menu_dish={dish}">'
-            f'<div class="menu-dish-visual"><span>{icon}</span></div>'
-            f'<div class="menu-dish-copy">'
-            f'<div class="menu-dish-name">{display_name(dish)}</div>'
-            f'<div class="menu-dish-meta">{family}<span>•</span>{time}</div>'
-            f'</div>'
-            '</a>'
-        )
+    with st.container(key="menu_dish_grid_native"):
+        for row_start in range(0, len(dishes), 2):
+            row_dishes = dishes[row_start:row_start + 2]
+            cols = st.columns(len(row_dishes), gap="small")
 
-    st.markdown(
-        '<div class="menu-dish-grid">' + "".join(dish_cards) + '</div>',
-        unsafe_allow_html=True,
-    )
+            for col, dish in zip(cols, row_dishes):
+                icon, family = family_visuals.get(dish, ("🍽️", "Gulf dish"))
+                meta = DISH_METADATA.get(dish, {})
+                time = meta.get("time", "30 min")
 
+                with col:
+                    with st.container(key=f"menu_card_{dish}"):
+                        st.markdown(
+                            (
+                                '<div class="menu-native-card-visual">'
+                                f'<div class="menu-native-icon">{icon}</div>'
+                                '<div class="menu-native-copy">'
+                                f'<div class="menu-native-name">{display_name(dish)}</div>'
+                                f'<div class="menu-native-meta">{family} · {time}</div>'
+                                '</div>'
+                                '</div>'
+                            ),
+                            unsafe_allow_html=True,
+                        )
+
+                        if st.button(
+                            "Select",
+                            key=f"menu_select_{dish}",
+                            type="primary" if dish == selected_dish else "secondary",
+                            use_container_width=True,
+                        ):
+                            st.session_state.dish_select_box = dish
+                            st.rerun()
+
+    # ---------- Selected dish detail ----------
+    selected_dish = st.session_state.dish_select_box
     meta = DISH_METADATA.get(
         selected_dish,
         {
