@@ -2952,6 +2952,57 @@ div[data-baseweb="popover"] [role="listbox"] * {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16V4m0 0L8 8m4-4 4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
 }
 
+
+/* ==========================================================================
+   QUICK GUIDE CARD
+   Wrap the three-step guide in a soft card so it feels more intentional.
+   ========================================================================== */
+
+.st-key-home_quick_guide_card {
+    margin: 0 0 12px 0 !important;
+    padding: 14px 14px 10px 14px !important;
+    border: 1px solid #EEDFC4 !important;
+    border-radius: 20px !important;
+    background:
+        radial-gradient(circle at 96% 8%, rgba(245,196,92,.12), transparent 28%),
+        #FFFDF9 !important;
+    box-shadow: 0 8px 20px rgba(70,49,15,.05) !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_quick_guide_card),
+[data-testid="stElementContainer"]:has(.st-key-home_quick_guide_card) {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.st-key-home_quick_guide_card .home-section-title {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+}
+
+.st-key-home_quick_guide_card .home-quick-guide {
+    margin: 0 !important;
+    padding: 2px 2px 0 2px !important;
+}
+
+.st-key-home_quick_guide_card .home-guide-line {
+    left: 16%;
+    right: 16%;
+}
+
+@media (max-width: 480px) {
+    .st-key-home_quick_guide_card {
+        padding: 12px 12px 8px 12px !important;
+        border-radius: 18px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .st-key-home_quick_guide_card .home-section-title {
+        margin-bottom: 8px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -3643,11 +3694,12 @@ elif st.session_state.stage in ["main", "upload"]:
     active_section = render_main_navigation()
 
     if active_section == "Home":
-        st.markdown(
-            '<div class="home-section-title">Quick Guide</div>',
-            unsafe_allow_html=True,
-        )
-        render_quick_guide()
+        with st.container(key="home_quick_guide_card"):
+            st.markdown(
+                '<div class="home-section-title">Quick Guide</div>',
+                unsafe_allow_html=True,
+            )
+            render_quick_guide()
 
         with st.container(key="home_upload_feature"):
             upload_copy_html = (
