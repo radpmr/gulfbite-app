@@ -2299,6 +2299,322 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   HOME SCREEN REDESIGN
+   Compact, responsive and less dashboard-like.
+   ========================================================================== */
+
+.home-section-title {
+    margin: 5px 0 8px 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.02rem;
+    font-weight: 900;
+    color: #1E1B16;
+}
+
+/* ----- Quick Guide connected flow ----- */
+.home-quick-guide {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 2px 0 14px 0;
+    padding: 3px 6px 0 6px;
+}
+
+.home-guide-line {
+    position: absolute;
+    z-index: 0;
+    top: 21px;
+    left: 17%;
+    right: 17%;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        rgba(229,169,59,.22) 0%,
+        rgba(229,169,59,.58) 50%,
+        rgba(229,169,59,.22) 100%
+    );
+}
+
+.home-guide-step {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    text-align: center;
+}
+
+.home-guide-icon {
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 6px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid #F0D9A8;
+    background: #FFF8E9;
+    box-shadow: 0 4px 12px rgba(183,124,19,.07);
+}
+
+.home-guide-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: .78rem;
+    line-height: 1.15;
+    font-weight: 900;
+    color: #1E1B16;
+}
+
+.home-guide-caption {
+    margin-top: 2px;
+    font-size: .65rem;
+    line-height: 1.2;
+    font-weight: 600;
+    color: #968D80;
+}
+
+/* ----- Upload feature card ----- */
+.st-key-home_upload_feature {
+    margin: 0 0 10px 0 !important;
+    padding: 16px !important;
+    border: 1px solid #F0DDB7 !important;
+    border-radius: 21px !important;
+    background:
+        radial-gradient(circle at 94% 10%, rgba(245,196,92,.17), transparent 31%),
+        linear-gradient(145deg, #FFFDF8 0%, #FFF8E9 100%) !important;
+    box-shadow: 0 10px 24px rgba(76,52,11,.07) !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_upload_feature),
+[data-testid="stElementContainer"]:has(.st-key-home_upload_feature) {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.home-upload-copy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 13px;
+    margin-bottom: 12px;
+}
+
+.home-upload-text {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.home-upload-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.13rem;
+    line-height: 1.15;
+    font-weight: 900;
+    color: #1E1B16;
+}
+
+.home-upload-subtitle {
+    margin-top: 4px;
+    max-width: 320px;
+    font-size: .77rem;
+    line-height: 1.42;
+    color: #82796D;
+}
+
+.home-upload-icon {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    border: 1px solid #EED29A;
+    background: rgba(255,255,255,.72);
+}
+
+/* Home CTA sits naturally in the feature card. */
+.st-key-home_upload_feature .st-key-home_scan_control {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.st-key-home_upload_feature .st-key-home_scan_control button {
+    min-height: 44px !important;
+    height: 44px !important;
+    border-radius: 13px !important;
+    font-size: .86rem !important;
+    box-shadow: 0 6px 14px rgba(212,145,22,.18) !important;
+}
+
+/* ----- Compact metrics ----- */
+.home-metric-row {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.home-metric-card {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 11px;
+    border: 1px solid #EAE1D4;
+    border-radius: 15px;
+    background: #FFFFFF;
+}
+
+.home-metric-icon {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #FFF7E7;
+}
+
+.home-metric-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: 'Outfit', sans-serif;
+    font-size: .80rem;
+    font-weight: 900;
+    line-height: 1.15;
+    color: #1E1B16;
+}
+
+.home-metric-label {
+    margin-top: 2px;
+    font-size: .61rem;
+    line-height: 1.2;
+    font-weight: 650;
+    color: #968D80;
+}
+
+.home-bottom-space {
+    height: 14px;
+}
+
+/* ----- Responsive refinements ----- */
+@media (max-width: 480px) {
+    .home-section-title {
+        font-size: .98rem;
+        margin-bottom: 7px;
+    }
+
+    .home-quick-guide {
+        gap: 4px;
+        padding-left: 2px;
+        padding-right: 2px;
+        margin-bottom: 12px;
+    }
+
+    .home-guide-line {
+        left: 16%;
+        right: 16%;
+        top: 19px;
+    }
+
+    .home-guide-icon {
+        width: 38px;
+        height: 38px;
+        margin-bottom: 5px;
+    }
+
+    .home-guide-title {
+        font-size: .72rem;
+    }
+
+    .home-guide-caption {
+        font-size: .60rem;
+    }
+
+    .st-key-home_upload_feature {
+        padding: 14px !important;
+        border-radius: 19px !important;
+    }
+
+    .home-upload-title {
+        font-size: 1.04rem;
+    }
+
+    .home-upload-subtitle {
+        font-size: .73rem;
+    }
+
+    .home-upload-icon {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+        border-radius: 14px;
+    }
+
+    .home-metric-row {
+        gap: 7px;
+    }
+
+    .home-metric-card {
+        gap: 7px;
+        padding: 9px;
+        border-radius: 14px;
+    }
+
+    .home-metric-icon {
+        width: 28px;
+        height: 28px;
+        flex-basis: 28px;
+        border-radius: 9px;
+    }
+
+    .home-metric-value {
+        font-size: .72rem;
+    }
+
+    .home-metric-label {
+        font-size: .57rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .home-guide-title {
+        font-size: .67rem;
+    }
+
+    .home-guide-caption {
+        font-size: .56rem;
+    }
+
+    .home-upload-copy {
+        gap: 9px;
+    }
+
+    .home-upload-icon {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+    }
+
+    .home-metric-card {
+        align-items: flex-start;
+    }
+
+    .home-metric-icon {
+        display: none;
+    }
+
+    .home-metric-value {
+        white-space: normal;
+        font-size: .69rem;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -2630,27 +2946,35 @@ def render_workflow_image(image, caption: str, variant: str):
 
 
 def render_quick_guide():
-    upload_icon = line_icon("upload", 25)
-    sparkle_icon = line_icon("sparkles", 25)
-    nutrition_icon = line_icon("nutrition", 25)
+    """Compact responsive three-step guide for the Home screen."""
+    upload_icon = line_icon("upload", 21)
+    sparkle_icon = line_icon("sparkles", 21)
+    nutrition_icon = line_icon("nutrition", 21)
+
     st.markdown(
-        f"""<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:4px 0 12px 0;">
-<div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px 6px;text-align:center;">
-    <div style="width:30px;height:30px;margin:0 auto 4px auto;display:flex;align-items:center;justify-content:center;">{upload_icon}</div>
-    <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:.76rem;color:#1E1B16;">Upload</div>
-    <div style="font-size:.66rem;color:#90887C;line-height:1.25;margin-top:2px;">Meal photo</div>
-</div>
-<div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px 6px;text-align:center;">
-    <div style="width:30px;height:30px;margin:0 auto 4px auto;display:flex;align-items:center;justify-content:center;">{sparkle_icon}</div>
-    <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:.76rem;color:#1E1B16;">Recognize</div>
-    <div style="font-size:.66rem;color:#90887C;line-height:1.25;margin-top:2px;">AI dish check</div>
-</div>
-<div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px 6px;text-align:center;">
-    <div style="width:30px;height:30px;margin:0 auto 4px auto;display:flex;align-items:center;justify-content:center;">{nutrition_icon}</div>
-    <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:.76rem;color:#1E1B16;">Track</div>
-    <div style="font-size:.66rem;color:#90887C;line-height:1.25;margin-top:2px;">Calories + macros</div>
-</div>
-</div>""",
+        f"""
+        <div class="home-quick-guide">
+            <div class="home-guide-line"></div>
+
+            <div class="home-guide-step">
+                <div class="home-guide-icon">{upload_icon}</div>
+                <div class="home-guide-title">Upload</div>
+                <div class="home-guide-caption">Photo</div>
+            </div>
+
+            <div class="home-guide-step">
+                <div class="home-guide-icon">{sparkle_icon}</div>
+                <div class="home-guide-title">Recognize</div>
+                <div class="home-guide-caption">AI Match</div>
+            </div>
+
+            <div class="home-guide-step">
+                <div class="home-guide-icon">{nutrition_icon}</div>
+                <div class="home-guide-title">Track</div>
+                <div class="home-guide-caption">Nutrition</div>
+            </div>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
@@ -2983,42 +3307,59 @@ elif st.session_state.stage in ["main", "upload"]:
 
     if active_section == "Home":
         st.markdown(
-            '<div style="font-family:\'Outfit\',sans-serif;font-size:1.05rem;font-weight:900;color:#1E1B16;margin:5px 0 7px 0;">Quick Guide</div>',
+            '<div class="home-section-title">Quick Guide</div>',
             unsafe_allow_html=True,
         )
         render_quick_guide()
 
-        with st.container(border=True):
+        with st.container(key="home_upload_feature"):
             st.markdown(
-                f"""<div style="padding:2px 2px 5px 2px;">
-<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-    <div>
-        <div style="font-family:'Outfit',sans-serif;font-size:1.18rem;font-weight:900;color:#1E1B16;">Scan your meal</div>
-        <div style="font-size:.79rem;color:#8B8377;line-height:1.45;margin-top:4px;">Best results come from one clear plate photographed.</div>
-    </div>
-    <div style="width:54px;height:54px;border-radius:18px;background:#FFF7E7;border:1px solid #F0D8A5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{line_icon("upload", 28)}</div>
-</div>
-</div>""",
+                f"""
+                <div class="home-upload-copy">
+                    <div class="home-upload-text">
+                        <div class="home-upload-title">Scan your meal</div>
+                        <div class="home-upload-subtitle">
+                            Upload a clear Gulf dish photo for AI recognition and nutrition estimates.
+                        </div>
+                    </div>
+                    <div class="home-upload-icon">{line_icon("upload", 23)}</div>
+                </div>
+                """,
                 unsafe_allow_html=True,
             )
+
             with st.container(key="home_scan_control"):
-                if st.button("Upload a dish", type="primary", use_container_width=True, key="home_scan_cta"):
+                if st.button(
+                    "Upload a dish",
+                    type="primary",
+                    use_container_width=True,
+                    key="home_scan_cta",
+                ):
                     st.session_state.pending_main_section = "Scan"
                     request_scroll_top()
                     st.rerun()
 
         st.markdown(
-            """<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px;">
-<div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px;">
-    <div style="font-size:.68rem;color:#948B7F;font-weight:800;text-transform:uppercase;letter-spacing:.04em;">Recognition</div>
-    <div style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:900;margin-top:3px;">25 Gulf dishes</div>
-</div>
-<div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px;">
-    <div style="font-size:.68rem;color:#948B7F;font-weight:800;text-transform:uppercase;letter-spacing:.04em;">Output</div>
-    <div style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:900;margin-top:3px;">Calories + macros</div>
-</div>
-</div>
-<div style="height:16px;"></div>""",
+            f"""
+            <div class="home-metric-row">
+                <div class="home-metric-card">
+                    <div class="home-metric-icon">{line_icon("sparkles", 17)}</div>
+                    <div>
+                        <div class="home-metric-value">25 dishes</div>
+                        <div class="home-metric-label">Supported</div>
+                    </div>
+                </div>
+
+                <div class="home-metric-card">
+                    <div class="home-metric-icon">{line_icon("nutrition", 17)}</div>
+                    <div>
+                        <div class="home-metric-value">Calories + macros</div>
+                        <div class="home-metric-label">Nutrition output</div>
+                    </div>
+                </div>
+            </div>
+            <div class="home-bottom-space"></div>
+            """,
             unsafe_allow_html=True,
         )
 
