@@ -1,8 +1,4 @@
-# BUILD: GULFBITE_WORKFLOW_POLISHED_SCROLL_RESET_2026_08_19
-# BUILD: GULFBITE_SCROLL_RESTORED_2026_08_19
-# BUILD: GULFBITE_MOBILE_UI_REBUILD_CONFIRM_REACHABLE_2026_08_19
-# BUILD: GULFBITE_COMPREHENSIVE_MOBILE_UI_CLEANUP_2026_08_19
-# BUILD: GULFBITE_PERSISTENT_WORKFLOW_BOTTOM_NAV_SCROLL_2026_08_19
+# BUILD: GULFBITE_CLEAN_REBUILD_NATIVE_SCROLL_2026_08_19
 # BUILD: GULFBITE_ICON_ONLY_CLOCHE_NAV_2026_08_19
 # BUILD: GULFBITE_SLIM_DARKER_BOTTOM_NAV_2026_08_19
 # BUILD: GULFBITE_BOTTOM_NAV_NO_GHOST_SLOT_2026_08_19
@@ -413,39 +409,11 @@ html, body, [class*="css"] {
     color: var(--ink);
 }
 
-.stApp,
-[data-testid="stAppViewContainer"] {
+.stApp {
     background:
         radial-gradient(circle at 50% -8%, rgba(243,195,106,.23) 0%, rgba(243,195,106,0) 42%),
-        linear-gradient(180deg, #FBF8F0 0%, var(--app-bg) 100%) !important;
+        linear-gradient(180deg, #FBF8F0 0%, var(--app-bg) 100%);
     color: var(--ink);
-}
-html, body {
-    background: #F7F4ED !important;
-    overflow: hidden !important;
-    width: 100% !important;
-    height: 100% !important;
-}
-
-/* Streamlit mobile scrolling:
-   keep the outer app viewport fixed and let the main content be the one
-   vertical scroll container. */
-[data-testid="stAppViewContainer"] {
-    height: 100dvh !important;
-    overflow: hidden !important;
-}
-
-[data-testid="stMain"],
-section.main {
-    height: 100dvh !important;
-    min-height: 0 !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior-y: contain !important;
-    touch-action: pan-y !important;
-    scroll-behavior: smooth !important;
-    scroll-padding-bottom: 150px !important;
 }
 
 #MainMenu, footer, header[data-testid="stHeader"] {
@@ -455,15 +423,7 @@ section.main {
 
 .block-container {
     max-width: 460px !important;
-    min-height: calc(100dvh - 12px) !important;
-    height: auto !important;
-    margin: 6px auto !important;
     padding: 1rem 1rem 3rem 1rem !important;
-    box-sizing: border-box !important;
-    background: #FFFFFF !important;
-    border: 1px solid rgba(229,169,59,.15) !important;
-    border-radius: 28px !important;
-    box-shadow: 0 18px 42px -26px rgba(68,45,9,.30) !important;
 }
 
 /* Reduce Streamlit's default vertical gaps so the app feels like a mobile product. */
@@ -533,48 +493,6 @@ div.stButton > button[kind="primary"]:hover {
 [data-testid="stSelectbox"] svg {
     color: #B88423 !important;
     fill: #B88423 !important;
-}
-
-/* Light, clean BaseWeb select popovers. */
-div[data-baseweb="popover"] {
-    z-index: 2147482500 !important;
-    background: transparent !important;
-}
-div[data-baseweb="popover"] > div {
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none !important;
-}
-div[data-baseweb="popover"] [data-baseweb="menu"],
-div[data-baseweb="popover"] ul[role="listbox"] {
-    background: #FFFDF9 !important;
-    color: #1E1B16 !important;
-    border: 1px solid #E5D8BF !important;
-    border-radius: 14px !important;
-    box-shadow: 0 14px 30px rgba(57,39,11,.18) !important;
-    overflow: hidden !important;
-    padding: 4px !important;
-    margin: 0 !important;
-}
-div[data-baseweb="popover"] [role="option"] {
-    min-height: 42px !important;
-    margin: 0 !important;
-    padding: 9px 12px !important;
-    border: 0 !important;
-    border-radius: 9px !important;
-    background: #FFFDF9 !important;
-    color: #1E1B16 !important;
-    box-shadow: none !important;
-}
-div[data-baseweb="popover"] [role="option"] *,
-div[data-baseweb="popover"] [role="listbox"] * {
-    color: #1E1B16 !important;
-    opacity: 1 !important;
-}
-div[data-baseweb="popover"] [role="option"]:hover,
-div[data-baseweb="popover"] [role="option"][aria-selected="true"] {
-    background: #FFF1CF !important;
-    color: #1E1B16 !important;
 }
 [data-testid="stCaptionContainer"],
 [data-testid="stCaptionContainer"] p {
@@ -662,108 +580,6 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     color: #171007 !important;
 }
 
-
-
-/* Workflow sections should read as one scrolling screen, not nested cards. */
-[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-verify_stage_content),
-[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-portion_stage_content),
-[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-result_stage_content),
-[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-workflow_confirm_action),
-[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-workflow_calculate_action),
-[data-testid="stElementContainer"]:has(.st-key-verify_stage_content),
-[data-testid="stElementContainer"]:has(.st-key-portion_stage_content),
-[data-testid="stElementContainer"]:has(.st-key-result_stage_content),
-[data-testid="stElementContainer"]:has(.st-key-workflow_confirm_action),
-[data-testid="stElementContainer"]:has(.st-key-workflow_calculate_action) {
-    background: transparent !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-}
-.st-key-verify_stage_content,
-.st-key-portion_stage_content,
-.st-key-result_stage_content {
-    background: transparent !important;
-    border: 0 !important;
-    padding: 0 !important;
-    box-shadow: none !important;
-}
-
-/* Scan workflow: content scrolls; bottom nav stays fixed. */
-.workflow-stage-marker {
-    height: 0 !important;
-    width: 0 !important;
-    overflow: hidden !important;
-}
-.stApp:has(.workflow-stage-marker) .block-container {
-    padding-bottom: calc(8.2rem + env(safe-area-inset-bottom)) !important;
-}
-.workflow-nav-scroll-space {
-    height: 48px !important;
-    width: 100% !important;
-    pointer-events: none !important;
-}
-
-/* Compact workflow images rendered as plain HTML.
-   This removes Streamlit's fullscreen control and prevents crop surprises. */
-.workflow-image-card {
-    width: 100% !important;
-    background: #FAF7F1 !important;
-    border: 1px solid #EEE4D5 !important;
-    border-radius: 18px !important;
-    padding: 8px !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-}
-.workflow-image-card img {
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    max-height: 280px !important;
-    object-fit: contain !important;
-    object-position: center !important;
-    border-radius: 14px !important;
-    margin: 0 auto !important;
-}
-.workflow-image-card.portion img {
-    max-height: 220px !important;
-}
-.workflow-image-card.result img {
-    max-height: 190px !important;
-}
-.workflow-image-caption {
-    margin: 7px 0 1px 0 !important;
-    text-align: center !important;
-    font-size: .70rem !important;
-    line-height: 1.3 !important;
-    color: #6F675D !important;
-    font-weight: 700 !important;
-}
-
-/* Primary workflow CTA stays reachable above the fixed nav. */
-.st-key-workflow_confirm_action,
-.st-key-workflow_calculate_action {
-    position: sticky !important;
-    bottom: calc(64px + env(safe-area-inset-bottom)) !important;
-    z-index: 2147482200 !important;
-    margin-top: 10px !important;
-    padding: 7px 0 4px 0 !important;
-    background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,.98) 36%,
-        #FFFFFF 100%
-    ) !important;
-}
-.st-key-workflow_confirm_action div.stButton > button,
-.st-key-workflow_calculate_action div.stButton > button {
-    min-height: 48px !important;
-    border-radius: 14px !important;
-    box-shadow: 0 8px 18px rgba(229,169,59,.22) !important;
-}
-
 /* -------------------------------------------------------------------------
    FIXED BOTTOM MOBILE NAVIGATION
    Uses real Streamlit buttons so tab changes are handled inside the existing
@@ -774,14 +590,14 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     left: 50% !important;
     bottom: max(8px, env(safe-area-inset-bottom)) !important;
     transform: translateX(-50%) !important;
-    width: min(420px, calc(100vw - 18px)) !important;
+    width: min(430px, calc(100vw - 16px)) !important;
     z-index: 2147483000 !important;
     padding: 4px !important;
     margin: 0 !important;
     box-sizing: border-box !important;
     border: 1px solid rgba(226,216,198,.96) !important;
-    border-radius: 19px !important;
-    background: rgba(255,255,255,.985) !important;
+    border-radius: 22px !important;
+    background: rgba(255,253,249,.97) !important;
     box-shadow: 0 16px 42px rgba(58,40,12,.20), 0 2px 8px rgba(0,0,0,.06) !important;
     -webkit-backdrop-filter: blur(18px) saturate(1.15) !important;
     backdrop-filter: blur(18px) saturate(1.15) !important;
@@ -820,17 +636,6 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 
 .st-key-gulf_bottom_nav div.stButton { width: 100% !important; }
 
-/* The bottom navigation is one component, not three nested cards. */
-.st-key-gulf_bottom_nav [data-testid="column"],
-.st-key-gulf_bottom_nav [data-testid="stElementContainer"],
-.st-key-gulf_bottom_nav [data-testid="stVerticalBlock"],
-.st-key-gulf_bottom_nav [data-testid="stVerticalBlockBorderWrapper"] {
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
-}
-
 /* Icon-only bottom tabs. The real button labels stay in the DOM for accessibility. */
 .st-key-gulf_bottom_nav div.stButton > button p,
 .st-key-gulf_bottom_nav div.stButton > button span:not([data-testid]) {
@@ -843,13 +648,13 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     padding: 0 !important;
 }
 .st-key-gulf_bottom_nav div.stButton > button {
-    min-height: 44px !important;
+    min-height: 46px !important;
     width: 100% !important;
     padding: 0 !important;
-    border-radius: 13px !important;
-    border: 0 !important;
-    background: transparent !important;
-    color: #5F584F !important;
+    border-radius: 15px !important;
+    border: 1px solid #E7DED0 !important;
+    background: #FFFDF9 !important;
+    color: #655E55 !important;
     box-shadow: none !important;
     display: flex !important;
     flex-direction: column !important;
@@ -866,18 +671,17 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 }
 .st-key-gulf_bottom_nav div.stButton > button:hover,
 .st-key-gulf_bottom_nav div.stButton > button:focus {
-    color: #3F3A34 !important;
-    border: 0 !important;
-    background: #FAF7F1 !important;
-    box-shadow: none !important;
+    color: #655E55 !important;
+    border-color: #E7DED0 !important;
+    background: #FFFDF9 !important;
     transform: none !important;
 }
 .st-key-gulf_bottom_nav div.stButton > button[kind="primary"],
 .st-key-gulf_bottom_nav div.stButton > button[data-testid="stBaseButton-primary"] {
     background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
-    border: 0 !important;
+    border-color: #E5A93B !important;
     color: #171007 !important;
-    box-shadow: 0 5px 13px rgba(229,169,59,.22) !important;
+    box-shadow: 0 6px 15px rgba(229,169,59,.24) !important;
 }
 .st-key-nav_home div.stButton > button::before,
 .st-key-nav_menu div.stButton > button::before,
@@ -909,10 +713,10 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 }
 @media (max-width: 480px) {
     .st-key-gulf_bottom_nav {
-        width: calc(100vw - 16px) !important;
+        width: calc(100vw - 12px) !important;
         bottom: max(6px, env(safe-area-inset-bottom)) !important;
         padding: 4px !important;
-        border-radius: 17px !important;
+        border-radius: 18px !important;
     }
     .st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] { gap: 5px !important; }
     .st-key-gulf_bottom_nav div.stButton > button {
@@ -973,9 +777,6 @@ div[data-testid="stTabs"] [data-baseweb="tab"] {
 div[data-testid="stTabs"] [aria-selected="true"] {
     color: var(--ink) !important;
 }
-div[data-testid="stTabs"] [aria-selected="true"]::after {
-    background-color: var(--gold) !important;
-}
 
 /* Verification / model feedback */
 .verify-callout {
@@ -986,8 +787,8 @@ div[data-testid="stTabs"] [aria-selected="true"]::after {
     border: 1px solid #F2DEAF;
     border-left: 4px solid var(--gold);
     border-radius: 14px;
-    padding: 9px 10px;
-    margin: 8px 0 10px 0;
+    padding: 11px 12px;
+    margin: 10px 0 13px 0;
 }
 
 .ingredient-badge {
@@ -997,8 +798,8 @@ div[data-testid="stTabs"] [aria-selected="true"]::after {
     background: linear-gradient(135deg, #FFF8E9 0%, #FBF1D9 100%);
     border: 1px solid #EEDBB0;
     border-radius: 14px;
-    padding: 9px 10px;
-    margin: 7px 0 10px 0;
+    padding: 10px 12px;
+    margin: 8px 0 12px 0;
     color: var(--ink);
     font-size: .84rem;
     font-weight: 600;
@@ -1082,45 +883,221 @@ div[data-testid="stTabs"] [aria-selected="true"]::after {
 
 /* Small screens */
 @media (max-width: 480px) {
-    .block-container {
-        min-height: calc(100dvh - 8px) !important;
-        height: auto !important;
-        margin: 4px auto !important;
-        padding: .72rem .72rem 2.55rem .72rem !important;
-        border-radius: 24px !important;
-    }
+    .block-container { padding: .72rem .72rem 2.55rem .72rem !important; }
     [data-testid="stVerticalBlockBorderWrapper"] { border-radius: 20px !important; padding: .9rem !important; }
     .gulf-grid-collage { height: 270px; border-radius: 20px; }
 }
 
-@media (max-width: 390px) {
-    .gulf-stepper-labels span {
-        font-size: .62rem !important;
-    }
+/* ==========================================================================
+   FINAL MOBILE UI RESET
+   Keep Streamlit's native scrolling. Only style the visible app shell,
+   dropdowns, workflow pages and fixed bottom navigation.
+   ========================================================================== */
+
+html, body {
+    background: #F7F4ED !important;
+    overflow-x: hidden !important;
 }
 
+/* White mobile app surface with natural height. */
+.block-container {
+    max-width: 460px !important;
+    min-height: calc(100dvh - 12px) !important;
+    height: auto !important;
+    margin: 6px auto !important;
+    padding: 1rem 1rem 2.4rem 1rem !important;
+    box-sizing: border-box !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(229,169,59,.14) !important;
+    border-radius: 28px !important;
+    box-shadow: 0 18px 42px -28px rgba(68,45,9,.28) !important;
+}
+
+/* The fixed bottom navigation is ONE bar. */
+.st-key-gulf_bottom_nav {
+    width: min(420px, calc(100vw - 18px)) !important;
+    bottom: max(7px, env(safe-area-inset-bottom)) !important;
+    padding: 5px !important;
+    border: 1px solid #E6DDCF !important;
+    border-radius: 19px !important;
+    background: rgba(255,255,255,.985) !important;
+    box-shadow: 0 12px 30px rgba(58,40,12,.17) !important;
+    backdrop-filter: blur(16px) !important;
+}
+.st-key-gulf_bottom_nav [data-testid="column"],
+.st-key-gulf_bottom_nav [data-testid="stElementContainer"],
+.st-key-gulf_bottom_nav [data-testid="stVerticalBlock"],
+.st-key-gulf_bottom_nav [data-testid="stVerticalBlockBorderWrapper"] {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+.st-key-gulf_bottom_nav div.stButton > button {
+    min-height: 45px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 13px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #5B554D !important;
+    font-size: 0 !important;
+    gap: 0 !important;
+}
+.st-key-gulf_bottom_nav div.stButton > button:hover,
+.st-key-gulf_bottom_nav div.stButton > button:focus {
+    border: 0 !important;
+    background: #FAF7F1 !important;
+    color: #3E3933 !important;
+    box-shadow: none !important;
+}
+.st-key-gulf_bottom_nav div.stButton > button[kind="primary"],
+.st-key-gulf_bottom_nav div.stButton > button[data-testid="stBaseButton-primary"] {
+    border: 0 !important;
+    background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
+    color: #171007 !important;
+    box-shadow: 0 5px 13px rgba(229,169,59,.22) !important;
+}
+
+/* Hide Streamlit's in-flow placeholder for the fixed nav. */
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-gulf_bottom_nav),
+[data-testid="stElementContainer"]:has(.st-key-gulf_bottom_nav) {
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+
+/* Workflow pages are one flat scrolling screen, not a card inside a card. */
+.workflow-stage-marker {
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+}
+.stApp:has(.workflow-stage-marker) .block-container {
+    padding-bottom: calc(7.2rem + env(safe-area-inset-bottom)) !important;
+}
+.st-key-verify_stage,
+.st-key-portion_stage,
+.st-key-result_stage,
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-verify_stage),
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-portion_stage),
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-result_stage) {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+.workflow-bottom-space {
+    height: 76px !important;
+    width: 100% !important;
+    pointer-events: none !important;
+}
+
+/* Compact workflow image. No Streamlit fullscreen control. */
+.workflow-image-card {
+    width: 100% !important;
+    padding: 7px !important;
+    box-sizing: border-box !important;
+    border: 1px solid #EDE3D4 !important;
+    border-radius: 18px !important;
+    background: #FAF7F1 !important;
+}
+.workflow-image-card img {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    margin: 0 auto !important;
+    border-radius: 14px !important;
+}
+.workflow-image-card.verify img { max-height: 255px !important; }
+.workflow-image-card.portion img { max-height: 195px !important; }
+.workflow-image-card.result img { max-height: 145px !important; }
+.workflow-image-caption {
+    margin: 6px 0 1px !important;
+    text-align: center !important;
+    color: #786F64 !important;
+    font-size: .68rem !important;
+    font-weight: 700 !important;
+}
+
+/* Light BaseWeb dropdown popovers: remove the black parent/backplate. */
+div[data-baseweb="popover"],
+div[data-baseweb="popover"] > div {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+div[data-baseweb="popover"] [data-baseweb="menu"],
+div[data-baseweb="popover"] ul[role="listbox"] {
+    padding: 4px !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    background: #FFFDF9 !important;
+    border: 1px solid #E3D6C0 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 13px 28px rgba(57,39,11,.17) !important;
+}
+div[data-baseweb="popover"] [role="option"] {
+    min-height: 40px !important;
+    padding: 8px 11px !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 9px !important;
+    background: #FFFDF9 !important;
+    color: #1E1B16 !important;
+    box-shadow: none !important;
+}
+div[data-baseweb="popover"] [role="option"] *,
+div[data-baseweb="popover"] [role="listbox"] * {
+    color: #1E1B16 !important;
+    opacity: 1 !important;
+}
+div[data-baseweb="popover"] [role="option"]:hover,
+div[data-baseweb="popover"] [role="option"][aria-selected="true"] {
+    background: #FFF1CF !important;
+}
+
+/* Keep workflow buttons visible and normal in the document flow. */
+.st-key-workflow_confirm div.stButton > button,
+.st-key-workflow_calculate div.stButton > button {
+    min-height: 50px !important;
+    margin-top: 2px !important;
+}
+
+/* Result tabs: cleaner selected state. */
+div[data-testid="stTabs"] [aria-selected="true"] {
+    color: #1E1B16 !important;
+    font-weight: 800 !important;
+}
+div[data-testid="stTabs"] [aria-selected="true"]::after {
+    background: #E5A93B !important;
+}
 
 @media (max-width: 480px) {
-    div[data-baseweb="popover"] [data-baseweb="menu"],
-    div[data-baseweb="popover"] ul[role="listbox"] {
-        max-width: calc(100vw - 32px) !important;
-    }
-    div[data-baseweb="popover"] [role="option"] {
-        min-height: 40px !important;
-        padding: 8px 10px !important;
-        font-size: .92rem !important;
+    .block-container {
+        min-height: calc(100dvh - 8px) !important;
+        margin: 4px auto !important;
+        padding: .78rem .78rem 2.2rem .78rem !important;
+        border-radius: 24px !important;
     }
     .stApp:has(.workflow-stage-marker) .block-container {
-        padding-bottom: calc(9.4rem + env(safe-area-inset-bottom)) !important;
+        padding-bottom: calc(7.4rem + env(safe-area-inset-bottom)) !important;
     }
-}
-
-
-@media (max-width: 390px) {
-    .st-key-portion_stage_content div[data-testid="stRadio"] label[data-baseweb="radio"] span,
-    .st-key-portion_stage_content div[data-testid="stRadio"] label[data-baseweb="radio"] p,
-    .st-key-portion_stage_content [data-testid="stSegmentedControl"] button {
-        font-size: .74rem !important;
+    .st-key-gulf_bottom_nav {
+        width: calc(100vw - 16px) !important;
+        border-radius: 17px !important;
+    }
+    .gulf-stepper-labels span {
+        font-size: .64rem !important;
     }
 }
 
@@ -1240,12 +1217,7 @@ def render_header(compact: bool = True):
 
 
 def render_main_navigation(active_override=None):
-    """Render the fixed bottom Home / Menu / Scan bar.
-
-    `active_override="Scan"` is used during Verify / Portion / Result so the
-    bottom bar stays visible and Scan remains highlighted while the workflow
-    content scrolls behind it.
-    """
+    """Fixed icon-only Home / Menu / Scan navigation."""
     nav_options = ["Home", "Menu", "Scan"]
 
     pending = st.session_state.pop("pending_main_section", None)
@@ -1274,17 +1246,14 @@ def render_main_navigation(active_override=None):
                     use_container_width=True,
                 )
                 if clicked:
-                    if label == "Scan" and active_override == "Scan":
-                        # The active Scan icon doubles as "scan another plate"
-                        # during Verify / Portion / Macros.
+                    if active_override == "Scan" and label == "Scan":
+                        # During the workflow, the active Scan icon starts a fresh scan.
                         reset(open_scan=True)
-                        request_scroll_top()
-                        st.rerun()
                     else:
                         st.session_state.main_section = label
                         st.session_state.stage = "main"
-                        request_scroll_top()
-                        st.rerun()
+                    request_scroll_top()
+                    st.rerun()
 
     return visible_active
 
@@ -1331,39 +1300,35 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
     st.markdown(
         '<div style="margin:.15rem 0 .9rem 0;">'
         '<div style="display:flex;gap:6px;margin-bottom:7px;">' + ''.join(segments) + '</div>'
-        '<div class="gulf-stepper-labels" style="display:flex;justify-content:space-between;padding:0 1px;">' + ''.join(labels) + '</div>'
+        '<div style="display:flex;justify-content:space-between;padding:0 1px;">' + ''.join(labels) + '</div>'
         '</div>',
         unsafe_allow_html=True,
     )
 
 
-
 def request_scroll_top():
-    """Mark the next rendered screen to reset the mobile scroller to the top."""
-    st.session_state._scroll_to_top = True
+    st.session_state["_scroll_top_next"] = True
 
 
 def apply_pending_scroll_top():
-    """Reset Streamlit's real scroll container after a stage transition."""
-    if not st.session_state.pop("_scroll_to_top", False):
+    if not st.session_state.pop("_scroll_top_next", False):
         return
     components.html(
         """
         <script>
         (function () {
             const p = window.parent;
-            const doc = p.document;
-            function goTop() {
-                const main = doc.querySelector('[data-testid="stMain"]');
-                if (main) {
-                    main.scrollTop = 0;
-                    try { main.scrollTo({top: 0, left: 0, behavior: 'instant'}); } catch(e) {}
-                }
+            const d = p.document;
+            function topNow() {
+                const main = d.querySelector('[data-testid="stMain"]');
+                const app = d.querySelector('[data-testid="stAppViewContainer"]');
+                try { if (main) main.scrollTo(0, 0); } catch(e) {}
+                try { if (app) app.scrollTo(0, 0); } catch(e) {}
                 try { p.scrollTo(0, 0); } catch(e) {}
             }
-            goTop();
-            setTimeout(goTop, 30);
-            setTimeout(goTop, 120);
+            topNow();
+            setTimeout(topNow, 40);
+            setTimeout(topNow, 140);
         })();
         </script>
         """,
@@ -1372,8 +1337,7 @@ def apply_pending_scroll_top():
     )
 
 
-def render_workflow_image(image, caption: str, key: str):
-    """Render a compact image without Streamlit's fullscreen affordance."""
+def render_workflow_image(image, caption: str, variant: str):
     if image is None:
         return
 
@@ -1388,19 +1352,13 @@ def render_workflow_image(image, caption: str, key: str):
         img = img.convert("RGB")
 
     buf = io.BytesIO()
-    img.save(buf, format="JPEG", quality=88, optimize=True)
+    img.save(buf, format="JPEG", quality=86, optimize=True)
     uri = "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
-
-    variant = "verify"
-    if "portion" in key:
-        variant = "portion"
-    elif "result" in key:
-        variant = "result"
 
     st.markdown(
         f"""
         <div class="workflow-image-card {variant}">
-            <img src="{uri}" alt="{caption}" />
+            <img src="{uri}" alt="{caption}">
             <div class="workflow-image-caption">{caption}</div>
         </div>
         """,
@@ -1870,13 +1828,9 @@ elif st.session_state.stage == "confirm_dish":
     render_main_navigation(active_override="Scan")
     render_segmented_stepper("confirm_dish", True)
 
-    with st.container(key="verify_stage_content"):
+    with st.container(key="verify_stage"):
         display_img = st.session_state.annotated_image if st.session_state.annotated_image else st.session_state.image
-        render_workflow_image(
-            display_img,
-            "AI decoded ingredients & markers",
-            "verify_workflow_image",
-        )
+        render_workflow_image(display_img, "AI decoded ingredients & markers", "verify")
 
         cnn_class = st.session_state.cnn_class
         cnn_conf = st.session_state.cnn_confidence
@@ -1885,7 +1839,7 @@ elif st.session_state.stage == "confirm_dish":
 
         st.markdown(
             f"""<div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.6rem;">
-                <div style="font-family: 'Outfit', sans-serif; font-size: 1.28rem; font-weight: 900; color: #1E1B16;">
+                <div style="font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 900; color: #1E1B16;">
                     Initial Match: <span style="color: #E5A93B;">{display_name(cnn_class)}</span>
                 </div>
             </div>""",
@@ -1934,19 +1888,14 @@ elif st.session_state.stage == "confirm_dish":
             key="dish_confirmation_select",
         )
 
-        with st.container(key="workflow_confirm_action"):
-            if st.button(
-                "Confirm dish →",
-                type="primary",
-                use_container_width=True,
-                key="confirm_dish_action",
-            ):
+        with st.container(key="workflow_confirm"):
+            if st.button("Confirm dish →", type="primary", use_container_width=True, key="confirm_dish_action"):
                 st.session_state.final_dish = choice
                 st.session_state.stage = "select_portion"
                 request_scroll_top()
                 st.rerun()
 
-    st.markdown('<div class="workflow-nav-scroll-space"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="workflow-bottom-space"></div>', unsafe_allow_html=True)
 
 
 # ============================================================================
@@ -1960,12 +1909,8 @@ elif st.session_state.stage == "select_portion":
     render_main_navigation(active_override="Scan")
     render_segmented_stepper("select_portion", st.session_state.get("triggered", False))
 
-    with st.container(key="portion_stage_content"):
-        render_workflow_image(
-            st.session_state.image,
-            "Scanned plate",
-            "portion_workflow_image",
-        )
+    with st.container(key="portion_stage"):
+        render_workflow_image(st.session_state.image, "Scanned plate", "portion")
 
         st.markdown(
             f"""<div style="font-family: 'Outfit', sans-serif; font-size: 1.65rem; font-weight: 900; color: #1E1B16; margin: 0.6rem 0 0.2rem 0;">
@@ -1999,19 +1944,14 @@ elif st.session_state.stage == "select_portion":
             unsafe_allow_html=True,
         )
 
-        with st.container(key="workflow_calculate_action"):
-            if st.button(
-                "Calculate nutrition →",
-                type="primary",
-                use_container_width=True,
-                key="calculate_nutrition_action",
-            ):
+        with st.container(key="workflow_calculate"):
+            if st.button("Calculate nutrition →", type="primary", use_container_width=True, key="calculate_nutrition_action"):
                 st.session_state.portion_size = selected_p
                 st.session_state.stage = "result"
                 request_scroll_top()
                 st.rerun()
 
-    st.markdown('<div class="workflow-nav-scroll-space"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="workflow-bottom-space"></div>', unsafe_allow_html=True)
 
 
 # ============================================================================
@@ -2025,12 +1965,8 @@ elif st.session_state.stage == "result":
     render_main_navigation(active_override="Scan")
     render_segmented_stepper("result", st.session_state.get("triggered", False))
 
-    with st.container(key="result_stage_content"):
-        render_workflow_image(
-            st.session_state.image,
-            "Scanned plate",
-            "result_workflow_image",
-        )
+    with st.container(key="result_stage"):
+        render_workflow_image(st.session_state.image, "Scanned plate", "result")
 
         dish = st.session_state.get("final_dish")
         if not dish:
@@ -2114,4 +2050,4 @@ elif st.session_state.stage == "result":
                 unsafe_allow_html=True,
             )
 
-    st.markdown('<div class="workflow-nav-scroll-space"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="workflow-bottom-space"></div>', unsafe_allow_html=True)
