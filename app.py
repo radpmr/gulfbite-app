@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_SESSION_SAFE_BOTTOM_NAV_2026_08_19
 # BUILD: GULFBITE_REBUILT_FROM_PASTED_MARKDOWN_3_UPLOAD_ONLY_BOTTOM_NAV
 """
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
@@ -574,20 +575,16 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 
 /* -------------------------------------------------------------------------
    FIXED BOTTOM MOBILE NAVIGATION
-   Pure HTML tab bar. It does not depend on Streamlit radio/column DOM classes,
-   so it remains pinned to the bottom across Streamlit versions and on mobile.
-   No artificial content padding is reserved above it.
+   Uses real Streamlit buttons so tab changes are handled inside the existing
+   Streamlit session. This avoids a full browser reload back to onboarding.
    ------------------------------------------------------------------------- */
-.gulf-bottom-nav {
+.st-key-gulf_bottom_nav {
     position: fixed !important;
     left: 50% !important;
     bottom: max(8px, env(safe-area-inset-bottom)) !important;
     transform: translateX(-50%) !important;
     width: min(430px, calc(100vw - 16px)) !important;
     z-index: 2147483000 !important;
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 6px !important;
     padding: 7px !important;
     margin: 0 !important;
     box-sizing: border-box !important;
@@ -598,70 +595,93 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     -webkit-backdrop-filter: blur(18px) saturate(1.15) !important;
     backdrop-filter: blur(18px) saturate(1.15) !important;
 }
-.gulf-bottom-tab {
+.st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    width: 100% !important;
+}
+.st-key-gulf_bottom_nav [data-testid="column"] {
+    flex: 1 1 0 !important;
+    width: 33.333% !important;
     min-width: 0 !important;
+}
+.st-key-gulf_bottom_nav [data-testid="stVerticalBlock"] { gap: 0 !important; }
+.st-key-gulf_bottom_nav div.stButton { width: 100% !important; }
+.st-key-gulf_bottom_nav div.stButton > button {
     min-height: 58px !important;
+    width: 100% !important;
+    padding: 7px 4px 6px !important;
     border-radius: 15px !important;
     border: 1px solid #E7DED0 !important;
     background: #FFFDF9 !important;
     color: #81796E !important;
-    text-decoration: none !important;
+    box-shadow: none !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 4px !important;
     font-family: 'Outfit', sans-serif !important;
-    box-sizing: border-box !important;
-    -webkit-tap-highlight-color: transparent !important;
+    font-size: .73rem !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    transition: none !important;
+    transform: none !important;
 }
-.gulf-bottom-tab:hover,
-.gulf-bottom-tab:focus,
-.gulf-bottom-tab:visited {
+.st-key-gulf_bottom_nav div.stButton > button:hover,
+.st-key-gulf_bottom_nav div.stButton > button:focus {
     color: #81796E !important;
-    text-decoration: none !important;
+    border-color: #E7DED0 !important;
+    background: #FFFDF9 !important;
+    transform: none !important;
 }
-.gulf-bottom-tab.active {
+.st-key-gulf_bottom_nav div.stButton > button[kind="primary"],
+.st-key-gulf_bottom_nav div.stButton > button[data-testid="stBaseButton-primary"] {
     background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
     border-color: #E5A93B !important;
     color: #171007 !important;
     box-shadow: 0 6px 15px rgba(229,169,59,.24) !important;
 }
-.gulf-bottom-tab.active:hover,
-.gulf-bottom-tab.active:focus,
-.gulf-bottom-tab.active:visited {
-    color: #171007 !important;
-}
-.gulf-bottom-icon {
+.st-key-nav_home div.stButton > button::before,
+.st-key-nav_menu div.stButton > button::before,
+.st-key-nav_scan div.stButton > button::before {
+    content: "" !important;
+    display: block !important;
     width: 20px !important;
     height: 20px !important;
-    display: block !important;
+    flex: 0 0 20px !important;
+    background-color: currentColor !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    mask-position: center !important;
+    -webkit-mask-size: contain !important;
+    mask-size: contain !important;
 }
-.gulf-bottom-icon svg {
-    width: 20px !important;
-    height: 20px !important;
-    display: block !important;
-    fill: none !important;
-    stroke: currentColor !important;
-    stroke-width: 2 !important;
-    stroke-linecap: round !important;
-    stroke-linejoin: round !important;
+.st-key-nav_home div.stButton > button::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z'/%3E%3C/svg%3E") !important;
 }
-.gulf-bottom-label {
-    font-size: .73rem !important;
-    font-weight: 800 !important;
-    line-height: 1 !important;
-    white-space: nowrap !important;
+.st-key-nav_menu div.stButton > button::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z'/%3E%3C/svg%3E") !important;
+}
+.st-key-nav_scan div.stButton > button::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6zM16 13a4 4 0 1 1-8 0 4 4 0 0 1 8 0z'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6zM16 13a4 4 0 1 1-8 0 4 4 0 0 1 8 0z'/%3E%3C/svg%3E") !important;
 }
 @media (max-width: 480px) {
-    .gulf-bottom-nav {
+    .st-key-gulf_bottom_nav {
         width: calc(100vw - 12px) !important;
         bottom: max(6px, env(safe-area-inset-bottom)) !important;
         padding: 6px !important;
-        gap: 5px !important;
         border-radius: 20px !important;
     }
-    .gulf-bottom-tab {
+    .st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] { gap: 5px !important; }
+    .st-key-gulf_bottom_nav div.stButton > button {
         min-height: 56px !important;
         border-radius: 14px !important;
     }
@@ -944,68 +964,43 @@ def render_header(compact: bool = True):
     )
 
 
-def _get_nav_query_value():
-    """Return ?nav=Home/Menu/Scan across old and new Streamlit versions."""
-    try:
-        value = st.query_params.get("nav")
-        if isinstance(value, (list, tuple)):
-            value = value[-1] if value else None
-        return value
-    except Exception:
-        try:
-            params = st.experimental_get_query_params()
-            value = params.get("nav")
-            if isinstance(value, (list, tuple)):
-                value = value[-1] if value else None
-            return value
-        except Exception:
-            return None
-
-
 def render_main_navigation():
-    """Render a fixed Home / Menu / Scan bottom tab bar using plain HTML links."""
+    """Render a fixed bottom Home / Menu / Scan bar using Streamlit buttons.
+
+    Button clicks rerun the app inside the same Streamlit session, so switching
+    tabs never reloads the browser and never returns to onboarding.
+    """
     nav_options = ["Home", "Menu", "Scan"]
 
     pending = st.session_state.pop("pending_main_section", None)
     if pending in nav_options:
         st.session_state.main_section = pending
 
-    requested = _get_nav_query_value()
-    last_requested = st.session_state.get("_last_nav_query")
-    if requested in nav_options and requested != last_requested:
-        st.session_state.main_section = requested
-        st.session_state.stage = "main"
-        st.session_state._last_nav_query = requested
-
     current = st.session_state.get("main_section", "Home")
     if current not in nav_options:
         current = "Home"
         st.session_state.main_section = current
 
-    icons = {
-        "Home": """<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z"/></svg>""",
-        "Menu": """<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>""",
-        "Scan": """<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6z"/><circle cx="12" cy="13" r="4"/></svg>""",
-    }
+    with st.container(key="gulf_bottom_nav"):
+        cols = st.columns(3, gap="small")
+        for col, label, key in zip(
+            cols,
+            nav_options,
+            ["nav_home", "nav_menu", "nav_scan"],
+        ):
+            with col:
+                clicked = st.button(
+                    label,
+                    key=key,
+                    type="primary" if current == label else "secondary",
+                    use_container_width=True,
+                )
+                if clicked and current != label:
+                    st.session_state.main_section = label
+                    st.rerun()
 
-    items = []
-    for label in nav_options:
-        active = " active" if label == current else ""
-        items.append(
-            f'<a class="gulf-bottom-tab{active}" href="?nav={label}" target="_self" aria-label="{label}">'
-            f'<span class="gulf-bottom-icon">{icons[label]}</span>'
-            f'<span class="gulf-bottom-label">{label}</span>'
-            '</a>'
-        )
+    return st.session_state.main_section
 
-    st.markdown(
-        '<nav class="gulf-bottom-nav" aria-label="Main navigation">'
-        + ''.join(items)
-        + '</nav>',
-        unsafe_allow_html=True,
-    )
-
-    return current
 
 def render_segmented_stepper(current_stage: str, triggered: bool):
     raw_steps = [("upload", "Scan")]
