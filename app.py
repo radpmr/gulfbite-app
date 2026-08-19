@@ -1,6 +1,3 @@
-
-
-
 """
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
@@ -483,6 +480,18 @@ div.stButton > button[kind="primary"]:hover {
     justify-content: center !important;
     gap: 7px !important;
     font-size: .88rem !important;
+    white-space: nowrap !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+.st-key-nav_home button p,
+.st-key-nav_menu button p,
+.st-key-nav_scan button p,
+.st-key-source_camera button p,
+.st-key-source_upload button p {
+    margin: 0 !important;
+    white-space: nowrap !important;
+    line-height: 1 !important;
 }
 .st-key-nav_home button[kind="primary"],
 .st-key-nav_menu button[kind="primary"],
@@ -513,21 +522,40 @@ div.stButton > button[kind="primary"]:hover {
     mask-size: contain;
 }
 .st-key-nav_home button::before {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 .st-key-nav_menu button::before {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 4.5A2.5 2.5 0 0 1 6.5 2H11v17H6.5A2.5 2.5 0 0 0 4 21.5zm16 0A2.5 2.5 0 0 0 17.5 2H13v17h4.5a2.5 2.5 0 0 1 2.5 2.5z'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 4.5A2.5 2.5 0 0 1 6.5 2H11v17H6.5A2.5 2.5 0 0 0 4 21.5zm16 0A2.5 2.5 0 0 0 17.5 2H13v17h4.5a2.5 2.5 0 0 1 2.5 2.5z'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 .st-key-nav_scan button::before,
 .st-key-source_camera button::before {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M8.2 5 9.6 3h4.8l1.4 2H19a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3zm3.8 4a5 5 0 1 0 0 10 5 5 0 0 0 0-10m0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M8.2 5 9.6 3h4.8l1.4 2H19a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3zm3.8 4a5 5 0 1 0 0 10 5 5 0 0 0 0-10m0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='13' r='4' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='13' r='4' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
 }
 .st-key-source_upload button::before {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M11 16V7.8L8.4 10.4 7 9l5-5 5 5-1.4 1.4L13 7.8V16zM5 20a3 3 0 0 1-3-3v-2h2v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2h2v2a3 3 0 0 1-3 3z'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M11 16V7.8L8.4 10.4 7 9l5-5 5 5-1.4 1.4L13 7.8V16zM5 20a3 3 0 0 1-3-3v-2h2v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2h2v2a3 3 0 0 1-3 3z'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M12 4v11m0-11-4 4m4-4 4 4M5 14.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3.5' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M12 4v11m0-11-4 4m4-4 4 4M5 14.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3.5' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 390px) {
+    .st-key-nav_home button,
+    .st-key-nav_menu button,
+    .st-key-nav_scan button {
+        min-height: 40px !important;
+        gap: 5px !important;
+        padding-left: 7px !important;
+        padding-right: 7px !important;
+        font-size: .80rem !important;
+    }
+    .st-key-nav_home button::before,
+    .st-key-nav_menu button::before,
+    .st-key-nav_scan button::before {
+        width: 15px;
+        height: 15px;
+        flex-basis: 15px;
+    }
 }
 
 /* Selects — clearer text and stronger control contrast. */
@@ -921,7 +949,7 @@ def render_header(compact: bool = True):
 
 
 def render_main_navigation():
-    """Reliable three-button navigation with no Material-icon text leakage."""
+    """Three-button mobile navigation with consistent inline SVG-mask icons."""
     nav_options = ["Home", "Menu", "Scan"]
 
     pending = st.session_state.pop("pending_main_section", None)
@@ -1319,9 +1347,9 @@ if st.session_state.stage == "onboarding":
     st.markdown(
         f"""<div class="gulf-grid-collage">
     <div class="grid-cell">
-        <img class="grid-food-photo" src="{MACHBOOS_ONBOARDING_URI}" alt="Lamb Machboos">
+        <img class="grid-food-photo" src="{MACHBOOS_ONBOARDING_URI}" alt="Machboos">
         <div class="grid-cell-overlay"></div>
-        <div class="micro-pill" style="bottom:10px;left:10px;"><span class="pill-dot"></span><span>Lamb Machboos · {machboos_kcal} kcal</span></div>
+        <div class="micro-pill" style="bottom:10px;left:10px;"><span class="pill-dot"></span><span>Machboos · {machboos_kcal} kcal</span></div>
     </div>
     <div class="grid-cell">
         <img class="grid-food-photo" src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=85" alt="Shawarma">
