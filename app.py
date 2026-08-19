@@ -4304,6 +4304,112 @@ div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
     }
 }
 
+
+/* ==========================================================================
+   MENU CATEGORY CHIP POLISH
+   One-line horizontal scrolling chips with compact labels.
+   ========================================================================== */
+
+.st-key-menu_category_control {
+    margin-bottom: 16px !important;
+}
+
+/* Modern segmented control */
+.st-key-menu_category_control [data-testid="stSegmentedControl"] {
+    width: 100% !important;
+    overflow: visible !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 7px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 2px 1px 6px 1px !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"]::-webkit-scrollbar {
+    display: none !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 62px !important;
+    max-width: none !important;
+    padding: 0 13px !important;
+    white-space: nowrap !important;
+}
+
+/* Older radio fallback */
+.st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 7px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 2px 1px 6px 1px !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+.st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"]::-webkit-scrollbar {
+    display: none !important;
+}
+
+.st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    flex: 0 0 auto !important;
+    min-width: 62px !important;
+    width: auto !important;
+    white-space: nowrap !important;
+}
+
+/* Slightly more breathing room before the dish selector. */
+.menu-choose-label {
+    margin-top: 4px !important;
+    margin-bottom: 7px !important;
+}
+
+/* Scan a plate: shorter gold-outline secondary action. */
+.st-key-menu_scan_selected_control button {
+    min-height: 36px !important;
+    height: 36px !important;
+    border: 1px solid #D9A23B !important;
+    border-radius: 11px !important;
+    background: #FFFDF9 !important;
+    color: #9B6508 !important;
+    font-size: .74rem !important;
+    font-weight: 820 !important;
+    box-shadow: none !important;
+}
+
+.st-key-menu_scan_selected_control button:hover {
+    background: #FFF7E8 !important;
+    border-color: #CC8E1D !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+    .st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+        min-width: 58px !important;
+        padding-left: 11px !important;
+        padding-right: 11px !important;
+    }
+
+    .st-key-menu_category_control {
+        margin-bottom: 14px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -4718,9 +4824,9 @@ def render_category_squircle_cards():
         "Stews": "🥘 Stews & Slow-Cooked",
         "Seafood": "🐟 Seafood",
         "Street": "🌯 Street Food & Snacks",
-        "Breakfast": "🍳 Breakfast & Breads",
+        "Morning": "🍳 Breakfast & Breads",
         "Mezze": "🥣 Mezze & Salads",
-        "Sweets": "🍰 Sweets & Drinks",
+        "Desserts": "🍰 Sweets & Drinks",
     }
 
     reverse_category_map = {v: k for k, v in category_map.items()}
