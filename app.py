@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_ANCHOR_SCROLL_RESET_2026_08_19
 # BUILD: GULFBITE_CLEAN_REBUILD_NATIVE_SCROLL_2026_08_19
 # BUILD: GULFBITE_ICON_ONLY_CLOCHE_NAV_2026_08_19
 # BUILD: GULFBITE_SLIM_DARKER_BOTTOM_NAV_2026_08_19
@@ -1101,6 +1102,13 @@ div[data-testid="stTabs"] [aria-selected="true"]::after {
     }
 }
 
+
+/* Avoid browser focus restoration making a newly rendered workflow appear
+   halfway down the page after a button click. */
+button:focus:not(:focus-visible) {
+    outline: none !important;
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -1307,28 +1315,81 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
 
 
 def request_scroll_top():
+    """Ask the next rendered screen to reset to its own top anchor."""
     st.session_state["_scroll_top_next"] = True
 
 
+def render_scroll_anchor():
+    """Invisible anchor placed at the top of every navigable app screen."""
+    st.markdown(
+        '<div data-gulf-scroll-anchor="screen-top" '
+        'style="height:0;width:0;overflow:hidden;margin:0;padding:0;"></div>',
+        unsafe_allow_html=True,
+    )
+
+
 def apply_pending_scroll_top():
+    """Scroll the completed screen to the top after its DOM has rendered."""
     if not st.session_state.pop("_scroll_top_next", False):
         return
+
     components.html(
         """
         <script>
         (function () {
             const p = window.parent;
             const d = p.document;
-            function topNow() {
-                const main = d.querySelector('[data-testid="stMain"]');
-                const app = d.querySelector('[data-testid="stAppViewContainer"]');
-                try { if (main) main.scrollTo(0, 0); } catch(e) {}
-                try { if (app) app.scrollTo(0, 0); } catch(e) {}
-                try { p.scrollTo(0, 0); } catch(e) {}
+
+            try {
+                if ('scrollRestoration' in p.history) {
+                    p.history.scrollRestoration = 'manual';
+                }
+            } catch (e) {}
+
+            function goTop() {
+                try {
+                    if (d.activeElement && typeof d.activeElement.blur === 'function') {
+                        d.activeElement.blur();
+                    }
+                } catch (e) {}
+
+                const anchor = d.querySelector('[data-gulf-scroll-anchor="screen-top"]');
+
+                if (anchor) {
+                    try {
+                        anchor.scrollIntoView({
+                            behavior: 'instant',
+                            block: 'start',
+                            inline: 'nearest'
+                        });
+                    } catch (e) {
+                        try { anchor.scrollIntoView(true); } catch (_) {}
+                    }
+                }
+
+                /* Fallbacks for browsers/Streamlit versions that retain a
+                   previous scroll position after widget-triggered reruns. */
+                const targets = [
+                    d.scrollingElement,
+                    d.documentElement,
+                    d.body,
+                    d.querySelector('[data-testid="stMain"]'),
+                    d.querySelector('[data-testid="stAppViewContainer"]'),
+                    d.querySelector('section.main')
+                ];
+
+                targets.forEach(function (el) {
+                    if (!el) return;
+                    try { el.scrollTop = 0; } catch (e) {}
+                });
+
+                try { p.scrollTo(0, 0); } catch (e) {}
             }
-            topNow();
-            setTimeout(topNow, 40);
-            setTimeout(topNow, 140);
+
+            requestAnimationFrame(goTop);
+            [40, 120, 260, 520, 900].forEach(function (ms) {
+                setTimeout(goTop, ms);
+            });
         })();
         </script>
         """,
@@ -1671,6 +1732,7 @@ if st.session_state.stage == "onboarding":
     if st.button("Scan your plate →", key="btn_get_started", type="primary", use_container_width=True):
         st.session_state.stage = "main"
         st.session_state.main_section = "Home"
+        request_scroll_top()
         st.rerun()
 
 
@@ -1679,6 +1741,7 @@ if st.session_state.stage == "onboarding":
 # ============================================================================
 
 elif st.session_state.stage in ["main", "upload"]:
+    render_scroll_anchor()
     render_header(compact=True)
     active_section = render_main_navigation()
 
@@ -1704,6 +1767,7 @@ elif st.session_state.stage in ["main", "upload"]:
             )
             if st.button("Scan your plate →", type="primary", use_container_width=True, key="home_scan_cta"):
                 st.session_state.pending_main_section = "Scan"
+                request_scroll_top()
                 st.rerun()
 
         st.markdown(
@@ -1817,12 +1881,15 @@ elif st.session_state.stage in ["main", "upload"]:
                         st.rerun()
 
 
+    apply_pending_scroll_top()
+
+
 # ============================================================================
 # 9. SCREEN 2: CONFIRM DISH (WITH AI DECODED VISUAL OVERLAY)
 # ============================================================================
 
 elif st.session_state.stage == "confirm_dish":
-    apply_pending_scroll_top()
+    render_scroll_anchor()
     st.markdown('<div class="workflow-stage-marker"></div>', unsafe_allow_html=True)
     render_header()
     render_main_navigation(active_override="Scan")
@@ -1896,6 +1963,7 @@ elif st.session_state.stage == "confirm_dish":
                 st.rerun()
 
     st.markdown('<div class="workflow-bottom-space"></div>', unsafe_allow_html=True)
+    apply_pending_scroll_top()
 
 
 # ============================================================================
@@ -1903,7 +1971,7 @@ elif st.session_state.stage == "confirm_dish":
 # ============================================================================
 
 elif st.session_state.stage == "select_portion":
-    apply_pending_scroll_top()
+    render_scroll_anchor()
     st.markdown('<div class="workflow-stage-marker"></div>', unsafe_allow_html=True)
     render_header()
     render_main_navigation(active_override="Scan")
@@ -1952,6 +2020,7 @@ elif st.session_state.stage == "select_portion":
                 st.rerun()
 
     st.markdown('<div class="workflow-bottom-space"></div>', unsafe_allow_html=True)
+    apply_pending_scroll_top()
 
 
 # ============================================================================
@@ -1959,7 +2028,7 @@ elif st.session_state.stage == "select_portion":
 # ============================================================================
 
 elif st.session_state.stage == "result":
-    apply_pending_scroll_top()
+    render_scroll_anchor()
     st.markdown('<div class="workflow-stage-marker"></div>', unsafe_allow_html=True)
     render_header()
     render_main_navigation(active_override="Scan")
@@ -2051,3 +2120,4 @@ elif st.session_state.stage == "result":
             )
 
     st.markdown('<div class="workflow-bottom-space"></div>', unsafe_allow_html=True)
+    apply_pending_scroll_top()
