@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_WHITE_SURFACE_ICON_ONLY_NAV_2026_08_19
 # BUILD: GULFBITE_SLIM_DARKER_BOTTOM_NAV_2026_08_19
 # BUILD: GULFBITE_BOTTOM_NAV_NO_GHOST_SLOT_2026_08_19
 # BUILD: GULFBITE_SESSION_SAFE_BOTTOM_NAV_2026_08_19
@@ -419,6 +420,10 @@ html, body, [class*="css"] {
 .block-container {
     max-width: 460px !important;
     padding: 1rem 1rem 3rem 1rem !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(229,169,59,.16) !important;
+    border-radius: 28px !important;
+    box-shadow: 0 18px 42px -24px rgba(68,45,9,.28) !important;
 }
 
 /* Reduce Streamlit's default vertical gaps so the app feels like a mobile product. */
@@ -590,9 +595,9 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     padding: 5px !important;
     margin: 0 !important;
     box-sizing: border-box !important;
-    border: 1px solid rgba(226,216,198,.96) !important;
-    border-radius: 22px !important;
-    background: rgba(255,253,249,.97) !important;
+    border: 1px solid #E8E0D3 !important;
+    border-radius: 20px !important;
+    background: #FFFFFF !important;
     box-shadow: 0 16px 42px rgba(58,40,12,.20), 0 2px 8px rgba(0,0,0,.06) !important;
     -webkit-backdrop-filter: blur(18px) saturate(1.15) !important;
     backdrop-filter: blur(18px) saturate(1.15) !important;
@@ -630,22 +635,34 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 }
 
 .st-key-gulf_bottom_nav div.stButton { width: 100% !important; }
+
+/* Icon-only tabs: keep Home/Menu/Scan as accessible button labels, hide only the visible text. */
+.st-key-gulf_bottom_nav div.stButton > button p,
+.st-key-gulf_bottom_nav div.stButton > button span:not([data-testid]) {
+    font-size: 0 !important;
+    line-height: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
 .st-key-gulf_bottom_nav div.stButton > button {
-    min-height: 52px !important;
+    min-height: 46px !important;
     width: 100% !important;
-    padding: 5px 4px 4px !important;
-    border-radius: 15px !important;
+    padding: 0 !important;
+    border-radius: 14px !important;
     border: 1px solid #E7DED0 !important;
-    background: #FFFDF9 !important;
-    color: #655E55 !important;
+    background: #FFFFFF !important;
+    color: #5F584F !important;
     box-shadow: none !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 3px !important;
+    gap: 0 !important;
     font-family: 'Outfit', sans-serif !important;
-    font-size: .73rem !important;
+    font-size: 0 !important;
     font-weight: 800 !important;
     line-height: 1 !important;
     white-space: nowrap !important;
@@ -671,9 +688,9 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 .st-key-nav_scan div.stButton > button::before {
     content: "" !important;
     display: block !important;
-    width: 18px !important;
-    height: 18px !important;
-    flex: 0 0 18px !important;
+    width: 22px !important;
+    height: 22px !important;
+    flex: 0 0 22px !important;
     background-color: currentColor !important;
     -webkit-mask-repeat: no-repeat !important;
     mask-repeat: no-repeat !important;
@@ -687,8 +704,8 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z'/%3E%3C/svg%3E") !important;
 }
 .st-key-nav_menu div.stButton > button::before {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z'/%3E%3C/svg%3E") !important;
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z'/%3E%3C/svg%3E") !important;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M4 15h16M6 15a6 6 0 0 1 12 0M12 7V5M9.5 5h5M3 19h18'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M4 15h16M6 15a6 6 0 0 1 12 0M12 7V5M9.5 5h5M3 19h18'/%3E%3C/svg%3E") !important;
 }
 .st-key-nav_scan div.stButton > button::before {
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6zM16 13a4 4 0 1 1-8 0 4 4 0 0 1 8 0z'/%3E%3C/svg%3E") !important;
@@ -698,13 +715,13 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     .st-key-gulf_bottom_nav {
         width: calc(100vw - 12px) !important;
         bottom: max(6px, env(safe-area-inset-bottom)) !important;
-        padding: 5px !important;
-        border-radius: 19px !important;
+        padding: 4px !important;
+        border-radius: 18px !important;
     }
     .st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] { gap: 5px !important; }
     .st-key-gulf_bottom_nav div.stButton > button {
-        min-height: 50px !important;
-        border-radius: 13px !important;
+        min-height: 44px !important;
+        border-radius: 12px !important;
     }
 }
 
