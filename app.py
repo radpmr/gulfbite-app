@@ -1651,6 +1651,249 @@ div[data-baseweb="popover"] [role="listbox"] * {
     opacity: 1 !important;
 }
 
+
+/* ==========================================================================
+   PREMIUM ACTION CONTROLS
+   Consistent CTAs, upload button, portion selector and result tabs.
+   ========================================================================== */
+
+:root {
+    --gb-gold-a: #F7C96E;
+    --gb-gold-b: #E7A92F;
+    --gb-gold-c: #D9961D;
+    --gb-ink: #1E1B16;
+    --gb-muted: #746C61;
+    --gb-line: #E7DCC9;
+    --gb-soft: #FFF8E9;
+}
+
+/* Shared primary CTA treatment. */
+.st-key-home_scan_cta div.stButton > button,
+.st-key-confirm_dish_action div.stButton > button,
+.st-key-calculate_nutrition_action div.stButton > button {
+    position: relative !important;
+    min-height: 52px !important;
+    border: 0 !important;
+    border-radius: 16px !important;
+    padding: 0 18px !important;
+    background: linear-gradient(135deg, var(--gb-gold-a) 0%, var(--gb-gold-b) 62%, var(--gb-gold-c) 100%) !important;
+    color: #171007 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .93rem !important;
+    font-weight: 850 !important;
+    letter-spacing: -.01em !important;
+    box-shadow:
+        0 8px 18px rgba(229,169,59,.22),
+        inset 0 1px 0 rgba(255,255,255,.42) !important;
+    transition: transform .16s ease, box-shadow .16s ease, filter .16s ease !important;
+}
+.st-key-home_scan_cta div.stButton > button:hover,
+.st-key-confirm_dish_action div.stButton > button:hover,
+.st-key-calculate_nutrition_action div.stButton > button:hover {
+    transform: translateY(-1px) !important;
+    filter: saturate(1.03) brightness(1.02) !important;
+    box-shadow:
+        0 11px 22px rgba(229,169,59,.26),
+        inset 0 1px 0 rgba(255,255,255,.46) !important;
+}
+.st-key-home_scan_cta div.stButton > button:active,
+.st-key-confirm_dish_action div.stButton > button:active,
+.st-key-calculate_nutrition_action div.stButton > button:active {
+    transform: translateY(0) scale(.995) !important;
+}
+
+/* Crisp line icons for the three main actions. */
+.st-key-home_scan_cta div.stButton > button::before,
+.st-key-confirm_dish_action div.stButton > button::before,
+.st-key-calculate_nutrition_action div.stButton > button::before,
+.st-key-update_dish_action div.stButton > button::before,
+[data-testid="stFileUploader"] button::before {
+    content: "" !important;
+    display: inline-block !important;
+    width: 19px !important;
+    height: 19px !important;
+    margin-right: 8px !important;
+    flex: 0 0 19px !important;
+    background-color: currentColor !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    mask-position: center !important;
+    -webkit-mask-size: contain !important;
+    mask-size: contain !important;
+}
+
+.st-key-home_scan_cta div.stButton > button::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3M8 12h8M12 8v8' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3M8 12h8M12 8v8' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+}
+.st-key-confirm_dish_action div.stButton > button::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='m8 12 2.5 2.5L16 9' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='m8 12 2.5 2.5L16 9' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+.st-key-calculate_nutrition_action div.stButton > button::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='3' width='16' height='18' rx='3' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='3' width='16' height='18' rx='3' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+}
+
+/* Browse Files: premium outlined upload action inside the dropzone. */
+[data-testid="stFileUploader"] button {
+    min-height: 44px !important;
+    padding: 0 15px !important;
+    border: 1.5px solid #DFA83A !important;
+    border-radius: 13px !important;
+    background: #FFFFFF !important;
+    color: #B9780B !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .84rem !important;
+    font-weight: 850 !important;
+    box-shadow: 0 4px 12px rgba(191,132,29,.10) !important;
+}
+[data-testid="stFileUploader"] button::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16V4m0 0L8 8m4-4 4 4M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16V4m0 0L8 8m4-4 4 4M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+[data-testid="stFileUploader"] button:hover {
+    background: #FFF7E6 !important;
+    border-color: #D4931E !important;
+    color: #9D6508 !important;
+}
+
+/* Update Dish is intentionally secondary: outlined, not competing with nutrition CTA. */
+.st-key-update_dish_action div.stButton > button {
+    min-height: 46px !important;
+    border: 1.5px solid #DDA53A !important;
+    border-radius: 14px !important;
+    background: #FFFDF9 !important;
+    color: #A76C08 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .87rem !important;
+    font-weight: 850 !important;
+    box-shadow: none !important;
+}
+.st-key-update_dish_action div.stButton > button::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 17.5V20h2.5L17 9.5 14.5 7 4 17.5ZM13.5 8l2.5 2.5M14.5 7l1.2-1.2a1.8 1.8 0 0 1 2.6 0l.9.9a1.8 1.8 0 0 1 0 2.6L18 10.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 17.5V20h2.5L17 9.5 14.5 7 4 17.5ZM13.5 8l2.5 2.5M14.5 7l1.2-1.2a1.8 1.8 0 0 1 2.6 0l.9.9a1.8 1.8 0 0 1 0 2.6L18 10.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+.st-key-update_dish_action div.stButton > button:hover {
+    background: #FFF7E6 !important;
+    border-color: #CF8D17 !important;
+    color: #8D5A06 !important;
+}
+
+/* Portion size: three selection cards rather than generic pills. */
+.st-key-portion_segment [data-testid="stSegmentedControl"] [role="radiogroup"] {
+    gap: 8px !important;
+}
+.st-key-portion_segment [data-testid="stSegmentedControl"] button {
+    min-height: 58px !important;
+    padding: 8px 7px !important;
+    border: 1.5px solid #E7DCC9 !important;
+    border-radius: 15px !important;
+    background: #FFFDF9 !important;
+    color: #665F56 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .78rem !important;
+    font-weight: 800 !important;
+    line-height: 1.18 !important;
+    white-space: normal !important;
+    box-shadow: 0 3px 9px rgba(74,52,18,.04) !important;
+}
+.st-key-portion_segment [data-testid="stSegmentedControl"] button:hover {
+    border-color: #DFB867 !important;
+    background: #FFF9EC !important;
+}
+.st-key-portion_segment [data-testid="stSegmentedControl"] button[aria-pressed="true"],
+.st-key-portion_segment [data-testid="stSegmentedControl"] button[data-selected="true"] {
+    border-color: #E2A333 !important;
+    background: linear-gradient(145deg,#FFF0C7 0%,#F5C45F 100%) !important;
+    color: #1C160C !important;
+    box-shadow:
+        0 7px 15px rgba(229,169,59,.18),
+        inset 0 1px 0 rgba(255,255,255,.55) !important;
+}
+
+/* Radio fallback for older Streamlit versions — same visual language. */
+.st-key-portion_segment div[data-testid="stRadio"] > div[role="radiogroup"] {
+    gap: 8px !important;
+}
+.st-key-portion_segment div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    min-height: 58px !important;
+    border: 1.5px solid #E7DCC9 !important;
+    border-radius: 15px !important;
+    background: #FFFDF9 !important;
+    box-shadow: 0 3px 9px rgba(74,52,18,.04) !important;
+}
+.st-key-portion_segment div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
+    border-color: #E2A333 !important;
+    background: linear-gradient(145deg,#FFF0C7 0%,#F5C45F 100%) !important;
+    box-shadow: 0 7px 15px rgba(229,169,59,.18) !important;
+}
+
+/* Edit Dish / Pipeline Info: segmented tab switcher, not plain underlined tabs. */
+.st-key-result_stage div[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 5px !important;
+    padding: 5px !important;
+    margin-bottom: 12px !important;
+    border: 1px solid #E8DFD1 !important;
+    border-radius: 15px !important;
+    background: #F8F5EF !important;
+}
+.st-key-result_stage div[data-testid="stTabs"] [data-baseweb="tab-highlight"],
+.st-key-result_stage div[data-testid="stTabs"] [data-baseweb="tab-border"] {
+    display: none !important;
+}
+.st-key-result_stage div[data-testid="stTabs"] [data-baseweb="tab"] {
+    min-height: 42px !important;
+    width: 100% !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    padding: 0 10px !important;
+    border-radius: 11px !important;
+    background: transparent !important;
+    color: #736B61 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .78rem !important;
+    font-weight: 820 !important;
+}
+.st-key-result_stage div[data-testid="stTabs"] [data-baseweb="tab"][aria-selected="true"] {
+    background: #FFFFFF !important;
+    color: #1E1B16 !important;
+    box-shadow: 0 3px 10px rgba(66,46,14,.08) !important;
+}
+.st-key-result_stage div[data-testid="stTabs"] [data-baseweb="tab"][aria-selected="true"]::after {
+    display: none !important;
+}
+
+/* Replace emoji feel with matching line icons on the two result tabs. */
+.st-key-result_stage div[data-testid="stTabs"] [data-baseweb="tab"]:nth-child(1)::before,
+.st-key-result_stage div[data-testid="stTabs"] [data-baseweb="tab"]:nth-child(2)::before {
+    content: "" !important;
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    flex: 0 0 16px !important;
+    background-color: currentColor !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    mask-position: center !important;
+    -webkit-mask-size: contain !important;
+    mask-size: contain !important;
+}
+.st-key-result_stage div[data-testid="stTabs"] [data-baseweb="tab"]:nth-child(1)::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 17.5V20h2.5L17 9.5 14.5 7 4 17.5ZM13.5 8l2.5 2.5M14.5 7l1.2-1.2a1.8 1.8 0 0 1 2.6 0l.9.9a1.8 1.8 0 0 1 0 2.6L18 10.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 17.5V20h2.5L17 9.5 14.5 7 4 17.5ZM13.5 8l2.5 2.5M14.5 7l1.2-1.2a1.8 1.8 0 0 1 2.6 0l.9.9a1.8 1.8 0 0 1 0 2.6L18 10.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+.st-key-result_stage div[data-testid="stTabs"] [data-baseweb="tab"]:nth-child(2)::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 19V9m5 10V5m5 14v-7m5 7V3' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 19V9m5 10V5m5 14v-7m5 7V3' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+}
+
+/* Hide the literal emoji glyphs in the tab labels by using clean text in code. */
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -2334,7 +2577,7 @@ elif st.session_state.stage in ["main", "upload"]:
 
     if active_section == "Home":
         st.markdown(
-            '<div style="font-family:\'Outfit\',sans-serif;font-size:1.05rem;font-weight:900;color:#1E1B16;margin:5px 0 7px 0;">How GulfBite works</div>',
+            '<div style="font-family:\'Outfit\',sans-serif;font-size:1.05rem;font-weight:900;color:#1E1B16;margin:5px 0 7px 0;">Quick Guide</div>',
             unsafe_allow_html=True,
         )
         render_quick_guide()
@@ -2344,8 +2587,8 @@ elif st.session_state.stage in ["main", "upload"]:
                 f"""<div style="padding:2px 2px 5px 2px;">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
     <div>
-        <div style="font-family:'Outfit',sans-serif;font-size:1.18rem;font-weight:900;color:#1E1B16;">Scan your next meal</div>
-        <div style="font-size:.79rem;color:#8B8377;line-height:1.45;margin-top:4px;">Best results come from one clear plate photographed from above.</div>
+        <div style="font-family:'Outfit',sans-serif;font-size:1.18rem;font-weight:900;color:#1E1B16;">Scan your meal</div>
+        <div style="font-size:.79rem;color:#8B8377;line-height:1.45;margin-top:4px;">Best results come from one clear plate photographed.</div>
     </div>
     <div style="width:54px;height:54px;border-radius:18px;background:#FFF7E7;border:1px solid #F0D8A5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{line_icon("upload", 28)}</div>
 </div>
@@ -2374,7 +2617,7 @@ elif st.session_state.stage in ["main", "upload"]:
 
     elif active_section == "Menu":
         st.markdown(
-            '<div style="font-family:\'Outfit\',sans-serif;font-size:1.05rem;font-weight:900;color:#1E1B16;margin:5px 0 7px 0;">Explore supported dishes</div>',
+            '<div style="font-family:\'Outfit\',sans-serif;font-size:1.05rem;font-weight:900;color:#1E1B16;margin:5px 0 7px 0;">Supported Dishes</div>',
             unsafe_allow_html=True,
         )
         st.caption("Browse the 25 dishes currently recognized by the model.")
@@ -2662,7 +2905,7 @@ elif st.session_state.stage == "result":
 
         st.markdown("<div style='margin-top: 1.2rem;'></div>", unsafe_allow_html=True)
 
-        tab_correct, tab_tech = st.tabs(["✏️ Edit Dish", "⚙️ Pipeline Info"])
+        tab_correct, tab_tech = st.tabs(["Edit Dish", "Pipeline Info"])
 
         with tab_correct:
             all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
@@ -2675,7 +2918,7 @@ elif st.session_state.stage == "result":
                 index=current_idx,
                 label_visibility="collapsed",
             )
-            if st.button("Update Dish", type="primary", use_container_width=True):
+            if st.button("Update Dish", type="secondary", use_container_width=True, key="update_dish_action"):
                 st.session_state.final_dish = corrected
                 st.session_state.tier_used = "User correction"
                 st.rerun()
