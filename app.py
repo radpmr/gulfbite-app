@@ -1,12 +1,3 @@
-GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
------------------------------------------------------------------------------
-Identifies authentic Gulf dishes using a multi-tiered pipeline:
-1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
-2. Out-of-distribution / Non-food rejection via margin and entropy checks.
-3. YOLOv8 feature detection with visual bounding overlays & calorie pointers.
-4. Portion-based authentic macro and calorie estimation with SVG Macro Rings.
-"""
-
 import base64
 import io
 import json
