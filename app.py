@@ -3239,6 +3239,43 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   HOME METRICS / FAVOURITES OVERLAP FIX
+   Keep the tighter Home layout, but restore a clean separation between
+   the metric cards and Gulf favourites.
+   ========================================================================== */
+
+.home-metric-row {
+    margin-bottom: 10px !important;
+}
+
+.st-key-home_favourites_section {
+    margin-top: 0 !important;
+    margin-bottom: 58px !important;
+}
+
+@media (max-width: 480px) {
+    .home-metric-row {
+        margin-bottom: 9px !important;
+    }
+
+    .st-key-home_favourites_section {
+        margin-top: 0 !important;
+        margin-bottom: 58px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .home-metric-row {
+        margin-bottom: 8px !important;
+    }
+
+    .st-key-home_favourites_section {
+        margin-top: 0 !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
