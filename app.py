@@ -3564,6 +3564,33 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   DESKTOP FINAL POLISH
+   Small visual refinements only:
+   - reduce excess whitespace above the header on desktop
+   - give Gulf favourites a little more bottom breathing room
+   - leave the fixed bottom navigation unchanged
+   ========================================================================== */
+
+@media (min-width: 481px) {
+    [data-testid="stMainBlockContainer"],
+    .block-container {
+        padding-top: .68rem !important;
+    }
+
+    .st-key-home_favourites_section {
+        padding-bottom: 18px !important;
+    }
+}
+
+/* Keep mobile spacing as already tuned. */
+@media (max-width: 480px) {
+    .st-key-home_favourites_section {
+        padding-bottom: 12px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
