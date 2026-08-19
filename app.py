@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_SLIM_DARKER_BOTTOM_NAV_2026_08_19
 # BUILD: GULFBITE_BOTTOM_NAV_NO_GHOST_SLOT_2026_08_19
 # BUILD: GULFBITE_SESSION_SAFE_BOTTOM_NAV_2026_08_19
 # BUILD: GULFBITE_REBUILT_FROM_PASTED_MARKDOWN_3_UPLOAD_ONLY_BOTTOM_NAV
@@ -586,7 +587,7 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     transform: translateX(-50%) !important;
     width: min(430px, calc(100vw - 16px)) !important;
     z-index: 2147483000 !important;
-    padding: 7px !important;
+    padding: 5px !important;
     margin: 0 !important;
     box-sizing: border-box !important;
     border: 1px solid rgba(226,216,198,.96) !important;
@@ -630,19 +631,19 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 
 .st-key-gulf_bottom_nav div.stButton { width: 100% !important; }
 .st-key-gulf_bottom_nav div.stButton > button {
-    min-height: 58px !important;
+    min-height: 52px !important;
     width: 100% !important;
-    padding: 7px 4px 6px !important;
+    padding: 5px 4px 4px !important;
     border-radius: 15px !important;
     border: 1px solid #E7DED0 !important;
     background: #FFFDF9 !important;
-    color: #81796E !important;
+    color: #655E55 !important;
     box-shadow: none !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 4px !important;
+    gap: 3px !important;
     font-family: 'Outfit', sans-serif !important;
     font-size: .73rem !important;
     font-weight: 800 !important;
@@ -653,7 +654,7 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 }
 .st-key-gulf_bottom_nav div.stButton > button:hover,
 .st-key-gulf_bottom_nav div.stButton > button:focus {
-    color: #81796E !important;
+    color: #655E55 !important;
     border-color: #E7DED0 !important;
     background: #FFFDF9 !important;
     transform: none !important;
@@ -670,9 +671,9 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 .st-key-nav_scan div.stButton > button::before {
     content: "" !important;
     display: block !important;
-    width: 20px !important;
-    height: 20px !important;
-    flex: 0 0 20px !important;
+    width: 18px !important;
+    height: 18px !important;
+    flex: 0 0 18px !important;
     background-color: currentColor !important;
     -webkit-mask-repeat: no-repeat !important;
     mask-repeat: no-repeat !important;
@@ -697,13 +698,13 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     .st-key-gulf_bottom_nav {
         width: calc(100vw - 12px) !important;
         bottom: max(6px, env(safe-area-inset-bottom)) !important;
-        padding: 6px !important;
-        border-radius: 20px !important;
+        padding: 5px !important;
+        border-radius: 19px !important;
     }
     .st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] { gap: 5px !important; }
     .st-key-gulf_bottom_nav div.stButton > button {
-        min-height: 56px !important;
-        border-radius: 14px !important;
+        min-height: 50px !important;
+        border-radius: 13px !important;
     }
 }
 
