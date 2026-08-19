@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_WHITE_PANEL_CONTENT_VISIBLE_2026_08_19
 # BUILD: GULFBITE_WHITE_SURFACE_SINGLE_BORDER_ICON_NAV_2026_08_19
 # BUILD: GULFBITE_WHITE_SURFACE_ICON_ONLY_NAV_2026_08_19
 # BUILD: GULFBITE_SLIM_DARKER_BOTTOM_NAV_2026_08_19
@@ -406,38 +407,14 @@ html, body, [class*="css"] {
     color: var(--ink);
 }
 
-.stApp {
-    position: relative;
+.stApp,
+[data-testid="stAppViewContainer"] {
     background:
         radial-gradient(circle at 50% -8%, rgba(243,195,106,.23) 0%, rgba(243,195,106,0) 42%),
-        linear-gradient(180deg, #FBF8F0 0%, var(--app-bg) 100%);
+        linear-gradient(180deg, #FBF8F0 0%, var(--app-bg) 100%) !important;
     color: var(--ink);
 }
 
-/* One continuous white mobile-app surface behind the whole screen. */
-.stApp::before {
-    content: "";
-    position: fixed;
-    z-index: 0;
-    top: 6px;
-    bottom: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(460px, calc(100vw - 12px));
-    background: #FFFFFF;
-    border: 1px solid rgba(229,169,59,.14);
-    border-radius: 28px;
-    box-shadow: 0 18px 42px -26px rgba(68,45,9,.30);
-    pointer-events: none;
-}
-
-[data-testid="stAppViewContainer"],
-[data-testid="stMain"],
-section.main {
-    position: relative;
-    z-index: 1;
-    background: transparent !important;
-}
 
 #MainMenu, footer, header[data-testid="stHeader"] {
     visibility: hidden;
@@ -446,14 +423,16 @@ section.main {
 
 .block-container {
     max-width: 460px !important;
+    min-height: calc(100dvh - 12px) !important;
+    margin: 6px auto !important;
     padding: 1rem 1rem 3rem 1rem !important;
-    position: relative !important;
-    z-index: 2 !important;
-    background: transparent !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
+    box-sizing: border-box !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(229,169,59,.14) !important;
+    border-radius: 28px !important;
+    box-shadow: 0 18px 42px -26px rgba(68,45,9,.30) !important;
 }
+
 
 /* Reduce Streamlit's default vertical gaps so the app feels like a mobile product. */
 [data-testid="stVerticalBlock"] { gap: .72rem !important; }
@@ -607,7 +586,6 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
 div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span,
 div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     color: #171007 !important;
-}
 
 /* -------------------------------------------------------------------------
    FIXED BOTTOM MOBILE NAVIGATION
@@ -924,7 +902,12 @@ div[data-testid="stTabs"] [aria-selected="true"] {
 
 /* Small screens */
 @media (max-width: 480px) {
-    .block-container { padding: .72rem .72rem 2.55rem .72rem !important; }
+    .block-container {
+        min-height: calc(100dvh - 8px) !important;
+        margin: 4px auto !important;
+        padding: .72rem .72rem 2.55rem .72rem !important;
+        border-radius: 24px !important;
+    }
     [data-testid="stVerticalBlockBorderWrapper"] { border-radius: 20px !important; padding: .9rem !important; }
     .gulf-grid-collage { height: 270px; border-radius: 20px; }
 }
