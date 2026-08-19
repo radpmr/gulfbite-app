@@ -2946,37 +2946,37 @@ def render_workflow_image(image, caption: str, variant: str):
 
 
 def render_quick_guide():
-    """Compact responsive three-step guide for the Home screen."""
+    """Compact responsive three-step guide for the Home screen.
+
+    Build the HTML without leading indentation/newlines so Streamlit's
+    Markdown parser cannot mistake it for a code block.
+    """
     upload_icon = line_icon("upload", 21)
     sparkle_icon = line_icon("sparkles", 21)
     nutrition_icon = line_icon("nutrition", 21)
 
-    st.markdown(
-        f"""
-        <div class="home-quick-guide">
-            <div class="home-guide-line"></div>
-
-            <div class="home-guide-step">
-                <div class="home-guide-icon">{upload_icon}</div>
-                <div class="home-guide-title">Upload</div>
-                <div class="home-guide-caption">Photo</div>
-            </div>
-
-            <div class="home-guide-step">
-                <div class="home-guide-icon">{sparkle_icon}</div>
-                <div class="home-guide-title">Recognize</div>
-                <div class="home-guide-caption">AI Match</div>
-            </div>
-
-            <div class="home-guide-step">
-                <div class="home-guide-icon">{nutrition_icon}</div>
-                <div class="home-guide-title">Track</div>
-                <div class="home-guide-caption">Nutrition</div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
+    guide_html = (
+        '<div class="home-quick-guide">'
+        '<div class="home-guide-line"></div>'
+        '<div class="home-guide-step">'
+        f'<div class="home-guide-icon">{upload_icon}</div>'
+        '<div class="home-guide-title">Upload</div>'
+        '<div class="home-guide-caption">Photo</div>'
+        '</div>'
+        '<div class="home-guide-step">'
+        f'<div class="home-guide-icon">{sparkle_icon}</div>'
+        '<div class="home-guide-title">Recognize</div>'
+        '<div class="home-guide-caption">AI Match</div>'
+        '</div>'
+        '<div class="home-guide-step">'
+        f'<div class="home-guide-icon">{nutrition_icon}</div>'
+        '<div class="home-guide-title">Track</div>'
+        '<div class="home-guide-caption">Nutrition</div>'
+        '</div>'
+        '</div>'
     )
+
+    st.markdown(guide_html, unsafe_allow_html=True)
 
 
 def render_scan_input():
