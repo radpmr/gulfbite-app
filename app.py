@@ -3502,6 +3502,68 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   MOBILE FAVOURITES CARD CLIP FIX
+   Let the card grow naturally around the tiles. The previous overflow:hidden
+   rule was clipping the lower edge / labels of the three image tiles.
+   ========================================================================== */
+
+.st-key-home_favourites_section {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    padding-bottom: 14px !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_favourites_section),
+[data-testid="stElementContainer"]:has(.st-key-home_favourites_section) {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+}
+
+.home-favourites-grid-links {
+    overflow: visible !important;
+    align-items: stretch !important;
+    margin-bottom: 0 !important;
+}
+
+.home-favourite-link {
+    height: 78px !important;
+    min-height: 78px !important;
+    overflow: hidden !important;
+}
+
+.home-favourite-link span {
+    bottom: 7px !important;
+}
+
+/* Keep a modest safe area above the fixed app navigation without creating
+   an unnecessarily large empty gap. */
+.st-key-home_favourites_section {
+    margin-bottom: 66px !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-home_favourites_section {
+        padding-bottom: 12px !important;
+        margin-bottom: 68px !important;
+    }
+
+    .home-favourite-link {
+        height: 72px !important;
+        min-height: 72px !important;
+    }
+}
+
+@media (max-width: 390px) {
+    .home-favourite-link {
+        height: 68px !important;
+        min-height: 68px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
