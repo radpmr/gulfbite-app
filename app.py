@@ -3065,6 +3065,94 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   FINAL HOME REFINEMENTS
+   1) Give Quick Guide captions more breathing room.
+   2) Keep Gulf favourites visually clear of the fixed bottom nav.
+   3) Force the Upload a dish CTA to use a true upload-arrow icon.
+   ========================================================================== */
+
+/* Quick Guide: add bottom breathing room so Photo / AI Match / Nutrition
+   never touch the card edge. */
+.st-key-home_quick_guide_card {
+    padding-bottom: 22px !important;
+}
+.st-key-home_quick_guide_card .home-quick-guide {
+    padding-bottom: 4px !important;
+}
+
+/* Gulf favourites: make the visual strip a little shallower so the full card
+   remains visible above the fixed navigation in the normal Home viewport. */
+.st-key-home_fav_machboos button,
+.st-key-home_fav_shawarma button,
+.st-key-home_fav_karak button {
+    height: 72px !important;
+    min-height: 72px !important;
+}
+
+.st-key-home_favourites_section {
+    padding-top: 12px !important;
+    padding-bottom: 8px !important;
+    margin-bottom: 62px !important;
+}
+
+.home-favourites-head {
+    margin-bottom: 8px !important;
+}
+
+/* Upload a dish: override the older scan/crosshair glyph with a clear
+   upload-arrow icon. Higher specificity is intentional. */
+.st-key-home_upload_feature .st-key-home_scan_control button::before {
+    content: "" !important;
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    flex: 0 0 16px !important;
+    margin: 0 !important;
+    background-color: currentColor !important;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16V4m0 0L8 8m4-4 4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4' fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16V4m0 0L8 8m4-4 4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4' fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    mask-position: center !important;
+    -webkit-mask-size: contain !important;
+    mask-size: contain !important;
+}
+
+/* Ensure the old decorative side icon never returns. */
+.home-upload-icon {
+    display: none !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-home_quick_guide_card {
+        padding-bottom: 20px !important;
+    }
+
+    .st-key-home_fav_machboos button,
+    .st-key-home_fav_shawarma button,
+    .st-key-home_fav_karak button {
+        height: 66px !important;
+        min-height: 66px !important;
+    }
+
+    .st-key-home_favourites_section {
+        padding-bottom: 7px !important;
+        margin-bottom: 64px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .st-key-home_fav_machboos button,
+    .st-key-home_fav_shawarma button,
+    .st-key-home_fav_karak button {
+        height: 60px !important;
+        min-height: 60px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
