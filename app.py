@@ -1,3 +1,9 @@
+
+
+
+
+
+
 """
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
@@ -539,15 +545,41 @@ div.stButton > button[kind="primary"]:hover {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M12 4v11m0-11-4 4m4-4 4 4M5 14.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3.5' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
-@media (max-width: 390px) {
+/* Keep the primary Home / Menu / Scan navigation in one row on phones.
+   Streamlit normally stacks st.columns() vertically at narrow widths. */
+[data-testid="stHorizontalBlock"]:has(.st-key-nav_home) {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+}
+[data-testid="stHorizontalBlock"]:has(.st-key-nav_home) > [data-testid="stColumn"] {
+    flex: 1 1 0% !important;
+    width: 0 !important;
+    min-width: 0 !important;
+}
+[data-testid="stHorizontalBlock"]:has(.st-key-nav_home) .st-key-nav_home,
+[data-testid="stHorizontalBlock"]:has(.st-key-nav_home) .st-key-nav_menu,
+[data-testid="stHorizontalBlock"]:has(.st-key-nav_home) .st-key-nav_scan {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+@media (max-width: 480px) {
+    [data-testid="stHorizontalBlock"]:has(.st-key-nav_home) {
+        gap: 7px !important;
+    }
     .st-key-nav_home button,
     .st-key-nav_menu button,
     .st-key-nav_scan button {
-        min-height: 40px !important;
+        min-height: 42px !important;
         gap: 5px !important;
-        padding-left: 7px !important;
-        padding-right: 7px !important;
+        padding-left: 6px !important;
+        padding-right: 6px !important;
         font-size: .80rem !important;
+        border-radius: 14px !important;
     }
     .st-key-nav_home button::before,
     .st-key-nav_menu button::before,
@@ -555,6 +587,27 @@ div.stButton > button[kind="primary"]:hover {
         width: 15px;
         height: 15px;
         flex-basis: 15px;
+    }
+}
+
+@media (max-width: 350px) {
+    [data-testid="stHorizontalBlock"]:has(.st-key-nav_home) {
+        gap: 5px !important;
+    }
+    .st-key-nav_home button,
+    .st-key-nav_menu button,
+    .st-key-nav_scan button {
+        font-size: .74rem !important;
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+        gap: 4px !important;
+    }
+    .st-key-nav_home button::before,
+    .st-key-nav_menu button::before,
+    .st-key-nav_scan button::before {
+        width: 14px;
+        height: 14px;
+        flex-basis: 14px;
     }
 }
 
@@ -664,6 +717,136 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
 div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span,
 div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     color: #171007 !important;
+}
+
+/* -------------------------------------------------------------------------
+   FIXED BOTTOM MOBILE NAVIGATION
+   The radio widget is rendered once but visually behaves like a native app
+   tab bar: Home / Menu / Scan stays pinned above the phone safe area.
+   ------------------------------------------------------------------------- */
+.st-key-main_nav_radio,
+[class*="st-key-main_nav_radio"] {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: max(10px, env(safe-area-inset-bottom)) !important;
+    transform: translateX(-50%) !important;
+    width: min(430px, calc(100vw - 20px)) !important;
+    z-index: 9999 !important;
+    box-sizing: border-box !important;
+    padding: 7px 8px 8px 8px !important;
+    margin: 0 !important;
+    border: 1px solid rgba(225, 215, 196, .95) !important;
+    border-radius: 22px !important;
+    background: rgba(255, 253, 249, .96) !important;
+    box-shadow: 0 16px 42px rgba(58, 40, 12, .18), 0 2px 8px rgba(0, 0, 0, .05) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(1.15) !important;
+    backdrop-filter: blur(18px) saturate(1.15) !important;
+}
+
+/* Reserve room for the fixed bar so the last card/button is never hidden. */
+.stApp:has(.st-key-main_nav_radio) .block-container,
+.stApp:has([class*="st-key-main_nav_radio"]) .block-container {
+    padding-bottom: 7.4rem !important;
+}
+
+.st-key-main_nav_radio [role="radiogroup"],
+[class*="st-key-main_nav_radio"] [role="radiogroup"] {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+    width: 100% !important;
+    align-items: stretch !important;
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"],
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 60px !important;
+    padding: 7px 5px 6px 5px !important;
+    margin: 0 !important;
+    border: 1px solid transparent !important;
+    border-radius: 16px !important;
+    background: transparent !important;
+    color: #847B6E !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    box-sizing: border-box !important;
+    transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease !important;
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"]:has(input:checked),
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"]:has(input:checked) {
+    background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
+    border-color: #E5A93B !important;
+    color: #171007 !important;
+    box-shadow: 0 6px 15px rgba(229,169,59,.24) !important;
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"]::before,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"]::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    display: block;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"]:nth-child(1)::before,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"]:nth-child(1)::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"]:nth-child(2)::before,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"]:nth-child(2)::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"]:nth-child(3)::before,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"]:nth-child(3)::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='13' r='4' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='13' r='4' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"] span,
+.st-key-main_nav_radio label[data-baseweb="radio"] p,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"] span,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"] p {
+    margin: 0 !important;
+    white-space: nowrap !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .73rem !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    color: inherit !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-main_nav_radio,
+    [class*="st-key-main_nav_radio"] {
+        width: calc(100vw - 16px) !important;
+        bottom: max(7px, env(safe-area-inset-bottom)) !important;
+        border-radius: 20px !important;
+        padding: 6px 7px 7px 7px !important;
+    }
+    .st-key-main_nav_radio label[data-baseweb="radio"],
+    [class*="st-key-main_nav_radio"] label[data-baseweb="radio"] {
+        min-height: 58px !important;
+        border-radius: 15px !important;
+    }
 }
 
 /* Upload zone */
@@ -949,36 +1132,39 @@ def render_header(compact: bool = True):
 
 
 def render_main_navigation():
-    """Three-button mobile navigation with consistent inline SVG-mask icons."""
+    """Render the fixed bottom Home / Menu / Scan mobile tab bar."""
     nav_options = ["Home", "Menu", "Scan"]
 
     pending = st.session_state.pop("pending_main_section", None)
     if pending in nav_options:
         st.session_state.main_section = pending
+        # Set before the widget is instantiated so programmatic navigation
+        # (for example, the Home scan CTA) updates the visible active item too.
+        st.session_state["main_nav_radio"] = pending
 
     current = st.session_state.get("main_section", "Home")
     if current not in nav_options:
         current = "Home"
         st.session_state.main_section = current
 
-    cols = st.columns(3, gap="small")
-    for col, label, key in zip(
-        cols,
-        nav_options,
-        ["nav_home", "nav_menu", "nav_scan"],
+    if (
+        "main_nav_radio" not in st.session_state
+        or st.session_state["main_nav_radio"] not in nav_options
     ):
-        with col:
-            clicked = st.button(
-                label,
-                key=key,
-                type="primary" if current == label else "secondary",
-                use_container_width=True,
-            )
-            if clicked and current != label:
-                st.session_state.main_section = label
-                st.rerun()
+        st.session_state["main_nav_radio"] = current
 
-    return st.session_state.main_section
+    selected = st.radio(
+        "Main navigation",
+        options=nav_options,
+        horizontal=True,
+        key="main_nav_radio",
+        label_visibility="collapsed",
+    )
+
+    if selected != st.session_state.get("main_section"):
+        st.session_state.main_section = selected
+
+    return selected
 
 def render_segmented_stepper(current_stage: str, triggered: bool):
     raw_steps = [("upload", "Scan")]
