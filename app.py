@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_PERSISTENT_WORKFLOW_BOTTOM_NAV_SCROLL_2026_08_19
 # BUILD: GULFBITE_ICON_ONLY_CLOCHE_NAV_2026_08_19
 # BUILD: GULFBITE_SLIM_DARKER_BOTTOM_NAV_2026_08_19
 # BUILD: GULFBITE_BOTTOM_NAV_NO_GHOST_SLOT_2026_08_19
@@ -576,6 +577,17 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     color: #171007 !important;
 }
 
+
+/* Scan workflow pages stay vertically scrollable behind the fixed bottom bar. */
+.workflow-nav-scroll-space {
+    height: calc(58px + env(safe-area-inset-bottom));
+    width: 100%;
+    pointer-events: none;
+}
+html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
+    overscroll-behavior-y: contain;
+}
+
 /* -------------------------------------------------------------------------
    FIXED BOTTOM MOBILE NAVIGATION
    Uses real Streamlit buttons so tab changes are handled inside the existing
@@ -998,11 +1010,12 @@ def render_header(compact: bool = True):
     )
 
 
-def render_main_navigation():
-    """Render a fixed bottom Home / Menu / Scan bar using Streamlit buttons.
+def render_main_navigation(active_override=None):
+    """Render the fixed bottom Home / Menu / Scan bar.
 
-    Button clicks rerun the app inside the same Streamlit session, so switching
-    tabs never reloads the browser and never returns to onboarding.
+    `active_override="Scan"` is used during Verify / Portion / Result so the
+    bottom bar stays visible and Scan remains highlighted while the workflow
+    content scrolls behind it.
     """
     nav_options = ["Home", "Menu", "Scan"]
 
@@ -1015,6 +1028,8 @@ def render_main_navigation():
         current = "Home"
         st.session_state.main_section = current
 
+    visible_active = active_override if active_override in nav_options else current
+
     with st.container(key="gulf_bottom_nav"):
         cols = st.columns(3, gap="small")
         for col, label, key in zip(
@@ -1026,14 +1041,18 @@ def render_main_navigation():
                 clicked = st.button(
                     label,
                     key=key,
-                    type="primary" if current == label else "secondary",
+                    type="primary" if visible_active == label else "secondary",
                     use_container_width=True,
                 )
-                if clicked and current != label:
+                if clicked:
+                    # A bottom-tab tap always returns to the main app shell.
+                    # This prevents the Verify / Portion / Result stage router
+                    # from trapping the user on the workflow screen.
                     st.session_state.main_section = label
+                    st.session_state.stage = "main"
                     st.rerun()
 
-    return st.session_state.main_section
+    return visible_active
 
 
 def render_segmented_stepper(current_stage: str, triggered: bool):
@@ -1538,6 +1557,7 @@ elif st.session_state.stage in ["main", "upload"]:
 
 elif st.session_state.stage == "confirm_dish":
     render_header()
+    render_main_navigation(active_override="Scan")
     render_segmented_stepper("confirm_dish", True)
 
     with st.container(border=True):
@@ -1609,6 +1629,8 @@ elif st.session_state.stage == "confirm_dish":
             st.session_state.stage = "select_portion"
             st.rerun()
 
+    st.markdown('<div class="workflow-nav-scroll-space"></div>', unsafe_allow_html=True)
+
 
 # ============================================================================
 # 10. SCREEN 3: SELECT PORTION
@@ -1616,6 +1638,7 @@ elif st.session_state.stage == "confirm_dish":
 
 elif st.session_state.stage == "select_portion":
     render_header()
+    render_main_navigation(active_override="Scan")
     render_segmented_stepper("select_portion", st.session_state.get("triggered", False))
 
     with st.container(border=True):
@@ -1662,6 +1685,8 @@ elif st.session_state.stage == "select_portion":
             st.session_state.stage = "result"
             st.rerun()
 
+    st.markdown('<div class="workflow-nav-scroll-space"></div>', unsafe_allow_html=True)
+
 
 # ============================================================================
 # 11. SCREEN 4: NUTRITIONAL BREAKDOWN RESULT & MACRO RING
@@ -1669,6 +1694,7 @@ elif st.session_state.stage == "select_portion":
 
 elif st.session_state.stage == "result":
     render_header()
+    render_main_navigation(active_override="Scan")
     render_segmented_stepper("result", st.session_state.get("triggered", False))
 
     with st.container(border=True):
@@ -1760,5 +1786,6 @@ elif st.session_state.stage == "result":
                 unsafe_allow_html=True,
             )
 
+    st.markdown('<div class="workflow-nav-scroll-space"></div>', unsafe_allow_html=True)
     st.write("")
     st.button("📸 Scan another plate", on_click=reset, use_container_width=True)
