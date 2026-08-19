@@ -3153,6 +3153,92 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   HOME CARD GAP COMPRESSION
+   Move the lower Home content upward by tightening ONLY the gaps between
+   cards. This keeps the favourites tiles clear of the fixed bottom nav
+   without adding a large empty footer or shrinking the content further.
+   ========================================================================== */
+
+/* Quick Guide -> Scan your meal */
+.st-key-home_quick_guide_card {
+    margin-bottom: -6px !important;
+}
+
+.st-key-home_upload_feature {
+    margin-top: 0 !important;
+    margin-bottom: 2px !important;
+}
+
+/* Scan your meal -> metric cards */
+.home-metric-row {
+    margin-top: -5px !important;
+    margin-bottom: 0 !important;
+}
+
+/* Remove the small artificial spacer that previously added vertical height. */
+.home-bottom-space {
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Metric cards -> Gulf favourites */
+.st-key-home_favourites_section {
+    margin-top: -7px !important;
+    margin-bottom: 58px !important;
+}
+
+/* Keep the existing tile size; the overlap is solved by moving the entire
+   lower section upward rather than making the food images too small. */
+.st-key-home_fav_machboos button,
+.st-key-home_fav_shawarma button,
+.st-key-home_fav_karak button {
+    height: 72px !important;
+    min-height: 72px !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-home_quick_guide_card {
+        margin-bottom: -8px !important;
+    }
+
+    .st-key-home_upload_feature {
+        margin-top: -1px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .home-metric-row {
+        margin-top: -7px !important;
+    }
+
+    .st-key-home_favourites_section {
+        margin-top: -9px !important;
+        margin-bottom: 58px !important;
+    }
+
+    .st-key-home_fav_machboos button,
+    .st-key-home_fav_shawarma button,
+    .st-key-home_fav_karak button {
+        height: 70px !important;
+        min-height: 70px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .st-key-home_favourites_section {
+        margin-top: -10px !important;
+    }
+
+    .st-key-home_fav_machboos button,
+    .st-key-home_fav_shawarma button,
+    .st-key-home_fav_karak button {
+        height: 66px !important;
+        min-height: 66px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
