@@ -2812,6 +2812,131 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   CLICKABLE GULF FAVOURITES
+   Real Streamlit buttons styled as image tiles.
+   ========================================================================== */
+
+.home-favourites-head {
+    margin-bottom: 10px !important;
+}
+
+.st-key-home_favourites_section [data-testid="stHorizontalBlock"] {
+    gap: 7px !important;
+}
+
+.st-key-home_favourites_section [data-testid="column"] {
+    min-width: 0 !important;
+}
+
+/* Remove wrapper/card styling around each clickable tile. */
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_fav_machboos),
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_fav_shawarma),
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_fav_karak),
+[data-testid="stElementContainer"]:has(.st-key-home_fav_machboos),
+[data-testid="stElementContainer"]:has(.st-key-home_fav_shawarma),
+[data-testid="stElementContainer"]:has(.st-key-home_fav_karak),
+.st-key-home_fav_machboos,
+.st-key-home_fav_shawarma,
+.st-key-home_fav_karak {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.st-key-home_fav_machboos button,
+.st-key-home_fav_shawarma button,
+.st-key-home_fav_karak button {
+    position: relative !important;
+    width: 100% !important;
+    height: 104px !important;
+    min-height: 104px !important;
+    padding: 0 9px 9px 9px !important;
+    border: 0 !important;
+    border-radius: 14px !important;
+    background-color: #EDE5D8 !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    color: #FFFFFF !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .68rem !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,.34) !important;
+    overflow: hidden !important;
+    transition: transform .15s ease, filter .15s ease !important;
+}
+
+.st-key-home_fav_machboos button:hover,
+.st-key-home_fav_shawarma button:hover,
+.st-key-home_fav_karak button:hover {
+    transform: translateY(-1px) !important;
+    filter: brightness(1.04) !important;
+}
+
+.st-key-home_fav_machboos button:active,
+.st-key-home_fav_shawarma button:active,
+.st-key-home_fav_karak button:active {
+    transform: scale(.985) !important;
+}
+
+/* Keep text visible and aligned at the lower-left. */
+.st-key-home_fav_machboos button p,
+.st-key-home_fav_shawarma button p,
+.st-key-home_fav_karak button p,
+.st-key-home_fav_machboos button span,
+.st-key-home_fav_shawarma button span,
+.st-key-home_fav_karak button span {
+    color: #FFFFFF !important;
+    font: inherit !important;
+    text-shadow: inherit !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* No duplicate badge or separate browse button anymore. */
+.home-favourites-badge,
+.st-key-home_browse_dishes_control {
+    display: none !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-home_fav_machboos button,
+    .st-key-home_fav_shawarma button,
+    .st-key-home_fav_karak button {
+        height: 92px !important;
+        min-height: 92px !important;
+        padding: 0 7px 7px 7px !important;
+        border-radius: 12px !important;
+        font-size: .62rem !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .st-key-home_favourites_section [data-testid="stHorizontalBlock"] {
+        gap: 5px !important;
+    }
+
+    .st-key-home_fav_machboos button,
+    .st-key-home_fav_shawarma button,
+    .st-key-home_fav_karak button {
+        height: 82px !important;
+        min-height: 82px !important;
+        padding: 0 6px 6px 6px !important;
+        font-size: .58rem !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -3554,44 +3679,83 @@ elif st.session_state.stage in ["main", "upload"]:
         st.markdown(metrics_html, unsafe_allow_html=True)
 
         with st.container(key="home_favourites_section"):
-            favourites_html = (
+            st.markdown(
                 '<div class="home-favourites-head">'
                 '<div>'
                 '<div class="home-favourites-title">Gulf favourites</div>'
-                '<div class="home-favourites-subtitle">A few dishes GulfBite already recognizes.</div>'
+                '<div class="home-favourites-subtitle">Tap a dish to explore it in the menu.</div>'
                 '</div>'
-                '<div class="home-favourites-badge">25 supported</div>'
-                '</div>'
-                '<div class="home-favourites-grid">'
-                '<div class="home-favourite-tile">'
-                f'<img src="{MACHBOOS_ONBOARDING_URI}" alt="Machboos">'
-                '<div class="home-favourite-shade"></div>'
-                '<div class="home-favourite-name">Machboos</div>'
-                '</div>'
-                '<div class="home-favourite-tile">'
-                '<img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=85" alt="Shawarma">'
-                '<div class="home-favourite-shade"></div>'
-                '<div class="home-favourite-name">Shawarma</div>'
-                '</div>'
-                '<div class="home-favourite-tile">'
-                '<img src="https://www.timeoutabudhabi.com/cloud/timeoutabudhabi/2022/08/22/Milky-Karak-Cafeteria.jpg" alt="Karak Chai">'
-                '<div class="home-favourite-shade"></div>'
-                '<div class="home-favourite-name">Karak Chai</div>'
-                '</div>'
-                '</div>'
+                '</div>',
+                unsafe_allow_html=True,
             )
-            st.markdown(favourites_html, unsafe_allow_html=True)
 
-            with st.container(key="home_browse_dishes_control"):
-                if st.button(
-                    "Browse supported dishes",
-                    type="secondary",
-                    use_container_width=True,
-                    key="home_browse_dishes",
-                ):
-                    st.session_state.main_section = "Menu"
-                    request_scroll_top()
-                    st.rerun()
+            # Style the three dish buttons as image tiles. Using real Streamlit
+            # buttons keeps navigation/session state reliable on mobile.
+            st.markdown(
+                f"""
+                <style>
+                .st-key-home_fav_machboos button {{
+                    background-image:
+                        linear-gradient(180deg, rgba(18,12,5,0) 38%, rgba(18,12,5,.74) 100%),
+                        url("{MACHBOOS_ONBOARDING_URI}") !important;
+                }}
+                .st-key-home_fav_shawarma button {{
+                    background-image:
+                        linear-gradient(180deg, rgba(18,12,5,0) 38%, rgba(18,12,5,.74) 100%),
+                        url("https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=85") !important;
+                }}
+                .st-key-home_fav_karak button {{
+                    background-image:
+                        linear-gradient(180deg, rgba(18,12,5,0) 38%, rgba(18,12,5,.74) 100%),
+                        url("https://www.timeoutabudhabi.com/cloud/timeoutabudhabi/2022/08/22/Milky-Karak-Cafeteria.jpg") !important;
+                }}
+                </style>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            fav_cols = st.columns(3, gap="small")
+
+            favourite_items = [
+                (
+                    fav_cols[0],
+                    "Machboos",
+                    "home_fav_machboos",
+                    "🍚 Rice & Grains",
+                    "01_machboos",
+                ),
+                (
+                    fav_cols[1],
+                    "Shawarma",
+                    "home_fav_shawarma",
+                    "🌯 Street Food & Snacks",
+                    "10_shawarma",
+                ),
+                (
+                    fav_cols[2],
+                    "Karak Chai",
+                    "home_fav_karak",
+                    "🍰 Sweets & Drinks",
+                    "25_karak_chai",
+                ),
+            ]
+
+            for col, label, key, category, dish_key in favourite_items:
+                with col:
+                    with st.container(key=key):
+                        clicked = st.button(
+                            label,
+                            key=f"{key}_button",
+                            use_container_width=True,
+                        )
+                        if clicked:
+                            st.session_state.main_section = "Menu"
+                            st.session_state.stage = "main"
+                            st.session_state.cat_select_box = category
+                            st.session_state.selected_category = category
+                            st.session_state.dish_select_box = dish_key
+                            request_scroll_top()
+                            st.rerun()
 
     elif active_section == "Menu":
         st.markdown(
