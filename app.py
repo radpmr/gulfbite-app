@@ -2615,6 +2615,203 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   HOME VISUAL FILL — Gulf favourites
+   Adds imagery and a useful path to Menu so Home feels closer to onboarding.
+   ========================================================================== */
+
+.st-key-home_favourites_section {
+    margin-top: 12px !important;
+    padding: 14px !important;
+    border: 1px solid #EEDFC4 !important;
+    border-radius: 20px !important;
+    background:
+        radial-gradient(circle at 95% 4%, rgba(245,196,92,.14), transparent 28%),
+        #FFFDF9 !important;
+    box-shadow: 0 8px 20px rgba(70,49,15,.055) !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_favourites_section),
+[data-testid="stElementContainer"]:has(.st-key-home_favourites_section) {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.home-favourites-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.home-favourites-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: .94rem;
+    line-height: 1.15;
+    font-weight: 900;
+    color: #1E1B16;
+}
+
+.home-favourites-subtitle {
+    margin-top: 3px;
+    font-size: .67rem;
+    line-height: 1.35;
+    font-weight: 600;
+    color: #91887C;
+}
+
+.home-favourites-badge {
+    flex: 0 0 auto;
+    padding: 4px 8px;
+    border: 1px solid #EFD7A5;
+    border-radius: 999px;
+    background: #FFF7E7;
+    color: #AF730B;
+    font-size: .60rem;
+    line-height: 1;
+    font-weight: 850;
+    white-space: nowrap;
+}
+
+.home-favourites-grid {
+    display: grid;
+    grid-template-columns: 1.18fr 1fr 1fr;
+    gap: 7px;
+}
+
+.home-favourite-tile {
+    position: relative;
+    height: 102px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #EFE8DC;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.20);
+}
+
+.home-favourite-tile img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.01);
+}
+
+.home-favourite-tile:first-child img {
+    object-position: center 54%;
+}
+
+.home-favourite-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(18,12,5,0) 38%,
+        rgba(18,12,5,.72) 100%
+    );
+}
+
+.home-favourite-name {
+    position: absolute;
+    left: 9px;
+    right: 7px;
+    bottom: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: 'Outfit', sans-serif;
+    font-size: .68rem;
+    line-height: 1;
+    font-weight: 850;
+    color: #FFFFFF;
+    text-shadow: 0 1px 3px rgba(0,0,0,.28);
+}
+
+/* Secondary browse action: compact and deliberately quieter than Upload a dish. */
+.st-key-home_browse_dishes_control {
+    margin-top: 9px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_browse_dishes_control),
+[data-testid="stElementContainer"]:has(.st-key-home_browse_dishes_control) {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.st-key-home_browse_dishes_control button {
+    width: 100% !important;
+    min-height: 38px !important;
+    height: 38px !important;
+    padding: 0 14px !important;
+    border: 1px solid #DDB66E !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    color: #A56D08 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .77rem !important;
+    font-weight: 820 !important;
+    box-shadow: none !important;
+}
+
+.st-key-home_browse_dishes_control button:hover {
+    background: #FFF8E9 !important;
+    border-color: #D39B2C !important;
+}
+
+/* Reduce deliberate bottom whitespace because the visual card now occupies it. */
+.home-bottom-space {
+    height: 4px !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-home_favourites_section {
+        margin-top: 10px !important;
+        padding: 12px !important;
+        border-radius: 18px !important;
+    }
+
+    .home-favourite-tile {
+        height: 92px;
+        border-radius: 12px;
+    }
+
+    .home-favourite-name {
+        left: 7px;
+        bottom: 7px;
+        font-size: .62rem;
+    }
+
+    .home-favourites-badge {
+        font-size: .56rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .home-favourites-grid {
+        gap: 5px;
+    }
+
+    .home-favourite-tile {
+        height: 82px;
+    }
+
+    .home-favourites-subtitle {
+        font-size: .62rem;
+    }
+
+    .home-favourites-badge {
+        display: none;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -3355,6 +3552,46 @@ elif st.session_state.stage in ["main", "upload"]:
             '<div class="home-bottom-space"></div>'
         )
         st.markdown(metrics_html, unsafe_allow_html=True)
+
+        with st.container(key="home_favourites_section"):
+            favourites_html = (
+                '<div class="home-favourites-head">'
+                '<div>'
+                '<div class="home-favourites-title">Gulf favourites</div>'
+                '<div class="home-favourites-subtitle">A few dishes GulfBite already recognizes.</div>'
+                '</div>'
+                '<div class="home-favourites-badge">25 supported</div>'
+                '</div>'
+                '<div class="home-favourites-grid">'
+                '<div class="home-favourite-tile">'
+                f'<img src="{MACHBOOS_ONBOARDING_URI}" alt="Machboos">'
+                '<div class="home-favourite-shade"></div>'
+                '<div class="home-favourite-name">Machboos</div>'
+                '</div>'
+                '<div class="home-favourite-tile">'
+                '<img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=85" alt="Shawarma">'
+                '<div class="home-favourite-shade"></div>'
+                '<div class="home-favourite-name">Shawarma</div>'
+                '</div>'
+                '<div class="home-favourite-tile">'
+                '<img src="https://www.timeoutabudhabi.com/cloud/timeoutabudhabi/2022/08/22/Milky-Karak-Cafeteria.jpg" alt="Karak Chai">'
+                '<div class="home-favourite-shade"></div>'
+                '<div class="home-favourite-name">Karak Chai</div>'
+                '</div>'
+                '</div>'
+            )
+            st.markdown(favourites_html, unsafe_allow_html=True)
+
+            with st.container(key="home_browse_dishes_control"):
+                if st.button(
+                    "Browse supported dishes",
+                    type="secondary",
+                    use_container_width=True,
+                    key="home_browse_dishes",
+                ):
+                    st.session_state.main_section = "Menu"
+                    request_scroll_top()
+                    st.rerun()
 
     elif active_section == "Menu":
         st.markdown(
