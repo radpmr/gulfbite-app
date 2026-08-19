@@ -1,9 +1,3 @@
-
-
-
-
-
-
 """
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
@@ -720,16 +714,40 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 }
 
 /* -------------------------------------------------------------------------
-   MAIN MOBILE NAVIGATION
-   Do not build this with st.columns(): Streamlit intentionally collapses
-   columns on phones.  The main_nav_radio widget is one DOM component, so the
-   three destinations remain in a fixed 3-column grid at every viewport width.
+   FIXED BOTTOM MOBILE NAVIGATION
+   The radio widget is rendered once but visually behaves like a native app
+   tab bar: Home / Menu / Scan stays pinned above the phone safe area.
    ------------------------------------------------------------------------- */
+.st-key-main_nav_radio,
+[class*="st-key-main_nav_radio"] {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: max(10px, env(safe-area-inset-bottom)) !important;
+    transform: translateX(-50%) !important;
+    width: min(430px, calc(100vw - 20px)) !important;
+    z-index: 9999 !important;
+    box-sizing: border-box !important;
+    padding: 7px 8px 8px 8px !important;
+    margin: 0 !important;
+    border: 1px solid rgba(225, 215, 196, .95) !important;
+    border-radius: 22px !important;
+    background: rgba(255, 253, 249, .96) !important;
+    box-shadow: 0 16px 42px rgba(58, 40, 12, .18), 0 2px 8px rgba(0, 0, 0, .05) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(1.15) !important;
+    backdrop-filter: blur(18px) saturate(1.15) !important;
+}
+
+/* Reserve room for the fixed bar so the last card/button is never hidden. */
+.stApp:has(.st-key-main_nav_radio) .block-container,
+.stApp:has([class*="st-key-main_nav_radio"]) .block-container {
+    padding-bottom: 7.4rem !important;
+}
+
 .st-key-main_nav_radio [role="radiogroup"],
 [class*="st-key-main_nav_radio"] [role="radiogroup"] {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 8px !important;
+    gap: 5px !important;
     width: 100% !important;
     align-items: stretch !important;
 }
@@ -738,19 +756,21 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 [class*="st-key-main_nav_radio"] label[data-baseweb="radio"] {
     width: 100% !important;
     min-width: 0 !important;
-    min-height: 58px !important;
-    padding: 10px 8px !important;
-    border: 1px solid #E7DDCA !important;
-    border-radius: 18px !important;
-    background: #FFFDF9 !important;
-    color: #756C60 !important;
-    box-shadow: 0 8px 20px rgba(68,45,9,.06) !important;
+    min-height: 60px !important;
+    padding: 7px 5px 6px 5px !important;
+    margin: 0 !important;
+    border: 1px solid transparent !important;
+    border-radius: 16px !important;
+    background: transparent !important;
+    color: #847B6E !important;
+    box-shadow: none !important;
     display: flex !important;
-    flex-direction: row !important;
+    flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 7px !important;
+    gap: 4px !important;
     box-sizing: border-box !important;
+    transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease !important;
 }
 
 .st-key-main_nav_radio label[data-baseweb="radio"]:has(input:checked),
@@ -758,15 +778,15 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
     border-color: #E5A93B !important;
     color: #171007 !important;
-    box-shadow: 0 7px 17px rgba(229,169,59,.22) !important;
+    box-shadow: 0 6px 15px rgba(229,169,59,.24) !important;
 }
 
 .st-key-main_nav_radio label[data-baseweb="radio"]::before,
 [class*="st-key-main_nav_radio"] label[data-baseweb="radio"]::before {
     content: "";
-    width: 18px;
-    height: 18px;
-    flex: 0 0 18px;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
     display: block;
     background-color: currentColor;
     -webkit-mask-repeat: no-repeat;
@@ -802,36 +822,24 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     margin: 0 !important;
     white-space: nowrap !important;
     font-family: 'Outfit', sans-serif !important;
-    font-size: .88rem !important;
-    font-weight: 700 !important;
+    font-size: .73rem !important;
+    font-weight: 800 !important;
     line-height: 1 !important;
     color: inherit !important;
 }
 
 @media (max-width: 480px) {
-    .st-key-main_nav_radio [role="radiogroup"],
-    [class*="st-key-main_nav_radio"] [role="radiogroup"] {
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-        gap: 7px !important;
+    .st-key-main_nav_radio,
+    [class*="st-key-main_nav_radio"] {
+        width: calc(100vw - 16px) !important;
+        bottom: max(7px, env(safe-area-inset-bottom)) !important;
+        border-radius: 20px !important;
+        padding: 6px 7px 7px 7px !important;
     }
     .st-key-main_nav_radio label[data-baseweb="radio"],
     [class*="st-key-main_nav_radio"] label[data-baseweb="radio"] {
-        min-height: 54px !important;
-        padding: 8px 5px !important;
-        border-radius: 16px !important;
-        gap: 5px !important;
-    }
-    .st-key-main_nav_radio label[data-baseweb="radio"]::before,
-    [class*="st-key-main_nav_radio"] label[data-baseweb="radio"]::before {
-        width: 16px;
-        height: 16px;
-        flex-basis: 16px;
-    }
-    .st-key-main_nav_radio label[data-baseweb="radio"] span,
-    .st-key-main_nav_radio label[data-baseweb="radio"] p,
-    [class*="st-key-main_nav_radio"] label[data-baseweb="radio"] span,
-    [class*="st-key-main_nav_radio"] label[data-baseweb="radio"] p {
-        font-size: .80rem !important;
+        min-height: 58px !important;
+        border-radius: 15px !important;
     }
 }
 
@@ -1118,12 +1126,7 @@ def render_header(compact: bool = True):
 
 
 def render_main_navigation():
-    """Mobile-safe Home / Menu / Scan navigation that never uses st.columns().
-
-    Streamlit stacks ``st.columns`` vertically on narrow screens.  A single
-    horizontal radio-group avoids that responsive behaviour entirely, while
-    CSS below makes the three choices look like the GulfBite navigation cards.
-    """
+    """Render the fixed bottom Home / Menu / Scan mobile tab bar."""
     nav_options = ["Home", "Menu", "Scan"]
 
     pending = st.session_state.pop("pending_main_section", None)
