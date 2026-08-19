@@ -3313,20 +3313,16 @@ elif st.session_state.stage in ["main", "upload"]:
         render_quick_guide()
 
         with st.container(key="home_upload_feature"):
-            st.markdown(
-                f"""
-                <div class="home-upload-copy">
-                    <div class="home-upload-text">
-                        <div class="home-upload-title">Scan your meal</div>
-                        <div class="home-upload-subtitle">
-                            Upload a clear Gulf dish photo for AI recognition and nutrition estimates.
-                        </div>
-                    </div>
-                    <div class="home-upload-icon">{line_icon("upload", 23)}</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
+            upload_copy_html = (
+                '<div class="home-upload-copy">'
+                '<div class="home-upload-text">'
+                '<div class="home-upload-title">Scan your meal</div>'
+                '<div class="home-upload-subtitle">Upload a clear Gulf dish photo for AI recognition and nutrition estimates.</div>'
+                '</div>'
+                f'<div class="home-upload-icon">{line_icon("upload", 23)}</div>'
+                '</div>'
             )
+            st.markdown(upload_copy_html, unsafe_allow_html=True)
 
             with st.container(key="home_scan_control"):
                 if st.button(
@@ -3339,29 +3335,26 @@ elif st.session_state.stage in ["main", "upload"]:
                     request_scroll_top()
                     st.rerun()
 
-        st.markdown(
-            f"""
-            <div class="home-metric-row">
-                <div class="home-metric-card">
-                    <div class="home-metric-icon">{line_icon("sparkles", 17)}</div>
-                    <div>
-                        <div class="home-metric-value">25 dishes</div>
-                        <div class="home-metric-label">Supported</div>
-                    </div>
-                </div>
-
-                <div class="home-metric-card">
-                    <div class="home-metric-icon">{line_icon("nutrition", 17)}</div>
-                    <div>
-                        <div class="home-metric-value">Calories + macros</div>
-                        <div class="home-metric-label">Nutrition output</div>
-                    </div>
-                </div>
-            </div>
-            <div class="home-bottom-space"></div>
-            """,
-            unsafe_allow_html=True,
+        metrics_html = (
+            '<div class="home-metric-row">'
+            '<div class="home-metric-card">'
+            f'<div class="home-metric-icon">{line_icon("sparkles", 17)}</div>'
+            '<div>'
+            '<div class="home-metric-value">25 dishes</div>'
+            '<div class="home-metric-label">Supported</div>'
+            '</div>'
+            '</div>'
+            '<div class="home-metric-card">'
+            f'<div class="home-metric-icon">{line_icon("nutrition", 17)}</div>'
+            '<div>'
+            '<div class="home-metric-value">Calories + macros</div>'
+            '<div class="home-metric-label">Nutrition output</div>'
+            '</div>'
+            '</div>'
+            '</div>'
+            '<div class="home-bottom-space"></div>'
         )
+        st.markdown(metrics_html, unsafe_allow_html=True)
 
     elif active_section == "Menu":
         st.markdown(
