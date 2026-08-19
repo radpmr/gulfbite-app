@@ -3315,6 +3315,111 @@ div[data-baseweb="popover"] [role="listbox"] * {
     display: none !important;
 }
 
+
+/* ==========================================================================
+   MOBILE GULF FAVOURITES FIX
+   Prevent the three favourites from stacking vertically on narrow phones.
+   ========================================================================== */
+
+.home-favourites-grid-links {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+}
+
+.home-favourite-link {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    height: 82px !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    border-radius: 13px !important;
+    background: #EEE6D9 !important;
+    text-decoration: none !important;
+    color: #FFFFFF !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.home-favourite-link img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+}
+
+.home-favourite-link::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(180deg, rgba(14,10,5,0) 38%, rgba(14,10,5,.76) 100%) !important;
+    pointer-events: none !important;
+}
+
+.home-favourite-link span {
+    position: absolute !important;
+    z-index: 2 !important;
+    left: 8px !important;
+    right: 6px !important;
+    bottom: 7px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .64rem !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    color: #FFFFFF !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,.34) !important;
+}
+
+.home-favourite-link:active {
+    transform: scale(.985) !important;
+}
+
+/* Mobile-browser-safe clearance above the fixed app navigation. */
+.st-key-home_favourites_section {
+    margin-bottom: 80px !important;
+}
+
+@media (max-width: 480px) {
+    .home-favourites-grid-links {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+    }
+
+    .home-favourite-link {
+        height: 74px !important;
+        border-radius: 12px !important;
+    }
+
+    .home-favourite-link span {
+        left: 7px !important;
+        bottom: 6px !important;
+        font-size: .59rem !important;
+    }
+
+    .st-key-home_favourites_section {
+        margin-bottom: 82px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .home-favourites-grid-links {
+        gap: 5px !important;
+    }
+
+    .home-favourite-link {
+        height: 68px !important;
+    }
+
+    .home-favourite-link span {
+        font-size: .55rem !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -3645,6 +3750,33 @@ def render_workflow_image(image, caption: str, variant: str):
     )
 
 
+
+def consume_favourite_query():
+    """Open a Home favourite directly in Menu from a responsive HTML tile."""
+    fav = st.query_params.get("fav")
+    if not fav:
+        return
+
+    fav_map = {
+        "machboos": ("🍚 Rice & Grains", "01_machboos"),
+        "shawarma": ("🌯 Street Food & Snacks", "10_shawarma"),
+        "karak": ("🍰 Sweets & Drinks", "25_karak_chai"),
+    }
+
+    if fav in fav_map:
+        category, dish_key = fav_map[fav]
+        st.session_state.main_section = "Menu"
+        st.session_state.stage = "main"
+        st.session_state.cat_select_box = category
+        st.session_state.selected_category = category
+        st.session_state.dish_select_box = dish_key
+
+    try:
+        del st.query_params["fav"]
+    except Exception:
+        pass
+
+
 def render_quick_guide():
     """Compact responsive three-step guide for the Home screen.
 
@@ -3954,6 +4086,8 @@ except FileNotFoundError as e:
 # 7. SCREEN 0: "GET STARTED" ONBOARDING HERO
 # ============================================================================
 
+consume_favourite_query()
+
 if st.session_state.stage == "onboarding":
     render_header(compact=True)
 
@@ -4057,83 +4191,30 @@ elif st.session_state.stage in ["main", "upload"]:
         st.markdown(metrics_html, unsafe_allow_html=True)
 
         with st.container(key="home_favourites_section"):
-            st.markdown(
+            favourites_html = (
                 '<div class="home-favourites-head">'
                 '<div>'
                 '<div class="home-favourites-title">Gulf favourites</div>'
                 '<div class="home-favourites-subtitle">Tap a dish to explore it in the menu.</div>'
                 '</div>'
-                '</div>',
-                unsafe_allow_html=True,
+                '</div>'
+                '<div class="home-favourites-grid-links">'
+                f'<a class="home-favourite-link" href="?fav=machboos">'
+                f'<img src="{MACHBOOS_ONBOARDING_URI}" alt="Machboos">'
+                '<span>Machboos</span>'
+                '</a>'
+                '<a class="home-favourite-link" href="?fav=shawarma">'
+                '<img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=85" alt="Shawarma">'
+                '<span>Shawarma</span>'
+                '</a>'
+                '<a class="home-favourite-link" href="?fav=karak">'
+                '<img src="https://www.timeoutabudhabi.com/cloud/timeoutabudhabi/2022/08/22/Milky-Karak-Cafeteria.jpg" alt="Karak Chai">'
+                '<span>Karak Chai</span>'
+                '</a>'
+                '</div>'
             )
+            st.markdown(favourites_html, unsafe_allow_html=True)
 
-            # Style the three dish buttons as image tiles. Using real Streamlit
-            # buttons keeps navigation/session state reliable on mobile.
-            st.markdown(
-                f"""
-                <style>
-                .st-key-home_fav_machboos button {{
-                    background-image:
-                        linear-gradient(180deg, rgba(18,12,5,0) 38%, rgba(18,12,5,.74) 100%),
-                        url("{MACHBOOS_ONBOARDING_URI}") !important;
-                }}
-                .st-key-home_fav_shawarma button {{
-                    background-image:
-                        linear-gradient(180deg, rgba(18,12,5,0) 38%, rgba(18,12,5,.74) 100%),
-                        url("https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=85") !important;
-                }}
-                .st-key-home_fav_karak button {{
-                    background-image:
-                        linear-gradient(180deg, rgba(18,12,5,0) 38%, rgba(18,12,5,.74) 100%),
-                        url("https://www.timeoutabudhabi.com/cloud/timeoutabudhabi/2022/08/22/Milky-Karak-Cafeteria.jpg") !important;
-                }}
-                </style>
-                """,
-                unsafe_allow_html=True,
-            )
-
-            fav_cols = st.columns(3, gap="small")
-
-            favourite_items = [
-                (
-                    fav_cols[0],
-                    "Machboos",
-                    "home_fav_machboos",
-                    "🍚 Rice & Grains",
-                    "01_machboos",
-                ),
-                (
-                    fav_cols[1],
-                    "Shawarma",
-                    "home_fav_shawarma",
-                    "🌯 Street Food & Snacks",
-                    "10_shawarma",
-                ),
-                (
-                    fav_cols[2],
-                    "Karak Chai",
-                    "home_fav_karak",
-                    "🍰 Sweets & Drinks",
-                    "25_karak_chai",
-                ),
-            ]
-
-            for col, label, key, category, dish_key in favourite_items:
-                with col:
-                    with st.container(key=key):
-                        clicked = st.button(
-                            label,
-                            key=f"{key}_button",
-                            use_container_width=True,
-                        )
-                        if clicked:
-                            st.session_state.main_section = "Menu"
-                            st.session_state.stage = "main"
-                            st.session_state.cat_select_box = category
-                            st.session_state.selected_category = category
-                            st.session_state.dish_select_box = dish_key
-                            request_scroll_top()
-                            st.rerun()
 
     elif active_section == "Menu":
         st.markdown(
