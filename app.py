@@ -2955,16 +2955,17 @@ div[data-baseweb="popover"] [role="listbox"] * {
 
 /* ==========================================================================
    QUICK GUIDE CARD
-   Wrap the three-step guide in a soft card so it feels more intentional.
+   Put the Quick Guide section into a soft card so it visually matches the
+   other Home sections.
    ========================================================================== */
 
 .st-key-home_quick_guide_card {
-    margin: 0 0 12px 0 !important;
-    padding: 14px 14px 10px 14px !important;
+    margin: 0 0 10px 0 !important;
+    padding: 14px 14px 12px 14px !important;
     border: 1px solid #EEDFC4 !important;
     border-radius: 20px !important;
     background:
-        radial-gradient(circle at 96% 8%, rgba(245,196,92,.12), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(245,196,92,.12), transparent 28%),
         #FFFDF9 !important;
     box-shadow: 0 8px 20px rgba(70,49,15,.05) !important;
 }
@@ -2976,30 +2977,91 @@ div[data-baseweb="popover"] [role="listbox"] * {
     box-shadow: none !important;
 }
 
+/* The title now lives inside the card, so tighten its spacing slightly. */
 .st-key-home_quick_guide_card .home-section-title {
-    margin-top: 0 !important;
-    margin-bottom: 10px !important;
+    margin: 0 0 8px 0 !important;
 }
 
+/* Keep the guide itself compact within the card. */
 .st-key-home_quick_guide_card .home-quick-guide {
     margin: 0 !important;
-    padding: 2px 2px 0 2px !important;
+    padding: 2px 4px 0 4px !important;
 }
 
 .st-key-home_quick_guide_card .home-guide-line {
-    left: 16%;
-    right: 16%;
+    top: 21px !important;
 }
 
 @media (max-width: 480px) {
     .st-key-home_quick_guide_card {
-        padding: 12px 12px 8px 12px !important;
+        padding: 12px !important;
         border-radius: 18px !important;
-        margin-bottom: 10px !important;
     }
 
     .st-key-home_quick_guide_card .home-section-title {
-        margin-bottom: 8px !important;
+        margin-bottom: 7px !important;
+    }
+
+    .st-key-home_quick_guide_card .home-quick-guide {
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+    }
+}
+
+
+/* ==========================================================================
+   HOME FINAL SPACING POLISH
+   Tighten Quick Guide -> Scan your meal spacing and keep Gulf favourites
+   fully visible above the fixed bottom navigation.
+   ========================================================================== */
+
+/* Reduce the gap below Quick Guide by ~18px. */
+.st-key-home_quick_guide_card {
+    margin-bottom: 0 !important;
+}
+
+.st-key-home_upload_feature {
+    margin-top: 6px !important;
+}
+
+/* Make the favourites tiles slightly shorter so the whole card clears
+   the fixed bottom navigation without adding a large blank footer. */
+.st-key-home_fav_machboos button,
+.st-key-home_fav_shawarma button,
+.st-key-home_fav_karak button {
+    height: 86px !important;
+    min-height: 86px !important;
+}
+
+/* Tighten the favourites card itself a little. */
+.st-key-home_favourites_section {
+    padding-bottom: 10px !important;
+    margin-bottom: 56px !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-home_upload_feature {
+        margin-top: 5px !important;
+    }
+
+    .st-key-home_fav_machboos button,
+    .st-key-home_fav_shawarma button,
+    .st-key-home_fav_karak button {
+        height: 78px !important;
+        min-height: 78px !important;
+    }
+
+    .st-key-home_favourites_section {
+        margin-bottom: 54px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .st-key-home_fav_machboos button,
+    .st-key-home_fav_shawarma button,
+    .st-key-home_fav_karak button {
+        height: 72px !important;
+        min-height: 72px !important;
     }
 }
 
