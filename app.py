@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_MOBILE_UI_REBUILD_CONFIRM_REACHABLE_2026_08_19
 # BUILD: GULFBITE_COMPREHENSIVE_MOBILE_UI_CLEANUP_2026_08_19
 # BUILD: GULFBITE_PERSISTENT_WORKFLOW_BOTTOM_NAV_SCROLL_2026_08_19
 # BUILD: GULFBITE_ICON_ONLY_CLOCHE_NAV_2026_08_19
@@ -417,6 +418,17 @@ html, body, [class*="css"] {
 html, body {
     background: #F7F4ED !important;
     overflow-x: hidden !important;
+    overflow-y: auto !important;
+    min-height: 100% !important;
+}
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+section.main {
+    overflow: visible !important;
+    min-height: 100dvh !important;
+}
+[data-testid="stAppViewContainer"] {
+    scroll-padding-bottom: 150px !important;
 }
 
 #MainMenu, footer, header[data-testid="stHeader"] {
@@ -505,37 +517,45 @@ div.stButton > button[kind="primary"]:hover {
     fill: #B88423 !important;
 }
 
-/* Streamlit/BaseWeb select popovers are portal-mounted outside the selectbox,
-   so style the popup itself to keep the app light on mobile. */
+/* Light, clean BaseWeb select popovers. */
 div[data-baseweb="popover"] {
     z-index: 2147482500 !important;
+    background: transparent !important;
 }
-div[data-baseweb="popover"] > div,
-ul[role="listbox"] {
+div[data-baseweb="popover"] > div {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+div[data-baseweb="popover"] [data-baseweb="menu"],
+div[data-baseweb="popover"] ul[role="listbox"] {
     background: #FFFDF9 !important;
-    border-color: #E5D8BF !important;
     color: #1E1B16 !important;
-}
-ul[role="listbox"] {
-    padding: 6px !important;
     border: 1px solid #E5D8BF !important;
     border-radius: 14px !important;
-    box-shadow: 0 14px 32px rgba(57,39,11,.18) !important;
+    box-shadow: 0 14px 30px rgba(57,39,11,.18) !important;
+    overflow: hidden !important;
+    padding: 4px !important;
+    margin: 0 !important;
 }
-[role="option"] {
+div[data-baseweb="popover"] [role="option"] {
     min-height: 42px !important;
-    border-radius: 10px !important;
+    margin: 0 !important;
+    padding: 9px 12px !important;
+    border: 0 !important;
+    border-radius: 9px !important;
     background: #FFFDF9 !important;
     color: #1E1B16 !important;
+    box-shadow: none !important;
 }
-[role="option"] *,
-[role="listbox"] * {
+div[data-baseweb="popover"] [role="option"] *,
+div[data-baseweb="popover"] [role="listbox"] * {
     color: #1E1B16 !important;
     opacity: 1 !important;
 }
-[role="option"]:hover,
-[role="option"][aria-selected="true"] {
-    background: #FFF2D2 !important;
+div[data-baseweb="popover"] [role="option"]:hover,
+div[data-baseweb="popover"] [role="option"][aria-selected="true"] {
+    background: #FFF1CF !important;
     color: #1E1B16 !important;
 }
 [data-testid="stCaptionContainer"],
@@ -625,27 +645,27 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 }
 
 
-/* Verify / Portion / Macros remain scrollable with the mobile nav fixed.
-   The extra clearance applies ONLY to workflow stages, not Home/Menu/Scan. */
+/* Scan workflow: content scrolls; bottom nav stays fixed. */
 .workflow-stage-marker {
-    height: 0;
-    width: 0;
-    overflow: hidden;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
 }
 .stApp:has(.workflow-stage-marker) .block-container {
-    padding-bottom: calc(6.1rem + env(safe-area-inset-bottom)) !important;
+    padding-bottom: calc(9rem + env(safe-area-inset-bottom)) !important;
+}
+.stApp:has(.workflow-stage-marker) [data-testid="stMain"],
+.stApp:has(.workflow-stage-marker) [data-testid="stAppViewContainer"] {
+    overflow-y: visible !important;
 }
 .workflow-nav-scroll-space {
-    height: 18px;
-    width: 100%;
-    pointer-events: none;
-}
-html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
-    overscroll-behavior-y: contain;
+    height: 84px !important;
+    width: 100% !important;
+    pointer-events: none !important;
 }
 
-/* Compact image previews: show the full uploaded plate without letting the
-   image occupy an entire phone screen. */
+/* Verify / Portion / Result image previews stay useful but do not consume
+   an entire phone screen. */
 .st-key-verify_workflow_image [data-testid="stImage"],
 .st-key-portion_workflow_image [data-testid="stImage"],
 .st-key-result_workflow_image [data-testid="stImage"] {
@@ -655,15 +675,16 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     overflow: hidden !important;
     border-radius: 18px !important;
     background: #FAF7F1 !important;
+    border: 1px solid #EEE4D5 !important;
 }
 .st-key-verify_workflow_image [data-testid="stImage"] {
-    height: clamp(250px, 38dvh, 340px) !important;
+    height: clamp(220px, 30dvh, 280px) !important;
 }
 .st-key-portion_workflow_image [data-testid="stImage"] {
-    height: clamp(190px, 29dvh, 260px) !important;
+    height: clamp(175px, 24dvh, 220px) !important;
 }
 .st-key-result_workflow_image [data-testid="stImage"] {
-    height: clamp(170px, 25dvh, 225px) !important;
+    height: clamp(150px, 21dvh, 190px) !important;
 }
 .st-key-verify_workflow_image [data-testid="stImage"] img,
 .st-key-portion_workflow_image [data-testid="stImage"] img,
@@ -680,12 +701,34 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     display: none !important;
 }
 .workflow-image-caption {
-    margin: 5px 0 2px 0;
-    text-align: center;
-    font-size: .70rem;
-    line-height: 1.25;
-    color: #81786C;
-    font-weight: 650;
+    margin: 6px 0 2px 0 !important;
+    text-align: center !important;
+    font-size: .70rem !important;
+    line-height: 1.3 !important;
+    color: #6F675D !important;
+    font-weight: 700 !important;
+}
+
+/* The two workflow action buttons sit just above the fixed navigation so
+   Confirm dish / Calculate nutrition can never be hidden. */
+.st-key-workflow_confirm_action,
+.st-key-workflow_calculate_action {
+    position: sticky !important;
+    bottom: calc(66px + env(safe-area-inset-bottom)) !important;
+    z-index: 2147482200 !important;
+    padding: 8px 0 5px 0 !important;
+    margin-top: 6px !important;
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,.96) 30%,
+        rgba(255,255,255,1) 100%
+    ) !important;
+}
+.st-key-workflow_confirm_action div.stButton > button,
+.st-key-workflow_calculate_action div.stButton > button {
+    min-height: 50px !important;
+    box-shadow: 0 9px 20px rgba(229,169,59,.24) !important;
 }
 
 /* -------------------------------------------------------------------------
@@ -698,14 +741,14 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     left: 50% !important;
     bottom: max(8px, env(safe-area-inset-bottom)) !important;
     transform: translateX(-50%) !important;
-    width: min(430px, calc(100vw - 16px)) !important;
+    width: min(420px, calc(100vw - 18px)) !important;
     z-index: 2147483000 !important;
     padding: 4px !important;
     margin: 0 !important;
     box-sizing: border-box !important;
     border: 1px solid rgba(226,216,198,.96) !important;
-    border-radius: 22px !important;
-    background: rgba(255,253,249,.97) !important;
+    border-radius: 19px !important;
+    background: rgba(255,255,255,.985) !important;
     box-shadow: 0 16px 42px rgba(58,40,12,.20), 0 2px 8px rgba(0,0,0,.06) !important;
     -webkit-backdrop-filter: blur(18px) saturate(1.15) !important;
     backdrop-filter: blur(18px) saturate(1.15) !important;
@@ -833,10 +876,10 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
 }
 @media (max-width: 480px) {
     .st-key-gulf_bottom_nav {
-        width: calc(100vw - 12px) !important;
+        width: calc(100vw - 16px) !important;
         bottom: max(6px, env(safe-area-inset-bottom)) !important;
         padding: 4px !important;
-        border-radius: 18px !important;
+        border-radius: 17px !important;
     }
     .st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] { gap: 5px !important; }
     .st-key-gulf_bottom_nav div.stButton > button {
@@ -910,8 +953,8 @@ div[data-testid="stTabs"] [aria-selected="true"]::after {
     border: 1px solid #F2DEAF;
     border-left: 4px solid var(--gold);
     border-radius: 14px;
-    padding: 11px 12px;
-    margin: 10px 0 13px 0;
+    padding: 9px 10px;
+    margin: 8px 0 10px 0;
 }
 
 .ingredient-badge {
@@ -921,8 +964,8 @@ div[data-testid="stTabs"] [aria-selected="true"]::after {
     background: linear-gradient(135deg, #FFF8E9 0%, #FBF1D9 100%);
     border: 1px solid #EEDBB0;
     border-radius: 14px;
-    padding: 10px 12px;
-    margin: 8px 0 12px 0;
+    padding: 9px 10px;
+    margin: 7px 0 10px 0;
     color: var(--ink);
     font-size: .84rem;
     font-weight: 600;
@@ -1019,6 +1062,22 @@ div[data-testid="stTabs"] [aria-selected="true"]::after {
 @media (max-width: 390px) {
     .gulf-stepper-labels span {
         font-size: .62rem !important;
+    }
+}
+
+
+@media (max-width: 480px) {
+    div[data-baseweb="popover"] [data-baseweb="menu"],
+    div[data-baseweb="popover"] ul[role="listbox"] {
+        max-width: calc(100vw - 32px) !important;
+    }
+    div[data-baseweb="popover"] [role="option"] {
+        min-height: 40px !important;
+        padding: 8px 10px !important;
+        font-size: .92rem !important;
+    }
+    .stApp:has(.workflow-stage-marker) .block-container {
+        padding-bottom: calc(9.4rem + env(safe-area-inset-bottom)) !important;
     }
 }
 
@@ -1700,7 +1759,7 @@ elif st.session_state.stage == "confirm_dish":
     render_main_navigation(active_override="Scan")
     render_segmented_stepper("confirm_dish", True)
 
-    with st.container(border=True):
+    with st.container():
         display_img = st.session_state.annotated_image if st.session_state.annotated_image else st.session_state.image
         render_workflow_image(
             display_img,
@@ -1715,7 +1774,7 @@ elif st.session_state.stage == "confirm_dish":
 
         st.markdown(
             f"""<div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.6rem;">
-                <div style="font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 900; color: #1E1B16;">
+                <div style="font-family: 'Outfit', sans-serif; font-size: 1.28rem; font-weight: 900; color: #1E1B16;">
                     Initial Match: <span style="color: #E5A93B;">{display_name(cnn_class)}</span>
                 </div>
             </div>""",
@@ -1764,10 +1823,16 @@ elif st.session_state.stage == "confirm_dish":
             key="dish_confirmation_select",
         )
 
-        if st.button("Confirm dish →", type="primary", use_container_width=True):
-            st.session_state.final_dish = choice
-            st.session_state.stage = "select_portion"
-            st.rerun()
+        with st.container(key="workflow_confirm_action"):
+            if st.button(
+                "Confirm dish →",
+                type="primary",
+                use_container_width=True,
+                key="confirm_dish_action",
+            ):
+                st.session_state.final_dish = choice
+                st.session_state.stage = "select_portion"
+                st.rerun()
 
     st.markdown('<div class="workflow-nav-scroll-space"></div>', unsafe_allow_html=True)
 
@@ -1782,7 +1847,7 @@ elif st.session_state.stage == "select_portion":
     render_main_navigation(active_override="Scan")
     render_segmented_stepper("select_portion", st.session_state.get("triggered", False))
 
-    with st.container(border=True):
+    with st.container():
         render_workflow_image(
             st.session_state.image,
             "Scanned plate",
@@ -1821,10 +1886,16 @@ elif st.session_state.stage == "select_portion":
             unsafe_allow_html=True,
         )
 
-        if st.button("Calculate nutrition →", type="primary", use_container_width=True):
-            st.session_state.portion_size = selected_p
-            st.session_state.stage = "result"
-            st.rerun()
+        with st.container(key="workflow_calculate_action"):
+            if st.button(
+                "Calculate nutrition →",
+                type="primary",
+                use_container_width=True,
+                key="calculate_nutrition_action",
+            ):
+                st.session_state.portion_size = selected_p
+                st.session_state.stage = "result"
+                st.rerun()
 
     st.markdown('<div class="workflow-nav-scroll-space"></div>', unsafe_allow_html=True)
 
@@ -1839,7 +1910,7 @@ elif st.session_state.stage == "result":
     render_main_navigation(active_override="Scan")
     render_segmented_stepper("result", st.session_state.get("triggered", False))
 
-    with st.container(border=True):
+    with st.container():
         render_workflow_image(
             st.session_state.image,
             "Scanned plate",
