@@ -1,3 +1,9 @@
+
+
+
+
+
+
 """
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
