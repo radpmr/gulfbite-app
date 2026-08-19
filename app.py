@@ -1587,6 +1587,70 @@ div.stButton {
     }
 }
 
+
+/* ==========================================================================
+   DROPDOWN BLACK-LINE FIX
+   The black scalloped edges were the BaseWeb popover background showing
+   through the rounded corners of each individual option. Make the entire
+   popup one light surface and square-off the internal option rows.
+   ========================================================================== */
+
+div[data-baseweb="popover"],
+div[data-baseweb="popover"] > div,
+div[data-baseweb="popover"] > div > div,
+div[data-baseweb="popover"] [data-baseweb="menu"] {
+    background: #FFFDF9 !important;
+    border-color: #E3D6C0 !important;
+    color: #1E1B16 !important;
+}
+
+div[data-baseweb="popover"] {
+    border: 1px solid #E3D6C0 !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-shadow: 0 12px 28px rgba(57,39,11,.16) !important;
+}
+
+div[data-baseweb="popover"] > div,
+div[data-baseweb="popover"] > div > div,
+div[data-baseweb="popover"] [data-baseweb="menu"],
+div[data-baseweb="popover"] ul[role="listbox"] {
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+div[data-baseweb="popover"] [role="option"] {
+    min-height: 42px !important;
+    margin: 0 !important;
+    padding: 9px 12px !important;
+    border: 0 !important;
+    border-bottom: 1px solid #F0E7D9 !important;
+    border-radius: 0 !important;
+    background: #FFFDF9 !important;
+    color: #1E1B16 !important;
+    box-shadow: none !important;
+}
+
+div[data-baseweb="popover"] [role="option"]:last-child {
+    border-bottom: 0 !important;
+}
+
+div[data-baseweb="popover"] [role="option"]:hover,
+div[data-baseweb="popover"] [role="option"][aria-selected="true"] {
+    background: #FFF1CF !important;
+    color: #1E1B16 !important;
+}
+
+div[data-baseweb="popover"] [role="option"] *,
+div[data-baseweb="popover"] [role="listbox"] * {
+    color: #1E1B16 !important;
+    opacity: 1 !important;
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -1958,20 +2022,45 @@ def render_scan_input():
 
 
 def render_category_squircle_cards():
+    """Render Menu filters with reliable category and dish selection state."""
     categories = list(DISH_CATEGORIES_DATA.keys())
-    
-    if "selected_category" not in st.session_state:
-        st.session_state.selected_category = categories[0]
+
+    # The category widget itself is the single source of truth.
+    if (
+        "cat_select_box" not in st.session_state
+        or st.session_state.cat_select_box not in categories
+    ):
+        st.session_state.cat_select_box = categories[0]
+
+    def _on_category_change():
+        """Immediately reset the dish selector when category changes."""
+        category = st.session_state.get("cat_select_box", categories[0])
+        category_dishes = DISH_CATEGORIES_DATA.get(category, [])
+
+        # Keep this only for compatibility with any older code that reads it.
+        st.session_state.selected_category = category
+
+        if category_dishes:
+            st.session_state.dish_select_box = category_dishes[0]
+        else:
+            st.session_state.pop("dish_select_box", None)
 
     selected_cat = st.selectbox(
         "Browse by dish type:",
         options=categories,
-        index=categories.index(st.session_state.selected_category) if st.session_state.selected_category in categories else 0,
         key="cat_select_box",
+        on_change=_on_category_change,
     )
-    st.session_state.selected_category = selected_cat
 
+    st.session_state.selected_category = selected_cat
     dishes = DISH_CATEGORIES_DATA[selected_cat]
+
+    # Prevent a dish from the previous category remaining selected.
+    if (
+        "dish_select_box" not in st.session_state
+        or st.session_state.dish_select_box not in dishes
+    ):
+        st.session_state.dish_select_box = dishes[0]
 
     st.markdown(
         '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.78rem; font-weight: 800; color: #8F887C; text-transform: uppercase; letter-spacing: 0.05em;">Choose Dish</div>',
@@ -1982,12 +2071,20 @@ def render_category_squircle_cards():
         "Choose a supported Gulf dish:",
         options=dishes,
         format_func=display_name,
-        index=0,
+        key="dish_select_box",
         label_visibility="collapsed",
     )
 
     if selected_dish:
-        meta = DISH_METADATA.get(selected_dish, {"spice": "Aromatic 🌶️", "prep": "Traditional", "density": "Nutritious", "time": "30 min"})
+        meta = DISH_METADATA.get(
+            selected_dish,
+            {
+                "spice": "Aromatic 🌶️",
+                "prep": "Traditional",
+                "density": "Nutritious",
+                "time": "30 min",
+            },
+        )
         blurb = DISH_BLURBS.get(selected_dish, "")
         st.markdown(
             f"""<div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 22px; padding: 14px 16px; margin-top: 10px;">
