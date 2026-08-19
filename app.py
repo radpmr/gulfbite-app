@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_WHITE_SURFACE_SINGLE_BORDER_ICON_NAV_2026_08_19
 # BUILD: GULFBITE_WHITE_SURFACE_ICON_ONLY_NAV_2026_08_19
 # BUILD: GULFBITE_SLIM_DARKER_BOTTOM_NAV_2026_08_19
 # BUILD: GULFBITE_BOTTOM_NAV_NO_GHOST_SLOT_2026_08_19
@@ -406,10 +407,36 @@ html, body, [class*="css"] {
 }
 
 .stApp {
+    position: relative;
     background:
         radial-gradient(circle at 50% -8%, rgba(243,195,106,.23) 0%, rgba(243,195,106,0) 42%),
         linear-gradient(180deg, #FBF8F0 0%, var(--app-bg) 100%);
     color: var(--ink);
+}
+
+/* One continuous white mobile-app surface behind the whole screen. */
+.stApp::before {
+    content: "";
+    position: fixed;
+    z-index: 0;
+    top: 6px;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(460px, calc(100vw - 12px));
+    background: #FFFFFF;
+    border: 1px solid rgba(229,169,59,.14);
+    border-radius: 28px;
+    box-shadow: 0 18px 42px -26px rgba(68,45,9,.30);
+    pointer-events: none;
+}
+
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+section.main {
+    position: relative;
+    z-index: 1;
+    background: transparent !important;
 }
 
 #MainMenu, footer, header[data-testid="stHeader"] {
@@ -420,10 +447,12 @@ html, body, [class*="css"] {
 .block-container {
     max-width: 460px !important;
     padding: 1rem 1rem 3rem 1rem !important;
-    background: #FFFFFF !important;
-    border: 1px solid rgba(229,169,59,.16) !important;
-    border-radius: 28px !important;
-    box-shadow: 0 18px 42px -24px rgba(68,45,9,.28) !important;
+    position: relative !important;
+    z-index: 2 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
 }
 
 /* Reduce Streamlit's default vertical gaps so the app feels like a mobile product. */
@@ -636,6 +665,17 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 
 .st-key-gulf_bottom_nav div.stButton { width: 100% !important; }
 
+/* Bottom tabs should read as one navigation bar, not three nested cards. */
+.st-key-gulf_bottom_nav [data-testid="column"],
+.st-key-gulf_bottom_nav [data-testid="stElementContainer"],
+.st-key-gulf_bottom_nav [data-testid="stVerticalBlock"],
+.st-key-gulf_bottom_nav [data-testid="stVerticalBlockBorderWrapper"] {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+
 /* Icon-only tabs: keep Home/Menu/Scan as accessible button labels, hide only the visible text. */
 .st-key-gulf_bottom_nav div.stButton > button p,
 .st-key-gulf_bottom_nav div.stButton > button span:not([data-testid]) {
@@ -648,12 +688,12 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     padding: 0 !important;
 }
 .st-key-gulf_bottom_nav div.stButton > button {
-    min-height: 46px !important;
+    min-height: 44px !important;
     width: 100% !important;
     padding: 0 !important;
-    border-radius: 14px !important;
-    border: 1px solid #E7DED0 !important;
-    background: #FFFFFF !important;
+    border-radius: 13px !important;
+    border: 0 !important;
+    background: transparent !important;
     color: #5F584F !important;
     box-shadow: none !important;
     display: flex !important;
@@ -671,17 +711,18 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 }
 .st-key-gulf_bottom_nav div.stButton > button:hover,
 .st-key-gulf_bottom_nav div.stButton > button:focus {
-    color: #655E55 !important;
-    border-color: #E7DED0 !important;
-    background: #FFFDF9 !important;
+    color: #49433C !important;
+    border: 0 !important;
+    background: #FAF7F1 !important;
+    box-shadow: none !important;
     transform: none !important;
 }
 .st-key-gulf_bottom_nav div.stButton > button[kind="primary"],
 .st-key-gulf_bottom_nav div.stButton > button[data-testid="stBaseButton-primary"] {
     background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
-    border-color: #E5A93B !important;
+    border: 0 !important;
     color: #171007 !important;
-    box-shadow: 0 6px 15px rgba(229,169,59,.24) !important;
+    box-shadow: 0 5px 13px rgba(229,169,59,.22) !important;
 }
 .st-key-nav_home div.stButton > button::before,
 .st-key-nav_menu div.stButton > button::before,
@@ -720,7 +761,7 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     }
     .st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] { gap: 5px !important; }
     .st-key-gulf_bottom_nav div.stButton > button {
-        min-height: 44px !important;
+        min-height: 42px !important;
         border-radius: 12px !important;
     }
 }
