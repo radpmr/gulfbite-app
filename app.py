@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_SCROLL_RESTORED_2026_08_19
 # BUILD: GULFBITE_MOBILE_UI_REBUILD_CONFIRM_REACHABLE_2026_08_19
 # BUILD: GULFBITE_COMPREHENSIVE_MOBILE_UI_CLEANUP_2026_08_19
 # BUILD: GULFBITE_PERSISTENT_WORKFLOW_BOTTOM_NAV_SCROLL_2026_08_19
@@ -417,17 +418,29 @@ html, body, [class*="css"] {
 }
 html, body {
     background: #F7F4ED !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    min-height: 100% !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    height: 100% !important;
 }
-[data-testid="stAppViewContainer"],
+
+/* Streamlit mobile scrolling:
+   keep the outer app viewport fixed and let the main content be the one
+   vertical scroll container. */
+[data-testid="stAppViewContainer"] {
+    height: 100dvh !important;
+    overflow: hidden !important;
+}
+
 [data-testid="stMain"],
 section.main {
-    overflow: visible !important;
-    min-height: 100dvh !important;
-}
-[data-testid="stAppViewContainer"] {
+    height: 100dvh !important;
+    min-height: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+    touch-action: pan-y !important;
+    scroll-behavior: smooth !important;
     scroll-padding-bottom: 150px !important;
 }
 
@@ -439,6 +452,7 @@ section.main {
 .block-container {
     max-width: 460px !important;
     min-height: calc(100dvh - 12px) !important;
+    height: auto !important;
     margin: 6px auto !important;
     padding: 1rem 1rem 3rem 1rem !important;
     box-sizing: border-box !important;
@@ -653,10 +667,6 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 }
 .stApp:has(.workflow-stage-marker) .block-container {
     padding-bottom: calc(9rem + env(safe-area-inset-bottom)) !important;
-}
-.stApp:has(.workflow-stage-marker) [data-testid="stMain"],
-.stApp:has(.workflow-stage-marker) [data-testid="stAppViewContainer"] {
-    overflow-y: visible !important;
 }
 .workflow-nav-scroll-space {
     height: 84px !important;
@@ -1051,6 +1061,7 @@ div[data-testid="stTabs"] [aria-selected="true"]::after {
 @media (max-width: 480px) {
     .block-container {
         min-height: calc(100dvh - 8px) !important;
+        height: auto !important;
         margin: 4px auto !important;
         padding: .72rem .72rem 2.55rem .72rem !important;
         border-radius: 24px !important;
