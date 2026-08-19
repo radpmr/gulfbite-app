@@ -2133,6 +2133,172 @@ div[data-baseweb="popover"] [role="listbox"] * {
     flex: 0 0 17px !important;
 }
 
+
+/* ==========================================================================
+   REMOVE EXTRA OUTER BORDERS AROUND CONTROLS
+   Keep the actual button/card styling, but remove the extra Streamlit
+   container frame around each control group.
+   ========================================================================== */
+
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_scan_control),
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-confirm_dish_control),
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-calculate_nutrition_control),
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-update_dish_control),
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-portion_selector_control),
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-result_tabs_control),
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-browse_files_control),
+[data-testid="stElementContainer"]:has(.st-key-home_scan_control),
+[data-testid="stElementContainer"]:has(.st-key-confirm_dish_control),
+[data-testid="stElementContainer"]:has(.st-key-calculate_nutrition_control),
+[data-testid="stElementContainer"]:has(.st-key-update_dish_control),
+[data-testid="stElementContainer"]:has(.st-key-portion_selector_control),
+[data-testid="stElementContainer"]:has(.st-key-result_tabs_control),
+[data-testid="stElementContainer"]:has(.st-key-browse_files_control) {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    padding: 0 !important;
+}
+
+/* Remove any remaining nested wrapper styling inside those keyed controls. */
+.st-key-home_scan_control,
+.st-key-confirm_dish_control,
+.st-key-calculate_nutrition_control,
+.st-key-update_dish_control,
+.st-key-portion_selector_control,
+.st-key-result_tabs_control,
+.st-key-browse_files_control {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+
+/* Keep only a small natural gap around the actual control itself. */
+.st-key-home_scan_control,
+.st-key-confirm_dish_control,
+.st-key-calculate_nutrition_control,
+.st-key-update_dish_control,
+.st-key-portion_selector_control,
+.st-key-result_tabs_control {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* The file uploader keeps its upload-zone border; only its extra outer
+   Streamlit container frame is removed. */
+.st-key-browse_files_control {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+
+/* ==========================================================================
+   COMPACT CONTROL SIZING
+   Shorter, thinner controls while preserving the current visual language.
+   ========================================================================== */
+
+/* Main action buttons */
+.st-key-home_scan_control button,
+.st-key-confirm_dish_control button,
+.st-key-calculate_nutrition_control button {
+    min-height: 46px !important;
+    height: 46px !important;
+    padding: 0 18px !important;
+    border-radius: 14px !important;
+    font-size: .88rem !important;
+    gap: 8px !important;
+    box-shadow: 0 6px 14px rgba(212,145,22,.19), inset 0 1px 0 rgba(255,255,255,.48) !important;
+}
+.st-key-home_scan_control button::before,
+.st-key-confirm_dish_control button::before,
+.st-key-calculate_nutrition_control button::before {
+    width: 16px !important;
+    height: 16px !important;
+    flex: 0 0 16px !important;
+}
+
+/* Browse Files */
+.st-key-browse_files_control [data-testid="stFileUploader"] button,
+.st-key-browse_files_control [data-testid="stFileUploaderDropzone"] button {
+    min-height: 38px !important;
+    height: 38px !important;
+    min-width: 132px !important;
+    padding: 0 14px !important;
+    border-radius: 12px !important;
+    font-size: .79rem !important;
+    gap: 5px !important;
+}
+.st-key-browse_files_control [data-testid="stFileUploader"] button::before,
+.st-key-browse_files_control [data-testid="stFileUploaderDropzone"] button::before {
+    width: 15px !important;
+    height: 15px !important;
+    flex: 0 0 15px !important;
+}
+
+/* Small / Medium / Large */
+.st-key-portion_selector_control [data-testid="stSegmentedControl"] button {
+    min-height: 52px !important;
+    height: 52px !important;
+    padding: 6px 7px !important;
+    border-radius: 13px !important;
+    font-size: .74rem !important;
+}
+.st-key-portion_selector_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    min-height: 52px !important;
+    height: 52px !important;
+    padding: 6px 7px !important;
+    border-radius: 13px !important;
+}
+
+/* Edit Dish / Pipeline Info */
+.st-key-result_tabs_control div[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    padding: 4px !important;
+    border-radius: 13px !important;
+}
+.st-key-result_tabs_control div[data-testid="stTabs"] [data-baseweb="tab"] {
+    min-height: 38px !important;
+    height: 38px !important;
+    border-radius: 9px !important;
+    font-size: .76rem !important;
+}
+
+/* Update Dish */
+.st-key-update_dish_control button {
+    min-height: 42px !important;
+    height: 42px !important;
+    padding: 0 16px !important;
+    border-radius: 13px !important;
+    font-size: .82rem !important;
+    gap: 6px !important;
+}
+.st-key-update_dish_control button::before {
+    width: 15px !important;
+    height: 15px !important;
+    flex: 0 0 15px !important;
+}
+
+/* Keep mobile controls compact without becoming too small to tap. */
+@media (max-width: 480px) {
+    .st-key-home_scan_control button,
+    .st-key-confirm_dish_control button,
+    .st-key-calculate_nutrition_control button {
+        min-height: 44px !important;
+        height: 44px !important;
+        font-size: .86rem !important;
+    }
+
+    .st-key-portion_selector_control [data-testid="stSegmentedControl"] button,
+    .st-key-portion_selector_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+        min-height: 50px !important;
+        height: 50px !important;
+        font-size: .70rem !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -2836,7 +3002,7 @@ elif st.session_state.stage in ["main", "upload"]:
                 unsafe_allow_html=True,
             )
             with st.container(key="home_scan_control"):
-                if st.button("Scan your plate →", type="primary", use_container_width=True, key="home_scan_cta"):
+                if st.button("Upload a dish", type="primary", use_container_width=True, key="home_scan_cta"):
                     st.session_state.pending_main_section = "Scan"
                     request_scroll_top()
                     st.rerun()
