@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_WHITE_VIEWPORT_COMPACT_NAV_2026_08_19
 # BUILD: GULFBITE_CONTINUOUS_WHITE_APP_SURFACE_2026_08_19
 # BUILD: GULFBITE_ANCHOR_SCROLL_RESET_2026_08_19
 # BUILD: GULFBITE_CLEAN_REBUILD_NATIVE_SCROLL_2026_08_19
@@ -1176,6 +1177,145 @@ section.main {
     .stApp:has(.workflow-stage-marker) [data-testid="stMainBlockContainer"] {
         padding-bottom: calc(7.4rem + env(safe-area-inset-bottom)) !important;
     }
+}
+
+
+/* ==========================================================================
+   FINAL WHITE SURFACE + COMPACT BOTTOM NAV
+   This block intentionally does NOT touch scrolling.
+   ========================================================================== */
+
+/* Use the actual Streamlit main viewport as the continuous white surface.
+   This removes the cream gaps visible between result cards/tabs/forms. */
+[data-testid="stMain"],
+section.main {
+    background: #FFFFFF !important;
+}
+
+/* Keep the content centered while the real main viewport supplies the
+   continuous white background behind the entire scroll. */
+[data-testid="stMainBlockContainer"],
+.block-container {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* On desktop, preserve a subtle cream outside the app-width main surface. */
+@media (min-width: 481px) {
+    [data-testid="stMain"] {
+        max-width: 460px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        border-radius: 26px !important;
+        box-shadow: 0 16px 38px -28px rgba(68,45,9,.25) !important;
+    }
+}
+
+/* On phones the whole visible app viewport should simply be white. */
+@media (max-width: 480px) {
+    .stApp,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stMain"],
+    section.main {
+        background: #FFFFFF !important;
+    }
+
+    [data-testid="stMainBlockContainer"],
+    .block-container {
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+}
+
+/* ---------------- Compact native-style bottom navigation ---------------- */
+.st-key-gulf_bottom_nav {
+    width: min(404px, calc(100vw - 20px)) !important;
+    min-height: 54px !important;
+    height: 54px !important;
+    bottom: max(7px, env(safe-area-inset-bottom)) !important;
+    padding: 4px !important;
+    border: 1px solid #E7DED0 !important;
+    border-radius: 17px !important;
+    background: rgba(255,255,255,.985) !important;
+    box-shadow: 0 9px 24px rgba(58,40,12,.15) !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Remove all wrapper height/margins that were making the bar look oversized. */
+.st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] {
+    height: 46px !important;
+    min-height: 46px !important;
+    gap: 5px !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.st-key-gulf_bottom_nav [data-testid="column"],
+.st-key-gulf_bottom_nav [data-testid="stVerticalBlock"],
+.st-key-gulf_bottom_nav [data-testid="stElementContainer"],
+.st-key-gulf_bottom_nav [data-testid="stButton"],
+.st-key-gulf_bottom_nav div.stButton {
+    height: 46px !important;
+    min-height: 46px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Icon-only buttons: no inner border on inactive tabs. */
+.st-key-gulf_bottom_nav div.stButton > button {
+    width: 100% !important;
+    min-height: 42px !important;
+    height: 42px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    color: #625B52 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.st-key-gulf_bottom_nav div.stButton > button:hover,
+.st-key-gulf_bottom_nav div.stButton > button:focus {
+    border: 0 !important;
+    background: #FAF7F1 !important;
+    color: #403A34 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.st-key-gulf_bottom_nav div.stButton > button[kind="primary"],
+.st-key-gulf_bottom_nav div.stButton > button[data-testid="stBaseButton-primary"] {
+    border: 0 !important;
+    background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
+    color: #171007 !important;
+    box-shadow: 0 4px 10px rgba(229,169,59,.20) !important;
+}
+
+/* Slightly smaller icons to suit the shorter bar. */
+.st-key-nav_home div.stButton > button::before,
+.st-key-nav_menu div.stButton > button::before,
+.st-key-nav_scan div.stButton > button::before {
+    width: 20px !important;
+    height: 20px !important;
+    flex: 0 0 20px !important;
+}
+
+/* Fixed-nav clearance only on workflow pages, now matched to the slimmer bar. */
+.stApp:has(.workflow-stage-marker) [data-testid="stMainBlockContainer"],
+.stApp:has(.workflow-stage-marker) .block-container {
+    padding-bottom: calc(5.2rem + env(safe-area-inset-bottom)) !important;
 }
 
 </style>""",
