@@ -209,12 +209,35 @@ def display_name(cls: str) -> str:
 
 
 DISH_CATEGORIES_DATA = {
-    "🍚 Rice Mains": ["01_machboos", "02_kabsa", "03_biryani", "07_ouzi", "09_jisheed"],
-    "🥘 Stews & Mains": ["04_harees", "05_thareed", "06_saloona", "08_samak_mashwi"],
-    "🌯 Wraps & Bites": ["10_shawarma", "11_falafel_wrap", "12_falafel", "13_samboosa", "14_mutabbaq"],
-    "🫓 Breads & Morning": ["18_foul_medames", "19_shakshuka", "20_balaleet", "21_khameer", "22_chebab"],
-    "🥗 Fresh Salads": ["15_hummus", "16_fattoush", "17_tabbouleh"],
-    "🍯 Sweets & Karak": ["23_luqaimat", "24_knafeh", "25_karak_chai"],
+    "✨ All Dishes": [
+        "01_machboos", "02_kabsa", "03_biryani", "04_harees", "05_thareed",
+        "06_saloona", "07_ouzi", "08_samak_mashwi", "09_jisheed",
+        "10_shawarma", "11_falafel_wrap", "12_falafel", "13_samboosa",
+        "14_mutabbaq", "15_hummus", "16_fattoush", "17_tabbouleh",
+        "18_foul_medames", "19_shakshuka", "20_balaleet", "21_khameer",
+        "22_chebab", "23_luqaimat", "24_knafeh", "25_karak_chai",
+    ],
+    "🍚 Rice & Grains": [
+        "01_machboos", "02_kabsa", "03_biryani", "04_harees", "07_ouzi"
+    ],
+    "🥘 Stews & Slow-Cooked": [
+        "05_thareed", "06_saloona"
+    ],
+    "🐟 Seafood": [
+        "08_samak_mashwi", "09_jisheed"
+    ],
+    "🌯 Street Food & Snacks": [
+        "10_shawarma", "11_falafel_wrap", "12_falafel", "13_samboosa", "14_mutabbaq"
+    ],
+    "🍳 Breakfast & Breads": [
+        "18_foul_medames", "19_shakshuka", "20_balaleet", "21_khameer", "22_chebab"
+    ],
+    "🥣 Mezze & Salads": [
+        "15_hummus", "16_fattoush", "17_tabbouleh"
+    ],
+    "🍰 Sweets & Drinks": [
+        "23_luqaimat", "24_knafeh", "25_karak_chai"
+    ],
 }
 
 
@@ -1941,7 +1964,7 @@ def render_category_squircle_cards():
         st.session_state.selected_category = categories[0]
 
     selected_cat = st.selectbox(
-        "Filter by Category:",
+        "Browse by dish type:",
         options=categories,
         index=categories.index(st.session_state.selected_category) if st.session_state.selected_category in categories else 0,
         key="cat_select_box",
@@ -1951,12 +1974,12 @@ def render_category_squircle_cards():
     dishes = DISH_CATEGORIES_DATA[selected_cat]
 
     st.markdown(
-        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.78rem; font-weight: 800; color: #8F887C; text-transform: uppercase; letter-spacing: 0.05em;">Choose Recipe</div>',
+        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.78rem; font-weight: 800; color: #8F887C; text-transform: uppercase; letter-spacing: 0.05em;">Choose Dish</div>',
         unsafe_allow_html=True,
     )
 
     selected_dish = st.selectbox(
-        f"Select a {selected_cat} dish to explore:",
+        "Choose a supported Gulf dish:",
         options=dishes,
         format_func=display_name,
         index=0,
