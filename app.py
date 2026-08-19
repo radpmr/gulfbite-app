@@ -1,12 +1,3 @@
-# BUILD: GULFBITE_WHITE_VIEWPORT_COMPACT_NAV_2026_08_19
-# BUILD: GULFBITE_CONTINUOUS_WHITE_APP_SURFACE_2026_08_19
-# BUILD: GULFBITE_ANCHOR_SCROLL_RESET_2026_08_19
-# BUILD: GULFBITE_CLEAN_REBUILD_NATIVE_SCROLL_2026_08_19
-# BUILD: GULFBITE_ICON_ONLY_CLOCHE_NAV_2026_08_19
-# BUILD: GULFBITE_SLIM_DARKER_BOTTOM_NAV_2026_08_19
-# BUILD: GULFBITE_BOTTOM_NAV_NO_GHOST_SLOT_2026_08_19
-# BUILD: GULFBITE_SESSION_SAFE_BOTTOM_NAV_2026_08_19
-# BUILD: GULFBITE_REBUILT_FROM_PASTED_MARKDOWN_3_UPLOAD_ONLY_BOTTOM_NAV
 """
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
@@ -1318,6 +1309,261 @@ section.main {
     padding-bottom: calc(5.2rem + env(safe-area-inset-bottom)) !important;
 }
 
+
+/* ==========================================================================
+   MOBILE NAV FLEX FIX
+   Prevent Home/Menu/Scan from stacking or allowing the active button to
+   consume the whole bottom bar on narrow screens.
+   ========================================================================== */
+
+.st-key-gulf_bottom_nav {
+    display: block !important;
+    width: min(404px, calc(100vw - 18px)) !important;
+    height: 54px !important;
+    min-height: 54px !important;
+    padding: 4px !important;
+    overflow: hidden !important;
+}
+
+/* Modern horizontal st.container() and old st.columns() both expose a
+   horizontal block. Keep it one row and distribute three equal children. */
+.st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: stretch !important;
+    width: 100% !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    gap: 5px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+.st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] > div,
+.st-key-gulf_bottom_nav [data-testid="column"] {
+    flex: 1 1 0 !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Don't let generic Streamlit wrappers turn into full-width flex items. */
+.st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] > div
+[data-testid="stElementContainer"],
+.st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] > div
+[data-testid="stButton"],
+.st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] > div
+div.stButton {
+    width: 100% !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.st-key-gulf_bottom_nav div.stButton > button {
+    width: 100% !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+}
+
+/* Only the active third gets gold — never the whole nav shell. */
+.st-key-gulf_bottom_nav div.stButton > button[kind="primary"],
+.st-key-gulf_bottom_nav div.stButton > button[data-testid="stBaseButton-primary"] {
+    width: 100% !important;
+    background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-gulf_bottom_nav {
+        width: calc(100vw - 16px) !important;
+        height: 52px !important;
+        min-height: 52px !important;
+        bottom: max(6px, env(safe-area-inset-bottom)) !important;
+        padding: 4px !important;
+        border-radius: 16px !important;
+    }
+
+    .st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"],
+    .st-key-gulf_bottom_nav [data-testid="stHorizontalBlock"] > div,
+    .st-key-gulf_bottom_nav [data-testid="column"] {
+        height: 42px !important;
+        min-height: 42px !important;
+    }
+
+    .st-key-gulf_bottom_nav div.stButton > button {
+        height: 40px !important;
+        min-height: 40px !important;
+        border-radius: 11px !important;
+    }
+
+    .st-key-nav_home div.stButton > button::before,
+    .st-key-nav_menu div.stButton > button::before,
+    .st-key-nav_scan div.stButton > button::before {
+        width: 19px !important;
+        height: 19px !important;
+        flex: 0 0 19px !important;
+    }
+}
+
+
+/* ==========================================================================
+   ABSOLUTE MOBILE BOTTOM NAV
+   Three real Streamlit buttons, each pinned to one third of the fixed bar.
+   No columns. No responsive stacking. No active-tab stretching.
+   ========================================================================== */
+
+.st-key-gulf_bottom_nav {
+    position: fixed !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: max(6px, env(safe-area-inset-bottom)) !important;
+    width: min(404px, calc(100vw - 16px)) !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    padding: 4px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    border: 1px solid #E7DED0 !important;
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.99) !important;
+    box-shadow: 0 9px 24px rgba(58,40,12,.15) !important;
+    z-index: 2147483000 !important;
+    overflow: hidden !important;
+}
+
+/* The container's internal Streamlit wrappers must not create layout height. */
+.st-key-gulf_bottom_nav > div,
+.st-key-gulf_bottom_nav [data-testid="stVerticalBlock"],
+.st-key-gulf_bottom_nav [data-testid="stElementContainer"],
+.st-key-gulf_bottom_nav [data-testid="stButton"],
+.st-key-gulf_bottom_nav div.stButton {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* Position the three keyed button widgets directly. */
+.st-key-gulf_bottom_nav .st-key-nav_home,
+.st-key-gulf_bottom_nav .st-key-nav_menu,
+.st-key-gulf_bottom_nav .st-key-nav_scan {
+    position: absolute !important;
+    top: 4px !important;
+    width: calc((100% - 18px) / 3) !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 2 !important;
+}
+
+.st-key-gulf_bottom_nav .st-key-nav_home {
+    left: 4px !important;
+}
+.st-key-gulf_bottom_nav .st-key-nav_menu {
+    left: calc(33.333% + 1px) !important;
+}
+.st-key-gulf_bottom_nav .st-key-nav_scan {
+    right: 4px !important;
+    left: auto !important;
+}
+
+/* Also handle Streamlit versions that place the key class directly on the
+   button's element container rather than a descendant. */
+.st-key-nav_home,
+.st-key-nav_menu,
+.st-key-nav_scan {
+    max-width: none !important;
+}
+
+.st-key-gulf_bottom_nav .st-key-nav_home div.stButton,
+.st-key-gulf_bottom_nav .st-key-nav_menu div.stButton,
+.st-key-gulf_bottom_nav .st-key-nav_scan div.stButton,
+.st-key-gulf_bottom_nav .st-key-nav_home [data-testid="stButton"],
+.st-key-gulf_bottom_nav .st-key-nav_menu [data-testid="stButton"],
+.st-key-gulf_bottom_nav .st-key-nav_scan [data-testid="stButton"] {
+    width: 100% !important;
+    height: 42px !important;
+    min-height: 42px !important;
+}
+
+.st-key-gulf_bottom_nav .st-key-nav_home div.stButton > button,
+.st-key-gulf_bottom_nav .st-key-nav_menu div.stButton > button,
+.st-key-gulf_bottom_nav .st-key-nav_scan div.stButton > button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 11px !important;
+    background: transparent !important;
+    color: #625B52 !important;
+    box-shadow: none !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Active state applies only to the selected third. */
+.st-key-gulf_bottom_nav .st-key-nav_home div.stButton > button[kind="primary"],
+.st-key-gulf_bottom_nav .st-key-nav_menu div.stButton > button[kind="primary"],
+.st-key-gulf_bottom_nav .st-key-nav_scan div.stButton > button[kind="primary"],
+.st-key-gulf_bottom_nav .st-key-nav_home div.stButton > button[data-testid="stBaseButton-primary"],
+.st-key-gulf_bottom_nav .st-key-nav_menu div.stButton > button[data-testid="stBaseButton-primary"],
+.st-key-gulf_bottom_nav .st-key-nav_scan div.stButton > button[data-testid="stBaseButton-primary"] {
+    background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
+    color: #171007 !important;
+    box-shadow: 0 4px 10px rgba(229,169,59,.20) !important;
+}
+
+/* Fixed icon sizes. */
+.st-key-nav_home div.stButton > button::before,
+.st-key-nav_menu div.stButton > button::before,
+.st-key-nav_scan div.stButton > button::before {
+    width: 19px !important;
+    height: 19px !important;
+    flex: 0 0 19px !important;
+    margin: 0 !important;
+}
+
+/* Collapse only the in-flow slot that holds the fixed nav. */
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-gulf_bottom_nav),
+[data-testid="stElementContainer"]:has(.st-key-gulf_bottom_nav) {
+    min-height: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+
+@media (min-width: 481px) {
+    .st-key-gulf_bottom_nav {
+        width: min(404px, calc(100vw - 20px)) !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -1434,8 +1680,14 @@ def render_header(compact: bool = True):
 
 
 def render_main_navigation(active_override=None):
-    """Fixed icon-only Home / Menu / Scan navigation."""
+    """Fixed icon-only Home / Menu / Scan navigation.
+
+    The three Streamlit buttons are rendered normally, then positioned
+    absolutely inside the fixed bottom bar with CSS. This avoids all mobile
+    stacking/stretching behaviour from st.columns or horizontal containers.
+    """
     nav_options = ["Home", "Menu", "Scan"]
+    nav_keys = ["nav_home", "nav_menu", "nav_scan"]
 
     pending = st.session_state.pop("pending_main_section", None)
     if pending in nav_options:
@@ -1448,29 +1700,24 @@ def render_main_navigation(active_override=None):
 
     visible_active = active_override if active_override in nav_options else current
 
+    def _handle_nav_click(label):
+        if active_override == "Scan" and label == "Scan":
+            reset(open_scan=True)
+        else:
+            st.session_state.main_section = label
+            st.session_state.stage = "main"
+        request_scroll_top()
+        st.rerun()
+
     with st.container(key="gulf_bottom_nav"):
-        cols = st.columns(3, gap="small")
-        for col, label, key in zip(
-            cols,
-            nav_options,
-            ["nav_home", "nav_menu", "nav_scan"],
-        ):
-            with col:
-                clicked = st.button(
-                    label,
-                    key=key,
-                    type="primary" if visible_active == label else "secondary",
-                    use_container_width=True,
-                )
-                if clicked:
-                    if active_override == "Scan" and label == "Scan":
-                        # During the workflow, the active Scan icon starts a fresh scan.
-                        reset(open_scan=True)
-                    else:
-                        st.session_state.main_section = label
-                        st.session_state.stage = "main"
-                    request_scroll_top()
-                    st.rerun()
+        for label, key in zip(nav_options, nav_keys):
+            if st.button(
+                label,
+                key=key,
+                type="primary" if visible_active == label else "secondary",
+                use_container_width=False,
+            ):
+                _handle_nav_click(label)
 
     return visible_active
 
