@@ -1,4 +1,3 @@
-"""
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
 Identifies authentic Gulf dishes using a multi-tiered pipeline:
@@ -3591,6 +3590,326 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   INTERACTIVE MENU
+   Category chips + responsive dish grid + selected dish detail card.
+   ========================================================================== */
+
+.menu-chip-scroll {
+    display: flex !important;
+    gap: 7px !important;
+    overflow-x: auto !important;
+    padding: 4px 1px 7px 1px !important;
+    margin: 9px 0 8px 0 !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+.menu-chip-scroll::-webkit-scrollbar {
+    display: none !important;
+}
+
+.menu-category-chip {
+    flex: 0 0 auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 34px !important;
+    padding: 0 13px !important;
+    border: 1px solid #E4D8C5 !important;
+    border-radius: 999px !important;
+    background: #FFFDF9 !important;
+    color: #6F675D !important;
+    text-decoration: none !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .72rem !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+.menu-category-chip.active {
+    border-color: #E3A332 !important;
+    background: linear-gradient(135deg,#F8CB70 0%,#E8AA2E 100%) !important;
+    color: #17130D !important;
+    box-shadow: 0 4px 10px rgba(216,149,24,.15) !important;
+}
+
+.menu-dish-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin: 4px 0 12px 0 !important;
+}
+
+.menu-dish-card {
+    min-width: 0 !important;
+    display: grid !important;
+    grid-template-columns: 54px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 9px !important;
+    min-height: 68px !important;
+    padding: 7px 9px 7px 7px !important;
+    border: 1px solid #E8DED0 !important;
+    border-radius: 16px !important;
+    background: #FFFFFF !important;
+    color: #1E1B16 !important;
+    text-decoration: none !important;
+    box-shadow: 0 3px 10px rgba(68,46,12,.035) !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+.menu-dish-card:hover {
+    border-color: #DEB665 !important;
+    background: #FFFDF8 !important;
+}
+.menu-dish-card.selected {
+    border: 2px solid #E0A12D !important;
+    background: linear-gradient(135deg,#FFFDF9 0%,#FFF5DC 100%) !important;
+    box-shadow: 0 6px 14px rgba(216,149,24,.12) !important;
+}
+
+.menu-dish-visual {
+    width: 54px !important;
+    height: 54px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 13px !important;
+    background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.85), transparent 28%),
+        linear-gradient(145deg,#FFF4D7 0%,#F5D69B 100%) !important;
+    overflow: hidden !important;
+}
+.menu-dish-visual span {
+    font-size: 1.42rem !important;
+    filter: saturate(.92) !important;
+}
+
+.menu-dish-copy {
+    min-width: 0 !important;
+}
+.menu-dish-name {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .79rem !important;
+    line-height: 1.15 !important;
+    font-weight: 900 !important;
+    color: #1E1B16 !important;
+}
+.menu-dish-meta {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    margin-top: 4px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: .59rem !important;
+    line-height: 1.15 !important;
+    font-weight: 650 !important;
+    color: #948B7E !important;
+}
+
+.menu-detail-card {
+    margin-top: 4px !important;
+    padding: 14px !important;
+    border: 1px solid #E8D8B9 !important;
+    border-radius: 19px !important;
+    background:
+        radial-gradient(circle at 95% 8%, rgba(245,196,92,.14), transparent 30%),
+        linear-gradient(145deg,#FFFDF9 0%,#FFF8EA 100%) !important;
+    box-shadow: 0 7px 18px rgba(70,49,15,.05) !important;
+}
+
+.menu-detail-top {
+    display: grid !important;
+    grid-template-columns: 48px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+.menu-detail-hero {
+    width: 48px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 14px !important;
+    border: 1px solid #EFD8A9 !important;
+    background: #FFF5DB !important;
+}
+.menu-detail-hero span {
+    font-size: 1.35rem !important;
+}
+.menu-detail-heading {
+    min-width: 0 !important;
+}
+.menu-detail-name {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.00rem !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+    color: #1E1B16 !important;
+}
+.menu-detail-family {
+    margin-top: 3px !important;
+    font-size: .64rem !important;
+    font-weight: 700 !important;
+    color: #948A7D !important;
+}
+.menu-time-badge {
+    flex: 0 0 auto !important;
+    padding: 5px 9px !important;
+    border: 1px solid #EFD5A0 !important;
+    border-radius: 999px !important;
+    background: #FFF8E8 !important;
+    color: #B6770B !important;
+    font-size: .64rem !important;
+    line-height: 1 !important;
+    font-weight: 850 !important;
+    white-space: nowrap !important;
+}
+.menu-detail-blurb {
+    margin: 10px 0 !important;
+    font-size: .75rem !important;
+    line-height: 1.45 !important;
+    color: #766E63 !important;
+}
+.menu-detail-badges {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.menu-detail-badges span {
+    padding: 4px 8px !important;
+    border: 1px solid #E5D9C6 !important;
+    border-radius: 9px !important;
+    background: rgba(255,255,255,.85) !important;
+    font-size: .61rem !important;
+    line-height: 1 !important;
+    font-weight: 750 !important;
+    color: #4F493F !important;
+}
+
+/* Secondary Menu action */
+.st-key-menu_scan_selected_control {
+    margin-top: 9px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_scan_selected_control),
+[data-testid="stElementContainer"]:has(.st-key-menu_scan_selected_control) {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.st-key-menu_scan_selected_control button {
+    min-height: 40px !important;
+    height: 40px !important;
+    border: 1px solid #D8A13C !important;
+    border-radius: 12px !important;
+    background: #FFFDF9 !important;
+    color: #9B6508 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .78rem !important;
+    font-weight: 820 !important;
+    box-shadow: none !important;
+}
+.st-key-menu_scan_selected_control button:hover {
+    background: #FFF7E8 !important;
+}
+
+@media (max-width: 480px) {
+    .menu-category-chip {
+        min-height: 32px !important;
+        padding: 0 11px !important;
+        font-size: .68rem !important;
+    }
+
+    .menu-dish-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 7px !important;
+    }
+
+    .menu-dish-card {
+        grid-template-columns: 46px minmax(0, 1fr) !important;
+        gap: 7px !important;
+        min-height: 60px !important;
+        padding: 6px 7px 6px 6px !important;
+        border-radius: 14px !important;
+    }
+
+    .menu-dish-visual {
+        width: 46px !important;
+        height: 46px !important;
+        border-radius: 11px !important;
+    }
+
+    .menu-dish-visual span {
+        font-size: 1.18rem !important;
+    }
+
+    .menu-dish-name {
+        font-size: .70rem !important;
+    }
+
+    .menu-dish-meta {
+        font-size: .54rem !important;
+        gap: 3px !important;
+    }
+
+    .menu-detail-card {
+        padding: 12px !important;
+        border-radius: 17px !important;
+    }
+
+    .menu-detail-top {
+        grid-template-columns: 42px minmax(0, 1fr) auto !important;
+        gap: 8px !important;
+    }
+
+    .menu-detail-hero {
+        width: 42px !important;
+        height: 42px !important;
+        border-radius: 12px !important;
+    }
+
+    .menu-detail-name {
+        font-size: .91rem !important;
+    }
+
+    .menu-time-badge {
+        padding: 4px 7px !important;
+        font-size: .58rem !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .menu-dish-grid {
+        gap: 6px !important;
+    }
+
+    .menu-dish-card {
+        grid-template-columns: 40px minmax(0, 1fr) !important;
+        gap: 6px !important;
+        min-height: 56px !important;
+    }
+
+    .menu-dish-visual {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .menu-dish-meta {
+        display: none !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -3923,29 +4242,78 @@ def render_workflow_image(image, caption: str, variant: str):
 
 
 def consume_favourite_query():
-    """Open a Home favourite directly in Menu from a responsive HTML tile."""
+    """Consume Home favourite and Menu link query parameters."""
     fav = st.query_params.get("fav")
-    if not fav:
-        return
+    if fav:
+        fav_map = {
+            "machboos": ("🍚 Rice & Grains", "01_machboos"),
+            "shawarma": ("🌯 Street Food & Snacks", "10_shawarma"),
+            "karak": ("🍰 Sweets & Drinks", "25_karak_chai"),
+        }
 
-    fav_map = {
-        "machboos": ("🍚 Rice & Grains", "01_machboos"),
-        "shawarma": ("🌯 Street Food & Snacks", "10_shawarma"),
-        "karak": ("🍰 Sweets & Drinks", "25_karak_chai"),
-    }
+        if fav in fav_map:
+            category, dish_key = fav_map[fav]
+            st.session_state.main_section = "Menu"
+            st.session_state.stage = "main"
+            st.session_state.cat_select_box = category
+            st.session_state.selected_category = category
+            st.session_state.dish_select_box = dish_key
 
-    if fav in fav_map:
-        category, dish_key = fav_map[fav]
+        try:
+            del st.query_params["fav"]
+        except Exception:
+            pass
+
+    menu_cat = st.query_params.get("menu_cat")
+    if menu_cat:
+        category_lookup = {
+            "all": "✨ All Dishes",
+            "rice": "🍚 Rice & Grains",
+            "stews": "🥘 Stews & Slow-Cooked",
+            "seafood": "🐟 Seafood",
+            "street": "🌯 Street Food & Snacks",
+            "breakfast": "🍳 Breakfast & Breads",
+            "mezze": "🥣 Mezze & Salads",
+            "sweets": "🍰 Sweets & Drinks",
+        }
+
+        if menu_cat in category_lookup:
+            category = category_lookup[menu_cat]
+            dishes = DISH_CATEGORIES_DATA.get(category, [])
+            st.session_state.main_section = "Menu"
+            st.session_state.stage = "main"
+            st.session_state.cat_select_box = category
+            st.session_state.selected_category = category
+
+            if dishes:
+                current_dish = st.session_state.get("dish_select_box")
+                if current_dish not in dishes:
+                    st.session_state.dish_select_box = dishes[0]
+
+        try:
+            del st.query_params["menu_cat"]
+        except Exception:
+            pass
+
+    menu_dish = st.query_params.get("menu_dish")
+    if menu_dish and menu_dish in DISH_METADATA:
+        # Find the most specific non-All category for this dish.
+        dish_category = "✨ All Dishes"
+        for category, category_dishes in DISH_CATEGORIES_DATA.items():
+            if category != "✨ All Dishes" and menu_dish in category_dishes:
+                dish_category = category
+                break
+
         st.session_state.main_section = "Menu"
         st.session_state.stage = "main"
-        st.session_state.cat_select_box = category
-        st.session_state.selected_category = category
-        st.session_state.dish_select_box = dish_key
+        st.session_state.cat_select_box = dish_category
+        st.session_state.selected_category = dish_category
+        st.session_state.dish_select_box = menu_dish
 
-    try:
-        del st.query_params["fav"]
-    except Exception:
-        pass
+        try:
+            del st.query_params["menu_dish"]
+        except Exception:
+            pass
 
 
 def render_quick_guide():
@@ -3998,85 +4366,143 @@ def render_scan_input():
 
 
 def render_category_squircle_cards():
-    """Render Menu filters with reliable category and dish selection state."""
+    """Interactive Menu: category chips, responsive dish cards, detail panel."""
     categories = list(DISH_CATEGORIES_DATA.keys())
 
-    # The category widget itself is the single source of truth.
     if (
         "cat_select_box" not in st.session_state
         or st.session_state.cat_select_box not in categories
     ):
         st.session_state.cat_select_box = categories[0]
 
-    def _on_category_change():
-        """Immediately reset the dish selector when category changes."""
-        category = st.session_state.get("cat_select_box", categories[0])
-        category_dishes = DISH_CATEGORIES_DATA.get(category, [])
-
-        # Keep this only for compatibility with any older code that reads it.
-        st.session_state.selected_category = category
-
-        if category_dishes:
-            st.session_state.dish_select_box = category_dishes[0]
-        else:
-            st.session_state.pop("dish_select_box", None)
-
-    selected_cat = st.selectbox(
-        "Browse by dish type:",
-        options=categories,
-        key="cat_select_box",
-        on_change=_on_category_change,
-    )
-
-    st.session_state.selected_category = selected_cat
+    selected_cat = st.session_state.cat_select_box
     dishes = DISH_CATEGORIES_DATA[selected_cat]
 
-    # Prevent a dish from the previous category remaining selected.
     if (
         "dish_select_box" not in st.session_state
         or st.session_state.dish_select_box not in dishes
     ):
         st.session_state.dish_select_box = dishes[0]
 
+    selected_dish = st.session_state.dish_select_box
+
+    category_links = [
+        ("all", "All", "✨ All Dishes"),
+        ("rice", "Rice", "🍚 Rice & Grains"),
+        ("stews", "Stews", "🥘 Stews & Slow-Cooked"),
+        ("seafood", "Seafood", "🐟 Seafood"),
+        ("street", "Street Food", "🌯 Street Food & Snacks"),
+        ("breakfast", "Breakfast", "🍳 Breakfast & Breads"),
+        ("mezze", "Mezze", "🥣 Mezze & Salads"),
+        ("sweets", "Sweets", "🍰 Sweets & Drinks"),
+    ]
+
+    chips = []
+    for slug, label, category in category_links:
+        active = " active" if selected_cat == category else ""
+        chips.append(
+            f'<a class="menu-category-chip{active}" href="?menu_cat={slug}">{label}</a>'
+        )
+
     st.markdown(
-        '<div style="margin-top: 14px; margin-bottom: 6px; font-size: 0.78rem; font-weight: 800; color: #8F887C; text-transform: uppercase; letter-spacing: 0.05em;">Choose Dish</div>',
+        '<div class="menu-chip-scroll">' + "".join(chips) + '</div>',
         unsafe_allow_html=True,
     )
 
-    selected_dish = st.selectbox(
-        "Choose a supported Gulf dish:",
-        options=dishes,
-        format_func=display_name,
-        key="dish_select_box",
-        label_visibility="collapsed",
+    # Visual card accents by dish family. Cards stay image-like even when
+    # external food imagery is unavailable for every one of the 25 classes.
+    family_visuals = {
+        "01_machboos": ("🍚", "Rice main"),
+        "02_kabsa": ("🍗", "Rice main"),
+        "03_biryani": ("🍛", "Rice main"),
+        "04_harees": ("🥣", "Grain dish"),
+        "05_thareed": ("🥘", "Slow-cooked"),
+        "06_saloona": ("🍲", "Stew"),
+        "07_ouzi": ("🍚", "Rice main"),
+        "08_samak_mashwi": ("🐟", "Seafood"),
+        "09_jisheed": ("🐟", "Seafood"),
+        "10_shawarma": ("🌯", "Street food"),
+        "11_falafel_wrap": ("🌯", "Street food"),
+        "12_falafel": ("🧆", "Snack"),
+        "13_samboosa": ("🥟", "Snack"),
+        "14_mutabbaq": ("🥙", "Street food"),
+        "15_hummus": ("🥣", "Mezze"),
+        "16_fattoush": ("🥗", "Salad"),
+        "17_tabbouleh": ("🥗", "Salad"),
+        "18_foul_medames": ("🫘", "Breakfast"),
+        "19_shakshuka": ("🍳", "Breakfast"),
+        "20_balaleet": ("🍜", "Breakfast"),
+        "21_khameer": ("🫓", "Bread"),
+        "22_chebab": ("🥞", "Breakfast"),
+        "23_luqaimat": ("🍯", "Sweet"),
+        "24_knafeh": ("🍰", "Sweet"),
+        "25_karak_chai": ("☕", "Drink"),
+    }
+
+    dish_cards = []
+    for dish in dishes:
+        icon, family = family_visuals.get(dish, ("🍽️", "Gulf dish"))
+        selected = " selected" if dish == selected_dish else ""
+        meta = DISH_METADATA.get(dish, {})
+        time = meta.get("time", "30 min")
+        dish_cards.append(
+            f'<a class="menu-dish-card{selected}" href="?menu_dish={dish}">'
+            f'<div class="menu-dish-visual"><span>{icon}</span></div>'
+            f'<div class="menu-dish-copy">'
+            f'<div class="menu-dish-name">{display_name(dish)}</div>'
+            f'<div class="menu-dish-meta">{family}<span>•</span>{time}</div>'
+            f'</div>'
+            '</a>'
+        )
+
+    st.markdown(
+        '<div class="menu-dish-grid">' + "".join(dish_cards) + '</div>',
+        unsafe_allow_html=True,
     )
 
-    if selected_dish:
-        meta = DISH_METADATA.get(
-            selected_dish,
-            {
-                "spice": "Aromatic 🌶️",
-                "prep": "Traditional",
-                "density": "Nutritious",
-                "time": "30 min",
-            },
-        )
-        blurb = DISH_BLURBS.get(selected_dish, "")
-        st.markdown(
-            f"""<div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 22px; padding: 14px 16px; margin-top: 10px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div style="font-family: 'Outfit', sans-serif; font-weight: 900; color: #1E1B16; font-size: 1.1rem;">{display_name(selected_dish)}</div>
-                    <span style="background: #FDF6E9; color: #C28416; font-size: 0.74rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; border: 1px solid #F5E3BE;">⏱️ {meta['time']}</span>
-                </div>
-                <p style="color: #736C61; font-size: 0.84rem; line-height: 1.45; margin: 8px 0 10px 0;">{blurb}</p>
-                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                    <span style="font-size: 0.72rem; font-weight: 700; background: #FFFFFF; border: 1px solid #E2D7C3; padding: 3px 8px; border-radius: 8px;">{meta['spice']}</span>
-                    <span style="font-size: 0.72rem; font-weight: 700; background: #FFFFFF; border: 1px solid #E2D7C3; padding: 3px 8px; border-radius: 8px;">{meta['prep']}</span>
-                    <span style="font-size: 0.72rem; font-weight: 700; background: #FFFFFF; border: 1px solid #E2D7C3; padding: 3px 8px; border-radius: 8px;">{meta['density']}</span>
-                </div>
-            </div>""",
-            unsafe_allow_html=True,
-        )
+    meta = DISH_METADATA.get(
+        selected_dish,
+        {
+            "spice": "Aromatic 🌶️",
+            "prep": "Traditional",
+            "density": "Nutritious",
+            "time": "30 min",
+        },
+    )
+    blurb = DISH_BLURBS.get(selected_dish, "")
+    icon, family = family_visuals.get(selected_dish, ("🍽️", "Gulf dish"))
+
+    detail_html = (
+        '<div class="menu-detail-card">'
+        '<div class="menu-detail-top">'
+        f'<div class="menu-detail-hero"><span>{icon}</span></div>'
+        '<div class="menu-detail-heading">'
+        f'<div class="menu-detail-name">{display_name(selected_dish)}</div>'
+        f'<div class="menu-detail-family">{family}</div>'
+        '</div>'
+        f'<div class="menu-time-badge">⏱ {meta["time"]}</div>'
+        '</div>'
+        f'<div class="menu-detail-blurb">{blurb}</div>'
+        '<div class="menu-detail-badges">'
+        f'<span>{meta["spice"]}</span>'
+        f'<span>{meta["prep"]}</span>'
+        f'<span>{meta["density"]}</span>'
+        '</div>'
+        '</div>'
+    )
+    st.markdown(detail_html, unsafe_allow_html=True)
+
+    with st.container(key="menu_scan_selected_control"):
+        if st.button(
+            "Scan a plate",
+            type="secondary",
+            use_container_width=True,
+            key="menu_scan_selected",
+        ):
+            st.session_state.main_section = "Scan"
+            st.session_state.stage = "main"
+            request_scroll_top()
+            st.rerun()
 
 
 def render_culinary_badges(dish_class: str):
@@ -4392,7 +4818,7 @@ elif st.session_state.stage in ["main", "upload"]:
             '<div style="font-family:\'Outfit\',sans-serif;font-size:1.05rem;font-weight:900;color:#1E1B16;margin:5px 0 7px 0;">Supported Dishes</div>',
             unsafe_allow_html=True,
         )
-        st.caption("Browse the 25 dishes currently recognized by the model.")
+        st.caption("Explore 25 Gulf dishes recognized by GulfBite.")
         render_category_squircle_cards()
         st.markdown('<div style="height:16px;"></div>', unsafe_allow_html=True)
 
