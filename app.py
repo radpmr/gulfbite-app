@@ -1662,7 +1662,18 @@ def render_header(compact: bool = True):
     st.markdown(
         f"""<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.58rem;">
 <div style="display:flex;align-items:center;gap:10px;min-width:0;">
-    <div style="width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#F4C66F,#E5A93B);display:flex;align-items:center;justify-content:center;box-shadow:0 7px 16px rgba(229,169,59,.22);font-family:'Outfit',sans-serif;font-weight:900;color:#1A1305;">GB</div>
+    <div style="width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#F4C66F,#E5A93B);display:flex;align-items:center;justify-content:center;box-shadow:0 7px 16px rgba(229,169,59,.22);">
+        <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="GulfBite logo">
+            <path d="M19 37C19 46.3888 26.6112 54 36 54C45.3888 54 53 46.3888 53 37H19Z" fill="#FFF7E7"/>
+            <path d="M19 37C19 46.3888 26.6112 54 36 54C45.3888 54 53 46.3888 53 37" stroke="#1A1305" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M24 33H48" stroke="#1A1305" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M28 17C28 17 24.5 21 28 25" stroke="#1A1305" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M36 14C36 14 32.5 19 36 24" stroke="#1A1305" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M44 17C44 17 40.5 21 44 25" stroke="#1A1305" stroke-width="3.2" stroke-linecap="round"/>
+            <circle cx="16" cy="20" r="8" fill="#1A1305"/>
+            <path d="M13.4 21.1V16.4M13.4 18.8H17.7M18.6 16.6V21.1" stroke="#F4C66F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
     <div style="min-width:0;">
         <div style="font-family:'Outfit',sans-serif;font-size:{title_size};font-weight:900;line-height:1;letter-spacing:-.025em;color:#1E1B16;white-space:nowrap;"><span style="color:#D99926;">GulfBite</span><span style="display:inline-block;margin-left:7px;">AI</span></div>
         <div style="font-size:.72rem;color:#91897D;font-weight:600;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;">{subtitle}</div>
