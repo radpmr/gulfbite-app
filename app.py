@@ -545,15 +545,41 @@ div.stButton > button[kind="primary"]:hover {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M12 4v11m0-11-4 4m4-4 4 4M5 14.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3.5' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
-@media (max-width: 390px) {
+/* Keep the primary Home / Menu / Scan navigation in one row on phones.
+   Streamlit normally stacks st.columns() vertically at narrow widths. */
+[data-testid="stHorizontalBlock"]:has(.st-key-nav_home) {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+}
+[data-testid="stHorizontalBlock"]:has(.st-key-nav_home) > [data-testid="stColumn"] {
+    flex: 1 1 0% !important;
+    width: 0 !important;
+    min-width: 0 !important;
+}
+[data-testid="stHorizontalBlock"]:has(.st-key-nav_home) .st-key-nav_home,
+[data-testid="stHorizontalBlock"]:has(.st-key-nav_home) .st-key-nav_menu,
+[data-testid="stHorizontalBlock"]:has(.st-key-nav_home) .st-key-nav_scan {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+@media (max-width: 480px) {
+    [data-testid="stHorizontalBlock"]:has(.st-key-nav_home) {
+        gap: 7px !important;
+    }
     .st-key-nav_home button,
     .st-key-nav_menu button,
     .st-key-nav_scan button {
-        min-height: 40px !important;
+        min-height: 42px !important;
         gap: 5px !important;
-        padding-left: 7px !important;
-        padding-right: 7px !important;
+        padding-left: 6px !important;
+        padding-right: 6px !important;
         font-size: .80rem !important;
+        border-radius: 14px !important;
     }
     .st-key-nav_home button::before,
     .st-key-nav_menu button::before,
@@ -561,6 +587,27 @@ div.stButton > button[kind="primary"]:hover {
         width: 15px;
         height: 15px;
         flex-basis: 15px;
+    }
+}
+
+@media (max-width: 350px) {
+    [data-testid="stHorizontalBlock"]:has(.st-key-nav_home) {
+        gap: 5px !important;
+    }
+    .st-key-nav_home button,
+    .st-key-nav_menu button,
+    .st-key-nav_scan button {
+        font-size: .74rem !important;
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+        gap: 4px !important;
+    }
+    .st-key-nav_home button::before,
+    .st-key-nav_menu button::before,
+    .st-key-nav_scan button::before {
+        width: 14px;
+        height: 14px;
+        flex-basis: 14px;
     }
 }
 
@@ -670,6 +717,122 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
 div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) span,
 div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     color: #171007 !important;
+}
+
+/* -------------------------------------------------------------------------
+   MAIN MOBILE NAVIGATION
+   Do not build this with st.columns(): Streamlit intentionally collapses
+   columns on phones.  The main_nav_radio widget is one DOM component, so the
+   three destinations remain in a fixed 3-column grid at every viewport width.
+   ------------------------------------------------------------------------- */
+.st-key-main_nav_radio [role="radiogroup"],
+[class*="st-key-main_nav_radio"] [role="radiogroup"] {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    align-items: stretch !important;
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"],
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 58px !important;
+    padding: 10px 8px !important;
+    border: 1px solid #E7DDCA !important;
+    border-radius: 18px !important;
+    background: #FFFDF9 !important;
+    color: #756C60 !important;
+    box-shadow: 0 8px 20px rgba(68,45,9,.06) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    box-sizing: border-box !important;
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"]:has(input:checked),
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"]:has(input:checked) {
+    background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
+    border-color: #E5A93B !important;
+    color: #171007 !important;
+    box-shadow: 0 7px 17px rgba(229,169,59,.22) !important;
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"]::before,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"]::before {
+    content: "";
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    display: block;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"]:nth-child(1)::before,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"]:nth-child(1)::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"]:nth-child(2)::before,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"]:nth-child(2)::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"]:nth-child(3)::before,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"]:nth-child(3)::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='13' r='4' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='13' r='4' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.st-key-main_nav_radio label[data-baseweb="radio"] span,
+.st-key-main_nav_radio label[data-baseweb="radio"] p,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"] span,
+[class*="st-key-main_nav_radio"] label[data-baseweb="radio"] p {
+    margin: 0 !important;
+    white-space: nowrap !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .88rem !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    color: inherit !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-main_nav_radio [role="radiogroup"],
+    [class*="st-key-main_nav_radio"] [role="radiogroup"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 7px !important;
+    }
+    .st-key-main_nav_radio label[data-baseweb="radio"],
+    [class*="st-key-main_nav_radio"] label[data-baseweb="radio"] {
+        min-height: 54px !important;
+        padding: 8px 5px !important;
+        border-radius: 16px !important;
+        gap: 5px !important;
+    }
+    .st-key-main_nav_radio label[data-baseweb="radio"]::before,
+    [class*="st-key-main_nav_radio"] label[data-baseweb="radio"]::before {
+        width: 16px;
+        height: 16px;
+        flex-basis: 16px;
+    }
+    .st-key-main_nav_radio label[data-baseweb="radio"] span,
+    .st-key-main_nav_radio label[data-baseweb="radio"] p,
+    [class*="st-key-main_nav_radio"] label[data-baseweb="radio"] span,
+    [class*="st-key-main_nav_radio"] label[data-baseweb="radio"] p {
+        font-size: .80rem !important;
+    }
 }
 
 /* Upload zone */
@@ -955,36 +1118,44 @@ def render_header(compact: bool = True):
 
 
 def render_main_navigation():
-    """Three-button mobile navigation with consistent inline SVG-mask icons."""
+    """Mobile-safe Home / Menu / Scan navigation that never uses st.columns().
+
+    Streamlit stacks ``st.columns`` vertically on narrow screens.  A single
+    horizontal radio-group avoids that responsive behaviour entirely, while
+    CSS below makes the three choices look like the GulfBite navigation cards.
+    """
     nav_options = ["Home", "Menu", "Scan"]
 
     pending = st.session_state.pop("pending_main_section", None)
     if pending in nav_options:
         st.session_state.main_section = pending
+        # Set before the widget is instantiated so programmatic navigation
+        # (for example, the Home scan CTA) updates the visible active item too.
+        st.session_state["main_nav_radio"] = pending
 
     current = st.session_state.get("main_section", "Home")
     if current not in nav_options:
         current = "Home"
         st.session_state.main_section = current
 
-    cols = st.columns(3, gap="small")
-    for col, label, key in zip(
-        cols,
-        nav_options,
-        ["nav_home", "nav_menu", "nav_scan"],
+    if (
+        "main_nav_radio" not in st.session_state
+        or st.session_state["main_nav_radio"] not in nav_options
     ):
-        with col:
-            clicked = st.button(
-                label,
-                key=key,
-                type="primary" if current == label else "secondary",
-                use_container_width=True,
-            )
-            if clicked and current != label:
-                st.session_state.main_section = label
-                st.rerun()
+        st.session_state["main_nav_radio"] = current
 
-    return st.session_state.main_section
+    selected = st.radio(
+        "Main navigation",
+        options=nav_options,
+        horizontal=True,
+        key="main_nav_radio",
+        label_visibility="collapsed",
+    )
+
+    if selected != st.session_state.get("main_section"):
+        st.session_state.main_section = selected
+
+    return selected
 
 def render_segmented_stepper(current_stage: str, triggered: bool):
     raw_steps = [("upload", "Scan")]
