@@ -1,6 +1,4 @@
-
-
-
+# BUILD: GULFBITE_REBUILT_FROM_PASTED_MARKDOWN_3_UPLOAD_ONLY_BOTTOM_NAV
 """
 GulfBite — Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
 -----------------------------------------------------------------------------
@@ -466,101 +464,6 @@ div.stButton > button[kind="primary"]:hover {
     background: linear-gradient(135deg, #F8CF80 0%, #EAB34C 62%, #D99A29 100%) !important;
 }
 
-/* Stable Home / Menu / Scan and Camera / Upload controls. */
-.st-key-nav_home button,
-.st-key-nav_menu button,
-.st-key-nav_scan button,
-.st-key-source_camera button,
-.st-key-source_upload button {
-    min-height: 42px !important;
-    border-radius: 13px !important;
-    border: 1px solid #E9E0D1 !important;
-    background: #FFFDF9 !important;
-    color: #756C60 !important;
-    box-shadow: none !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 7px !important;
-    font-size: .88rem !important;
-    white-space: nowrap !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-}
-.st-key-nav_home button p,
-.st-key-nav_menu button p,
-.st-key-nav_scan button p,
-.st-key-source_camera button p,
-.st-key-source_upload button p {
-    margin: 0 !important;
-    white-space: nowrap !important;
-    line-height: 1 !important;
-}
-.st-key-nav_home button[kind="primary"],
-.st-key-nav_menu button[kind="primary"],
-.st-key-nav_scan button[kind="primary"],
-.st-key-source_camera button[kind="primary"],
-.st-key-source_upload button[kind="primary"] {
-    background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
-    border-color: #E5A93B !important;
-    color: #171007 !important;
-    box-shadow: 0 5px 14px rgba(229,169,59,.22) !important;
-}
-.st-key-nav_home button::before,
-.st-key-nav_menu button::before,
-.st-key-nav_scan button::before,
-.st-key-source_camera button::before,
-.st-key-source_upload button::before {
-    content: "";
-    width: 16px;
-    height: 16px;
-    flex: 0 0 16px;
-    display: inline-block;
-    background-color: currentColor;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    -webkit-mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: contain;
-}
-.st-key-nav_home button::before {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-}
-.st-key-nav_menu button::before {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-}
-.st-key-nav_scan button::before,
-.st-key-source_camera button::before {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='13' r='4' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='13' r='4' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
-}
-.st-key-source_upload button::before {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M12 4v11m0-11-4 4m4-4 4 4M5 14.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3.5' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M12 4v11m0-11-4 4m4-4 4 4M5 14.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3.5' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-}
-
-@media (max-width: 390px) {
-    .st-key-nav_home button,
-    .st-key-nav_menu button,
-    .st-key-nav_scan button {
-        min-height: 40px !important;
-        gap: 5px !important;
-        padding-left: 7px !important;
-        padding-right: 7px !important;
-        font-size: .80rem !important;
-    }
-    .st-key-nav_home button::before,
-    .st-key-nav_menu button::before,
-    .st-key-nav_scan button::before {
-        width: 15px;
-        height: 15px;
-        flex-basis: 15px;
-    }
-}
-
 /* Selects — clearer text and stronger control contrast. */
 [data-testid="stSelectbox"] [data-baseweb="select"] > div {
     min-height: 48px !important;
@@ -669,6 +572,101 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     color: #171007 !important;
 }
 
+/* -------------------------------------------------------------------------
+   FIXED BOTTOM MOBILE NAVIGATION
+   Pure HTML tab bar. It does not depend on Streamlit radio/column DOM classes,
+   so it remains pinned to the bottom across Streamlit versions and on mobile.
+   No artificial content padding is reserved above it.
+   ------------------------------------------------------------------------- */
+.gulf-bottom-nav {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    transform: translateX(-50%) !important;
+    width: min(430px, calc(100vw - 16px)) !important;
+    z-index: 2147483000 !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    padding: 7px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    border: 1px solid rgba(226,216,198,.96) !important;
+    border-radius: 22px !important;
+    background: rgba(255,253,249,.97) !important;
+    box-shadow: 0 16px 42px rgba(58,40,12,.20), 0 2px 8px rgba(0,0,0,.06) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(1.15) !important;
+    backdrop-filter: blur(18px) saturate(1.15) !important;
+}
+.gulf-bottom-tab {
+    min-width: 0 !important;
+    min-height: 58px !important;
+    border-radius: 15px !important;
+    border: 1px solid #E7DED0 !important;
+    background: #FFFDF9 !important;
+    color: #81796E !important;
+    text-decoration: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    font-family: 'Outfit', sans-serif !important;
+    box-sizing: border-box !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+.gulf-bottom-tab:hover,
+.gulf-bottom-tab:focus,
+.gulf-bottom-tab:visited {
+    color: #81796E !important;
+    text-decoration: none !important;
+}
+.gulf-bottom-tab.active {
+    background: linear-gradient(135deg,#F5C56D 0%,#E5A93B 100%) !important;
+    border-color: #E5A93B !important;
+    color: #171007 !important;
+    box-shadow: 0 6px 15px rgba(229,169,59,.24) !important;
+}
+.gulf-bottom-tab.active:hover,
+.gulf-bottom-tab.active:focus,
+.gulf-bottom-tab.active:visited {
+    color: #171007 !important;
+}
+.gulf-bottom-icon {
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
+}
+.gulf-bottom-icon svg {
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+.gulf-bottom-label {
+    font-size: .73rem !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+}
+@media (max-width: 480px) {
+    .gulf-bottom-nav {
+        width: calc(100vw - 12px) !important;
+        bottom: max(6px, env(safe-area-inset-bottom)) !important;
+        padding: 6px !important;
+        gap: 5px !important;
+        border-radius: 20px !important;
+    }
+    .gulf-bottom-tab {
+        min-height: 56px !important;
+        border-radius: 14px !important;
+    }
+}
+
 /* Upload zone */
 [data-testid="stFileUploaderDropzone"] {
     min-height: 150px !important;
@@ -704,12 +702,6 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     background: #FFFFFF !important;
     color: var(--ink) !important;
     font-weight: 800 !important;
-}
-
-/* Camera input */
-[data-testid="stCameraInput"] {
-    border-radius: 18px;
-    overflow: hidden;
 }
 
 /* Secondary result tabs only (main navigation no longer uses tabs). */
@@ -889,9 +881,10 @@ def segmented_choice(
 def line_icon(name: str, size: int = 24, color: str = "#D99926") -> str:
     """Small inline SVG icon set used by GulfBite cards and callouts."""
     icons = {
-        "camera": (
-            '<path d="M4 7.5h3l1.4-2h7.2l1.4 2h3a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.5a2 2 0 0 1 2-2Z"/>'
-            '<circle cx="12" cy="13.5" r="4"/>'
+        "upload": (
+            '<path d="M12 16V5"/>'
+            '<path d="m8 9 4-4 4 4"/>'
+            '<path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/>'
         ),
         "sparkles": (
             '<path d="m12 3 1.15 3.35L16.5 7.5l-3.35 1.15L12 12l-1.15-3.35L7.5 7.5l3.35-1.15L12 3Z"/>'
@@ -908,7 +901,7 @@ def line_icon(name: str, size: int = 24, color: str = "#D99926") -> str:
             '<path d="m15 15 5 5"/>'
         ),
     }
-    paths = icons.get(name, icons["camera"])
+    paths = icons.get(name, icons["upload"])
     return (
         f'<svg width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" '
         f'xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:block;">'
@@ -951,37 +944,68 @@ def render_header(compact: bool = True):
     )
 
 
+def _get_nav_query_value():
+    """Return ?nav=Home/Menu/Scan across old and new Streamlit versions."""
+    try:
+        value = st.query_params.get("nav")
+        if isinstance(value, (list, tuple)):
+            value = value[-1] if value else None
+        return value
+    except Exception:
+        try:
+            params = st.experimental_get_query_params()
+            value = params.get("nav")
+            if isinstance(value, (list, tuple)):
+                value = value[-1] if value else None
+            return value
+        except Exception:
+            return None
+
+
 def render_main_navigation():
-    """Three-button mobile navigation with consistent inline SVG-mask icons."""
+    """Render a fixed Home / Menu / Scan bottom tab bar using plain HTML links."""
     nav_options = ["Home", "Menu", "Scan"]
 
     pending = st.session_state.pop("pending_main_section", None)
     if pending in nav_options:
         st.session_state.main_section = pending
 
+    requested = _get_nav_query_value()
+    last_requested = st.session_state.get("_last_nav_query")
+    if requested in nav_options and requested != last_requested:
+        st.session_state.main_section = requested
+        st.session_state.stage = "main"
+        st.session_state._last_nav_query = requested
+
     current = st.session_state.get("main_section", "Home")
     if current not in nav_options:
         current = "Home"
         st.session_state.main_section = current
 
-    cols = st.columns(3, gap="small")
-    for col, label, key in zip(
-        cols,
-        nav_options,
-        ["nav_home", "nav_menu", "nav_scan"],
-    ):
-        with col:
-            clicked = st.button(
-                label,
-                key=key,
-                type="primary" if current == label else "secondary",
-                use_container_width=True,
-            )
-            if clicked and current != label:
-                st.session_state.main_section = label
-                st.rerun()
+    icons = {
+        "Home": """<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5 12 3l8.5 7.5v9A1.5 1.5 0 0 1 19 21h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z"/></svg>""",
+        "Menu": """<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5zM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>""",
+        "Scan": """<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.2 6 9.6 4h4.8l1.4 2H19a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 5 6z"/><circle cx="12" cy="13" r="4"/></svg>""",
+    }
 
-    return st.session_state.main_section
+    items = []
+    for label in nav_options:
+        active = " active" if label == current else ""
+        items.append(
+            f'<a class="gulf-bottom-tab{active}" href="?nav={label}" target="_self" aria-label="{label}">'
+            f'<span class="gulf-bottom-icon">{icons[label]}</span>'
+            f'<span class="gulf-bottom-label">{label}</span>'
+            '</a>'
+        )
+
+    st.markdown(
+        '<nav class="gulf-bottom-nav" aria-label="Main navigation">'
+        + ''.join(items)
+        + '</nav>',
+        unsafe_allow_html=True,
+    )
+
+    return current
 
 def render_segmented_stepper(current_stage: str, triggered: bool):
     raw_steps = [("upload", "Scan")]
@@ -1031,15 +1055,15 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
     )
 
 def render_quick_guide():
-    camera_icon = line_icon("camera", 25)
+    upload_icon = line_icon("upload", 25)
     sparkle_icon = line_icon("sparkles", 25)
     nutrition_icon = line_icon("nutrition", 25)
     st.markdown(
         f"""<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:4px 0 12px 0;">
 <div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px 6px;text-align:center;">
-    <div style="width:30px;height:30px;margin:0 auto 4px auto;display:flex;align-items:center;justify-content:center;">{camera_icon}</div>
-    <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:.76rem;color:#1E1B16;">Snap</div>
-    <div style="font-size:.66rem;color:#90887C;line-height:1.25;margin-top:2px;">Top-down plate</div>
+    <div style="width:30px;height:30px;margin:0 auto 4px auto;display:flex;align-items:center;justify-content:center;">{upload_icon}</div>
+    <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:.76rem;color:#1E1B16;">Upload</div>
+    <div style="font-size:.66rem;color:#90887C;line-height:1.25;margin-top:2px;">Meal photo</div>
 </div>
 <div style="background:#FFFFFF;border:1px solid #EAE2D4;border-radius:17px;padding:12px 6px;text-align:center;">
     <div style="width:30px;height:30px;margin:0 auto 4px auto;display:flex;align-items:center;justify-content:center;">{sparkle_icon}</div>
@@ -1057,57 +1081,18 @@ def render_quick_guide():
 
 
 def render_scan_input():
-    """Render reliable Camera / Upload buttons and return a PIL image or None."""
-    sources = ["Camera", "Upload"] if hasattr(st, "camera_input") else ["Upload"]
-
-    current = st.session_state.get("scan_source", sources[0])
-    if current not in sources:
-        current = sources[0]
-        st.session_state.scan_source = current
-
-    if len(sources) == 2:
-        c1, c2 = st.columns(2, gap="small")
-        with c1:
-            if st.button(
-                "Camera",
-                key="source_camera",
-                type="primary" if current == "Camera" else "secondary",
-                use_container_width=True,
-            ):
-                if current != "Camera":
-                    st.session_state.scan_source = "Camera"
-                    st.rerun()
-        with c2:
-            if st.button(
-                "Upload",
-                key="source_upload",
-                type="primary" if current == "Upload" else "secondary",
-                use_container_width=True,
-            ):
-                if current != "Upload":
-                    st.session_state.scan_source = "Upload"
-                    st.rerun()
-    else:
-        st.session_state.scan_source = "Upload"
-
-    image_file = None
-    if st.session_state.scan_source == "Camera" and hasattr(st, "camera_input"):
-        image_file = st.camera_input(
-            "Take a clear top-down photo",
-            label_visibility="collapsed",
-            key="meal_camera",
-        )
-    else:
-        image_file = st.file_uploader(
-            "Upload meal photo",
-            type=["jpg", "jpeg", "png", "heic", "heif"],
-            label_visibility="collapsed",
-            key="meal_upload",
-        )
+    """Render the meal-photo uploader and return a PIL image or None."""
+    image_file = st.file_uploader(
+        "Upload meal photo",
+        type=["jpg", "jpeg", "png", "heic", "heif"],
+        label_visibility="collapsed",
+        key="meal_upload",
+    )
 
     if image_file is None:
         return None
     return ImageOps.exif_transpose(Image.open(image_file))
+
 
 def render_category_squircle_cards():
     categories = list(DISH_CATEGORIES_DATA.keys())
@@ -1302,8 +1287,6 @@ if "portion_size" not in st.session_state:
     st.session_state.portion_size = "M"
 if "main_section" not in st.session_state:
     st.session_state.main_section = "Home"
-if "scan_source" not in st.session_state:
-    st.session_state.scan_source = "Camera"
 
 
 def reset(open_scan=True):
@@ -1368,7 +1351,7 @@ if st.session_state.stage == "onboarding":
 <div style="padding:.1rem .2rem .7rem .2rem;">
     <div style="display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:#FFF7E7;border:1px solid #F0D9A8;color:#B9780E;font-size:.70rem;font-weight:800;margin-bottom:9px;">25 Gulf dishes • AI-assisted recognition</div>
     <h1 style="font-family:'Outfit',sans-serif;font-size:2.15rem;font-weight:900;line-height:1.06;color:#1E1B16;margin:0;letter-spacing:-.035em;">Know your Gulf plate.<br><span style="color:#D99A28;">Track it smarter.</span></h1>
-    <p style="color:#7C756A;font-size:.88rem;font-weight:500;margin:10px 0 7px 0;line-height:1.5;">Photograph a traditional Gulf dish, verify the AI match when needed, choose your portion, and view estimated calories and macros.</p>
+    <p style="color:#7C756A;font-size:.88rem;font-weight:500;margin:10px 0 7px 0;line-height:1.5;">Upload a photo of a traditional Gulf dish, verify the AI match when needed, choose your portion, and view estimated calories and macros.</p>
 </div>""",
         unsafe_allow_html=True,
     )
@@ -1402,7 +1385,7 @@ elif st.session_state.stage in ["main", "upload"]:
         <div style="font-family:'Outfit',sans-serif;font-size:1.18rem;font-weight:900;color:#1E1B16;">Scan your next meal</div>
         <div style="font-size:.79rem;color:#8B8377;line-height:1.45;margin-top:4px;">Best results come from one clear plate photographed from above.</div>
     </div>
-    <div style="width:54px;height:54px;border-radius:18px;background:#FFF7E7;border:1px solid #F0D8A5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{line_icon("camera", 28)}</div>
+    <div style="width:54px;height:54px;border-radius:18px;background:#FFF7E7;border:1px solid #F0D8A5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{line_icon("upload", 28)}</div>
 </div>
 </div>""",
                 unsafe_allow_html=True,
@@ -1435,7 +1418,7 @@ elif st.session_state.stage in ["main", "upload"]:
         render_category_squircle_cards()
         st.markdown('<div style="height:16px;"></div>', unsafe_allow_html=True)
 
-    else:  # 📷 Scan
+    else:  # Scan
         render_segmented_stepper("upload", st.session_state.get("triggered", False))
 
         with st.container(border=True):
@@ -1443,7 +1426,7 @@ elif st.session_state.stage in ["main", "upload"]:
                 """<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:9px;">
 <div>
     <div style="font-family:'Outfit',sans-serif;font-size:1.12rem;font-weight:900;color:#1E1B16;">Scan your plate</div>
-    <div style="font-size:.76rem;color:#7E7569;margin-top:2px;font-weight:600;">Camera or photo upload</div>
+    <div style="font-size:.76rem;color:#7E7569;margin-top:2px;font-weight:600;">Upload a meal photo</div>
 </div>
 <span style="background:#FFF7E7;color:#B9780E;font-size:.70rem;font-weight:800;padding:5px 9px;border-radius:999px;border:1px solid #EED8A8;">Top-down works best</span>
 </div>""",
