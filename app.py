@@ -1,3 +1,4 @@
+# BUILD: GULFBITE_CONTINUOUS_WHITE_APP_SURFACE_2026_08_19
 # BUILD: GULFBITE_ANCHOR_SCROLL_RESET_2026_08_19
 # BUILD: GULFBITE_CLEAN_REBUILD_NATIVE_SCROLL_2026_08_19
 # BUILD: GULFBITE_ICON_ONLY_CLOCHE_NAV_2026_08_19
@@ -1107,6 +1108,74 @@ div[data-testid="stTabs"] [aria-selected="true"]::after {
    halfway down the page after a button click. */
 button:focus:not(:focus-visible) {
     outline: none !important;
+}
+
+
+/* ==========================================================================
+   WHITE APP SURFACE FIX
+   Streamlit versions differ on whether the main content node is addressed by
+   `.block-container` or `data-testid="stMainBlockContainer"`. Target both.
+   ========================================================================== */
+
+[data-testid="stMainBlockContainer"],
+.block-container {
+    background: #FFFFFF !important;
+    box-sizing: border-box !important;
+}
+
+/* Make the white surface continuous for the full scrollable screen. */
+[data-testid="stMainBlockContainer"] {
+    max-width: 460px !important;
+    min-height: calc(100dvh - 12px) !important;
+    height: auto !important;
+    margin: 6px auto !important;
+    padding: 1rem 1rem 2.4rem 1rem !important;
+    border: 1px solid rgba(229,169,59,.14) !important;
+    border-radius: 28px !important;
+    box-shadow: 0 18px 42px -28px rgba(68,45,9,.28) !important;
+}
+
+/* If Streamlit nests `.block-container` inside stMainBlockContainer, avoid
+   creating a second white card/border inside the real app surface. */
+[data-testid="stMainBlockContainer"] > .block-container,
+[data-testid="stMainBlockContainer"] .block-container {
+    max-width: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* The workflow content itself should stay transparent so the single main
+   white surface shows continuously behind energy, macros, tabs and forms. */
+.st-key-verify_stage,
+.st-key-portion_stage,
+.st-key-result_stage {
+    background: transparent !important;
+}
+
+/* Remove any accidental cream/transparent background applied to the main
+   Streamlit content wrappers without touching page scrolling. */
+[data-testid="stMain"],
+section.main {
+    background: transparent !important;
+}
+
+@media (max-width: 480px) {
+    [data-testid="stMainBlockContainer"] {
+        min-height: calc(100dvh - 8px) !important;
+        margin: 4px auto !important;
+        padding: .78rem .78rem 2.2rem .78rem !important;
+        border-radius: 24px !important;
+    }
+
+    /* Workflow still reserves room for the fixed bottom navigation. */
+    .stApp:has(.workflow-stage-marker) [data-testid="stMainBlockContainer"] {
+        padding-bottom: calc(7.4rem + env(safe-area-inset-bottom)) !important;
+    }
 }
 
 </style>""",
