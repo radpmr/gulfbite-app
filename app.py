@@ -2316,7 +2316,7 @@ if st.session_state.stage == "onboarding":
         unsafe_allow_html=True,
     )
 
-    if st.button("Scan your plate →", key="btn_get_started", type="primary", use_container_width=True):
+    if st.button("Get Started →", key="btn_get_started", type="primary", use_container_width=True):
         st.session_state.stage = "main"
         st.session_state.main_section = "Home"
         request_scroll_top()
