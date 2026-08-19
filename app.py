@@ -1894,6 +1894,197 @@ div[data-baseweb="popover"] [role="listbox"] * {
 
 /* Hide the literal emoji glyphs in the tab labels by using clean text in code. */
 
+
+/* ==========================================================================
+   CONTROL SYSTEM V2 — keyed container hooks
+   ========================================================================== */
+
+/* Primary actions */
+.st-key-home_scan_control button,
+.st-key-confirm_dish_control button,
+.st-key-calculate_nutrition_control button {
+    width: 100% !important;
+    min-height: 54px !important;
+    padding: 0 22px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: linear-gradient(105deg,#FFD27D 0%,#F1B63E 48%,#DE991B 100%) !important;
+    color: #17130D !important;
+    font-family: 'Outfit',sans-serif !important;
+    font-size: .96rem !important;
+    font-weight: 850 !important;
+    letter-spacing: -.01em !important;
+    box-shadow: 0 9px 20px rgba(212,145,22,.23), inset 0 1px 0 rgba(255,255,255,.55) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+}
+.st-key-home_scan_control button:hover,
+.st-key-confirm_dish_control button:hover,
+.st-key-calculate_nutrition_control button:hover {
+    transform: translateY(-1px) !important;
+    filter: brightness(1.025) !important;
+}
+.st-key-home_scan_control button::before,
+.st-key-confirm_dish_control button::before,
+.st-key-calculate_nutrition_control button::before,
+.st-key-update_dish_control button::before,
+.st-key-browse_files_control [data-testid="stFileUploader"] button::before,
+.st-key-browse_files_control [data-testid="stFileUploaderDropzone"] button::before {
+    content:"" !important;
+    display:inline-block !important;
+    width:19px !important;
+    height:19px !important;
+    flex:0 0 19px !important;
+    background-color:currentColor !important;
+    -webkit-mask-repeat:no-repeat !important;
+    mask-repeat:no-repeat !important;
+    -webkit-mask-position:center !important;
+    mask-position:center !important;
+    -webkit-mask-size:contain !important;
+    mask-size:contain !important;
+}
+.st-key-home_scan_control button::before {
+    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3M8 12h8M12 8v8' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 0 2 2h-3M8 12h8M12 8v8' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+}
+.st-key-confirm_dish_control button::before {
+    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m5 12 4 4L19 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m5 12 4 4L19 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+.st-key-calculate_nutrition_control button::before {
+    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='3' width='16' height='18' rx='3' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M8 8h8M8 13h2M14 13h2M8 17h2M14 17h2' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='3' width='16' height='18' rx='3' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M8 8h8M8 13h2M14 13h2M8 17h2M14 17h2' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+}
+
+/* Browse Files */
+.st-key-browse_files_control [data-testid="stFileUploader"] button,
+.st-key-browse_files_control [data-testid="stFileUploaderDropzone"] button {
+    min-height:44px !important;
+    padding:0 16px !important;
+    border:1.5px solid #D79B2E !important;
+    border-radius:999px !important;
+    background:#FFFFFF !important;
+    color:#A46704 !important;
+    font-family:'Outfit',sans-serif !important;
+    font-size:.84rem !important;
+    font-weight:850 !important;
+    box-shadow:0 4px 12px rgba(184,124,18,.10) !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:7px !important;
+}
+.st-key-browse_files_control [data-testid="stFileUploader"] button::before,
+.st-key-browse_files_control [data-testid="stFileUploaderDropzone"] button::before {
+    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16V4m0 0L8 8m4-4 4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16V4m0 0L8 8m4-4 4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+
+/* Portion cards */
+.st-key-portion_selector_control [data-testid="stSegmentedControl"] button {
+    min-height:62px !important;
+    padding:8px 8px !important;
+    border:1.5px solid #E4D6BE !important;
+    border-radius:17px !important;
+    background:#FFFFFF !important;
+    color:#696158 !important;
+    font-family:'Outfit',sans-serif !important;
+    font-size:.78rem !important;
+    font-weight:820 !important;
+    white-space:normal !important;
+    box-shadow:0 4px 12px rgba(70,49,16,.045) !important;
+}
+.st-key-portion_selector_control [data-testid="stSegmentedControl"] button[aria-pressed="true"],
+.st-key-portion_selector_control [data-testid="stSegmentedControl"] button[data-selected="true"] {
+    background:linear-gradient(145deg,#FFF1C6 0%,#F2B943 100%) !important;
+    border-color:#D99C28 !important;
+    color:#19150D !important;
+    box-shadow:0 7px 17px rgba(214,149,27,.20), inset 0 1px 0 rgba(255,255,255,.55) !important;
+}
+.st-key-portion_selector_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    min-height:62px !important;
+    padding:8px !important;
+    border:1.5px solid #E4D6BE !important;
+    border-radius:17px !important;
+    background:#FFFFFF !important;
+}
+.st-key-portion_selector_control div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
+    background:linear-gradient(145deg,#FFF1C6 0%,#F2B943 100%) !important;
+    border-color:#D99C28 !important;
+}
+
+/* Tabs as segmented switch */
+.st-key-result_tabs_control div[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:5px !important;
+    padding:5px !important;
+    border:1px solid #E7DDCF !important;
+    border-radius:16px !important;
+    background:#F5F1EA !important;
+}
+.st-key-result_tabs_control div[data-testid="stTabs"] [data-baseweb="tab-border"],
+.st-key-result_tabs_control div[data-testid="stTabs"] [data-baseweb="tab-highlight"] {
+    display:none !important;
+}
+.st-key-result_tabs_control div[data-testid="stTabs"] [data-baseweb="tab"] {
+    min-height:43px !important;
+    border-radius:11px !important;
+    justify-content:center !important;
+    background:transparent !important;
+    color:#776E63 !important;
+    font-family:'Outfit',sans-serif !important;
+    font-size:.80rem !important;
+    font-weight:820 !important;
+}
+.st-key-result_tabs_control div[data-testid="stTabs"] [data-baseweb="tab"][aria-selected="true"] {
+    background:#FFFFFF !important;
+    color:#1C1813 !important;
+    box-shadow:0 3px 10px rgba(64,43,12,.09) !important;
+}
+.st-key-result_tabs_control div[data-testid="stTabs"] [data-baseweb="tab"][aria-selected="true"]::after {
+    display:none !important;
+}
+
+/* Update Dish as secondary action */
+.st-key-update_dish_control button {
+    width:100% !important;
+    min-height:48px !important;
+    padding:0 18px !important;
+    border:1.5px solid #D79B2E !important;
+    border-radius:999px !important;
+    background:#FFFDF9 !important;
+    color:#A46704 !important;
+    font-family:'Outfit',sans-serif !important;
+    font-size:.87rem !important;
+    font-weight:850 !important;
+    box-shadow:none !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:8px !important;
+}
+.st-key-update_dish_control button::before {
+    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 17.5V20h2.5L17 9.5 14.5 7 4 17.5ZM14.5 7l1.2-1.2a1.8 1.8 0 0 1 2.6 0l.9.9a1.8 1.8 0 0 1 0 2.6L18 10.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 17.5V20h2.5L17 9.5 14.5 7 4 17.5ZM14.5 7l1.2-1.2a1.8 1.8 0 0 1 2.6 0l.9.9a1.8 1.8 0 0 1 0 2.6L18 10.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+
+@media (max-width:480px) {
+    .st-key-home_scan_control button,
+    .st-key-confirm_dish_control button,
+    .st-key-calculate_nutrition_control button {
+        min-height:50px !important;
+        font-size:.91rem !important;
+    }
+    .st-key-portion_selector_control [data-testid="stSegmentedControl"] button {
+        min-height:58px !important;
+        font-size:.72rem !important;
+        padding:6px 4px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -2252,12 +2443,13 @@ def render_quick_guide():
 
 def render_scan_input():
     """Render the meal-photo uploader and return a PIL image or None."""
-    image_file = st.file_uploader(
-        "Upload meal photo",
-        type=["jpg", "jpeg", "png", "heic", "heif"],
-        label_visibility="collapsed",
-        key="meal_upload",
-    )
+    with st.container(key="browse_files_control"):
+        image_file = st.file_uploader(
+            "Upload meal photo",
+            type=["jpg", "jpeg", "png", "heic", "heif"],
+            label_visibility="collapsed",
+            key="meal_upload",
+        )
 
     if image_file is None:
         return None
@@ -2595,10 +2787,11 @@ elif st.session_state.stage in ["main", "upload"]:
 </div>""",
                 unsafe_allow_html=True,
             )
-            if st.button("Scan your plate →", type="primary", use_container_width=True, key="home_scan_cta"):
-                st.session_state.pending_main_section = "Scan"
-                request_scroll_top()
-                st.rerun()
+            with st.container(key="home_scan_control"):
+                if st.button("Scan your plate →", type="primary", use_container_width=True, key="home_scan_cta"):
+                    st.session_state.pending_main_section = "Scan"
+                    request_scroll_top()
+                    st.rerun()
 
         st.markdown(
             """<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px;">
@@ -2785,7 +2978,7 @@ elif st.session_state.stage == "confirm_dish":
             key="dish_confirmation_select",
         )
 
-        with st.container(key="workflow_confirm"):
+        with st.container(key="confirm_dish_control"):
             if st.button("Confirm dish →", type="primary", use_container_width=True, key="confirm_dish_action"):
                 st.session_state.final_dish = choice
                 st.session_state.stage = "select_portion"
@@ -2829,12 +3022,13 @@ elif st.session_state.stage == "select_portion":
         default_label = {"S": portion_labels[0], "M": portion_labels[1], "L": portion_labels[2]}.get(
             st.session_state.get("portion_size", "M"), portion_labels[1]
         )
-        selected_label = segmented_choice(
-            "Choose portion",
-            portion_labels,
-            default=default_label,
-            key="portion_segment",
-        )
+        with st.container(key="portion_selector_control"):
+            selected_label = segmented_choice(
+                "Choose portion",
+                portion_labels,
+                default=default_label,
+                key="portion_segment",
+            )
         selected_p = portion_lookup.get(selected_label, "M")
 
         st.markdown(
@@ -2842,7 +3036,7 @@ elif st.session_state.stage == "select_portion":
             unsafe_allow_html=True,
         )
 
-        with st.container(key="workflow_calculate"):
+        with st.container(key="calculate_nutrition_control"):
             if st.button("Calculate nutrition →", type="primary", use_container_width=True, key="calculate_nutrition_action"):
                 st.session_state.portion_size = selected_p
                 st.session_state.stage = "result"
@@ -2905,7 +3099,8 @@ elif st.session_state.stage == "result":
 
         st.markdown("<div style='margin-top: 1.2rem;'></div>", unsafe_allow_html=True)
 
-        tab_correct, tab_tech = st.tabs(["Edit Dish", "Pipeline Info"])
+        with st.container(key="result_tabs_control"):
+            tab_correct, tab_tech = st.tabs(["Edit Dish", "Pipeline Info"])
 
         with tab_correct:
             all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
@@ -2918,10 +3113,11 @@ elif st.session_state.stage == "result":
                 index=current_idx,
                 label_visibility="collapsed",
             )
-            if st.button("Update Dish", type="secondary", use_container_width=True, key="update_dish_action"):
-                st.session_state.final_dish = corrected
-                st.session_state.tier_used = "User correction"
-                st.rerun()
+            with st.container(key="update_dish_control"):
+                if st.button("Update Dish", type="secondary", use_container_width=True, key="update_dish_action"):
+                    st.session_state.final_dish = corrected
+                    st.session_state.tier_used = "User correction"
+                    st.rerun()
 
         with tab_tech:
             yolo_row = (
