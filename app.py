@@ -2937,6 +2937,21 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   HOME UPLOAD ICON CLEANUP
+   Use one upload icon only: inside the Upload a dish CTA.
+   ========================================================================== */
+
+.home-upload-icon {
+    display: none !important;
+}
+
+.st-key-home_scan_control button::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16V4m0 0L8 8m4-4 4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16V4m0 0L8 8m4-4 4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -3641,7 +3656,6 @@ elif st.session_state.stage in ["main", "upload"]:
                 '<div class="home-upload-title">Scan your meal</div>'
                 '<div class="home-upload-subtitle">Upload a clear Gulf dish photo for AI recognition and nutrition estimates.</div>'
                 '</div>'
-                f'<div class="home-upload-icon">{line_icon("upload", 23)}</div>'
                 '</div>'
             )
             st.markdown(upload_copy_html, unsafe_allow_html=True)
