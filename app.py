@@ -2085,6 +2085,54 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   FINAL CONTROL POLISH
+   Small refinements only — keeps the current control design.
+   ========================================================================== */
+
+/* Browse Files: keep label on one line and improve icon/text balance. */
+.st-key-browse_files_control [data-testid="stFileUploader"] button,
+.st-key-browse_files_control [data-testid="stFileUploaderDropzone"] button {
+    min-width: 142px !important;
+    min-height: 42px !important;
+    padding: 0 18px !important;
+    white-space: nowrap !important;
+    line-height: 1 !important;
+    gap: 6px !important;
+}
+.st-key-browse_files_control [data-testid="stFileUploader"] button p,
+.st-key-browse_files_control [data-testid="stFileUploaderDropzone"] button p,
+.st-key-browse_files_control [data-testid="stFileUploader"] button span,
+.st-key-browse_files_control [data-testid="stFileUploaderDropzone"] button span {
+    white-space: nowrap !important;
+}
+.st-key-browse_files_control [data-testid="stFileUploader"] button::before,
+.st-key-browse_files_control [data-testid="stFileUploaderDropzone"] button::before {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+}
+
+/* Portion selector: clearer selected card edge. */
+.st-key-portion_selector_control [data-testid="stSegmentedControl"] button[aria-pressed="true"],
+.st-key-portion_selector_control [data-testid="stSegmentedControl"] button[data-selected="true"] {
+    border: 2px solid #D78F12 !important;
+    box-shadow:
+        0 7px 17px rgba(214,149,27,.18),
+        inset 0 1px 0 rgba(255,255,255,.58) !important;
+}
+.st-key-portion_selector_control div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
+    border: 2px solid #D78F12 !important;
+}
+
+/* Calculate Nutrition: slightly smaller calculator icon. */
+.st-key-calculate_nutrition_control button::before {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
