@@ -3420,6 +3420,88 @@ div[data-baseweb="popover"] [role="listbox"] * {
     }
 }
 
+
+/* ==========================================================================
+   MOBILE FINAL FIT
+   Keep Gulf favourites fully inside its card and make the fixed nav fit
+   comfortably within narrow mobile browser viewports.
+   ========================================================================== */
+
+/* Favourites: prevent the third tile from escaping the card width. */
+.st-key-home_favourites_section {
+    overflow: hidden !important;
+}
+
+.home-favourites-grid-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+.home-favourite-link {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.home-favourite-link img {
+    max-width: 100% !important;
+}
+
+/* Slightly reduce the Home side padding on phones so cards have more usable width. */
+@media (max-width: 480px) {
+    [data-testid="stMainBlockContainer"],
+    .block-container {
+        padding-left: .62rem !important;
+        padding-right: .62rem !important;
+    }
+
+    .st-key-home_favourites_section {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .home-favourites-grid-links {
+        gap: 5px !important;
+    }
+
+    .home-favourite-link {
+        height: 72px !important;
+        border-radius: 11px !important;
+    }
+
+    .home-favourite-link span {
+        left: 6px !important;
+        right: 4px !important;
+        bottom: 6px !important;
+        font-size: .56rem !important;
+    }
+
+    /* Make the fixed nav a little narrower so it doesn't compete with
+       mobile browser chrome/floating controls at the edges. */
+    .st-key-gulf_bottom_nav {
+        width: calc(100vw - 28px) !important;
+        max-width: 392px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+}
+
+/* Very narrow phones */
+@media (max-width: 390px) {
+    .home-favourite-link {
+        height: 68px !important;
+    }
+
+    .st-key-gulf_bottom_nav {
+        width: calc(100vw - 24px) !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
