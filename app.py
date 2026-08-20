@@ -1,3 +1,12 @@
+"""
+GulfBite - Smart Gulf Cuisine Nutrition Assistant
+
+Identifies authentic Gulf dishes using a multi-tiered pipeline:
+1. MobileNetV2 classification for initial dish recognition.
+2. Non-food rejection using confidence, margin, and entropy checks.
+3. YOLOv8 visual feature detection when additional verification is required.
+4. Portion-based calorie and macronutrient estimation.
+"""
 import base64
 import io
 import json
