@@ -4499,6 +4499,154 @@ div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
     }
 }
 
+
+/* ==========================================================================
+   MENU CATEGORY STABILITY + MEANINGFUL 4 x 2 LABELS
+   ========================================================================== */
+.st-key-menu_category_control {
+    margin: 10px 0 16px 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"] {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+    overflow: visible !important;
+    padding: 0 !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 38px !important;
+    height: auto !important;
+    padding: 6px 5px !important;
+    border: 1px solid #E3D7C3 !important;
+    border-radius: 999px !important;
+    background: #FFFDF9 !important;
+    color: #6C645A !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .62rem !important;
+    line-height: 1.05 !important;
+    font-weight: 800 !important;
+    white-space: normal !important;
+    text-align: center !important;
+    box-shadow: none !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button[aria-pressed="true"],
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button[data-selected="true"] {
+    border-color: #DEA12C !important;
+    background: linear-gradient(135deg,#F8CB70 0%,#E8AA2E 100%) !important;
+    color: #17130D !important;
+    box-shadow: 0 4px 10px rgba(216,149,24,.14) !important;
+}
+
+/* radio fallback */
+.st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+}
+
+.st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 38px !important;
+    padding: 6px 5px !important;
+    border: 1px solid #E3D7C3 !important;
+    border-radius: 999px !important;
+    background: #FFFDF9 !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"],
+    .st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+        gap: 6px !important;
+    }
+
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+    .st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+        min-height: 40px !important;
+        padding: 5px 3px !important;
+        font-size: .57rem !important;
+    }
+}
+
+
+/* ==========================================================================
+   HEADER LOGO SIZE POLISH
+   Slightly larger GulfBite logo while keeping the header balanced.
+   ========================================================================== */
+
+.gb-brand-mark,
+.gb-logo,
+.header-logo,
+[class*="brand-mark"],
+[class*="logo-box"] {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px !important;
+    min-height: 58px !important;
+    border-radius: 17px !important;
+}
+
+.gb-brand-mark svg,
+.gb-brand-mark img,
+.gb-logo svg,
+.gb-logo img,
+.header-logo svg,
+.header-logo img,
+[class*="brand-mark"] svg,
+[class*="brand-mark"] img,
+[class*="logo-box"] svg,
+[class*="logo-box"] img {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+@media (max-width: 480px) {
+    .gb-brand-mark,
+    .gb-logo,
+    .header-logo,
+    [class*="brand-mark"],
+    [class*="logo-box"] {
+        width: 56px !important;
+        height: 56px !important;
+        min-width: 56px !important;
+        min-height: 56px !important;
+    }
+}
+
+
+/* ==========================================================================
+   HEADER CLEANUP — REMOVE NOTIFICATION/BELL ICON EVERYWHERE
+   ========================================================================== */
+
+[class*="bell"],
+[class*="notification"],
+[data-testid*="bell"],
+[data-testid*="notification"],
+button[aria-label*="bell" i],
+button[aria-label*="notification" i] {
+    display: none !important;
+}
+
+/* Keep header layout balanced after removing the right-side icon */
+.gb-header,
+.app-header,
+.header-wrap,
+[class*="header-row"],
+[class*="brand-row"] {
+    justify-content: flex-start !important;
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -4906,18 +5054,17 @@ def render_scan_input():
 
 
 def render_category_squircle_cards():
-    """Clean, responsive Menu using only native Streamlit widgets."""
+    """Meaningful dish categories with stable in-app selection."""
     category_map = {
-        "All": "✨ All Dishes",
-        "Rice": "🍚 Rice & Grains",
+        "All Dishes": "✨ All Dishes",
+        "Rice & Grains": "🍚 Rice & Grains",
         "Stews": "🥘 Stews & Slow-Cooked",
         "Seafood": "🐟 Seafood",
-        "Street": "🌯 Street Food & Snacks",
-        "Morning": "🍳 Breakfast & Breads",
-        "Mezze": "🥣 Mezze & Salads",
-        "Desserts": "🍰 Sweets & Drinks",
+        "Street Food": "🌯 Street Food & Snacks",
+        "Breakfast": "🍳 Breakfast & Breads",
+        "Mezze & Salads": "🥣 Mezze & Salads",
+        "Sweets & Drinks": "🍰 Sweets & Drinks",
     }
-
     reverse_category_map = {v: k for k, v in category_map.items()}
 
     if (
@@ -4926,28 +5073,56 @@ def render_category_squircle_cards():
     ):
         st.session_state.cat_select_box = "✨ All Dishes"
 
-    current_category = st.session_state.cat_select_box
-    current_short = reverse_category_map.get(current_category, "All")
+    # Keep the segmented control synchronized with the canonical category state.
+    # This prevents a stale widget value from jumping back to another category
+    # after reruns or after opening Menu from another screen.
+    expected_short = reverse_category_map.get(
+        st.session_state.cat_select_box, "All Dishes"
+    )
+    if (
+        "menu_category_segment" not in st.session_state
+        or st.session_state.menu_category_segment not in category_map
+        or category_map.get(st.session_state.menu_category_segment)
+        != st.session_state.cat_select_box
+    ):
+        st.session_state.menu_category_segment = expected_short
+
+    def _apply_menu_category():
+        short_name = st.session_state.get("menu_category_segment", "All Dishes")
+        new_category = category_map.get(short_name, "✨ All Dishes")
+
+        st.session_state.cat_select_box = new_category
+        st.session_state.selected_category = new_category
+
+        valid_dishes = DISH_CATEGORIES_DATA[new_category]
+        current_dish = st.session_state.get("dish_select_box")
+        if current_dish not in valid_dishes:
+            st.session_state.dish_select_box = valid_dishes[0]
 
     with st.container(key="menu_category_control"):
-        selected_short = segmented_choice(
-            "Dish category",
-            list(category_map.keys()),
-            default=current_short,
-            key="menu_category_segment",
-        )
+        if hasattr(st, "segmented_control"):
+            st.segmented_control(
+                "Dish category",
+                options=list(category_map.keys()),
+                key="menu_category_segment",
+                selection_mode="single",
+                label_visibility="collapsed",
+                width="stretch",
+                on_change=_apply_menu_category,
+            )
+        else:
+            current_short = st.session_state.menu_category_segment
+            st.radio(
+                "Dish category",
+                options=list(category_map.keys()),
+                index=list(category_map.keys()).index(current_short),
+                key="menu_category_segment",
+                horizontal=True,
+                label_visibility="collapsed",
+                on_change=_apply_menu_category,
+            )
 
-    if selected_short is None:
-        selected_short = current_short
-
-    selected_category = category_map[selected_short]
-
-    if selected_category != current_category:
-        st.session_state.cat_select_box = selected_category
-        st.session_state.selected_category = selected_category
-        st.session_state.dish_select_box = DISH_CATEGORIES_DATA[selected_category][0]
-        st.rerun()
-
+    selected_category = st.session_state.cat_select_box
     dishes = DISH_CATEGORIES_DATA[selected_category]
 
     if (
@@ -4970,13 +5145,13 @@ def render_category_squircle_cards():
     )
 
     family_visuals = {
-        "01_machboos": ("🍚", "Rice main"),
-        "02_kabsa": ("🍗", "Rice main"),
-        "03_biryani": ("🍛", "Rice main"),
+        "01_machboos": ("🍚", "Rice dish"),
+        "02_kabsa": ("🍗", "Rice dish"),
+        "03_biryani": ("🍛", "Rice dish"),
         "04_harees": ("🥣", "Grain dish"),
         "05_thareed": ("🥘", "Slow-cooked"),
         "06_saloona": ("🍲", "Stew"),
-        "07_ouzi": ("🍚", "Rice main"),
+        "07_ouzi": ("🍚", "Rice dish"),
         "08_samak_mashwi": ("🐟", "Seafood"),
         "09_jisheed": ("🐟", "Seafood"),
         "10_shawarma": ("🌯", "Street food"),
