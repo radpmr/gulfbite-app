@@ -7701,6 +7701,200 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   FINAL POLISH — SPACING + GOLD CONSISTENCY
+   Home / Menu / Scan aligned to one premium GulfBite visual system.
+   ========================================================================== */
+
+:root {
+    --gb-primary-gold-1: #EBC66F;
+    --gb-primary-gold-2: #D9A742;
+    --gb-primary-gold-deep: #C98B26;
+    --gb-primary-gold-soft: #F4DFAB;
+    --gb-primary-ink: #241B12;
+}
+
+/* ---------- HOME ---------- */
+
+/* Slightly compact Quick Guide without crushing captions. */
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+    padding: 10px 12px 12px !important;
+    margin-bottom: 2px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-subtitle {
+    margin-bottom: 7px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-badge {
+    width: 44px !important;
+    height: 44px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-quick-guide.journey .home-guide-line {
+    top: 23px !important;
+}
+
+/* Bring Gulf favourites slightly closer to Quick Guide. */
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    margin-top: -10px !important;
+}
+
+/* ---------- MENU ---------- */
+
+/* Make Choose a dish group more compact. */
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
+    padding: 10px 12px 11px !important;
+    margin-bottom: 8px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-category-meta {
+    margin-bottom: 7px !important;
+    font-size: .58rem !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-category-meta > span:last-child {
+    font-size: .56rem !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-picker-label {
+    margin-bottom: 6px !important;
+}
+
+.stApp:has(.menu-screen-marker)
+.st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+    min-height: 44px !important;
+    height: 44px !important;
+}
+
+/* Selected dish sits closer to picker card. */
+.stApp:has(.menu-screen-marker) .menu-feature-card {
+    margin-top: -6px !important;
+}
+
+/* ---------- SCAN ---------- */
+
+/* Slightly shorter uploader area. */
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section {
+    min-height: 118px !important;
+}
+
+/* Reduce file-type/helper typography slightly. */
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section p,
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section small {
+    font-size: .69rem !important;
+    line-height: 1.25 !important;
+}
+
+/* Tighter spacing around tip + help cards. */
+.stApp:has(.scan-screen-marker) .scan-tip-line {
+    margin-top: 3px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+    gap: 6px !important;
+    margin-top: 7px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-card {
+    min-height: 56px !important;
+    padding: 7px 8px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-next-card {
+    margin-top: 4px !important;
+    padding: 8px 9px !important;
+}
+
+/* ---------- GOLD CONSISTENCY ---------- */
+
+/* Primary buttons */
+.stApp .st-key-home_scan_control button,
+.stApp .st-key-menu_scan_selected_control button,
+.stApp .st-key-calculate_nutrition_control button,
+.stApp button[kind="primary"] {
+    border-color: var(--gb-primary-gold-deep) !important;
+    background: linear-gradient(
+        135deg,
+        var(--gb-primary-gold-1) 0%,
+        var(--gb-primary-gold-2) 100%
+    ) !important;
+    color: var(--gb-primary-ink) !important;
+}
+
+/* Active Menu category */
+.stApp:has(.menu-screen-marker)
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button[aria-pressed="true"],
+.stApp:has(.menu-screen-marker)
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button[data-selected="true"] {
+    border-color: var(--gb-primary-gold-deep) !important;
+    background: linear-gradient(
+        135deg,
+        var(--gb-primary-gold-1) 0%,
+        var(--gb-primary-gold-2) 100%
+    ) !important;
+    color: var(--gb-primary-ink) !important;
+}
+
+/* Quick Guide active Recognize */
+.stApp:has(.home-screen-marker) .home-guide-step.is-primary .home-guide-badge {
+    border-color: var(--gb-primary-gold-deep) !important;
+    background: linear-gradient(
+        145deg,
+        var(--gb-primary-gold-1) 0%,
+        var(--gb-primary-gold-2) 100%
+    ) !important;
+}
+
+/* Stepper active bar / labels */
+.stApp:has(.scan-screen-marker) [class*="stepper"] [class*="active"],
+.stApp:has(.scan-screen-marker) [class*="stepper"] [class*="current"] {
+    color: var(--gb-primary-gold-deep) !important;
+}
+
+/* Bottom nav active state */
+.st-key-gulf_bottom_nav button[kind="primary"],
+.st-key-gulf_bottom_nav button[aria-pressed="true"] {
+    background: linear-gradient(
+        135deg,
+        var(--gb-primary-gold-1) 0%,
+        var(--gb-primary-gold-2) 100%
+    ) !important;
+    color: var(--gb-primary-ink) !important;
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 480px) {
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+        padding: 9px 11px 11px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+        margin-top: -12px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
+        padding: 9px 10px 10px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-feature-card {
+        margin-top: -7px !important;
+    }
+
+    .stApp:has(.scan-screen-marker)
+    .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+        min-height: 112px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-help-card {
+        min-height: 54px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
