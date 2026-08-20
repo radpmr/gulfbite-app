@@ -4927,6 +4927,265 @@ button[aria-label*="notification" i] {
     }
 }
 
+
+/* ==========================================================================
+   MENU REARRANGED — compact, cleaner hierarchy
+   ========================================================================== */
+
+.menu-browse-label {
+    margin: 14px 0 7px 1px !important;
+    color: #9B8C77 !important;
+    font-size: .61rem !important;
+    line-height: 1 !important;
+    font-weight: 850 !important;
+    letter-spacing: .055em !important;
+    text-transform: uppercase !important;
+}
+
+/* 2 rows × 4 categories */
+.st-key-menu_category_control {
+    margin: 0 0 13px 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"] {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 38px !important;
+    height: auto !important;
+    padding: 6px 5px !important;
+    border: 1px solid #E4D6BF !important;
+    border-radius: 13px !important;
+    background: #FFFDF9 !important;
+    color: #716758 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .59rem !important;
+    line-height: 1.05 !important;
+    font-weight: 800 !important;
+    white-space: normal !important;
+    text-align: center !important;
+    box-shadow: none !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button[aria-pressed="true"],
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button[data-selected="true"] {
+    border-color: #DFA22F !important;
+    background: linear-gradient(135deg,#F7C65F 0%,#EAAA25 100%) !important;
+    color: #17130D !important;
+    box-shadow: 0 5px 12px rgba(218,150,22,.16) !important;
+}
+
+/* radio fallback */
+.st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+}
+
+.st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 38px !important;
+    padding: 6px 5px !important;
+    border: 1px solid #E4D6BF !important;
+    border-radius: 13px !important;
+    background: #FFFDF9 !important;
+}
+
+/* Dish picker gets a simple visual grouping, not another heavy card */
+.st-key-menu_dish_picker {
+    margin: 0 0 10px 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.menu-picker-label {
+    margin: 0 0 6px 1px !important;
+    color: #9B8C77 !important;
+    font-size: .61rem !important;
+    line-height: 1 !important;
+    font-weight: 850 !important;
+    letter-spacing: .055em !important;
+    text-transform: uppercase !important;
+}
+
+.st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+    min-height: 50px !important;
+    border: 1px solid #E3D3B7 !important;
+    border-radius: 14px !important;
+    background: #FFFDF9 !important;
+    box-shadow: 0 3px 10px rgba(66,47,17,.025) !important;
+}
+
+/* Selected dish becomes the visual focus */
+.menu-feature-card {
+    margin: 0 !important;
+    padding: 15px 16px !important;
+    border: 1px solid #E9D4AA !important;
+    border-radius: 19px !important;
+    background:
+        radial-gradient(circle at 96% 4%, rgba(243,184,52,.15), transparent 31%),
+        linear-gradient(145deg,#FFFDF9 0%,#FFF8EA 100%) !important;
+    box-shadow: 0 8px 20px rgba(68,45,10,.045) !important;
+}
+
+.menu-feature-top {
+    display: grid !important;
+    grid-template-columns: 50px minmax(0,1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.menu-feature-icon {
+    width: 50px !important;
+    height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid #EBCF95 !important;
+    border-radius: 14px !important;
+    background: #FFF3D6 !important;
+    font-size: 1.28rem !important;
+}
+
+.menu-feature-name {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1rem !important;
+    line-height: 1.06 !important;
+    font-weight: 900 !important;
+    color: #1E1A14 !important;
+}
+
+.menu-feature-family {
+    margin-top: 4px !important;
+    color: #948672 !important;
+    font-size: .61rem !important;
+    font-weight: 700 !important;
+}
+
+.menu-feature-time {
+    padding: 5px 9px !important;
+    border: 1px solid #EECF8F !important;
+    border-radius: 999px !important;
+    background: #FFF9E9 !important;
+    color: #B2760D !important;
+    font-size: .60rem !important;
+    font-weight: 850 !important;
+    white-space: nowrap !important;
+}
+
+.menu-feature-divider {
+    height: 1px !important;
+    margin: 11px 0 10px 0 !important;
+    background: linear-gradient(to right,#EEDDBD,rgba(238,221,189,0)) !important;
+}
+
+.menu-feature-blurb {
+    color: #74695C !important;
+    font-size: .72rem !important;
+    line-height: 1.43 !important;
+}
+
+.menu-feature-badges {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    margin-top: 10px !important;
+}
+
+.menu-feature-badges span {
+    padding: 4px 8px !important;
+    border: 1px solid #E5D7C2 !important;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,.88) !important;
+    color: #51483C !important;
+    font-size: .57rem !important;
+    line-height: 1 !important;
+    font-weight: 750 !important;
+}
+
+/* Stronger primary action */
+.st-key-menu_scan_selected_control {
+    margin-top: 10px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.st-key-menu_scan_selected_control button {
+    min-height: 44px !important;
+    height: 44px !important;
+    border: 0 !important;
+    border-radius: 13px !important;
+    background: linear-gradient(135deg,#F7C760 0%,#E7A31D 100%) !important;
+    color: #17130D !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .77rem !important;
+    font-weight: 850 !important;
+    box-shadow: 0 6px 14px rgba(216,148,19,.14) !important;
+}
+
+@media (max-width: 480px) {
+    .menu-browse-label {
+        margin-top: 11px !important;
+    }
+
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"],
+    .st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+        gap: 6px !important;
+    }
+
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+    .st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+        min-height: 37px !important;
+        padding: 5px 3px !important;
+        font-size: .55rem !important;
+    }
+
+    .menu-feature-card {
+        padding: 13px 14px !important;
+        border-radius: 17px !important;
+    }
+
+    .menu-feature-top {
+        grid-template-columns: 46px minmax(0,1fr) auto !important;
+        gap: 8px !important;
+    }
+
+    .menu-feature-icon {
+        width: 46px !important;
+        height: 46px !important;
+        border-radius: 13px !important;
+    }
+
+    .menu-feature-name {
+        font-size: .93rem !important;
+    }
+
+    .menu-feature-time {
+        padding: 4px 7px !important;
+        font-size: .56rem !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -5328,7 +5587,7 @@ def render_scan_input():
 
 
 def render_category_squircle_cards():
-    """Meaningful dish categories with stable in-app selection."""
+    """Compact, polished Menu with stable category selection."""
     category_map = {
         "All Dishes": "✨ All Dishes",
         "Rice & Grains": "🍚 Rice & Grains",
@@ -5347,12 +5606,10 @@ def render_category_squircle_cards():
     ):
         st.session_state.cat_select_box = "✨ All Dishes"
 
-    # Keep the segmented control synchronized with the canonical category state.
-    # This prevents a stale widget value from jumping back to another category
-    # after reruns or after opening Menu from another screen.
     expected_short = reverse_category_map.get(
         st.session_state.cat_select_box, "All Dishes"
     )
+
     if (
         "menu_category_segment" not in st.session_state
         or st.session_state.menu_category_segment not in category_map
@@ -5364,7 +5621,6 @@ def render_category_squircle_cards():
     def _apply_menu_category():
         short_name = st.session_state.get("menu_category_segment", "All Dishes")
         new_category = category_map.get(short_name, "✨ All Dishes")
-
         st.session_state.cat_select_box = new_category
         st.session_state.selected_category = new_category
 
@@ -5372,6 +5628,11 @@ def render_category_squircle_cards():
         current_dish = st.session_state.get("dish_select_box")
         if current_dish not in valid_dishes:
             st.session_state.dish_select_box = valid_dishes[0]
+
+    st.markdown(
+        '<div class="menu-browse-label">Browse by dish type</div>',
+        unsafe_allow_html=True,
+    )
 
     with st.container(key="menu_category_control"):
         if hasattr(st, "segmented_control"):
@@ -5405,18 +5666,18 @@ def render_category_squircle_cards():
     ):
         st.session_state.dish_select_box = dishes[0]
 
-    st.markdown(
-        '<div class="menu-choose-label">Choose a dish</div>',
-        unsafe_allow_html=True,
-    )
-
-    selected_dish = st.selectbox(
-        "Choose a dish",
-        options=dishes,
-        format_func=display_name,
-        key="dish_select_box",
-        label_visibility="collapsed",
-    )
+    with st.container(key="menu_dish_picker"):
+        st.markdown(
+            '<div class="menu-picker-label">Choose a dish</div>',
+            unsafe_allow_html=True,
+        )
+        selected_dish = st.selectbox(
+            "Choose a dish",
+            options=dishes,
+            format_func=display_name,
+            key="dish_select_box",
+            label_visibility="collapsed",
+        )
 
     family_visuals = {
         "01_machboos": ("🍚", "Rice dish"),
@@ -5459,17 +5720,18 @@ def render_category_squircle_cards():
     icon, family = family_visuals.get(selected_dish, ("🍽️", "Gulf dish"))
 
     detail_html = (
-        '<div class="menu-clean-card">'
-        '<div class="menu-clean-top">'
-        f'<div class="menu-clean-icon">{icon}</div>'
-        '<div class="menu-clean-heading">'
-        f'<div class="menu-clean-name">{display_name(selected_dish)}</div>'
-        f'<div class="menu-clean-family">{family}</div>'
+        '<div class="menu-feature-card">'
+        '<div class="menu-feature-top">'
+        f'<div class="menu-feature-icon">{icon}</div>'
+        '<div class="menu-feature-heading">'
+        f'<div class="menu-feature-name">{display_name(selected_dish)}</div>'
+        f'<div class="menu-feature-family">{family}</div>'
         '</div>'
-        f'<div class="menu-clean-time">⏱ {meta["time"]}</div>'
+        f'<div class="menu-feature-time">⏱ {meta["time"]}</div>'
         '</div>'
-        f'<div class="menu-clean-blurb">{blurb}</div>'
-        '<div class="menu-clean-badges">'
+        '<div class="menu-feature-divider"></div>'
+        f'<div class="menu-feature-blurb">{blurb}</div>'
+        '<div class="menu-feature-badges">'
         f'<span>{meta["spice"]}</span>'
         f'<span>{meta["prep"]}</span>'
         f'<span>{meta["density"]}</span>'
@@ -5481,7 +5743,7 @@ def render_category_squircle_cards():
     with st.container(key="menu_scan_selected_control"):
         if st.button(
             "Scan your meal",
-            type="secondary",
+            type="primary",
             use_container_width=True,
             key="menu_scan_selected",
         ):
