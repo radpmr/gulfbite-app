@@ -9186,6 +9186,286 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   MENU — SINGLE CARD CLEANUP
+   Remove the nested inner card look and close the large gap before
+   Selected Dish while keeping one premium outer card.
+   ========================================================================== */
+
+/* Outer library card remains the only visible card shell. */
+.stApp:has(.menu-screen-marker) .st-key-menu_library_card {
+    margin: 4px 0 10px 0 !important;
+    padding: 14px 15px 13px !important;
+    border: 1px solid #DCC79C !important;
+    border-radius: 20px !important;
+    background:
+        radial-gradient(circle at 96% 5%, rgba(175,118,31,.08), transparent 24%),
+        linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+    overflow: hidden !important;
+}
+
+/* Remove the nested inner browse card shell entirely. */
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_unified {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+
+/* Remove wrapper padding/spacing around the browse section. */
+.stApp:has(.menu-screen-marker)
+[data-testid="stElementContainer"]:has(.st-key-menu_browse_unified) {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Compact the internal browse sections. */
+.stApp:has(.menu-screen-marker) .menu-browse-divider {
+    margin: 9px 0 8px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-browse-divider-inner {
+    margin: 9px 0 8px !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_category_control {
+    margin-bottom: 6px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-category-meta {
+    margin-bottom: 6px !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_picker {
+    margin-bottom: 0 !important;
+}
+
+/* Selected Dish becomes the next section immediately after picker. */
+.stApp:has(.menu-screen-marker) .menu-feature-card {
+    margin: 10px 0 0 0 !important;
+    padding: 12px 0 0 !important;
+    border: 0 !important;
+    border-top: 1px solid #D7BE8D !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Remove any element-wrapper gap that Streamlit adds before Selected Dish. */
+.stApp:has(.menu-screen-marker)
+[data-testid="stElementContainer"]:has(.menu-feature-card) {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Slightly tighten selected dish details so everything stays above nav. */
+.stApp:has(.menu-screen-marker) .menu-feature-kicker {
+    margin-bottom: 7px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-divider {
+    margin: 9px 0 8px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-blurb {
+    line-height: 1.34 !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-badges {
+    margin-top: 7px !important;
+}
+
+/* Give the bottom navigation safe clearance without a huge footer. */
+.stApp:has(.menu-screen-marker) [data-testid="stMainBlockContainer"] {
+    padding-bottom: 68px !important;
+}
+
+/* Remove obsolete split-card shells if older CSS still exists. */
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card,
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail,
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .stApp:has(.menu-screen-marker) .st-key-menu_library_card {
+        padding: 12px 12px 11px !important;
+        border-radius: 18px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-feature-card {
+        margin-top: 8px !important;
+        padding-top: 10px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) [data-testid="stMainBlockContainer"] {
+        padding-bottom: 66px !important;
+    }
+}
+
+
+/* Remove Scan Best angle / Top-down tile completely */
+.stApp:has(.scan-screen-marker) .scan-angle-inline,
+.stApp:has(.scan-screen-marker) .scan-angle-badge {
+    display: none !important;
+}
+
+
+/* ==========================================================================
+   GLOBAL BUTTON HOVER SYSTEM
+   Consistent premium hover feedback across the full GulfBite app.
+   ========================================================================== */
+
+/* Smooth transitions for every interactive button-like control. */
+.stApp button,
+.stApp [role="button"],
+.stApp [data-testid="stSegmentedControl"] button,
+.stApp div[data-testid="stRadio"] label[data-baseweb="radio"],
+.stApp [data-baseweb="select"] > div,
+.stApp .home-favourite-link {
+    transition:
+        transform .16s ease,
+        box-shadow .16s ease,
+        background .16s ease,
+        border-color .16s ease,
+        color .16s ease,
+        filter .16s ease !important;
+}
+
+/* --------------------------------------------------------------------------
+   PRIMARY BUTTONS
+   -------------------------------------------------------------------------- */
+.stApp button[kind="primary"]:hover,
+.stApp .st-key-home_scan_control button:hover,
+.stApp .st-key-calculate_nutrition_control button:hover,
+.stApp .st-key-confirm_dish_control button:hover,
+.stApp .st-key-update_dish_control button:hover {
+    transform: translateY(-1px) !important;
+    filter: brightness(1.035) saturate(1.02) !important;
+    border-color: #B97B1D !important;
+    box-shadow: 0 10px 22px rgba(156,103,20,.20) !important;
+}
+
+.stApp button[kind="primary"]:active,
+.stApp .st-key-home_scan_control button:active,
+.stApp .st-key-calculate_nutrition_control button:active,
+.stApp .st-key-confirm_dish_control button:active,
+.stApp .st-key-update_dish_control button:active {
+    transform: translateY(0) scale(.995) !important;
+    box-shadow: 0 5px 12px rgba(156,103,20,.14) !important;
+}
+
+/* --------------------------------------------------------------------------
+   SECONDARY / OUTLINED BUTTONS
+   -------------------------------------------------------------------------- */
+.stApp button[kind="secondary"]:hover,
+.stApp [data-testid="stFileUploader"] button:hover,
+.stApp .st-key-browse_files_control button:hover {
+    transform: translateY(-1px) !important;
+    background: linear-gradient(180deg,#FFFDF8 0%,#FBECCB 100%) !important;
+    border-color: #C99A45 !important;
+    color: #8E5D0D !important;
+    box-shadow: 0 8px 18px rgba(104,73,21,.11) !important;
+}
+
+.stApp button[kind="secondary"]:active,
+.stApp [data-testid="stFileUploader"] button:active,
+.stApp .st-key-browse_files_control button:active {
+    transform: translateY(0) scale(.995) !important;
+}
+
+/* --------------------------------------------------------------------------
+   MENU CATEGORY CHIPS / SEGMENTED CONTROLS
+   -------------------------------------------------------------------------- */
+.stApp [data-testid="stSegmentedControl"] button:hover {
+    transform: translateY(-1px) !important;
+    border-color: #D1AC69 !important;
+    background: #FFF8E8 !important;
+    color: #4E4030 !important;
+    box-shadow: 0 6px 14px rgba(86,61,20,.07) !important;
+}
+
+/* Keep selected categories gold on hover, just make them richer. */
+.stApp [data-testid="stSegmentedControl"] button[aria-pressed="true"]:hover,
+.stApp [data-testid="stSegmentedControl"] button[data-selected="true"]:hover {
+    background: linear-gradient(135deg,#F1CD78 0%,#DFA847 100%) !important;
+    border-color: #C28727 !important;
+    color: #1F1810 !important;
+    box-shadow: 0 8px 18px rgba(156,103,20,.17) !important;
+}
+
+/* Radio fallback chips */
+.stApp div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
+    transform: translateY(-1px) !important;
+    border-color: #D1AC69 !important;
+    background: #FFF8E8 !important;
+    box-shadow: 0 6px 14px rgba(86,61,20,.07) !important;
+}
+
+/* --------------------------------------------------------------------------
+   DROPDOWNS / SELECT CONTROLS
+   -------------------------------------------------------------------------- */
+.stApp [data-baseweb="select"] > div:hover {
+    border-color: #C99A45 !important;
+    background: #FFFDF8 !important;
+    box-shadow: 0 6px 14px rgba(86,61,20,.06) !important;
+}
+
+/* --------------------------------------------------------------------------
+   BOTTOM NAVIGATION
+   -------------------------------------------------------------------------- */
+.st-key-gulf_bottom_nav button:hover {
+    transform: translateY(-1px) !important;
+    background: #FFF8E9 !important;
+    color: #9A6816 !important;
+}
+
+.st-key-gulf_bottom_nav button[kind="primary"]:hover,
+.st-key-gulf_bottom_nav button[aria-pressed="true"]:hover {
+    background: linear-gradient(135deg,#F1CD78 0%,#DFA847 100%) !important;
+    color: #1F1810 !important;
+    box-shadow: 0 6px 14px rgba(156,103,20,.14) !important;
+}
+
+/* --------------------------------------------------------------------------
+   GULF FAVOURITES
+   -------------------------------------------------------------------------- */
+.stApp .home-favourite-link:hover {
+    transform: translateY(-2px) scale(1.01) !important;
+    box-shadow: 0 10px 20px rgba(45,31,12,.14) !important;
+    border-color: #C99943 !important;
+}
+
+.stApp .home-favourite-link:hover img {
+    transform: scale(1.035) !important;
+    filter: brightness(1.03) saturate(1.04) !important;
+}
+
+.stApp .home-favourite-link img {
+    transition: transform .20s ease, filter .20s ease !important;
+}
+
+/* --------------------------------------------------------------------------
+   DESKTOP ONLY:
+   avoid sticky hover effects on touch/mobile devices.
+   -------------------------------------------------------------------------- */
+@media (hover: none), (pointer: coarse) {
+    .stApp button:hover,
+    .stApp [role="button"]:hover,
+    .stApp [data-testid="stSegmentedControl"] button:hover,
+    .stApp div[data-testid="stRadio"] label[data-baseweb="radio"]:hover,
+    .stApp [data-baseweb="select"] > div:hover,
+    .stApp .home-favourite-link:hover {
+        transform: none !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -10625,11 +10905,6 @@ elif st.session_state.stage in ["main", "upload"]:
                         <div class="scan-hero-subtitle">
                             Upload a clear Gulf dish photo for AI recognition and nutrition estimates.
                         </div>
-                        <div class="scan-angle-inline">
-                            <span class="scan-angle-inline-icon">⌁</span>
-                            <span class="scan-angle-inline-label">Best angle</span>
-                            <strong>Top-down</strong>
-                        </div>
                     </div>
                 </div>
                 """,
@@ -10642,7 +10917,7 @@ elif st.session_state.stage in ["main", "upload"]:
                 """
                 <div class="scan-tip-line">
                     <span class="scan-tip-dot">i</span>
-                    <span>Keep the full plate visible, use good lighting, and avoid heavy filters.</span>
+                    <span>Keep the full plate visible, use good lighting, top-angled, and avoid heavy filters.</span>
                 </div>
                 """,
                 unsafe_allow_html=True,
