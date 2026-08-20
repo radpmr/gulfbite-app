@@ -4762,12 +4762,6 @@ def render_header(compact: bool = True):
         <div style="font-size:.72rem;color:#91897D;font-weight:600;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;">{subtitle}</div>
     </div>
 </div>
-<div style="display:flex;align-items:center;gap:8px;">
-    <div style="width:38px;height:38px;border-radius:13px;background:#FFFFFF;border:1px solid #EBE4D8;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.035);">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#D99926" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="#D99926" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span style="position:absolute;top:8px;right:8px;width:6px;height:6px;background:#E5553F;border-radius:50%;border:1.5px solid white;"></span>
-    </div>
-</div>
 </div>""",
         unsafe_allow_html=True,
     )
