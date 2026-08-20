@@ -5444,6 +5444,93 @@ button[aria-label*="notification" i] {
     }
 }
 
+
+/* ==========================================================================
+   SCAN SCREEN — FINAL POLISH
+   Compact uploader, tighter spacing, shorter helper cards.
+   ========================================================================== */
+
+/* Slightly reduce uploader height. */
+.st-key-scan_main_card div[data-testid="stFileUploader"] section {
+    min-height: 132px !important;
+}
+
+/* Keep uploader content more vertically balanced. */
+.st-key-scan_main_card div[data-testid="stFileUploader"] section > div {
+    align-items: center !important;
+}
+
+/* Browse files: a little wider and more balanced. */
+.st-key-scan_main_card div[data-testid="stFileUploader"] button {
+    min-width: 156px !important;
+    min-height: 42px !important;
+    height: 42px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    border-radius: 12px !important;
+}
+
+/* Pull the tip line slightly closer to the uploader. */
+.scan-tip-line {
+    margin-top: 4px !important;
+}
+
+/* Shorter helper cards. */
+.scan-help-card {
+    min-height: 64px !important;
+    padding: 8px 10px !important;
+}
+
+/* Bring the two helper cards slightly closer together. */
+.scan-photo-help-grid {
+    gap: 7px !important;
+    margin-top: 9px !important;
+    margin-bottom: 0 !important;
+}
+
+/* Bring "What happens next?" closer to helper cards. */
+.scan-next-card {
+    margin-top: 6px !important;
+    padding: 10px 11px !important;
+}
+
+/* Slightly tighten copy so the cards remain compact. */
+.scan-help-copy,
+.scan-next-copy {
+    line-height: 1.30 !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+        min-height: 124px !important;
+    }
+
+    .st-key-scan_main_card div[data-testid="stFileUploader"] button {
+        min-width: 148px !important;
+        min-height: 40px !important;
+        height: 40px !important;
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .scan-tip-line {
+        margin-top: 3px !important;
+    }
+
+    .scan-help-card {
+        min-height: 60px !important;
+        padding: 8px 9px !important;
+    }
+
+    .scan-photo-help-grid {
+        margin-top: 8px !important;
+    }
+
+    .scan-next-card {
+        margin-top: 5px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
