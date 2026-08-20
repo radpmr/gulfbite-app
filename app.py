@@ -11720,6 +11720,163 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           ABSOLUTE FINAL MENU + SCAN OVERRIDES
+           Deliberately last in cascade — visible changes.
+           ================================================================ */
+
+        /* ---------------- MENU ---------------- */
+
+        /* Move Selected Dish visibly upward. */
+        .stApp:has(.menu-screen-marker) .menu-feature-card {
+            margin-top: -24px !important;
+            padding-top: 10px !important;
+        }
+
+        .stApp:has(.menu-screen-marker)
+        [data-testid="stElementContainer"]:has(.menu-feature-card) {
+            margin-top: -18px !important;
+            padding-top: 0 !important;
+        }
+
+        /* Time badge: keep fully inside the card. */
+        .stApp:has(.menu-screen-marker) .menu-feature-top {
+            grid-template-columns: 46px minmax(0, 1fr) 66px !important;
+            gap: 8px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-time {
+            width: 66px !important;
+            min-width: 66px !important;
+            max-width: 66px !important;
+            padding: 5px 4px !important;
+            text-align: center !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            font-size: .52rem !important;
+            overflow: visible !important;
+            white-space: nowrap !important;
+        }
+
+        /* Long category names need visibly smaller text on narrower screens. */
+        @media (max-width: 768px) {
+            .stApp:has(.menu-screen-marker)
+            .st-key-menu_category_control [data-testid="stSegmentedControl"] button {
+                font-size: .48rem !important;
+                padding-left: 2px !important;
+                padding-right: 2px !important;
+                letter-spacing: -.01em !important;
+            }
+
+            .stApp:has(.menu-screen-marker) .menu-feature-card {
+                margin-top: -22px !important;
+            }
+        }
+
+        /* ---------------- SCAN ---------------- */
+
+        /* Guidance sentence must wrap inside the card. */
+        .stApp:has(.scan-screen-marker) .scan-tip-line {
+            display: flex !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            align-items: flex-start !important;
+            padding-right: 8px !important;
+            font-size: .56rem !important;
+            line-height: 1.25 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-tip-line * {
+            white-space: normal !important;
+            overflow-wrap: break-word !important;
+            word-break: normal !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
+        }
+
+        /* Make uploader visibly more compact and create room for Browse files. */
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+            min-height: 86px !important;
+            padding: 4px 6px !important;
+            box-sizing: border-box !important;
+        }
+
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_main_card div[data-testid="stFileUploader"] section
+        [data-testid="stMarkdownContainer"] {
+            min-width: 0 !important;
+            max-width: calc(100% - 118px) !important;
+        }
+
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_main_card div[data-testid="stFileUploader"] section p,
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_main_card div[data-testid="stFileUploader"] section small {
+            white-space: normal !important;
+            overflow-wrap: break-word !important;
+            font-size: .61rem !important;
+            line-height: 1.18 !important;
+        }
+
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_main_card div[data-testid="stFileUploader"] button {
+            min-width: 104px !important;
+            width: 104px !important;
+            max-width: 104px !important;
+            height: 36px !important;
+            min-height: 36px !important;
+            padding: 0 6px !important;
+            font-size: .62rem !important;
+        }
+
+        /* Keep the helper row comfortably inside the available width. */
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            width: 100% !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-card {
+            min-width: 0 !important;
+            padding-left: 5px !important;
+            padding-right: 5px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-title {
+            font-size: .55rem !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-copy {
+            font-size: .48rem !important;
+            line-height: 1.20 !important;
+            white-space: normal !important;
+            overflow-wrap: break-word !important;
+        }
+
+        @media (max-width: 430px) {
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+                min-height: 82px !important;
+            }
+
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card div[data-testid="stFileUploader"] button {
+                width: 98px !important;
+                min-width: 98px !important;
+                max-width: 98px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
