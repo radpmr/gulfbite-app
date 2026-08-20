@@ -6441,6 +6441,290 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   MENU — ATTRACTIVE REDESIGN
+   More visual hierarchy, premium soft-gold styling, same stable interactions.
+   ========================================================================== */
+
+.menu-page-intro {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) auto !important;
+    align-items: center !important;
+    gap: 14px !important;
+    margin: 6px 0 14px 0 !important;
+    padding: 15px 16px !important;
+    border: 1px solid #EFD9AD !important;
+    border-radius: 19px !important;
+    background:
+        radial-gradient(circle at 96% 6%, rgba(239,177,48,.18), transparent 34%),
+        linear-gradient(145deg,#FFFDF9 0%,#FFF7E7 100%) !important;
+    box-shadow: 0 7px 18px rgba(75,52,14,.045) !important;
+}
+
+.menu-page-eyebrow {
+    margin-bottom: 4px !important;
+    color: #B27814 !important;
+    font-size: .55rem !important;
+    font-weight: 800 !important;
+    letter-spacing: .09em !important;
+}
+
+.menu-page-title {
+    color: #1E1A14 !important;
+    font-size: 1.22rem !important;
+    line-height: 1.05 !important;
+    font-weight: 750 !important;
+    letter-spacing: -.018em !important;
+}
+
+.menu-page-subtitle {
+    margin-top: 5px !important;
+    max-width: 390px !important;
+    color: #7B7165 !important;
+    font-size: .68rem !important;
+    line-height: 1.38 !important;
+}
+
+.menu-page-stat {
+    width: 58px !important;
+    height: 58px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid #E6BF72 !important;
+    border-radius: 17px !important;
+    background: linear-gradient(145deg,#FAD77F 0%,#E9B43E 100%) !important;
+    box-shadow: 0 6px 14px rgba(201,140,24,.13) !important;
+}
+
+.menu-page-stat-value {
+    color: #241D13 !important;
+    font-size: 1.08rem !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+}
+
+.menu-page-stat-label {
+    margin-top: 3px !important;
+    color: #5E451B !important;
+    font-size: .49rem !important;
+    line-height: 1 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .05em !important;
+}
+
+.menu-section-heading {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin: 0 1px 7px 1px !important;
+}
+
+.menu-browse-label {
+    margin: 0 !important;
+}
+
+.menu-section-hint {
+    color: #B2A696 !important;
+    font-size: .55rem !important;
+    font-weight: 600 !important;
+}
+
+/* Softer, more premium category buttons */
+.st-key-menu_category_control {
+    margin-bottom: 8px !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"] {
+    gap: 7px !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button {
+    min-height: 42px !important;
+    border-radius: 15px !important;
+    border: 1px solid #E6D8C2 !important;
+    background: #FFFDF9 !important;
+    color: #72695D !important;
+    box-shadow: 0 2px 7px rgba(56,39,14,.025) !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button[aria-pressed="true"],
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button[data-selected="true"] {
+    border-color: #E3AF45 !important;
+    background: linear-gradient(145deg,#F6D480 0%,#EDBB51 100%) !important;
+    color: #201A12 !important;
+    box-shadow: 0 5px 12px rgba(205,145,29,.12) !important;
+}
+
+.menu-category-summary {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    margin: 1px 1px 12px 1px !important;
+    color: #8C8173 !important;
+    font-size: .60rem !important;
+    font-weight: 600 !important;
+}
+
+.menu-category-count {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 4px 8px !important;
+    border: 1px solid #EADBC3 !important;
+    border-radius: 999px !important;
+    background: #FFF9ED !important;
+    color: #A26D12 !important;
+    font-size: .54rem !important;
+    font-weight: 700 !important;
+}
+
+/* Picker becomes a compact premium control area */
+.st-key-menu_dish_picker {
+    margin: 0 0 11px 0 !important;
+    padding: 11px 12px 12px !important;
+    border: 1px solid #ECE1D0 !important;
+    border-radius: 16px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 5px 14px rgba(61,43,15,.035) !important;
+}
+
+.menu-picker-heading {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    margin-bottom: 7px !important;
+}
+
+.menu-picker-label {
+    margin: 0 !important;
+}
+
+.menu-picker-subtext {
+    color: #AAA093 !important;
+    font-size: .53rem !important;
+    font-weight: 500 !important;
+}
+
+.st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+    min-height: 48px !important;
+    border-radius: 13px !important;
+    border-color: #DFCDAE !important;
+    background: #FFFDF9 !important;
+}
+
+/* Selected dish card */
+.menu-feature-card {
+    position: relative !important;
+    overflow: hidden !important;
+    padding: 17px 16px 15px !important;
+    border-radius: 19px !important;
+    border-color: #E8C985 !important;
+    background:
+        radial-gradient(circle at 98% 2%, rgba(239,177,43,.18), transparent 30%),
+        linear-gradient(145deg,#FFFDF9 0%,#FFF7E5 100%) !important;
+    box-shadow: 0 8px 20px rgba(67,46,11,.05) !important;
+}
+
+.menu-feature-accent {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 4px !important;
+    background: linear-gradient(180deg,#F0C65F 0%,#E5A825 100%) !important;
+}
+
+.menu-selected-kicker {
+    margin: 0 0 8px 1px !important;
+    color: #B97B10 !important;
+    font-size: .52rem !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+    letter-spacing: .08em !important;
+}
+
+.menu-feature-icon {
+    border-radius: 15px !important;
+    background: linear-gradient(145deg,#FFF0CA 0%,#F9DDA0 100%) !important;
+}
+
+.menu-feature-name {
+    font-size: 1.03rem !important;
+    font-weight: 760 !important;
+}
+
+.menu-feature-time {
+    background: #FFF8E8 !important;
+    box-shadow: none !important;
+}
+
+.menu-feature-divider {
+    margin: 10px 0 9px 0 !important;
+}
+
+.menu-feature-badges span {
+    background: rgba(255,255,255,.92) !important;
+    box-shadow: 0 2px 6px rgba(56,39,14,.025) !important;
+}
+
+/* CTA feels more intentional */
+.st-key-menu_scan_selected_control {
+    margin-top: 10px !important;
+}
+
+.st-key-menu_scan_selected_control button {
+    min-height: 46px !important;
+    height: 46px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg,#F4C85E 0%,#E6A722 100%) !important;
+    box-shadow: 0 7px 16px rgba(203,139,17,.14) !important;
+    font-size: .80rem !important;
+}
+
+@media (max-width: 480px) {
+    .menu-page-intro {
+        padding: 13px 14px !important;
+        border-radius: 17px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .menu-page-title {
+        font-size: 1.12rem !important;
+    }
+
+    .menu-page-subtitle {
+        font-size: .63rem !important;
+    }
+
+    .menu-page-stat {
+        width: 52px !important;
+        height: 52px !important;
+        border-radius: 15px !important;
+    }
+
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] button {
+        min-height: 40px !important;
+        border-radius: 14px !important;
+        font-size: .54rem !important;
+    }
+
+    .st-key-menu_dish_picker {
+        padding: 10px 11px 11px !important;
+        border-radius: 15px !important;
+    }
+
+    .menu-feature-card {
+        padding: 15px 13px 13px 15px !important;
+        border-radius: 17px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -7087,7 +7371,10 @@ def render_category_squircle_cards():
             st.session_state.dish_select_box = valid_dishes[0]
 
     st.markdown(
-        '<div class="menu-browse-label">Browse by dish type</div>',
+        '<div class="menu-section-heading">'
+        '<div class="menu-browse-label">Browse by dish type</div>'
+        '<div class="menu-section-hint">Tap a category</div>'
+        '</div>',
         unsafe_allow_html=True,
     )
 
@@ -7117,6 +7404,25 @@ def render_category_squircle_cards():
     selected_category = st.session_state.cat_select_box
     dishes = DISH_CATEGORIES_DATA[selected_category]
 
+    category_display = {
+        "✨ All Dishes": "All dishes",
+        "🍚 Rice & Grains": "Rice & grains",
+        "🥘 Stews & Slow-Cooked": "Stews & slow-cooked",
+        "🐟 Seafood": "Seafood",
+        "🌯 Street Food & Snacks": "Street food & snacks",
+        "🍳 Breakfast & Breads": "Breakfast & breads",
+        "🥣 Mezze & Salads": "Mezze & salads",
+        "🍰 Sweets & Drinks": "Sweets & drinks",
+    }.get(selected_category, "Selected category")
+
+    st.markdown(
+        f'<div class="menu-category-summary">'
+        f'<span>{category_display}</span>'
+        f'<span class="menu-category-count">{len(dishes)} dishes</span>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
     if (
         "dish_select_box" not in st.session_state
         or st.session_state.dish_select_box not in dishes
@@ -7125,7 +7431,10 @@ def render_category_squircle_cards():
 
     with st.container(key="menu_dish_picker"):
         st.markdown(
-            '<div class="menu-picker-label">Choose a dish</div>',
+            '<div class="menu-picker-heading">'
+            '<div class="menu-picker-label">Choose a dish</div>'
+            '<div class="menu-picker-subtext">Select one to view details</div>'
+            '</div>',
             unsafe_allow_html=True,
         )
         selected_dish = st.selectbox(
@@ -7178,6 +7487,8 @@ def render_category_squircle_cards():
 
     detail_html = (
         '<div class="menu-feature-card">'
+        '<div class="menu-feature-accent"></div>'
+        '<div class="menu-selected-kicker">SELECTED DISH</div>'
         '<div class="menu-feature-top">'
         f'<div class="menu-feature-icon">{icon}</div>'
         '<div class="menu-feature-heading">'
@@ -7525,12 +7836,25 @@ elif st.session_state.stage in ["main", "upload"]:
 
     elif active_section == "Menu":
         st.markdown(
-            '<div style="font-family:\'Outfit\',sans-serif;font-size:1.05rem;font-weight:900;color:#1E1B16;margin:5px 0 7px 0;">Supported Dishes</div>',
+            """
+            <div class="menu-page-intro">
+                <div class="menu-page-intro-copy">
+                    <div class="menu-page-eyebrow">GULF FOOD LIBRARY</div>
+                    <div class="menu-page-title">Supported Dishes</div>
+                    <div class="menu-page-subtitle">
+                        Explore Gulf dishes recognized by GulfBite and view their culinary profile.
+                    </div>
+                </div>
+                <div class="menu-page-stat">
+                    <div class="menu-page-stat-value">25</div>
+                    <div class="menu-page-stat-label">Dishes</div>
+                </div>
+            </div>
+            """,
             unsafe_allow_html=True,
         )
-        st.caption("Explore 25 Gulf dishes recognized by GulfBite.")
         render_category_squircle_cards()
-        st.markdown('<div style="height:16px;"></div>', unsafe_allow_html=True)
+        st.markdown('<div style="height:10px;"></div>', unsafe_allow_html=True)
 
     else:  # Scan
         render_segmented_stepper("upload", st.session_state.get("triggered", False))
