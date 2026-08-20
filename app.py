@@ -9466,6 +9466,138 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   FINAL RESPONSIVE OVERFLOW + SPACING CLEANUP
+   Menu + Scan only. Home and bottom nav remain unchanged.
+   ========================================================================== */
+
+/* ---------------- MENU ---------------- */
+
+/* Pull Selected Dish closer to the picker. */
+.stApp:has(.menu-screen-marker) .menu-feature-card {
+    margin-top: -14px !important;
+}
+
+/* Give the time pill a safer width and prevent clipping. */
+.stApp:has(.menu-screen-marker) .menu-feature-time {
+    min-width: 68px !important;
+    max-width: 78px !important;
+    padding: 5px 8px !important;
+    box-sizing: border-box !important;
+    justify-content: center !important;
+    text-align: center !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+}
+
+/* Ensure the selected dish row allocates enough room to the time pill. */
+.stApp:has(.menu-screen-marker) .menu-feature-top {
+    grid-template-columns: 46px minmax(0, 1fr) auto !important;
+    column-gap: 9px !important;
+}
+
+/* Narrower screens: slightly reduce chip text so long labels fit safely. */
+@media (max-width: 768px) {
+    .stApp:has(.menu-screen-marker)
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+    .stApp:has(.menu-screen-marker)
+    .st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+        font-size: .52rem !important;
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-feature-card {
+        margin-top: -12px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-feature-time {
+        min-width: 64px !important;
+        max-width: 72px !important;
+        font-size: .54rem !important;
+    }
+}
+
+@media (max-width: 430px) {
+    .stApp:has(.menu-screen-marker)
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+    .stApp:has(.menu-screen-marker)
+    .st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+        font-size: .49rem !important;
+    }
+}
+
+/* ---------------- SCAN ---------------- */
+
+/* Allow the guidance sentence to wrap cleanly instead of clipping. */
+.stApp:has(.scan-screen-marker) .scan-tip-line {
+    align-items: flex-start !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    line-height: 1.3 !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-tip-line > span,
+.stApp:has(.scan-screen-marker) .scan-tip-line > div:last-child {
+    min-width: 0 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+}
+
+/* Give uploader text and Browse files button more breathing room. */
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    box-sizing: border-box !important;
+}
+
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] button {
+    min-width: 108px !important;
+    max-width: 124px !important;
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+}
+
+/* Keep uploader copy from pressing against the action button. */
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section [data-testid="stMarkdownContainer"] {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section p,
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section small {
+    overflow-wrap: anywhere !important;
+    white-space: normal !important;
+}
+
+/* Slightly more compact overall uploader on medium widths. */
+@media (max-width: 768px) {
+    .stApp:has(.scan-screen-marker)
+    .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+        min-height: 88px !important;
+        padding-left: 7px !important;
+        padding-right: 7px !important;
+    }
+
+    .stApp:has(.scan-screen-marker)
+    .st-key-scan_main_card div[data-testid="stFileUploader"] button {
+        min-width: 102px !important;
+        max-width: 116px !important;
+        font-size: .64rem !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-tip-line {
+        font-size: .55rem !important;
+        line-height: 1.28 !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
