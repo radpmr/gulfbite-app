@@ -4410,6 +4410,95 @@ div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
     }
 }
 
+
+/* ==========================================================================
+   MENU CATEGORY CHIPS — TWO ROWS
+   Keep all categories visible without horizontal scrolling.
+   ========================================================================== */
+
+.st-key-menu_category_control {
+    margin-bottom: 15px !important;
+}
+
+/* Modern segmented control */
+.st-key-menu_category_control [data-testid="stSegmentedControl"] {
+    width: 100% !important;
+    overflow: visible !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"] {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    padding: 0 !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 34px !important;
+    height: 34px !important;
+    padding: 0 7px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    font-size: .67rem !important;
+}
+
+/* Radio fallback */
+.st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+    overflow: visible !important;
+    padding: 0 !important;
+}
+
+.st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 34px !important;
+    padding: 0 7px !important;
+    overflow: hidden !important;
+}
+
+.st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] p,
+.st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] span {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: .67rem !important;
+}
+
+/* Mobile: still two rows, 4 chips per row. */
+@media (max-width: 480px) {
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"],
+    .st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+    }
+
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+    .st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+        min-height: 32px !important;
+        height: 32px !important;
+        padding: 0 5px !important;
+        font-size: .61rem !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+    .st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+        font-size: .58rem !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -4942,7 +5031,7 @@ def render_category_squircle_cards():
 
     with st.container(key="menu_scan_selected_control"):
         if st.button(
-            "Scan a plate",
+            "Scan your meal",
             type="secondary",
             use_container_width=True,
             key="menu_scan_selected",
@@ -5162,7 +5251,7 @@ if st.session_state.stage == "onboarding":
 </div>
 <div style="padding:.1rem .2rem .7rem .2rem;">
     <div style="display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:#FFF7E7;border:1px solid #F0D9A8;color:#B9780E;font-size:.70rem;font-weight:800;margin-bottom:9px;">25 Gulf dishes • AI-assisted recognition</div>
-    <h1 style="font-family:'Outfit',sans-serif;font-size:2.15rem;font-weight:900;line-height:1.06;color:#1E1B16;margin:0;letter-spacing:-.035em;">Know your Gulf plate.<br><span style="color:#D99A28;">Track it smarter.</span></h1>
+    <h1 style="font-family:'Outfit',sans-serif;font-size:2.15rem;font-weight:900;line-height:1.06;color:#1E1B16;margin:0;letter-spacing:-.035em;">Know your Gulf plate<br><span style="color:#D99A28;">Track it smarter</span></h1>
     <p style="color:#7C756A;font-size:.88rem;font-weight:500;margin:10px 0 7px 0;line-height:1.5;">Upload a photo of a traditional Gulf dish, verify the AI match when needed, choose your portion, and view estimated calories and macros.</p>
 </div>""",
         unsafe_allow_html=True,
@@ -5277,8 +5366,8 @@ elif st.session_state.stage in ["main", "upload"]:
             st.markdown(
                 """<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:9px;">
 <div>
-    <div style="font-family:'Outfit',sans-serif;font-size:1.12rem;font-weight:900;color:#1E1B16;">Scan your plate</div>
-    <div style="font-size:.76rem;color:#7E7569;margin-top:2px;font-weight:600;">Upload a meal photo</div>
+    <div style="font-family:'Outfit',sans-serif;font-size:1.12rem;font-weight:900;color:#1E1B16;">Scan your meal</div>
+    <div style="font-size:.76rem;color:#7E7569;margin-top:2px;font-weight:600;">Upload a clear Gulf dish photo for AI recognition and nutrition estimates</div>
 </div>
 <span style="background:#FFF7E7;color:#B9780E;font-size:.70rem;font-weight:800;padding:5px 9px;border-radius:999px;border:1px solid #EED8A8;">Top-down works best</span>
 </div>""",
