@@ -8163,6 +8163,259 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   MENU — UNIFIED BROWSE DISHES CARD
+   Intro + categories + count + picker read as one premium card.
+   Selected Dish remains a separate card.
+   ========================================================================== */
+
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card,
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail {
+    border-left: 1px solid #DCC79C !important;
+    border-right: 1px solid #DCC79C !important;
+    background:
+        radial-gradient(circle at 96% 6%, rgba(175,118,31,.08), transparent 24%),
+        linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: none !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card {
+    margin: 4px 0 0 0 !important;
+    padding: 14px 15px 8px !important;
+    border-top: 1px solid #DCC79C !important;
+    border-bottom: 0 !important;
+    border-radius: 20px 20px 0 0 !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail {
+    margin: 0 0 10px 0 !important;
+    padding: 4px 15px 13px !important;
+    border-top: 0 !important;
+    border-bottom: 1px solid #DCC79C !important;
+    border-radius: 0 0 20px 20px !important;
+    box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+}
+
+/* Remove previous standalone hero/card framing. */
+.stApp:has(.menu-screen-marker) .menu-premium-hero {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-browse-card-head {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-browse-divider {
+    height: 1px !important;
+    margin: 10px 0 9px !important;
+    background: linear-gradient(to right,#D7BE8D,rgba(215,190,141,0)) !important;
+}
+
+/* Category controls stay inside the unified card. */
+.stApp:has(.menu-screen-marker) .st-key-menu_category_control {
+    margin: 0 0 7px 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-category-meta {
+    margin: 0 0 7px 0 !important;
+    padding: 0 1px !important;
+}
+
+/* Picker has no extra outer card. */
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_picker {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-picker-label {
+    margin: 0 0 6px 1px !important;
+}
+
+/* Keep selected dish clearly separate. */
+.stApp:has(.menu-screen-marker) .menu-feature-card {
+    margin-top: 0 !important;
+}
+
+/* Mobile/desktop split */
+@media (max-width: 768px) {
+    .stApp:has(.menu-screen-marker) .st-key-menu_browse_card {
+        padding: 12px 12px 7px !important;
+        border-radius: 18px 18px 0 0 !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail {
+        padding: 3px 12px 11px !important;
+        border-radius: 0 0 18px 18px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-browse-divider {
+        margin: 8px 0 8px !important;
+    }
+}
+
+
+/* ==========================================================================
+   SCAN — UNIFIED PREMIUM CARD
+   Hero + uploader + guidance + photo tips + next-step info become one card.
+   The uploader keeps a dashed inner zone; helper sections use dividers only.
+   ========================================================================== */
+
+.stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+    margin-top: 8px !important;
+    padding: 15px 16px 14px !important;
+    border: 1px solid #DCC79C !important;
+    border-radius: 22px !important;
+    background:
+        radial-gradient(circle at 96% 5%, rgba(175,118,31,.09), transparent 25%),
+        linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: 0 12px 26px rgba(64,44,13,.05) !important;
+    overflow: hidden !important;
+}
+
+/* Hero becomes the top section of the same card rather than a card itself. */
+.stApp:has(.scan-screen-marker) .scan-hero-card {
+    margin: 0 0 10px 0 !important;
+    padding: 0 0 10px 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-hero-card::after {
+    opacity: .055 !important;
+    right: -12px !important;
+    bottom: -6px !important;
+}
+
+/* Upload area remains the only inner bordered interaction zone. */
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section {
+    min-height: 112px !important;
+    margin: 0 !important;
+    border: 1px dashed #D9AE5C !important;
+    border-radius: 17px !important;
+    background: rgba(255,255,255,.50) !important;
+    box-shadow: none !important;
+}
+
+/* Guidance becomes a slim divider row, not another card. */
+.stApp:has(.scan-screen-marker) .scan-tip-line {
+    margin: 9px 0 0 0 !important;
+    padding: 9px 2px 8px !important;
+    border: 0 !important;
+    border-bottom: 1px solid #E4D3B5 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Two tips are simple columns within the parent card. */
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 9px 0 8px !important;
+    border-bottom: 1px solid #E4D3B5 !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-card {
+    min-height: 56px !important;
+    padding: 2px 10px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-card:first-child {
+    border-right: 1px solid #E4D3B5 !important;
+}
+
+/* Next step becomes the final footer row of the same card. */
+.stApp:has(.scan-screen-marker) .scan-next-card {
+    margin: 0 !important;
+    padding: 9px 2px 1px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Keep small icon tiles for hierarchy. */
+.stApp:has(.scan-screen-marker) .scan-help-icon,
+.stApp:has(.scan-screen-marker) .scan-next-icon,
+.stApp:has(.scan-screen-marker) .scan-tip-dot {
+    background: linear-gradient(145deg,#FBF0D5 0%,#F3DEB0 100%) !important;
+    color: #C38A24 !important;
+}
+
+/* Desktop: balanced card height. */
+@media (min-width: 769px) {
+    .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+        padding: 15px 16px 13px !important;
+    }
+
+    .stApp:has(.scan-screen-marker)
+    .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+        min-height: 108px !important;
+    }
+}
+
+/* Mobile: compact one-card workflow. */
+@media (max-width: 768px) {
+    .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+        padding: 13px 12px 11px !important;
+        border-radius: 19px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-hero-card {
+        margin-bottom: 8px !important;
+        padding-bottom: 8px !important;
+    }
+
+    .stApp:has(.scan-screen-marker)
+    .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+        min-height: 96px !important;
+        border-radius: 15px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-tip-line {
+        margin-top: 7px !important;
+        padding-top: 7px !important;
+        padding-bottom: 7px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+        padding-top: 7px !important;
+        padding-bottom: 7px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-help-card {
+        min-height: 50px !important;
+        padding: 1px 7px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-next-card {
+        padding-top: 7px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -9140,44 +9393,45 @@ def render_category_squircle_cards():
         if current_dish not in valid_dishes:
             st.session_state.dish_select_box = valid_dishes[0]
 
-    st.markdown(
-        """
-        <div class="menu-premium-hero">
-            <div class="menu-premium-kicker">Gulf food library</div>
-            <div class="menu-premium-title">Supported Dishes</div>
-            <div class="menu-premium-subtitle">Explore Gulf dishes recognized by GulfBite and view a quick culinary profile for each one.</div>
-        </div>
-        <div class="menu-browse-row">
-            <div class="menu-browse-label">Browse by dish type</div>
-            <div class="menu-browse-note">Choose a category</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    with st.container(key="menu_browse_card"):
+        st.markdown(
+            """
+            <div class="menu-browse-card-head">
+                <div class="menu-premium-kicker">Gulf food library</div>
+                <div class="menu-premium-title">Supported Dishes</div>
+                <div class="menu-premium-subtitle">Explore Gulf dishes recognized by GulfBite and view a quick culinary profile for each one.</div>
+            </div>
+            <div class="menu-browse-divider"></div>
+            <div class="menu-browse-row">
+                <div class="menu-browse-label">Browse by dish type</div>
+                <div class="menu-browse-note">Choose a category</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
-    with st.container(key="menu_category_control"):
-        if hasattr(st, "segmented_control"):
-            st.segmented_control(
-                "Dish category",
-                options=list(category_map.keys()),
-                key="menu_category_segment",
-                selection_mode="single",
-                label_visibility="collapsed",
-                width="stretch",
-                on_change=_apply_menu_category,
-            )
-        else:
-            current_short = st.session_state.menu_category_segment
-            st.radio(
-                "Dish category",
-                options=list(category_map.keys()),
-                index=list(category_map.keys()).index(current_short),
-                key="menu_category_segment",
-                horizontal=True,
-                label_visibility="collapsed",
-                on_change=_apply_menu_category,
-            )
-
+        with st.container(key="menu_category_control"):
+            if hasattr(st, "segmented_control"):
+                st.segmented_control(
+                    "Dish category",
+                    options=list(category_map.keys()),
+                    key="menu_category_segment",
+                    selection_mode="single",
+                    label_visibility="collapsed",
+                    width="stretch",
+                    on_change=_apply_menu_category,
+                )
+            else:
+                current_short = st.session_state.menu_category_segment
+                st.radio(
+                    "Dish category",
+                    options=list(category_map.keys()),
+                    index=list(category_map.keys()).index(current_short),
+                    key="menu_category_segment",
+                    horizontal=True,
+                    label_visibility="collapsed",
+                    on_change=_apply_menu_category,
+                )
     selected_category = st.session_state.cat_select_box
     dishes = DISH_CATEGORIES_DATA[selected_category]
     category_name = reverse_category_map.get(selected_category, "All Dishes")
@@ -9187,7 +9441,7 @@ def render_category_squircle_cards():
     ):
         st.session_state.dish_select_box = dishes[0]
 
-    with st.container(key="menu_dish_group", border=True):
+    with st.container(key="menu_browse_card_tail"):
         st.markdown(
             f'<div class="menu-category-meta"><span><strong>{category_name}</strong></span><span>{len(dishes)} dishes in this category</span></div>',
             unsafe_allow_html=True,
