@@ -9045,6 +9045,147 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   MENU — SINGLE LIBRARY CARD
+   Browse controls + selected dish details now share one outer premium card.
+   ========================================================================== */
+
+.stApp:has(.menu-screen-marker) .st-key-menu_library_card {
+    margin: 4px 0 10px 0 !important;
+    padding: 14px 15px 14px !important;
+    border: 1px solid #DCC79C !important;
+    border-radius: 20px !important;
+    background:
+        radial-gradient(circle at 96% 5%, rgba(175,118,31,.08), transparent 24%),
+        linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+    overflow: hidden !important;
+}
+
+/* Browse area no longer owns an outer card. */
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_unified {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+
+/* Selected dish becomes an internal section, not a separate card. */
+.stApp:has(.menu-screen-marker) .menu-feature-card {
+    margin: 12px 0 0 0 !important;
+    padding: 13px 0 0 !important;
+    border: 0 !important;
+    border-top: 1px solid #D7BE8D !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Keep the selected dish header compact inside the unified card. */
+.stApp:has(.menu-screen-marker) .menu-feature-kicker {
+    margin-bottom: 8px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-divider {
+    margin-top: 10px !important;
+    margin-bottom: 9px !important;
+}
+
+/* Prevent older split-card rules from reappearing. */
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card,
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail,
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Slightly tighten the whole merged card on mobile. */
+@media (max-width: 768px) {
+    .stApp:has(.menu-screen-marker) .st-key-menu_library_card {
+        padding: 12px 12px 12px !important;
+        border-radius: 18px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-feature-card {
+        margin-top: 10px !important;
+        padding-top: 11px !important;
+    }
+}
+
+
+/* ==========================================================================
+   HOME — MERGED DISCOVERY CARD
+   Built for Gulf food + Gulf favourites share one premium outer card.
+   ========================================================================== */
+
+.stApp:has(.home-screen-marker) .home-discovery-card {
+    width: 100% !important;
+    margin: 10px 0 0 !important;
+    padding: 13px 14px 14px !important;
+    border: 1px solid #DCC79C !important;
+    border-radius: 20px !important;
+    background:
+        radial-gradient(circle at 96% 5%, rgba(175,118,31,.07), transparent 24%),
+        linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+/* Inner value section is no longer a separate outer card. */
+.stApp:has(.home-screen-marker) .home-discovery-card .home-value-section {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Subtle separation before Gulf favourites. */
+.stApp:has(.home-screen-marker) .home-discovery-divider {
+    height: 1px !important;
+    margin: 12px 0 11px !important;
+    background: linear-gradient(
+        to right,
+        rgba(199,168,109,.70),
+        rgba(199,168,109,.10)
+    ) !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-section-inner {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-subtitle {
+    max-width: none !important;
+}
+
+/* Remove styling from obsolete standalone favourites card if any old CSS remains. */
+.stApp:has(.home-screen-marker) .home-favourites-card {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .stApp:has(.home-screen-marker) .home-discovery-card {
+        padding: 11px 12px 12px !important;
+        border-radius: 18px !important;
+        margin-top: 8px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-discovery-divider {
+        margin: 10px 0 10px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -10022,136 +10163,137 @@ def render_category_squircle_cards():
         if current_dish not in valid_dishes:
             st.session_state.dish_select_box = valid_dishes[0]
 
-    with st.container(key="menu_browse_unified"):
-        st.markdown(
-            """
-            <div class="menu-browse-card-head">
-                <div class="menu-premium-kicker">Gulf food library</div>
-                <div class="menu-premium-title">Supported Dishes</div>
-                <div class="menu-premium-subtitle">Explore Gulf dishes recognized by GulfBite and view a quick culinary profile for each one.</div>
-            </div>
-            <div class="menu-browse-divider"></div>
-            <div class="menu-browse-row">
-                <div class="menu-browse-label">Browse by dish type</div>
-                <div class="menu-browse-note">Choose a category</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-        with st.container(key="menu_category_control"):
-            if hasattr(st, "segmented_control"):
-                st.segmented_control(
-                    "Dish category",
-                    options=list(category_map.keys()),
-                    key="menu_category_segment",
-                    selection_mode="single",
-                    label_visibility="collapsed",
-                    width="stretch",
-                    on_change=_apply_menu_category,
-                )
-            else:
-                current_short = st.session_state.menu_category_segment
-                st.radio(
-                    "Dish category",
-                    options=list(category_map.keys()),
-                    index=list(category_map.keys()).index(current_short),
-                    key="menu_category_segment",
-                    horizontal=True,
-                    label_visibility="collapsed",
-                    on_change=_apply_menu_category,
-                )
-
-        selected_category = st.session_state.cat_select_box
-        dishes = DISH_CATEGORIES_DATA[selected_category]
-        category_name = reverse_category_map.get(selected_category, "All Dishes")
-
-        if (
-            "dish_select_box" not in st.session_state
-            or st.session_state.dish_select_box not in dishes
-        ):
-            st.session_state.dish_select_box = dishes[0]
-
-        st.markdown('<div class="menu-browse-divider menu-browse-divider-inner"></div>', unsafe_allow_html=True)
-        st.markdown(
-            f'<div class="menu-category-meta"><span><strong>{category_name}</strong></span><span>{len(dishes)} dishes in this category</span></div>',
-            unsafe_allow_html=True,
-        )
-
-        with st.container(key="menu_dish_picker"):
+    with st.container(key="menu_library_card"):
+        with st.container(key="menu_browse_unified"):
             st.markdown(
-                '<div class="menu-picker-label">Choose a dish</div>',
+                """
+                <div class="menu-browse-card-head">
+                    <div class="menu-premium-kicker">Gulf food library</div>
+                    <div class="menu-premium-title">Supported Dishes</div>
+                    <div class="menu-premium-subtitle">Explore Gulf dishes recognized by GulfBite and view a quick culinary profile for each one.</div>
+                </div>
+                <div class="menu-browse-divider"></div>
+                <div class="menu-browse-row">
+                    <div class="menu-browse-label">Browse by dish type</div>
+                    <div class="menu-browse-note">Choose a category</div>
+                </div>
+                """,
                 unsafe_allow_html=True,
             )
-            selected_dish = st.selectbox(
-                "Choose a dish",
-                options=dishes,
-                format_func=display_name,
-                key="dish_select_box",
-                label_visibility="collapsed",
+
+            with st.container(key="menu_category_control"):
+                if hasattr(st, "segmented_control"):
+                    st.segmented_control(
+                        "Dish category",
+                        options=list(category_map.keys()),
+                        key="menu_category_segment",
+                        selection_mode="single",
+                        label_visibility="collapsed",
+                        width="stretch",
+                        on_change=_apply_menu_category,
+                    )
+                else:
+                    current_short = st.session_state.menu_category_segment
+                    st.radio(
+                        "Dish category",
+                        options=list(category_map.keys()),
+                        index=list(category_map.keys()).index(current_short),
+                        key="menu_category_segment",
+                        horizontal=True,
+                        label_visibility="collapsed",
+                        on_change=_apply_menu_category,
+                    )
+
+            selected_category = st.session_state.cat_select_box
+            dishes = DISH_CATEGORIES_DATA[selected_category]
+            category_name = reverse_category_map.get(selected_category, "All Dishes")
+
+            if (
+                "dish_select_box" not in st.session_state
+                or st.session_state.dish_select_box not in dishes
+            ):
+                st.session_state.dish_select_box = dishes[0]
+
+            st.markdown('<div class="menu-browse-divider menu-browse-divider-inner"></div>', unsafe_allow_html=True)
+            st.markdown(
+                f'<div class="menu-category-meta"><span><strong>{category_name}</strong></span><span>{len(dishes)} dishes in this category</span></div>',
+                unsafe_allow_html=True,
             )
 
-    family_visuals = {
-        "01_machboos": ("🍚", "Rice dish"),
-        "02_kabsa": ("🍗", "Rice dish"),
-        "03_biryani": ("🍛", "Rice dish"),
-        "04_harees": ("🥣", "Grain dish"),
-        "05_thareed": ("🥘", "Slow-cooked"),
-        "06_saloona": ("🍲", "Stew"),
-        "07_ouzi": ("🍚", "Rice dish"),
-        "08_samak_mashwi": ("🐟", "Seafood"),
-        "09_jisheed": ("🐟", "Seafood"),
-        "10_shawarma": ("🌯", "Street food"),
-        "11_falafel_wrap": ("🌯", "Street food"),
-        "12_falafel": ("🧆", "Snack"),
-        "13_samboosa": ("🥟", "Snack"),
-        "14_mutabbaq": ("🥙", "Street food"),
-        "15_hummus": ("🥣", "Mezze"),
-        "16_fattoush": ("🥗", "Salad"),
-        "17_tabbouleh": ("🥗", "Salad"),
-        "18_foul_medames": ("🫘", "Breakfast"),
-        "19_shakshuka": ("🍳", "Breakfast"),
-        "20_balaleet": ("🍜", "Breakfast"),
-        "21_khameer": ("🫓", "Bread"),
-        "22_chebab": ("🥞", "Breakfast"),
-        "23_luqaimat": ("🍯", "Sweet"),
-        "24_knafeh": ("🍰", "Sweet"),
-        "25_karak_chai": ("☕", "Drink"),
-    }
+            with st.container(key="menu_dish_picker"):
+                st.markdown(
+                    '<div class="menu-picker-label">Choose a dish</div>',
+                    unsafe_allow_html=True,
+                )
+                selected_dish = st.selectbox(
+                    "Choose a dish",
+                    options=dishes,
+                    format_func=display_name,
+                    key="dish_select_box",
+                    label_visibility="collapsed",
+                )
 
-    meta = DISH_METADATA.get(
-        selected_dish,
-        {
-            "spice": "Aromatic 🌶️",
-            "prep": "Traditional",
-            "density": "Nutritious",
-            "time": "30 min",
-        },
-    )
-    blurb = DISH_BLURBS.get(selected_dish, "")
-    icon, family = family_visuals.get(selected_dish, ("🍽️", "Gulf dish"))
+        family_visuals = {
+            "01_machboos": ("🍚", "Rice dish"),
+            "02_kabsa": ("🍗", "Rice dish"),
+            "03_biryani": ("🍛", "Rice dish"),
+            "04_harees": ("🥣", "Grain dish"),
+            "05_thareed": ("🥘", "Slow-cooked"),
+            "06_saloona": ("🍲", "Stew"),
+            "07_ouzi": ("🍚", "Rice dish"),
+            "08_samak_mashwi": ("🐟", "Seafood"),
+            "09_jisheed": ("🐟", "Seafood"),
+            "10_shawarma": ("🌯", "Street food"),
+            "11_falafel_wrap": ("🌯", "Street food"),
+            "12_falafel": ("🧆", "Snack"),
+            "13_samboosa": ("🥟", "Snack"),
+            "14_mutabbaq": ("🥙", "Street food"),
+            "15_hummus": ("🥣", "Mezze"),
+            "16_fattoush": ("🥗", "Salad"),
+            "17_tabbouleh": ("🥗", "Salad"),
+            "18_foul_medames": ("🫘", "Breakfast"),
+            "19_shakshuka": ("🍳", "Breakfast"),
+            "20_balaleet": ("🍜", "Breakfast"),
+            "21_khameer": ("🫓", "Bread"),
+            "22_chebab": ("🥞", "Breakfast"),
+            "23_luqaimat": ("🍯", "Sweet"),
+            "24_knafeh": ("🍰", "Sweet"),
+            "25_karak_chai": ("☕", "Drink"),
+        }
 
-    detail_html = (
-        '<div class="menu-feature-card">'
-        '<div class="menu-feature-kicker">Selected dish</div>'
-        '<div class="menu-feature-top">'
-        f'<div class="menu-feature-icon">{icon}</div>'
-        '<div class="menu-feature-heading">'
-        f'<div class="menu-feature-name">{display_name(selected_dish)}</div>'
-        f'<div class="menu-feature-family">{family}</div>'
-        '</div>'
-        f'<div class="menu-feature-time">⏱ {meta["time"]}</div>'
-        '</div>'
-        '<div class="menu-feature-divider"></div>'
-        f'<div class="menu-feature-blurb">{blurb}</div>'
-        '<div class="menu-feature-badges">'
-        f'<span>{meta["spice"]}</span>'
-        f'<span>{meta["prep"]}</span>'
-        f'<span>{meta["density"]}</span>'
-        '</div>'
-        '</div>'
-    )
-    st.markdown(detail_html, unsafe_allow_html=True)
+        meta = DISH_METADATA.get(
+            selected_dish,
+            {
+                "spice": "Aromatic 🌶️",
+                "prep": "Traditional",
+                "density": "Nutritious",
+                "time": "30 min",
+            },
+        )
+        blurb = DISH_BLURBS.get(selected_dish, "")
+        icon, family = family_visuals.get(selected_dish, ("🍽️", "Gulf dish"))
+
+        detail_html = (
+            '<div class="menu-feature-card">'
+            '<div class="menu-feature-kicker">Selected dish</div>'
+            '<div class="menu-feature-top">'
+            f'<div class="menu-feature-icon">{icon}</div>'
+            '<div class="menu-feature-heading">'
+            f'<div class="menu-feature-name">{display_name(selected_dish)}</div>'
+            f'<div class="menu-feature-family">{family}</div>'
+            '</div>'
+            f'<div class="menu-feature-time">⏱ {meta["time"]}</div>'
+            '</div>'
+            '<div class="menu-feature-divider"></div>'
+            f'<div class="menu-feature-blurb">{blurb}</div>'
+            '<div class="menu-feature-badges">'
+            f'<span>{meta["spice"]}</span>'
+            f'<span>{meta["prep"]}</span>'
+            f'<span>{meta["density"]}</span>'
+            '</div>'
+            '</div>'
+        )
+        st.markdown(detail_html, unsafe_allow_html=True)
 
 
 
@@ -10412,44 +10554,38 @@ elif st.session_state.stage in ["main", "upload"]:
                     request_scroll_top()
                     st.rerun()
 
-        # Product differentiation — direct HTML keeps this section aligned to
-        # the same content width as the Scan your meal hero.
-        st.markdown(
-            """
-            <div class="home-value-section">
-                <div class="home-value-head">
-                    <div class="home-section-title">Built for Gulf food</div>
-                    <div class="home-value-subtitle">Recognition designed around regional dishes.</div>
-                </div>
-                <div class="home-value-grid">
-                    <div class="home-value-item">
-                        <div class="home-value-icon">◈</div>
-                        <div class="home-value-title">Gulf-specific</div>
-                        <div class="home-value-copy">25 traditional dishes</div>
-                    </div>
-                    <div class="home-value-item">
-                        <div class="home-value-icon">✦</div>
-                        <div class="home-value-title">AI recognition</div>
-                        <div class="home-value-copy">Identifies your meal</div>
-                    </div>
-                    <div class="home-value-item">
-                        <div class="home-value-icon">◯</div>
-                        <div class="home-value-title">Nutrition estimate</div>
-                        <div class="home-value-copy">Calories + macros</div>
-                    </div>
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-        # Gulf favourites — direct HTML card for exact width control.
-        favourites_html = (
-            '<div class="home-favourites-card">'
+        # One unified Home discovery card: product differentiation + Gulf favourites.
+        home_discovery_html = (
+            '<div class="home-discovery-card">'
+            '<div class="home-value-section">'
+            '<div class="home-value-head">'
+            '<div class="home-section-title">Built for Gulf food</div>'
+            '<div class="home-value-subtitle">Recognition designed around regional dishes.</div>'
+            '</div>'
+            '<div class="home-value-grid">'
+            '<div class="home-value-item">'
+            '<div class="home-value-icon">◈</div>'
+            '<div class="home-value-title">Gulf-specific</div>'
+            '<div class="home-value-copy">25 traditional dishes</div>'
+            '</div>'
+            '<div class="home-value-item">'
+            '<div class="home-value-icon">✦</div>'
+            '<div class="home-value-title">AI recognition</div>'
+            '<div class="home-value-copy">Identifies your meal</div>'
+            '</div>'
+            '<div class="home-value-item">'
+            '<div class="home-value-icon">◯</div>'
+            '<div class="home-value-title">Nutrition estimate</div>'
+            '<div class="home-value-copy">Calories + macros</div>'
+            '</div>'
+            '</div>'
+            '</div>'
+            '<div class="home-discovery-divider"></div>'
+            '<div class="home-favourites-section-inner">'
             '<div class="home-favourites-head">'
             '<div>'
             '<div class="home-favourites-title">Gulf favourites</div>'
-            '<div class="home-favourites-subtitle">Tap a dish to explore it in the menu.</div>'
+            '<div class="home-favourites-subtitle">Tap a dish to explore it in the menu for a quick view of culinary profile.</div>'
             '</div>'
             '</div>'
             '<div class="home-favourites-grid-links">'
@@ -10467,8 +10603,9 @@ elif st.session_state.stage in ["main", "upload"]:
             '</a>'
             '</div>'
             '</div>'
+            '</div>'
         )
-        st.markdown(favourites_html, unsafe_allow_html=True)
+        st.markdown(home_discovery_html, unsafe_allow_html=True)
 
     elif active_section == "Menu":
         st.markdown('<div class="menu-screen-marker"></div>', unsafe_allow_html=True)
