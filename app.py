@@ -6708,242 +6708,6 @@ button,
     display: none !important;
 }
 
-
-/* ==========================================================================
-   SCAN SCREEN — PREMIUM POLISH
-   Refines the scan/upload experience with a softer luxury card treatment,
-   a cleaner upload area, and more elegant helper/info cards.
-   ========================================================================== */
-
-.scan-hero-card {
-    position: relative !important;
-    overflow: hidden !important;
-    gap: 14px !important;
-    padding: 16px 17px !important;
-    border: 1px solid #E7C988 !important;
-    border-radius: 20px !important;
-    background:
-        radial-gradient(circle at 100% 0%, rgba(236,186,72,.16), rgba(236,186,72,0) 36%),
-        linear-gradient(135deg, #FFFDF8 0%, #FFF8E8 58%, #FEF2D3 100%) !important;
-    box-shadow:
-        0 10px 24px rgba(77,55,17,.05),
-        inset 0 1px 0 rgba(255,255,255,.72) !important;
-}
-
-.scan-hero-card::after {
-    content: "" !important;
-    position: absolute !important;
-    right: -48px !important;
-    bottom: -48px !important;
-    width: 150px !important;
-    height: 150px !important;
-    border-radius: 50% !important;
-    background: radial-gradient(circle, rgba(232,184,79,.14) 0%, rgba(232,184,79,0) 72%) !important;
-    pointer-events: none !important;
-}
-
-.scan-hero-kicker {
-    margin-bottom: 5px !important;
-    color: #BB7A0E !important;
-    letter-spacing: .12em !important;
-}
-
-.scan-hero-title {
-    font-size: 1.2rem !important;
-    line-height: 1.05 !important;
-}
-
-.scan-hero-subtitle {
-    margin-top: 6px !important;
-    max-width: 430px !important;
-    color: #786E62 !important;
-    line-height: 1.48 !important;
-}
-
-.scan-angle-badge {
-    position: relative !important;
-    z-index: 1 !important;
-    padding: 9px 10px !important;
-    border: 1px solid #E7C989 !important;
-    border-radius: 15px !important;
-    background: rgba(255,255,255,.82) !important;
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.7),
-        0 6px 14px rgba(96,69,20,.05) !important;
-}
-
-.scan-angle-icon {
-    width: 30px !important;
-    height: 30px !important;
-    border-radius: 10px !important;
-    background: linear-gradient(135deg, #FFF6E1 0%, #FEE8B5 100%) !important;
-    color: #D99214 !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.7) !important;
-}
-
-.st-key-scan_main_card div[data-testid="stFileUploader"] section {
-    min-height: 160px !important;
-    border: 1px dashed #E4BC69 !important;
-    border-radius: 20px !important;
-    background:
-        linear-gradient(180deg, #FFFEFB 0%, #FFF8EE 100%) !important;
-    box-shadow:
-        0 10px 22px rgba(77,55,17,.04),
-        inset 0 1px 0 rgba(255,255,255,.82) !important;
-}
-
-.st-key-scan_main_card div[data-testid="stFileUploader"] section button {
-    min-height: 46px !important;
-    height: 46px !important;
-    padding: 0 18px !important;
-    border: 1px solid #E0B45A !important;
-    border-radius: 15px !important;
-    background: linear-gradient(180deg, #FFFFFF 0%, #FFF9ED 100%) !important;
-    color: #A96E08 !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-size: .8rem !important;
-    font-weight: 850 !important;
-    box-shadow: 0 6px 14px rgba(117,82,21,.05) !important;
-}
-
-.st-key-scan_main_card div[data-testid="stFileUploader"] section small,
-.st-key-scan_main_card div[data-testid="stFileUploader"] section p,
-.st-key-scan_main_card div[data-testid="stFileUploader"] section span {
-    color: #5A5044 !important;
-}
-
-.scan-tip-line {
-    gap: 8px !important;
-    margin-top: 10px !important;
-    padding: 8px 10px !important;
-    border: 1px solid #F0E2C6 !important;
-    border-radius: 13px !important;
-    background: rgba(255,250,241,.92) !important;
-    box-shadow: 0 4px 12px rgba(77,55,17,.03) !important;
-}
-
-.scan-tip-dot {
-    width: 20px !important;
-    height: 20px !important;
-    flex: 0 0 20px !important;
-    background: linear-gradient(135deg, #FFF4DE 0%, #FEE3A9 100%) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.72) !important;
-}
-
-.scan-photo-help-grid {
-    gap: 10px !important;
-    margin-top: 12px !important;
-}
-
-.scan-help-card {
-    min-height: 78px !important;
-    padding: 12px !important;
-    border: 1px solid #E9DDCC !important;
-    border-radius: 16px !important;
-    background: linear-gradient(180deg, #FFFFFF 0%, #FFFCF6 100%) !important;
-    box-shadow:
-        0 8px 18px rgba(77,55,17,.035),
-        inset 0 1px 0 rgba(255,255,255,.72) !important;
-}
-
-.scan-help-icon {
-    width: 32px !important;
-    height: 32px !important;
-    flex: 0 0 32px !important;
-    border-radius: 10px !important;
-    background: linear-gradient(135deg, #FFF5E1 0%, #FDE8B8 100%) !important;
-    color: #D89A1B !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.72) !important;
-}
-
-.scan-help-title {
-    font-size: .66rem !important;
-}
-
-.scan-help-copy {
-    margin-top: 4px !important;
-    color: #887D70 !important;
-    font-size: .57rem !important;
-    line-height: 1.38 !important;
-}
-
-.scan-next-card {
-    gap: 10px !important;
-    margin-top: 10px !important;
-    padding: 12px 13px !important;
-    border: 1px solid #E9D5A8 !important;
-    border-radius: 16px !important;
-    background:
-        linear-gradient(180deg, #FFFDF9 0%, #FFF6E9 100%) !important;
-    box-shadow:
-        0 8px 18px rgba(77,55,17,.035),
-        inset 0 1px 0 rgba(255,255,255,.72) !important;
-}
-
-.scan-next-icon {
-    width: 32px !important;
-    height: 32px !important;
-    flex: 0 0 32px !important;
-    border-radius: 10px !important;
-    background: linear-gradient(135deg, #FFF5DF 0%, #FEE5AC 100%) !important;
-    color: #D89419 !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.72) !important;
-}
-
-.scan-next-title {
-    font-size: .67rem !important;
-}
-
-.scan-next-copy {
-    color: #887C70 !important;
-    font-size: .57rem !important;
-    line-height: 1.38 !important;
-}
-
-@media (max-width: 480px) {
-    .scan-hero-card {
-        gap: 10px !important;
-        padding: 14px 14px !important;
-        border-radius: 18px !important;
-    }
-
-    .scan-hero-title {
-        font-size: 1.08rem !important;
-    }
-
-    .scan-hero-subtitle {
-        font-size: .66rem !important;
-        line-height: 1.42 !important;
-    }
-
-    .scan-angle-badge {
-        padding: 8px 9px !important;
-        border-radius: 14px !important;
-    }
-
-    .st-key-scan_main_card div[data-testid="stFileUploader"] section {
-        min-height: 150px !important;
-        border-radius: 18px !important;
-    }
-
-    .st-key-scan_main_card div[data-testid="stFileUploader"] section button {
-        min-height: 42px !important;
-        height: 42px !important;
-        padding: 0 15px !important;
-        font-size: .74rem !important;
-        border-radius: 13px !important;
-    }
-
-    .scan-photo-help-grid {
-        gap: 8px !important;
-    }
-
-    .scan-help-card,
-    .scan-next-card {
-        border-radius: 15px !important;
-    }
-}
-
 </style>""",
         unsafe_allow_html=True,
     )
@@ -7547,7 +7311,327 @@ def render_scan_input():
 
 
 def render_category_squircle_cards():
-    """Compact, polished Menu with stable category selection."""
+    """Premium but clean Menu layout with stable category selection."""
+    st.markdown(
+        """
+        <style>
+        .menu-premium-hero {
+            margin: 12px 0 14px 0 !important;
+            padding: 16px 18px 15px !important;
+            border: 1px solid #E8D6AF !important;
+            border-radius: 24px !important;
+            background:
+                radial-gradient(circle at 92% 10%, rgba(238,184,54,.16), transparent 30%),
+                linear-gradient(140deg, #FFFDFC 0%, #FFF8EA 100%) !important;
+            box-shadow: 0 10px 24px rgba(73, 51, 17, 0.05) !important;
+        }
+        .menu-premium-kicker {
+            color: #C58B1C !important;
+            font-size: .62rem !important;
+            line-height: 1 !important;
+            font-weight: 900 !important;
+            letter-spacing: .12em !important;
+            text-transform: uppercase !important;
+            margin-bottom: 7px !important;
+        }
+        .menu-premium-title {
+            color: #17130D !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 1.34rem !important;
+            line-height: 1.05 !important;
+            font-weight: 900 !important;
+            margin-bottom: 6px !important;
+        }
+        .menu-premium-subtitle {
+            color: #7F7466 !important;
+            font-size: .78rem !important;
+            line-height: 1.45 !important;
+            max-width: 30rem !important;
+        }
+        .menu-browse-row {
+            display: flex !important;
+            align-items: flex-end !important;
+            justify-content: space-between !important;
+            gap: 10px !important;
+            margin: 1px 0 8px 0 !important;
+        }
+        .menu-browse-label {
+            margin: 0 !important;
+            color: #9B8C77 !important;
+            font-size: .62rem !important;
+            line-height: 1 !important;
+            font-weight: 850 !important;
+            letter-spacing: .08em !important;
+            text-transform: uppercase !important;
+        }
+        .menu-browse-note {
+            color: #B0A18D !important;
+            font-size: .64rem !important;
+            line-height: 1 !important;
+            font-weight: 700 !important;
+            white-space: nowrap !important;
+        }
+        .st-key-menu_category_control {
+            margin: 0 0 8px 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+        .st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"],
+        .st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+            display: grid !important;
+            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+        .st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+        .st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+            width: 100% !important;
+            min-width: 0 !important;
+            min-height: 40px !important;
+            height: auto !important;
+            padding: 6px 8px !important;
+            border: 1px solid #E5D8C4 !important;
+            border-radius: 15px !important;
+            background: #FFFDF9 !important;
+            color: #766B5D !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: .61rem !important;
+            line-height: 1.1 !important;
+            font-weight: 800 !important;
+            white-space: normal !important;
+            text-align: center !important;
+            box-shadow: 0 1px 0 rgba(255,255,255,.65) inset !important;
+        }
+        .st-key-menu_category_control [data-testid="stSegmentedControl"] button[aria-pressed="true"],
+        .st-key-menu_category_control [data-testid="stSegmentedControl"] button[data-selected="true"] {
+            border-color: #DDA23A !important;
+            background: linear-gradient(135deg,#F7C762 0%,#E7A724 100%) !important;
+            color: #17130D !important;
+            box-shadow: 0 8px 16px rgba(216,150,23,.14) !important;
+        }
+        .menu-category-meta {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 8px !important;
+            margin: 3px 2px 14px 2px !important;
+            color: #9A8B76 !important;
+            font-size: .67rem !important;
+            line-height: 1.2 !important;
+            font-weight: 700 !important;
+        }
+        .menu-category-meta strong {
+            color: #5B5145 !important;
+            font-weight: 800 !important;
+        }
+        .st-key-menu_dish_picker {
+            margin: 0 0 12px 0 !important;
+            padding: 14px 16px !important;
+            border: 1px solid #EADDC5 !important;
+            border-radius: 22px !important;
+            background: linear-gradient(180deg,#FFFDFB 0%,#FFF9EF 100%) !important;
+            box-shadow: 0 8px 20px rgba(73, 51, 17, 0.045) !important;
+        }
+        .menu-picker-head {
+            display: flex !important;
+            align-items: flex-end !important;
+            justify-content: space-between !important;
+            gap: 10px !important;
+            margin-bottom: 8px !important;
+        }
+        .menu-picker-label {
+            margin: 0 !important;
+            color: #9B8C77 !important;
+            font-size: .62rem !important;
+            line-height: 1 !important;
+            font-weight: 850 !important;
+            letter-spacing: .08em !important;
+            text-transform: uppercase !important;
+        }
+        .menu-picker-note {
+            color: #B1A18C !important;
+            font-size: .66rem !important;
+            line-height: 1.2 !important;
+            font-weight: 700 !important;
+        }
+        .st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+            min-height: 52px !important;
+            border: 1px solid #E3D4BA !important;
+            border-radius: 16px !important;
+            background: #FFFFFF !important;
+            box-shadow: 0 4px 10px rgba(66,47,17,.03) !important;
+        }
+        .menu-feature-card {
+            margin: 0 !important;
+            padding: 16px 16px 15px !important;
+            border: 1px solid #E8D2A7 !important;
+            border-radius: 22px !important;
+            background:
+                radial-gradient(circle at 96% 6%, rgba(242,185,54,.15), transparent 28%),
+                linear-gradient(145deg,#FFFDF9 0%,#FFF8EA 100%) !important;
+            box-shadow: 0 10px 22px rgba(70, 48, 14, 0.05) !important;
+        }
+        .menu-feature-kicker {
+            color: #C58B1C !important;
+            font-size: .60rem !important;
+            line-height: 1 !important;
+            font-weight: 900 !important;
+            letter-spacing: .10em !important;
+            text-transform: uppercase !important;
+            margin-bottom: 10px !important;
+        }
+        .menu-feature-top {
+            display: grid !important;
+            grid-template-columns: 52px minmax(0,1fr) auto !important;
+            align-items: center !important;
+            gap: 11px !important;
+        }
+        .menu-feature-icon {
+            width: 52px !important;
+            height: 52px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border: 1px solid #EBCF95 !important;
+            border-radius: 16px !important;
+            background: #FFF2D4 !important;
+            font-size: 1.36rem !important;
+        }
+        .menu-feature-name {
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 1.04rem !important;
+            line-height: 1.06 !important;
+            font-weight: 900 !important;
+            color: #1E1A14 !important;
+        }
+        .menu-feature-family {
+            margin-top: 4px !important;
+            color: #938571 !important;
+            font-size: .63rem !important;
+            font-weight: 700 !important;
+        }
+        .menu-feature-time {
+            padding: 6px 10px !important;
+            border: 1px solid #EFCF8E !important;
+            border-radius: 999px !important;
+            background: rgba(255,249,233,.95) !important;
+            color: #B2760D !important;
+            font-size: .61rem !important;
+            font-weight: 850 !important;
+            white-space: nowrap !important;
+        }
+        .menu-feature-divider {
+            height: 1px !important;
+            margin: 12px 0 11px 0 !important;
+            background: linear-gradient(to right,#EADABB,rgba(234,218,187,0)) !important;
+        }
+        .menu-feature-blurb {
+            color: #74695C !important;
+            font-size: .74rem !important;
+            line-height: 1.5 !important;
+        }
+        .menu-feature-badges {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 6px !important;
+            margin-top: 11px !important;
+        }
+        .menu-feature-badges span {
+            padding: 5px 9px !important;
+            border: 1px solid #E5D7C2 !important;
+            border-radius: 999px !important;
+            background: rgba(255,255,255,.9) !important;
+            color: #544A3E !important;
+            font-size: .58rem !important;
+            line-height: 1 !important;
+            font-weight: 800 !important;
+        }
+        .menu-cta-note {
+            margin: 10px 1px 8px !important;
+            color: #9B8C77 !important;
+            font-size: .67rem !important;
+            line-height: 1.35 !important;
+            font-weight: 700 !important;
+        }
+        .st-key-menu_scan_selected_control {
+            margin-top: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+        .st-key-menu_scan_selected_control button {
+            min-height: 46px !important;
+            height: 46px !important;
+            border: 0 !important;
+            border-radius: 15px !important;
+            background: linear-gradient(135deg,#F7C760 0%,#E6A11A 100%) !important;
+            color: #17130D !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: .80rem !important;
+            font-weight: 850 !important;
+            box-shadow: 0 8px 18px rgba(216,148,19,.14) !important;
+        }
+        @media (max-width: 480px) {
+            .menu-premium-hero {
+                padding: 15px 16px 14px !important;
+                border-radius: 21px !important;
+            }
+            .menu-premium-title {
+                font-size: 1.18rem !important;
+            }
+            .menu-premium-subtitle {
+                font-size: .70rem !important;
+            }
+            .st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"],
+            .st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+                gap: 7px !important;
+            }
+            .st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+            .st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+                min-height: 38px !important;
+                padding: 5px 5px !important;
+                font-size: .56rem !important;
+            }
+            .st-key-menu_dish_picker {
+                padding: 12px 13px !important;
+                border-radius: 18px !important;
+            }
+            .menu-picker-note {
+                font-size: .62rem !important;
+            }
+            .menu-feature-card {
+                padding: 14px 14px 13px !important;
+                border-radius: 19px !important;
+            }
+            .menu-feature-top {
+                grid-template-columns: 46px minmax(0,1fr) auto !important;
+                gap: 8px !important;
+            }
+            .menu-feature-icon {
+                width: 46px !important;
+                height: 46px !important;
+                border-radius: 14px !important;
+                font-size: 1.2rem !important;
+            }
+            .menu-feature-name {
+                font-size: .95rem !important;
+            }
+            .menu-feature-time {
+                padding: 5px 8px !important;
+                font-size: .57rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     category_map = {
         "All Dishes": "✨ All Dishes",
         "Rice & Grains": "🍚 Rice & Grains",
@@ -7590,7 +7674,17 @@ def render_category_squircle_cards():
             st.session_state.dish_select_box = valid_dishes[0]
 
     st.markdown(
-        '<div class="menu-browse-label">Browse by dish type</div>',
+        """
+        <div class="menu-premium-hero">
+            <div class="menu-premium-kicker">Gulf food library</div>
+            <div class="menu-premium-title">Supported Dishes</div>
+            <div class="menu-premium-subtitle">Explore Gulf dishes recognized by GulfBite and view a quick culinary profile for each one.</div>
+        </div>
+        <div class="menu-browse-row">
+            <div class="menu-browse-label">Browse by dish type</div>
+            <div class="menu-browse-note">Choose a category</div>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
@@ -7619,6 +7713,11 @@ def render_category_squircle_cards():
 
     selected_category = st.session_state.cat_select_box
     dishes = DISH_CATEGORIES_DATA[selected_category]
+    category_name = reverse_category_map.get(selected_category, "All Dishes")
+    st.markdown(
+        f'<div class="menu-category-meta"><span><strong>{category_name}</strong></span><span>{len(dishes)} dishes in this category</span></div>',
+        unsafe_allow_html=True,
+    )
 
     if (
         "dish_select_box" not in st.session_state
@@ -7628,7 +7727,7 @@ def render_category_squircle_cards():
 
     with st.container(key="menu_dish_picker"):
         st.markdown(
-            '<div class="menu-picker-label">Choose a dish</div>',
+            '<div class="menu-picker-head"><div class="menu-picker-label">Choose a dish</div><div class="menu-picker-note">Select one to view details</div></div>',
             unsafe_allow_html=True,
         )
         selected_dish = st.selectbox(
@@ -7681,6 +7780,7 @@ def render_category_squircle_cards():
 
     detail_html = (
         '<div class="menu-feature-card">'
+        '<div class="menu-feature-kicker">Selected dish</div>'
         '<div class="menu-feature-top">'
         f'<div class="menu-feature-icon">{icon}</div>'
         '<div class="menu-feature-heading">'
@@ -7699,6 +7799,10 @@ def render_category_squircle_cards():
         '</div>'
     )
     st.markdown(detail_html, unsafe_allow_html=True)
+    st.markdown(
+        '<div class="menu-cta-note">Ready to try it? Upload a meal photo and let GulfBite identify it.</div>',
+        unsafe_allow_html=True,
+    )
 
     with st.container(key="menu_scan_selected_control"):
         if st.button(
@@ -7711,6 +7815,7 @@ def render_category_squircle_cards():
             st.session_state.stage = "main"
             request_scroll_top()
             st.rerun()
+
 
 
 def render_culinary_badges(dish_class: str):
@@ -8027,17 +8132,6 @@ elif st.session_state.stage in ["main", "upload"]:
             st.markdown(favourites_html, unsafe_allow_html=True)
 
     elif active_section == "Menu":
-        st.markdown(
-            """
-            <div class="menu-simple-head">
-                <div>
-                    <div class="menu-simple-title">Supported Dishes</div>
-                    <div class="menu-simple-subtitle">Explore 25 Gulf dishes recognized by GulfBite.</div>
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
         render_category_squircle_cards()
         st.markdown('<div style="height:8px;"></div>', unsafe_allow_html=True)
 
