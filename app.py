@@ -5535,6 +5535,177 @@ button[aria-label*="notification" i] {
         unsafe_allow_html=True,
     )
 
+    st.markdown("""<style>
+/* --------------------------------------------------------------------------
+   HOME POLISH — compact Quick Guide + stronger Gulf favourites
+   -------------------------------------------------------------------------- */
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+    background: linear-gradient(90deg, #FFFDFC 0%, #FFF8EB 100%) !important;
+    border: 1px solid #F0D9A8 !important;
+    border-radius: 24px !important;
+    box-shadow: none !important;
+    padding: 14px 18px 12px !important;
+    margin-bottom: 10px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-section-title {
+    margin: 0 0 10px 0 !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-quick-guide {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-line {
+    top: 21px !important;
+    opacity: 0.95 !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-step {
+    padding-bottom: 0 !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-icon {
+    width: 44px !important;
+    height: 44px !important;
+    margin-bottom: 8px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-title {
+    font-size: 1.02rem !important;
+    line-height: 1.05 !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-caption {
+    font-size: 0.82rem !important;
+    margin-top: 2px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    background: linear-gradient(90deg, #FFFDFC 0%, #FFF8EB 100%) !important;
+    border: 1px solid #F0D9A8 !important;
+    border-radius: 24px !important;
+    box-shadow: none !important;
+    padding: 14px 18px 16px !important;
+    margin-top: 2px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section .home-favourites-head {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-note {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 5px 10px !important;
+    border-radius: 999px !important;
+    background: #FFF7E7 !important;
+    border: 1px solid #F0D9A8 !important;
+    color: #B9780E !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-grid-links.home-featured-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr) !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+    margin-top: 8px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-stack {
+    display: grid !important;
+    grid-template-rows: 1fr 1fr !important;
+    gap: 12px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link {
+    position: relative !important;
+    overflow: hidden !important;
+    border: none !important;
+    border-radius: 18px !important;
+    min-height: 84px !important;
+    padding: 0 !important;
+    box-shadow: 0 10px 24px rgba(39, 30, 14, 0.12) !important;
+    background: #DDD !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link.featured {
+    min-height: 180px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(180deg, rgba(0,0,0,0.03) 10%, rgba(0,0,0,0.66) 100%) !important;
+    pointer-events: none !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link span {
+    position: absolute !important;
+    left: 12px !important;
+    bottom: 10px !important;
+    z-index: 2 !important;
+    color: #FFFFFF !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 0.98rem !important;
+    font-weight: 800 !important;
+    line-height: 1.05 !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.28) !important;
+}
+
+@media (max-width: 780px) {
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+        padding: 12px 14px 10px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+        padding: 12px 14px 14px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourites-grid-links.home-featured-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourites-stack {
+        display: contents !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourite-link,
+    .stApp:has(.home-screen-marker) .home-favourite-link.featured {
+        min-height: 92px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourite-link span {
+        left: 8px !important;
+        bottom: 8px !important;
+        font-size: 0.82rem !important;
+    }
+}
+</style>""", unsafe_allow_html=True)
+
 
 # ============================================================================
 # 4. APP NAVIGATION, STEPPERS & VISUALIZERS
@@ -6392,20 +6563,23 @@ elif st.session_state.stage in ["main", "upload"]:
                 '<div class="home-favourites-title">Gulf favourites</div>'
                 '<div class="home-favourites-subtitle">Tap a dish to explore it in the menu.</div>'
                 '</div>'
+                '<div class="home-favourites-note">Popular picks</div>'
                 '</div>'
-                '<div class="home-favourites-grid-links">'
-                f'<a class="home-favourite-link" href="?fav=machboos">'
+                '<div class="home-favourites-grid-links home-featured-grid">'
+                f'<a class="home-favourite-link featured" href="?fav=machboos">'
                 f'<img src="{MACHBOOS_ONBOARDING_URI}" alt="Machboos">'
                 '<span>Machboos</span>'
                 '</a>'
-                '<a class="home-favourite-link" href="?fav=shawarma">'
+                '<div class="home-favourites-stack">'
+                '<a class="home-favourite-link small" href="?fav=shawarma">'
                 '<img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=85" alt="Shawarma">'
                 '<span>Shawarma</span>'
                 '</a>'
-                '<a class="home-favourite-link" href="?fav=karak">'
+                '<a class="home-favourite-link small" href="?fav=karak">'
                 '<img src="https://www.timeoutabudhabi.com/cloud/timeoutabudhabi/2022/08/22/Milky-Karak-Cafeteria.jpg" alt="Karak Chai">'
                 '<span>Karak Chai</span>'
                 '</a>'
+                '</div>'
                 '</div>'
             )
             st.markdown(favourites_html, unsafe_allow_html=True)
