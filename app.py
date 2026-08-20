@@ -7632,73 +7632,68 @@ button,
 
 
 /* ==========================================================================
-   MENU DISH GROUP — KEEP CATEGORY COUNT INSIDE THE CARD
+   SAFE DISH GROUP CARD
+   Keep category name + count + Choose a dish inside one card.
+   No ancestor :has() styling, so the Menu cannot be accidentally hidden.
    ========================================================================== */
 
-/* Style the actual Streamlit bordered wrapper as the single outer card. */
-.stApp:has(.menu-screen-marker)
-[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_dish_group) {
-    margin: 0 0 14px 0 !important;
-    padding: 14px 15px 13px !important;
-    border: 1px solid #E4D3B6 !important;
-    border-radius: 20px !important;
-    background: linear-gradient(180deg,#FFFEFC 0%,#FBF6ED 100%) !important;
-    box-shadow: 0 8px 18px rgba(66,46,15,.04) !important;
-    overflow: hidden !important;
-}
-
-/* Remove any duplicate border/background from the keyed inner container. */
 .stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
+    margin: 0 0 12px 0 !important;
+    padding: 12px 14px 13px !important;
+    border: 1px solid #E4D3B6 !important;
+    border-radius: 18px !important;
+    background: linear-gradient(180deg,#FFFEFC 0%,#FBF6ED 100%) !important;
+    box-shadow: 0 7px 16px rgba(66,46,15,.035) !important;
+    overflow: visible !important;
 }
 
-/* Category + count now forms the top row INSIDE the same card. */
+/* Top row stays inside the same card. */
 .stApp:has(.menu-screen-marker) .menu-category-meta {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
     gap: 10px !important;
     width: 100% !important;
-    margin: 0 0 10px 0 !important;
+    margin: 0 0 9px 0 !important;
     padding: 0 1px !important;
     box-sizing: border-box !important;
 }
 
 .stApp:has(.menu-screen-marker) .menu-category-meta > span:last-child {
     color: #9C8768 !important;
-    font-size: .60rem !important;
+    font-size: .59rem !important;
     white-space: nowrap !important;
 }
 
-/* Keep only the select field as the inner bordered control. */
+/* Remove only the redundant inner picker card styling. */
 .stApp:has(.menu-screen-marker) .st-key-menu_dish_picker {
     margin: 0 !important;
     padding: 0 !important;
     border: 0 !important;
+    border-radius: 0 !important;
     background: transparent !important;
     box-shadow: none !important;
 }
 
+.stApp:has(.menu-screen-marker) .menu-picker-label {
+    margin: 0 0 7px 1px !important;
+}
+
 .stApp:has(.menu-screen-marker)
-[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_dish_picker),
-.stApp:has(.menu-screen-marker)
-[data-testid="stElementContainer"]:has(.st-key-menu_dish_picker) {
-    border: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    padding: 0 !important;
+.st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+    min-height: 46px !important;
+    height: 46px !important;
+    border: 1px solid #D8C2A0 !important;
+    border-radius: 15px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 4px 10px rgba(88,61,18,.03) !important;
 }
 
 @media (max-width: 480px) {
-    .stApp:has(.menu-screen-marker)
-    [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_dish_group) {
-        padding: 12px 12px 11px !important;
-        border-radius: 18px !important;
+    .stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
+        padding: 11px 12px 12px !important;
+        border-radius: 17px !important;
+        margin-bottom: 10px !important;
     }
 
     .stApp:has(.menu-screen-marker) .menu-category-meta {
