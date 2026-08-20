@@ -5186,6 +5186,264 @@ button[aria-label*="notification" i] {
     }
 }
 
+
+/* ==========================================================================
+   SCAN SCREEN — POLISHED LAYOUT
+   Main upload action + useful guidance in the previously empty lower area.
+   ========================================================================== */
+
+.st-key-scan_main_card {
+    margin-top: 8px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.scan-hero-card {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-bottom: 10px !important;
+    padding: 14px 15px !important;
+    border: 1px solid #ECD4A3 !important;
+    border-radius: 18px !important;
+    background:
+        radial-gradient(circle at 96% 4%, rgba(243,181,45,.17), transparent 35%),
+        linear-gradient(145deg,#FFFDF9 0%,#FFF7E6 100%) !important;
+    box-shadow: 0 7px 18px rgba(68,46,12,.04) !important;
+}
+
+.scan-hero-kicker {
+    margin-bottom: 4px !important;
+    color: #B4760E !important;
+    font-size: .56rem !important;
+    font-weight: 850 !important;
+    letter-spacing: .08em !important;
+}
+
+.scan-hero-title {
+    font-family: 'Outfit', sans-serif !important;
+    color: #1F1A14 !important;
+    font-size: 1.16rem !important;
+    line-height: 1.08 !important;
+    font-weight: 900 !important;
+}
+
+.scan-hero-subtitle {
+    margin-top: 5px !important;
+    max-width: 410px !important;
+    color: #796F62 !important;
+    font-size: .71rem !important;
+    line-height: 1.42 !important;
+}
+
+.scan-angle-badge {
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    padding: 8px 9px !important;
+    border: 1px solid #E9CA8B !important;
+    border-radius: 14px !important;
+    background: rgba(255,250,239,.9) !important;
+}
+
+.scan-angle-icon {
+    width: 28px !important;
+    height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 9px !important;
+    background: #FFF1D3 !important;
+    color: #D99519 !important;
+    font-size: .9rem !important;
+    font-weight: 900 !important;
+}
+
+.scan-angle-title {
+    color: #51473A !important;
+    font-size: .54rem !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+}
+
+.scan-angle-copy {
+    margin-top: 3px !important;
+    color: #B06F08 !important;
+    font-size: .60rem !important;
+    line-height: 1 !important;
+    font-weight: 850 !important;
+}
+
+.st-key-scan_main_card div[data-testid="stFileUploader"] {
+    margin: 0 !important;
+}
+
+.st-key-scan_main_card div[data-testid="stFileUploader"] section {
+    min-height: 150px !important;
+    border: 1px dashed #E3BE72 !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg,#FFFEFB 0%,#FFF9EF 100%) !important;
+}
+
+.scan-tip-line {
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    margin-top: 8px !important;
+    color: #756C60 !important;
+    font-size: .64rem !important;
+    line-height: 1.35 !important;
+}
+
+.scan-tip-dot {
+    width: 18px !important;
+    height: 18px !important;
+    flex: 0 0 18px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    background: #FFF2DA !important;
+    color: #D9951B !important;
+    font-size: .57rem !important;
+    font-weight: 900 !important;
+}
+
+.scan-photo-help-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+    gap: 8px !important;
+    margin-top: 12px !important;
+}
+
+.scan-help-card {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    min-height: 74px !important;
+    padding: 10px 11px !important;
+    border: 1px solid #E9DED0 !important;
+    border-radius: 15px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(62,44,15,.03) !important;
+}
+
+.scan-help-icon {
+    width: 30px !important;
+    height: 30px !important;
+    flex: 0 0 30px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 9px !important;
+    background: #FFF5E2 !important;
+    color: #DFA025 !important;
+    font-size: .80rem !important;
+    font-weight: 900 !important;
+}
+
+.scan-help-title {
+    color: #2B241C !important;
+    font-size: .63rem !important;
+    line-height: 1.12 !important;
+    font-weight: 850 !important;
+}
+
+.scan-help-copy {
+    margin-top: 4px !important;
+    color: #918679 !important;
+    font-size: .55rem !important;
+    line-height: 1.35 !important;
+}
+
+.scan-next-card {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 9px !important;
+    margin-top: 8px !important;
+    padding: 11px 12px !important;
+    border: 1px solid #ECD7AE !important;
+    border-radius: 15px !important;
+    background: linear-gradient(145deg,#FFFDF9 0%,#FFF8EA 100%) !important;
+}
+
+.scan-next-icon {
+    width: 31px !important;
+    height: 31px !important;
+    flex: 0 0 31px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+    background: #FFF1D6 !important;
+    color: #D89920 !important;
+    font-size: .82rem !important;
+    font-weight: 900 !important;
+}
+
+.scan-next-title {
+    color: #2A231B !important;
+    font-size: .64rem !important;
+    font-weight: 850 !important;
+}
+
+.scan-next-copy {
+    margin-top: 3px !important;
+    color: #8B8073 !important;
+    font-size: .55rem !important;
+    line-height: 1.38 !important;
+}
+
+@media (max-width: 480px) {
+    .scan-hero-card {
+        gap: 8px !important;
+        padding: 12px 13px !important;
+        border-radius: 16px !important;
+    }
+
+    .scan-hero-title {
+        font-size: 1.06rem !important;
+    }
+
+    .scan-hero-subtitle {
+        font-size: .65rem !important;
+    }
+
+    .scan-angle-badge {
+        padding: 7px 8px !important;
+    }
+
+    .scan-angle-icon {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+        min-height: 140px !important;
+    }
+
+    .scan-photo-help-grid {
+        gap: 7px !important;
+    }
+
+    .scan-help-card {
+        min-height: 69px !important;
+        padding: 9px 9px !important;
+    }
+
+    .scan-help-title {
+        font-size: .59rem !important;
+    }
+
+    .scan-help-copy,
+    .scan-next-copy {
+        font-size: .52rem !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -6077,24 +6335,72 @@ elif st.session_state.stage in ["main", "upload"]:
     else:  # Scan
         render_segmented_stepper("upload", st.session_state.get("triggered", False))
 
-        with st.container(border=True):
+        with st.container(key="scan_main_card"):
             st.markdown(
-                """<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:9px;">
-<div>
-    <div style="font-family:'Outfit',sans-serif;font-size:1.12rem;font-weight:900;color:#1E1B16;">Scan your meal</div>
-    <div style="font-size:.76rem;color:#7E7569;margin-top:2px;font-weight:600;">Upload a clear Gulf dish photo for AI recognition and nutrition estimates</div>
-</div>
-<span style="background:#FFF7E7;color:#B9780E;font-size:.70rem;font-weight:800;padding:5px 9px;border-radius:999px;border:1px solid #EED8A8;">Top-down works best</span>
-</div>""",
+                """
+                <div class="scan-hero-card">
+                    <div class="scan-hero-copy">
+                        <div class="scan-hero-kicker">STEP 1 OF 3</div>
+                        <div class="scan-hero-title">Scan your meal</div>
+                        <div class="scan-hero-subtitle">
+                            Upload a clear Gulf dish photo for AI recognition and nutrition estimates.
+                        </div>
+                    </div>
+                    <div class="scan-angle-badge">
+                        <div class="scan-angle-icon">⌁</div>
+                        <div>
+                            <div class="scan-angle-title">Best angle</div>
+                            <div class="scan-angle-copy">Top-down</div>
+                        </div>
+                    </div>
+                </div>
+                """,
                 unsafe_allow_html=True,
             )
 
             image_to_process = render_scan_input()
 
             st.markdown(
-                '<div style="font-size:.72rem;color:#665F56;line-height:1.4;margin-top:4px;">Tip: keep the full plate visible, use good lighting, and avoid heavy filters.</div>',
+                """
+                <div class="scan-tip-line">
+                    <span class="scan-tip-dot">i</span>
+                    <span>Keep the full plate visible, use good lighting, and avoid heavy filters.</span>
+                </div>
+                """,
                 unsafe_allow_html=True,
             )
+
+            if image_to_process is None:
+                st.markdown(
+                    """
+                    <div class="scan-photo-help-grid">
+                        <div class="scan-help-card">
+                            <div class="scan-help-icon">◉</div>
+                            <div>
+                                <div class="scan-help-title">One clear dish</div>
+                                <div class="scan-help-copy">Center the plate and avoid cropped edges or multiple meals.</div>
+                            </div>
+                        </div>
+                        <div class="scan-help-card">
+                            <div class="scan-help-icon">☀</div>
+                            <div>
+                                <div class="scan-help-title">Good lighting</div>
+                                <div class="scan-help-copy">Natural light helps the AI see texture, colour and ingredients.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scan-next-card">
+                        <div class="scan-next-icon">✦</div>
+                        <div>
+                            <div class="scan-next-title">What happens next?</div>
+                            <div class="scan-next-copy">
+                                GulfBite identifies the dish, lets you confirm the match, then estimates portion, calories and macros.
+                            </div>
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
 
             if image_to_process is not None:
                 st.session_state.image = image_to_process
