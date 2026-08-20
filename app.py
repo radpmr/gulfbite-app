@@ -8781,6 +8781,270 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   HOME — BUILT FOR GULF FOOD WITHOUT OUTER CARD
+   Keep only the three compact benefit tiles; remove the large white wrapper.
+   ========================================================================== */
+
+.stApp:has(.home-screen-marker) .st-key-home_gulf_value_card {
+    margin: 0 0 8px 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-head {
+    margin: 0 0 9px 2px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-subtitle {
+    margin-top: 4px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-grid {
+    gap: 8px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-item {
+    border: 1px solid #E2D2B8 !important;
+    background: linear-gradient(180deg,#FFFEFC 0%,#FBF6ED 100%) !important;
+    box-shadow: 0 6px 14px rgba(66,46,15,.035) !important;
+}
+
+@media (max-width: 768px) {
+    .stApp:has(.home-screen-marker) .st-key-home_gulf_value_card {
+        margin-bottom: 7px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-value-head {
+        margin-bottom: 8px !important;
+    }
+}
+
+
+/* ==========================================================================
+   MENU + SCAN — FINAL CONTAINER FIX
+   1) Menu browse region reads as one uninterrupted card.
+   2) Scan right-side clipping is removed and helper text gets safer widths.
+   ========================================================================== */
+
+/* ---------------- MENU: one continuous browse card ---------------- */
+
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card {
+    margin: 4px 0 0 0 !important;
+    padding: 14px 15px 8px !important;
+    border: 1px solid #DCC79C !important;
+    border-bottom: 0 !important;
+    border-radius: 20px 20px 0 0 !important;
+    background:
+        radial-gradient(circle at 96% 6%, rgba(175,118,31,.08), transparent 24%),
+        linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: none !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail {
+    margin: -1px 0 10px 0 !important;
+    padding: 0 15px 13px !important;
+    border: 1px solid #DCC79C !important;
+    border-top: 0 !important;
+    border-radius: 0 0 20px 20px !important;
+    background:
+        linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+}
+
+/* Kill the Streamlit spacer that was creating the white seam. */
+.stApp:has(.menu-screen-marker)
+[data-testid="stElementContainer"]:has(.st-key-menu_browse_card),
+.stApp:has(.menu-screen-marker)
+[data-testid="stElementContainer"]:has(.st-key-menu_browse_card_tail) {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.stApp:has(.menu-screen-marker)
+.st-key-menu_browse_card + div,
+.stApp:has(.menu-screen-marker)
+.st-key-menu_browse_card ~ div:has(.st-key-menu_browse_card_tail) {
+    margin-top: 0 !important;
+}
+
+/* One subtle divider inside the unified card. */
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail::before {
+    content: "" !important;
+    display: block !important;
+    height: 1px !important;
+    margin: 0 0 10px !important;
+    background: linear-gradient(
+        to right,
+        rgba(199,168,109,.72),
+        rgba(199,168,109,.12)
+    ) !important;
+}
+
+/* Keep category controls snug to the lower section. */
+.stApp:has(.menu-screen-marker) .st-key-menu_category_control {
+    margin-bottom: 6px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-category-meta {
+    margin: 0 0 7px !important;
+}
+
+/* ---------------- SCAN: remove right-edge pressure ---------------- */
+
+.stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    overflow: hidden !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-hero-card {
+    grid-template-columns: minmax(0, 1fr) 106px !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-hero-copy {
+    min-width: 0 !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-angle-badge {
+    width: 106px !important;
+    min-width: 106px !important;
+    max-width: 106px !important;
+    padding: 7px 7px !important;
+    box-sizing: border-box !important;
+    justify-self: end !important;
+    overflow: hidden !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-angle-icon {
+    width: 23px !important;
+    height: 23px !important;
+    flex: 0 0 23px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-angle-title {
+    font-size: .49rem !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-angle-copy {
+    font-size: .55rem !important;
+}
+
+/* Uploader: more horizontal breathing room, slightly shorter. */
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section {
+    min-height: 92px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    box-sizing: border-box !important;
+}
+
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] button {
+    min-width: 112px !important;
+    max-width: 132px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+/* Helper columns: safer text widths and no clipping. */
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    width: 100% !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-card {
+    min-width: 0 !important;
+    overflow: hidden !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-card > div:last-child {
+    min-width: 0 !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-title,
+.stApp:has(.scan-screen-marker) .scan-help-copy,
+.stApp:has(.scan-screen-marker) .scan-next-title,
+.stApp:has(.scan-screen-marker) .scan-next-copy {
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-copy {
+    font-size: .50rem !important;
+    line-height: 1.22 !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-next-copy {
+    font-size: .51rem !important;
+    line-height: 1.24 !important;
+}
+
+/* Mobile-specific safety */
+@media (max-width: 768px) {
+    .stApp:has(.menu-screen-marker) .st-key-menu_browse_card {
+        padding: 12px 12px 7px !important;
+        border-radius: 18px 18px 0 0 !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail {
+        padding: 0 12px 11px !important;
+        border-radius: 0 0 18px 18px !important;
+        margin-top: -1px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-hero-card {
+        grid-template-columns: minmax(0, 1fr) 102px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-angle-badge {
+        width: 102px !important;
+        min-width: 102px !important;
+        max-width: 102px !important;
+    }
+}
+
+@media (max-width: 430px) {
+    /* Very narrow phones: stack the badge under hero copy instead of clipping. */
+    .stApp:has(.scan-screen-marker) .scan-hero-card {
+        grid-template-columns: 1fr !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-angle-badge {
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: 145px !important;
+        justify-self: start !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-help-card:first-child {
+        border-right: 0 !important;
+        border-bottom: 1px solid #E4D3B5 !important;
+        padding-bottom: 6px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-help-card:last-child {
+        padding-top: 6px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -10146,27 +10410,6 @@ elif st.session_state.stage in ["main", "upload"]:
                     request_scroll_top()
                     st.rerun()
 
-        # Compact proof/value row directly below the main action.
-        metrics_html = (
-            '<div class="home-metric-row">'
-            '<div class="home-metric-card">'
-            f'<div class="home-metric-icon">{line_icon("sparkles", 17)}</div>'
-            '<div>'
-            '<div class="home-metric-value">25 dishes</div>'
-            '<div class="home-metric-label">Supported</div>'
-            '</div>'
-            '</div>'
-            '<div class="home-metric-card">'
-            f'<div class="home-metric-icon">{line_icon("nutrition", 17)}</div>'
-            '<div>'
-            '<div class="home-metric-value">Calories + macros</div>'
-            '<div class="home-metric-label">Nutrition output</div>'
-            '</div>'
-            '</div>'
-            '</div>'
-        )
-        st.markdown(metrics_html, unsafe_allow_html=True)
-
         # Product differentiation card: explain why GulfBite is useful rather than
         # repeating the Scan -> Portion -> Macros workflow already shown elsewhere.
         with st.container(key="home_gulf_value_card"):
@@ -10663,6 +10906,86 @@ elif st.session_state.stage in ["main", "upload"]:
             .st-key-scan_main_card div[data-testid="stFileUploader"] button {
                 min-width: 122px !important;
                 font-size: .68rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+    # Final Home width alignment: the Built for Gulf food section and
+    # Gulf favourites use the same content width as the Scan your meal hero.
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           HOME — EQUAL SECTION WIDTHS
+           ================================================================ */
+
+        /* All three Home sections occupy the same available width. */
+        .stApp:has(.home-screen-marker) .st-key-home_upload_feature,
+        .stApp:has(.home-screen-marker) .st-key-home_gulf_value_card,
+        .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+            width: 100% !important;
+            max-width: none !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            box-sizing: border-box !important;
+            align-self: stretch !important;
+        }
+
+        /* Make the Streamlit element wrappers stretch too. */
+        .stApp:has(.home-screen-marker)
+        [data-testid="stElementContainer"]:has(.st-key-home_upload_feature),
+        .stApp:has(.home-screen-marker)
+        [data-testid="stElementContainer"]:has(.st-key-home_gulf_value_card),
+        .stApp:has(.home-screen-marker)
+        [data-testid="stElementContainer"]:has(.st-key-home_favourites_section) {
+            width: 100% !important;
+            max-width: none !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            align-self: stretch !important;
+        }
+
+        /* Built for Gulf food has no outer card, so stretch its three tiles
+           edge-to-edge across exactly the same width as the hero. */
+        .stApp:has(.home-screen-marker) .home-value-grid {
+            width: 100% !important;
+            max-width: none !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            box-sizing: border-box !important;
+        }
+
+        .stApp:has(.home-screen-marker) .home-value-item {
+            width: 100% !important;
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Gulf favourites card itself fills the same horizontal line. */
+        .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+            padding-left: 14px !important;
+            padding-right: 14px !important;
+        }
+
+        .stApp:has(.home-screen-marker) .home-favourites-grid-links {
+            width: 100% !important;
+            max-width: none !important;
+            box-sizing: border-box !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+            }
+
+            .stApp:has(.home-screen-marker) .home-value-grid {
+                gap: 6px !important;
             }
         }
         </style>
