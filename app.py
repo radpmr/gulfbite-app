@@ -4769,6 +4769,34 @@ button[aria-label*="notification" i] {
     }
 }
 
+
+/* ==========================================================================
+   HOME FAVOURITES — CLOSER TO QUICK GUIDE
+   Remove the excessive bottom clearance and tighten vertical spacing.
+   ========================================================================== */
+
+.st-key-home_favourites_section {
+    margin-top: -2px !important;
+    margin-bottom: 92px !important;
+    padding-bottom: 14px !important;
+}
+
+.st-key-home_quick_guide_card {
+    margin-bottom: 6px !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-home_favourites_section {
+        margin-top: -2px !important;
+        margin-bottom: 94px !important;
+        padding-bottom: 14px !important;
+    }
+
+    .st-key-home_quick_guide_card {
+        margin-bottom: 6px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
