@@ -8062,6 +8062,107 @@ button,
     font-weight: 700 !important;
 }
 
+
+/* ==========================================================================
+   FINAL MICRO-SPACING PASS
+   Small refinements only — no redesign, no palette changes.
+   ========================================================================== */
+
+/* Onboarding: slightly tighten badge -> headline spacing */
+.onboarding-badge,
+[class*="onboarding"] [class*="badge"] {
+    margin-bottom: 8px !important;
+}
+
+.onboarding-title,
+[class*="onboarding"] h1 {
+    margin-top: 0 !important;
+}
+
+/* Home: bring Gulf favourites a little closer to Quick Guide */
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+    margin-bottom: 0 !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    margin-top: -16px !important;
+}
+
+/* Menu: make picker card slightly shorter and move Selected Dish up */
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
+    padding-top: 8px !important;
+    padding-bottom: 9px !important;
+    margin-bottom: 5px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-category-meta {
+    margin-bottom: 6px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-picker-label {
+    margin-bottom: 5px !important;
+}
+
+.stApp:has(.menu-screen-marker)
+.st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+    min-height: 42px !important;
+    height: 42px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-card {
+    margin-top: -8px !important;
+}
+
+/* Scan: slightly shorten uploader and helper cards */
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section {
+    min-height: 104px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-tip-line {
+    margin-top: 2px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+    margin-top: 6px !important;
+    gap: 6px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-card {
+    min-height: 50px !important;
+    padding: 6px 8px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-next-card {
+    margin-top: 3px !important;
+    padding: 7px 9px !important;
+}
+
+/* Mobile tuning */
+@media (max-width: 480px) {
+    .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+        margin-top: -18px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
+        padding-top: 7px !important;
+        padding-bottom: 8px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-feature-card {
+        margin-top: -9px !important;
+    }
+
+    .stApp:has(.scan-screen-marker)
+    .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+        min-height: 100px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-help-card {
+        min-height: 48px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
