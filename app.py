@@ -6242,6 +6242,166 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   QUICK GUIDE — 3-STEP JOURNEY
+   ========================================================================== */
+
+.stApp:has(.home-screen-marker) .home-guide-subtitle {
+    margin-top: -2px !important;
+    margin-bottom: 10px !important;
+    color: #9A8F81 !important;
+    font-size: .62rem !important;
+    line-height: 1.2 !important;
+    font-weight: 500 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-quick-guide.journey {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    align-items: start !important;
+    padding: 2px 2px 3px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-quick-guide.journey .home-guide-line {
+    position: absolute !important;
+    left: 16.5% !important;
+    right: 16.5% !important;
+    top: 28px !important;
+    height: 2px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(
+        90deg,
+        #F0D9A8 0%,
+        #E6AA32 50%,
+        #F0D9A8 100%
+    ) !important;
+    z-index: 0 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-quick-guide.journey .home-guide-step {
+    position: relative !important;
+    z-index: 1 !important;
+    text-align: center !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-badge {
+    position: relative !important;
+    width: 52px !important;
+    height: 52px !important;
+    margin: 0 auto 7px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid #EBCF98 !important;
+    border-radius: 17px !important;
+    background: linear-gradient(145deg,#FFFDF8 0%,#FFF4DB 100%) !important;
+    color: #D9961C !important;
+    box-shadow: 0 4px 12px rgba(94,67,20,.05) !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-step.is-primary .home-guide-badge {
+    border-color: #DFA027 !important;
+    background: linear-gradient(145deg,#FFD778 0%,#EAAA25 100%) !important;
+    color: #17130D !important;
+    box-shadow: 0 7px 16px rgba(213,143,13,.18) !important;
+    transform: translateY(-2px) !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-number {
+    position: absolute !important;
+    top: -6px !important;
+    right: -6px !important;
+    width: 20px !important;
+    height: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    border: 2px solid #FFFDF8 !important;
+    background: #F1B849 !important;
+    color: #1B1711 !important;
+    font-size: .57rem !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-step.is-primary .home-guide-number {
+    background: #1F1A13 !important;
+    color: #FFFFFF !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-symbol {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-symbol svg {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-quick-guide.journey .home-guide-title {
+    font-size: .78rem !important;
+    line-height: 1.05 !important;
+    font-weight: 700 !important;
+    color: #211D17 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-step.is-primary .home-guide-title {
+    color: #B5740C !important;
+}
+
+.stApp:has(.home-screen-marker) .home-quick-guide.journey .home-guide-caption {
+    margin-top: 3px !important;
+    color: #9B8F80 !important;
+    font-size: .58rem !important;
+    line-height: 1.15 !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.home-screen-marker) .home-guide-subtitle {
+        margin-bottom: 8px !important;
+        font-size: .58rem !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-quick-guide.journey {
+        gap: 7px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-quick-guide.journey .home-guide-line {
+        top: 25px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-guide-badge {
+        width: 46px !important;
+        height: 46px !important;
+        border-radius: 15px !important;
+        margin-bottom: 6px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-guide-number {
+        width: 18px !important;
+        height: 18px !important;
+        top: -5px !important;
+        right: -5px !important;
+        font-size: .52rem !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-quick-guide.journey .home-guide-title {
+        font-size: .72rem !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-quick-guide.journey .home-guide-caption {
+        font-size: .54rem !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -6765,32 +6925,40 @@ def consume_favourite_query():
 
 
 def render_quick_guide():
-    """Compact responsive three-step guide for the Home screen.
-
-    Build the HTML without leading indentation/newlines so Streamlit's
-    Markdown parser cannot mistake it for a code block.
-    """
-    upload_icon = line_icon("upload", 21)
-    sparkle_icon = line_icon("sparkles", 21)
-    nutrition_icon = line_icon("nutrition", 21)
+    """Compact responsive three-step guide for the Home screen."""
+    upload_icon = line_icon("upload", 18)
+    sparkle_icon = line_icon("sparkles", 18)
+    nutrition_icon = line_icon("nutrition", 18)
 
     guide_html = (
-        '<div class="home-quick-guide">'
+        '<div class="home-quick-guide journey">'
         '<div class="home-guide-line"></div>'
+
         '<div class="home-guide-step">'
-        f'<div class="home-guide-icon">{upload_icon}</div>'
+        '<div class="home-guide-badge">'
+        '<span class="home-guide-number">1</span>'
+        f'<span class="home-guide-symbol">{upload_icon}</span>'
+        '</div>'
         '<div class="home-guide-title">Upload</div>'
-        '<div class="home-guide-caption">Photo</div>'
+        '<div class="home-guide-caption">Meal photo</div>'
         '</div>'
-        '<div class="home-guide-step">'
-        f'<div class="home-guide-icon">{sparkle_icon}</div>'
+
+        '<div class="home-guide-step is-primary">'
+        '<div class="home-guide-badge">'
+        '<span class="home-guide-number">2</span>'
+        f'<span class="home-guide-symbol">{sparkle_icon}</span>'
+        '</div>'
         '<div class="home-guide-title">Recognize</div>'
-        '<div class="home-guide-caption">AI Match</div>'
+        '<div class="home-guide-caption">AI match</div>'
         '</div>'
+
         '<div class="home-guide-step">'
-        f'<div class="home-guide-icon">{nutrition_icon}</div>'
+        '<div class="home-guide-badge">'
+        '<span class="home-guide-number">3</span>'
+        f'<span class="home-guide-symbol">{nutrition_icon}</span>'
+        '</div>'
         '<div class="home-guide-title">Track</div>'
-        '<div class="home-guide-caption">Nutrition</div>'
+        '<div class="home-guide-caption">Calories & macros</div>'
         '</div>'
         '</div>'
     )
@@ -7261,7 +7429,8 @@ elif st.session_state.stage in ["main", "upload"]:
         # Guide comes after the main action so it supports rather than competes with it.
         with st.container(key="home_quick_guide_card"):
             st.markdown(
-                '<div class="home-section-title">Quick Guide</div>',
+                '<div class="home-section-title">Quick Guide</div>'
+                '<div class="home-guide-subtitle">From photo to nutrition in 3 steps</div>',
                 unsafe_allow_html=True,
             )
             render_quick_guide()
