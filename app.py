@@ -9723,6 +9723,98 @@ elif st.session_state.stage in ["main", "upload"]:
                         st.rerun()
 
 
+    # Final page-specific overrides are deliberately injected AFTER the
+    # Home/Menu/Scan components have rendered so they win the CSS cascade.
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           VISIBLE FINAL MICRO-SPACING OVERRIDES
+           ================================================================ */
+
+        /* HOME — visibly close Quick Guide -> Gulf favourites */
+        .stApp:has(.home-screen-marker)
+        [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_favourites_section) {
+            margin-top: -24px !important;
+        }
+
+        .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+            padding-top: 9px !important;
+            padding-bottom: 9px !important;
+        }
+
+        .stApp:has(.home-screen-marker) .home-guide-subtitle {
+            margin-bottom: 5px !important;
+        }
+
+        /* MENU — visibly shorten picker and close selected card gap */
+        .stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
+            padding: 8px 10px 9px !important;
+            margin-bottom: 3px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-category-meta {
+            margin-bottom: 5px !important;
+        }
+
+        .stApp:has(.menu-screen-marker)
+        .st-key-menu_dish_picker div[data-testid="stSelectbox"]
+        [data-baseweb="select"] > div {
+            min-height: 40px !important;
+            height: 40px !important;
+        }
+
+        .stApp:has(.menu-screen-marker)
+        [data-testid="stElementContainer"]:has(.menu-feature-card) {
+            margin-top: -12px !important;
+        }
+
+        /* SCAN — uploader/helper area visibly more compact */
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+            min-height: 96px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-tip-line {
+            margin-top: 1px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+            margin-top: 5px !important;
+            gap: 5px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-card {
+            min-height: 46px !important;
+            padding: 6px 7px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-card {
+            margin-top: 2px !important;
+            padding: 7px 8px !important;
+        }
+
+        @media (max-width: 480px) {
+            .stApp:has(.home-screen-marker)
+            [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_favourites_section) {
+                margin-top: -28px !important;
+            }
+
+            .stApp:has(.menu-screen-marker)
+            [data-testid="stElementContainer"]:has(.menu-feature-card) {
+                margin-top: -14px !important;
+            }
+
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+                min-height: 92px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
