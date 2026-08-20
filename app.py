@@ -7895,6 +7895,119 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   FULL-APP CAL AI-STYLE TYPOGRAPHY
+   Native Apple/SF-style system stack with cross-platform fallbacks.
+   ========================================================================== */
+
+:root {
+    --gb-calai-font:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+}
+
+html,
+body,
+.stApp,
+.stApp *,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"],
+h1, h2, h3, h4, h5, h6,
+p, span, div, label, small, strong,
+button, input, textarea, select, option,
+[data-baseweb="select"],
+[data-baseweb="input"],
+[data-baseweb="textarea"],
+[data-testid="stButton"] button,
+[data-testid="stFileUploader"] button,
+[data-testid="stSelectbox"],
+[data-testid="stTextInput"],
+[data-testid="stNumberInput"],
+[data-testid="stRadio"],
+[data-testid="stSegmentedControl"],
+[data-testid="stCheckbox"],
+[data-testid="stSlider"],
+.st-key-gulf_bottom_nav *,
+[class*="stepper"] *,
+[class*="bottom-nav"] *,
+[class*="nav"] button {
+    font-family: var(--gb-calai-font) !important;
+}
+
+/* Explicit overrides for older Outfit declarations. */
+.home-upload-eyebrow,
+.home-upload-title,
+.home-upload-subtitle,
+.home-section-title,
+.home-guide-subtitle,
+.home-guide-title,
+.home-guide-caption,
+.home-metric-value,
+.home-metric-label,
+.home-favourites-title,
+.home-favourites-subtitle,
+.menu-premium-kicker,
+.menu-premium-title,
+.menu-premium-subtitle,
+.menu-browse-label,
+.menu-browse-note,
+.menu-category-meta,
+.menu-picker-label,
+.menu-picker-note,
+.menu-feature-kicker,
+.menu-feature-name,
+.menu-feature-family,
+.menu-feature-time,
+.menu-feature-blurb,
+.menu-feature-badges,
+.scan-hero-kicker,
+.scan-hero-title,
+.scan-hero-subtitle,
+.scan-angle-title,
+.scan-angle-copy,
+.scan-tip-line,
+.scan-help-title,
+.scan-help-copy,
+.scan-next-title,
+.scan-next-copy,
+.workflow-title,
+.workflow-subtitle {
+    font-family: var(--gb-calai-font) !important;
+}
+
+/* Cal AI-like weight and spacing balance. */
+h1, h2,
+.home-upload-title,
+.home-section-title,
+.home-favourites-title,
+.menu-premium-title,
+.menu-feature-name,
+.scan-hero-title,
+.workflow-title {
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+}
+
+button,
+.home-guide-title,
+.home-metric-value,
+.menu-picker-label,
+.menu-browse-label,
+.scan-help-title,
+.scan-next-title,
+.menu-feature-kicker {
+    font-weight: 600 !important;
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
