@@ -12085,6 +12085,107 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+
+/* ==========================================================================
+   MENU + SCAN — TEXT WIDTH FIX
+   Only fixes the two remaining visible issues:
+   1) Menu description clipping at right edge
+   2) Scan Good lighting helper text cramped
+   ========================================================================== */
+
+/* ---------------- MENU ---------------- */
+
+/* Ensure the selected dish description always stays inside the card. */
+.stApp:has(.menu-screen-marker) .menu-feature-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-blurb {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding-right: 8px !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
+    text-overflow: clip !important;
+}
+
+/* Also protect the entire selected-dish content column. */
+.stApp:has(.menu-screen-marker) .menu-feature-heading,
+.stApp:has(.menu-screen-marker) .menu-feature-meta-row,
+.stApp:has(.menu-screen-marker) .menu-feature-badges {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* ---------------- SCAN ---------------- */
+
+/* Give the helper text more space by shrinking the icon column slightly. */
+.stApp:has(.scan-screen-marker) .scan-help-card {
+    grid-template-columns: 30px minmax(0,1fr) !important;
+    gap: 6px !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-icon {
+    width: 30px !important;
+    height: 30px !important;
+    flex: 0 0 30px !important;
+}
+
+/* Balance the two columns and let text wrap naturally. */
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-title,
+.stApp:has(.scan-screen-marker) .scan-help-copy {
+    width: 100% !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-copy {
+    font-size: .50rem !important;
+    line-height: 1.22 !important;
+}
+
+/* On narrower screens, give slightly more room to Good lighting. */
+@media (max-width: 768px) {
+    .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+        grid-template-columns: 0.95fr 1.05fr !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-help-card {
+        grid-template-columns: 28px minmax(0,1fr) !important;
+        gap: 5px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-help-icon {
+        width: 28px !important;
+        height: 28px !important;
+        flex-basis: 28px !important;
+    }
+}
+
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
