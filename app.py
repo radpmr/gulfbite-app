@@ -5846,6 +5846,105 @@ button[aria-label*="notification" i] {
     }
 }
 
+
+/* ==========================================================================
+   CAL AI-STYLE TYPOGRAPHY
+   Cal AI's iPhone UI has the clean native-iOS typography feel, so GulfBite
+   now uses the Apple/SF system font stack throughout the entire app.
+   ========================================================================== */
+
+:root {
+    --gb-font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                  "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Entire Streamlit app */
+html,
+body,
+.stApp,
+.stApp *,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"] {
+    font-family: var(--gb-font-ui) !important;
+}
+
+/* Headings and custom HTML */
+h1, h2, h3, h4, h5, h6,
+p, span, div, label,
+.home-upload-title,
+.home-upload-eyebrow,
+.home-upload-subtitle,
+.home-section-title,
+.home-guide-title,
+.home-guide-caption,
+.home-metric-value,
+.home-metric-label,
+.home-favourites-title,
+.home-favourites-subtitle,
+.menu-feature-name,
+.menu-feature-family,
+.menu-browse-label,
+.menu-picker-label,
+.scan-hero-title,
+.scan-hero-subtitle,
+.scan-hero-kicker,
+.scan-help-title,
+.scan-help-copy,
+.scan-next-title,
+.scan-next-copy,
+.workflow-title,
+.workflow-subtitle {
+    font-family: var(--gb-font-ui) !important;
+}
+
+/* Streamlit controls */
+button,
+input,
+textarea,
+select,
+option,
+[data-baseweb="select"],
+[data-baseweb="input"],
+[data-baseweb="textarea"],
+[data-testid="stButton"] button,
+[data-testid="stFileUploader"] button,
+[data-testid="stSelectbox"],
+[data-testid="stTextInput"],
+[data-testid="stNumberInput"],
+[data-testid="stRadio"],
+[data-testid="stSegmentedControl"] {
+    font-family: var(--gb-font-ui) !important;
+}
+
+/* Navigation */
+.st-key-gulf_bottom_nav *,
+[class*="bottom-nav"] *,
+[class*="nav"] button {
+    font-family: var(--gb-font-ui) !important;
+}
+
+/* Slightly tune weights to match the cleaner native-app feel */
+h1, h2,
+.home-upload-title,
+.home-section-title,
+.home-favourites-title,
+.menu-feature-name,
+.scan-hero-title {
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+}
+
+button,
+.home-guide-title,
+.home-metric-value,
+.menu-picker-label,
+.menu-browse-label,
+.scan-help-title,
+.scan-next-title {
+    font-weight: 600 !important;
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
