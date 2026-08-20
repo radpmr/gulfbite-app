@@ -8416,6 +8416,246 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   FINAL UNIFIED-CARD RESPONSIVE FIX
+   1) Menu browse area becomes one visually continuous card.
+   2) Scan unified card gets tighter, safer responsive behavior.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   MENU — remove the visible seam and make browse area feel like one card
+   -------------------------------------------------------------------------- */
+
+/* Head and tail share one continuous surface. */
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card,
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail {
+    background:
+        radial-gradient(circle at 96% 6%, rgba(175,118,31,.08), transparent 24%),
+        linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    border-left: 1px solid #DCC79C !important;
+    border-right: 1px solid #DCC79C !important;
+}
+
+/* Top half */
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card {
+    margin: 4px 0 0 0 !important;
+    padding: 14px 15px 8px !important;
+    border-top: 1px solid #DCC79C !important;
+    border-bottom: 0 !important;
+    border-radius: 20px 20px 0 0 !important;
+    box-shadow: none !important;
+}
+
+/* Lower half — pull upward so there is no white seam. */
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail {
+    margin: -2px 0 10px 0 !important;
+    padding: 8px 15px 13px !important;
+    border-top: 0 !important;
+    border-bottom: 1px solid #DCC79C !important;
+    border-radius: 0 0 20px 20px !important;
+    box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+}
+
+/* Add one subtle internal divider before category/count + picker. */
+.stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail::before {
+    content: "" !important;
+    display: block !important;
+    height: 1px !important;
+    margin: 0 0 9px 0 !important;
+    background: linear-gradient(
+        to right,
+        rgba(199,168,109,.65),
+        rgba(199,168,109,.14)
+    ) !important;
+}
+
+/* Ensure surrounding Streamlit wrappers do not inject white gaps. */
+.stApp:has(.menu-screen-marker)
+[data-testid="stElementContainer"]:has(.st-key-menu_browse_card),
+.stApp:has(.menu-screen-marker)
+[data-testid="stElementContainer"]:has(.st-key-menu_browse_card_tail) {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   SCAN — responsive unified card polish
+   -------------------------------------------------------------------------- */
+
+/* Keep hero badge fully inside the card. */
+.stApp:has(.scan-screen-marker) .scan-hero-card {
+    grid-template-columns: minmax(0, 1fr) minmax(112px, 132px) !important;
+    gap: 10px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-angle-badge {
+    max-width: 132px !important;
+    min-width: 112px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    justify-self: end !important;
+    overflow: hidden !important;
+}
+
+/* Shorter uploader with cleaner alignment. */
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section {
+    min-height: 96px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+/* Prevent awkward headline wrapping where possible. */
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section [data-testid="stMarkdownContainer"] p:first-child,
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] section strong {
+    line-height: 1.16 !important;
+}
+
+/* Slightly narrower Browse Files button. */
+.stApp:has(.scan-screen-marker)
+.st-key-scan_main_card div[data-testid="stFileUploader"] button {
+    min-width: 124px !important;
+    padding-left: 11px !important;
+    padding-right: 11px !important;
+}
+
+/* Compact helper area further. */
+.stApp:has(.scan-screen-marker) .scan-tip-line {
+    margin-top: 6px !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-card {
+    min-height: 46px !important;
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-next-card {
+    padding-top: 6px !important;
+}
+
+/* --------------------------------------------------------------------------
+   WIDTH-SPECIFIC BEHAVIOR
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    /* Menu card remains continuous on mobile. */
+    .stApp:has(.menu-screen-marker) .st-key-menu_browse_card {
+        padding: 12px 12px 7px !important;
+        border-radius: 18px 18px 0 0 !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail {
+        margin-top: -3px !important;
+        padding: 7px 12px 11px !important;
+        border-radius: 0 0 18px 18px !important;
+    }
+
+    /* Scan hero: allocate enough room for the badge. */
+    .stApp:has(.scan-screen-marker) .scan-hero-card {
+        grid-template-columns: minmax(0, 1fr) 112px !important;
+        gap: 8px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-angle-badge {
+        min-width: 108px !important;
+        max-width: 112px !important;
+        padding: 7px 7px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-angle-icon {
+        width: 24px !important;
+        height: 24px !important;
+        flex: 0 0 24px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-angle-title {
+        font-size: .50rem !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-angle-copy {
+        font-size: .56rem !important;
+    }
+
+    /* Keep uploader text/button balanced on smaller widths. */
+    .stApp:has(.scan-screen-marker)
+    .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+        min-height: 92px !important;
+    }
+
+    .stApp:has(.scan-screen-marker)
+    .st-key-scan_main_card div[data-testid="stFileUploader"] button {
+        min-width: 116px !important;
+        min-height: 36px !important;
+        height: 36px !important;
+        font-size: .66rem !important;
+    }
+
+    /* Helper columns less cramped. */
+    .stApp:has(.scan-screen-marker) .scan-help-card {
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-help-title {
+        font-size: .57rem !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-help-copy {
+        font-size: .50rem !important;
+        line-height: 1.25 !important;
+    }
+}
+
+@media (max-width: 430px) {
+    /* Very narrow phones: stack hero copy + badge safely. */
+    .stApp:has(.scan-screen-marker) .scan-hero-card {
+        grid-template-columns: 1fr !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-angle-badge {
+        justify-self: start !important;
+        max-width: 150px !important;
+        min-width: 0 !important;
+        width: auto !important;
+    }
+
+    /* Let upload content wrap naturally, but keep button compact. */
+    .stApp:has(.scan-screen-marker)
+    .st-key-scan_main_card div[data-testid="stFileUploader"] button {
+        min-width: 108px !important;
+        font-size: .64rem !important;
+    }
+
+    /* Stack the two tip columns if they become too cramped. */
+    .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+        grid-template-columns: 1fr !important;
+        gap: 4px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-help-card:first-child {
+        border-right: 0 !important;
+        border-bottom: 1px solid #E4D3B5 !important;
+        padding-bottom: 6px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-help-card:last-child {
+        padding-top: 6px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
