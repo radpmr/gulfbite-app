@@ -5945,6 +5945,303 @@ button,
     font-weight: 600 !important;
 }
 
+
+/* ==========================================================================
+   HOME — MOVE GULF FAVOURITES UP SLIGHTLY
+   ========================================================================== */
+
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    margin-top: -18px !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+        margin-top: -20px !important;
+    }
+}
+
+
+/* ==========================================================================
+   PORTION SCREEN — SPACING POLISH
+   Tighten spacing around the portion selector and remove the large empty
+   gap above the fixed bottom navigation.
+   ========================================================================== */
+
+/* Portion title / helper text spacing */
+.stApp:has(.st-key-portion_stage) .st-key-portion_stage p {
+    margin-bottom: .55rem !important;
+}
+
+/* Portion selector sits closer to the explanatory text */
+.stApp:has(.st-key-portion_stage) .st-key-portion_selector_control {
+    margin-top: 0 !important;
+    margin-bottom: 2px !important;
+}
+
+/* Slightly shorter portion cards */
+.stApp:has(.st-key-portion_stage)
+.st-key-portion_selector_control [data-testid="stSegmentedControl"] button {
+    min-height: 56px !important;
+    padding: 6px 6px !important;
+}
+
+.stApp:has(.st-key-portion_stage)
+.st-key-portion_selector_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    min-height: 56px !important;
+    padding: 6px !important;
+}
+
+/* Labels under Small / Medium / Large */
+.stApp:has(.st-key-portion_stage) .st-key-portion_selector_control + div {
+    margin-top: 1px !important;
+}
+
+/* Pull Calculate nutrition closer to the portion helper labels */
+.stApp:has(.st-key-portion_stage) .st-key-calculate_nutrition_control {
+    margin-top: 7px !important;
+}
+
+/* Remove the duplicated bottom spacer on the Portion page.
+   The fixed nav still has safe viewport clearance through block padding. */
+.stApp:has(.st-key-portion_stage) .workflow-bottom-space {
+    height: 6px !important;
+}
+
+/* Portion page needs less footer padding than the longer Verify/Result pages. */
+.stApp:has(.st-key-portion_stage) .block-container,
+.stApp:has(.st-key-portion_stage) [data-testid="stMainBlockContainer"] {
+    padding-bottom: calc(4.8rem + env(safe-area-inset-bottom)) !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.st-key-portion_stage)
+    .st-key-portion_selector_control [data-testid="stSegmentedControl"] button {
+        min-height: 52px !important;
+        padding: 5px 3px !important;
+    }
+
+    .stApp:has(.st-key-portion_stage)
+    .st-key-portion_selector_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+        min-height: 52px !important;
+        padding: 5px 3px !important;
+    }
+
+    .stApp:has(.st-key-portion_stage) .st-key-calculate_nutrition_control {
+        margin-top: 5px !important;
+    }
+
+    .stApp:has(.st-key-portion_stage) .workflow-bottom-space {
+        height: 2px !important;
+    }
+
+    .stApp:has(.st-key-portion_stage) .block-container,
+    .stApp:has(.st-key-portion_stage) [data-testid="stMainBlockContainer"] {
+        padding-bottom: calc(4.4rem + env(safe-area-inset-bottom)) !important;
+    }
+}
+
+
+/* ==========================================================================
+   HOME COMPACT REDESIGN
+   Tighten the dashboard vertically and keep all sections clear of the nav.
+   ========================================================================== */
+
+/* Reduce excessive vertical rhythm between Home sections */
+.stApp:has(.home-screen-marker) .st-key-home_upload_feature {
+    margin-bottom: 6px !important;
+    padding: 12px 14px 12px !important;
+    border-radius: 18px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-upload-eyebrow {
+    margin-bottom: 3px !important;
+    font-size: .54rem !important;
+}
+
+.stApp:has(.home-screen-marker) .home-upload-title {
+    font-size: 1.17rem !important;
+    margin-bottom: 3px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-upload-subtitle {
+    font-size: .67rem !important;
+    line-height: 1.35 !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_scan_control {
+    margin-top: 8px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_scan_control button {
+    min-height: 42px !important;
+    height: 42px !important;
+    border-radius: 13px !important;
+}
+
+/* Metrics */
+.stApp:has(.home-screen-marker) .home-metric-row {
+    gap: 7px !important;
+    margin: 0 0 6px 0 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-metric-card {
+    min-height: 54px !important;
+    padding: 8px 10px !important;
+    border-radius: 14px !important;
+}
+
+/* Quick Guide: compact, balanced and with safe caption space */
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+    margin: 0 0 6px 0 !important;
+    padding: 11px 13px 14px !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-section-title {
+    margin: 0 0 7px 0 !important;
+    font-size: .92rem !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-quick-guide {
+    margin: 0 !important;
+    padding: 0 2px 3px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-icon {
+    width: 36px !important;
+    height: 36px !important;
+    margin-bottom: 5px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-line {
+    top: 18px !important;
+    height: 1px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-title {
+    font-size: .80rem !important;
+    line-height: 1.05 !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-caption {
+    font-size: .61rem !important;
+    line-height: 1.05 !important;
+    margin-top: 2px !important;
+    padding-bottom: 3px !important;
+}
+
+/* Gulf favourites: pull upward and keep all images fully inside the card */
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    margin: -6px 0 0 0 !important;
+    padding: 10px 12px 13px !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section .home-favourites-head {
+    margin-bottom: 5px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-title {
+    font-size: .90rem !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-subtitle {
+    font-size: .61rem !important;
+    margin-top: 2px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-grid-links {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    margin: 6px 0 0 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link,
+.stApp:has(.home-screen-marker) .home-favourite-link.featured,
+.stApp:has(.home-screen-marker) .home-favourite-link.small {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 68px !important;
+    min-height: 68px !important;
+    max-height: 68px !important;
+    border-radius: 11px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link span {
+    left: 6px !important;
+    right: 4px !important;
+    bottom: 5px !important;
+    font-size: .58rem !important;
+    line-height: 1 !important;
+}
+
+/* Keep Home above the fixed navigation without the huge empty footer */
+.stApp:has(.home-screen-marker) [data-testid="stMainBlockContainer"],
+.stApp:has(.home-screen-marker) .block-container {
+    padding-bottom: 66px !important;
+}
+
+/* Reduce Streamlit's top-level vertical gap on Home only */
+.stApp:has(.home-screen-marker) [data-testid="stMainBlockContainer"] > div > [data-testid="stVerticalBlock"] {
+    gap: .45rem !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.home-screen-marker) .st-key-home_upload_feature {
+        padding: 11px 12px 11px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-upload-title {
+        font-size: 1.10rem !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-metric-card {
+        min-height: 50px !important;
+        padding: 7px 9px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+        padding: 10px 11px 13px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+        margin-top: -8px !important;
+        padding: 9px 10px 12px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourite-link,
+    .stApp:has(.home-screen-marker) .home-favourite-link.featured,
+    .stApp:has(.home-screen-marker) .home-favourite-link.small {
+        height: 64px !important;
+        min-height: 64px !important;
+        max-height: 64px !important;
+    }
+
+    .stApp:has(.home-screen-marker) [data-testid="stMainBlockContainer"],
+    .stApp:has(.home-screen-marker) .block-container {
+        padding-bottom: 64px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
