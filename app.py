@@ -5676,6 +5676,153 @@ button[aria-label*="notification" i] {
     }
 }
 
+
+/* ==========================================================================
+   HOME FINAL FIT FIX
+   - keep Quick Guide captions clear of the card edge
+   - keep all Gulf favourite tiles fully inside their card
+   - keep the entire favourites section above the fixed bottom nav
+   ========================================================================== */
+
+/* QUICK GUIDE: give captions real bottom breathing room */
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+    padding: 12px 14px 18px !important;
+    margin-bottom: 5px !important;
+    overflow: hidden !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-quick-guide {
+    padding-bottom: 4px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-caption {
+    margin-top: 3px !important;
+    padding-bottom: 4px !important;
+    line-height: 1.15 !important;
+}
+
+/* Pull favourites upward so the dashboard stays compact */
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    margin-top: -3px !important;
+    margin-bottom: 0 !important;
+    padding: 11px 13px 17px !important;
+    overflow: hidden !important;
+}
+
+/* Slightly tighten title area */
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section .home-favourites-head {
+    margin-bottom: 6px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-grid-links {
+    margin-top: 6px !important;
+    gap: 7px !important;
+    align-items: stretch !important;
+}
+
+/* Make every tile fully fit inside the favourites card */
+.stApp:has(.home-screen-marker) .home-favourite-link,
+.stApp:has(.home-screen-marker) .home-favourite-link.featured,
+.stApp:has(.home-screen-marker) .home-favourite-link.small {
+    min-height: 76px !important;
+    height: 76px !important;
+    border-radius: 13px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+/* Ensure images never visually escape their tile/card */
+.stApp:has(.home-screen-marker) .home-favourite-link img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    display: block !important;
+    border-radius: inherit !important;
+}
+
+/* Keep labels comfortably inside images */
+.stApp:has(.home-screen-marker) .home-favourite-link span {
+    left: 7px !important;
+    right: 5px !important;
+    bottom: 6px !important;
+    font-size: .66rem !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Reserve exactly enough room for the fixed bottom navigation.
+   This keeps Gulf favourites completely above the nav without creating
+   a large fake footer. */
+.stApp:has(.home-screen-marker) [data-testid="stMainBlockContainer"] {
+    padding-bottom: 72px !important;
+}
+
+/* Further compact the vertical rhythm on Home */
+.stApp:has(.home-screen-marker) .home-metric-row {
+    margin-bottom: 5px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+    margin-top: 0 !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+        padding: 11px 12px 17px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-icon {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-line {
+        top: 18px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-title {
+        font-size: .84rem !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-caption {
+        font-size: .63rem !important;
+        padding-bottom: 5px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+        margin-top: -4px !important;
+        padding: 10px 11px 16px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourites-grid-links {
+        gap: 6px !important;
+        margin-top: 5px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourite-link,
+    .stApp:has(.home-screen-marker) .home-favourite-link.featured,
+    .stApp:has(.home-screen-marker) .home-favourite-link.small {
+        min-height: 72px !important;
+        height: 72px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourite-link span {
+        font-size: .62rem !important;
+        left: 6px !important;
+        bottom: 5px !important;
+    }
+
+    .stApp:has(.home-screen-marker) [data-testid="stMainBlockContainer"] {
+        padding-bottom: 68px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
