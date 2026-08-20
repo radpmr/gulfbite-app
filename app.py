@@ -8656,6 +8656,131 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   HOME — BUILT FOR GULF FOOD
+   Replaces the instructional Quick Guide with product differentiation.
+   ========================================================================== */
+
+.stApp:has(.home-screen-marker) .st-key-home_gulf_value_card {
+    margin: 0 0 8px 0 !important;
+    padding: 13px 15px 14px !important;
+    border: 1px solid #DCC79C !important;
+    border-radius: 20px !important;
+    background:
+        radial-gradient(circle at 95% 10%, rgba(175,118,31,.08), transparent 24%),
+        linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+    overflow: hidden !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-head {
+    margin-bottom: 10px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-subtitle {
+    margin-top: 4px !important;
+    color: #7B705F !important;
+    font-size: .63rem !important;
+    line-height: 1.3 !important;
+    font-weight: 500 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0,1fr)) !important;
+    gap: 8px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-item {
+    min-width: 0 !important;
+    padding: 9px 8px !important;
+    border: 1px solid #E4D5BD !important;
+    border-radius: 15px !important;
+    background: rgba(255,255,255,.72) !important;
+    text-align: center !important;
+    box-shadow: 0 4px 10px rgba(66,46,15,.025) !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-icon {
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0 auto 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+    background: linear-gradient(145deg,#FBF0D5 0%,#F3DEB0 100%) !important;
+    color: #C38A24 !important;
+    font-size: .92rem !important;
+    font-weight: 800 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-title {
+    color: #241B12 !important;
+    font-size: .66rem !important;
+    line-height: 1.12 !important;
+    font-weight: 700 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-copy {
+    margin-top: 3px !important;
+    color: #8B7E6B !important;
+    font-size: .55rem !important;
+    line-height: 1.2 !important;
+    font-weight: 500 !important;
+}
+
+/* Gulf favourites follows naturally after the value card. */
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    margin-top: -2px !important;
+}
+
+@media (max-width: 768px) {
+    .stApp:has(.home-screen-marker) .st-key-home_gulf_value_card {
+        padding: 11px 12px 12px !important;
+        border-radius: 18px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-value-head {
+        margin-bottom: 8px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-value-grid {
+        gap: 6px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-value-item {
+        padding: 8px 5px !important;
+        border-radius: 13px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-value-icon {
+        width: 29px !important;
+        height: 29px !important;
+        margin-bottom: 5px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-value-title {
+        font-size: .60rem !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-value-copy {
+        font-size: .51rem !important;
+    }
+}
+
+@media (max-width: 430px) {
+    .stApp:has(.home-screen-marker) .home-value-title {
+        font-size: .57rem !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-value-copy {
+        font-size: .48rem !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -10042,14 +10167,35 @@ elif st.session_state.stage in ["main", "upload"]:
         )
         st.markdown(metrics_html, unsafe_allow_html=True)
 
-        # Guide comes after the main action so it supports rather than competes with it.
-        with st.container(key="home_quick_guide_card"):
+        # Product differentiation card: explain why GulfBite is useful rather than
+        # repeating the Scan -> Portion -> Macros workflow already shown elsewhere.
+        with st.container(key="home_gulf_value_card"):
             st.markdown(
-                '<div class="home-section-title">Quick Guide</div>'
-                '<div class="home-guide-subtitle">From photo to nutrition in 3 steps</div>',
+                """
+                <div class="home-value-head">
+                    <div class="home-section-title">Built for Gulf food</div>
+                    <div class="home-value-subtitle">Recognition designed around regional dishes.</div>
+                </div>
+                <div class="home-value-grid">
+                    <div class="home-value-item">
+                        <div class="home-value-icon">◈</div>
+                        <div class="home-value-title">Gulf-specific</div>
+                        <div class="home-value-copy">25 traditional dishes</div>
+                    </div>
+                    <div class="home-value-item">
+                        <div class="home-value-icon">✦</div>
+                        <div class="home-value-title">AI recognition</div>
+                        <div class="home-value-copy">Identifies your meal</div>
+                    </div>
+                    <div class="home-value-item">
+                        <div class="home-value-icon">◯</div>
+                        <div class="home-value-title">Nutrition estimate</div>
+                        <div class="home-value-copy">Calories + macros</div>
+                    </div>
+                </div>
+                """,
                 unsafe_allow_html=True,
             )
-            render_quick_guide()
 
         # Visual browsing remains last, above the fixed bottom navigation.
         with st.container(key="home_favourites_section"):
