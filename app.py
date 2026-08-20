@@ -9598,6 +9598,18 @@ button,
     }
 }
 
+
+/* More breathing room between 'Browse by dish type' and category buttons */
+.stApp:has(.menu-screen-marker) .menu-browse-row {
+    margin-bottom: 14px !important;
+}
+
+@media (max-width: 768px) {
+    .stApp:has(.menu-screen-marker) .menu-browse-row {
+        margin-bottom: 12px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
