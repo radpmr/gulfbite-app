@@ -6614,6 +6614,29 @@ button,
         font-size: 0.82rem !important;
     }
 }
+
+/* ==========================================================================
+   FAVOURITES MOVED UP
+   Pull Gulf favourites a bit closer to Quick Guide without affecting nav.
+   ========================================================================== */
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+    margin-bottom: 6px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    margin-top: -10px !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+        margin-bottom: 4px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+        margin-top: -12px !important;
+    }
+}
+
 </style>""", unsafe_allow_html=True)
 
 
