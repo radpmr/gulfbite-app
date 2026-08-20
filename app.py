@@ -6443,285 +6443,257 @@ button,
 
 
 /* ==========================================================================
-   MENU — ATTRACTIVE REDESIGN
-   More visual hierarchy, premium soft-gold styling, same stable interactions.
+   MENU CLEAN PREMIUM REDESIGN
+   Cleaner hierarchy, fewer nested cards, tighter mobile layout.
    ========================================================================== */
 
-.menu-page-intro {
-    display: grid !important;
-    grid-template-columns: minmax(0,1fr) auto !important;
-    align-items: center !important;
-    gap: 14px !important;
-    margin: 6px 0 14px 0 !important;
-    padding: 15px 16px !important;
-    border: 1px solid #EFD9AD !important;
-    border-radius: 19px !important;
-    background:
-        radial-gradient(circle at 96% 6%, rgba(239,177,48,.18), transparent 34%),
-        linear-gradient(145deg,#FFFDF9 0%,#FFF7E7 100%) !important;
-    box-shadow: 0 7px 18px rgba(75,52,14,.045) !important;
-}
-
-.menu-page-eyebrow {
-    margin-bottom: 4px !important;
-    color: #B27814 !important;
-    font-size: .55rem !important;
-    font-weight: 800 !important;
-    letter-spacing: .09em !important;
-}
-
-.menu-page-title {
-    color: #1E1A14 !important;
-    font-size: 1.22rem !important;
-    line-height: 1.05 !important;
-    font-weight: 750 !important;
-    letter-spacing: -.018em !important;
-}
-
-.menu-page-subtitle {
-    margin-top: 5px !important;
-    max-width: 390px !important;
-    color: #7B7165 !important;
-    font-size: .68rem !important;
-    line-height: 1.38 !important;
-}
-
-.menu-page-stat {
-    width: 58px !important;
-    height: 58px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border: 1px solid #E6BF72 !important;
-    border-radius: 17px !important;
-    background: linear-gradient(145deg,#FAD77F 0%,#E9B43E 100%) !important;
-    box-shadow: 0 6px 14px rgba(201,140,24,.13) !important;
-}
-
-.menu-page-stat-value {
-    color: #241D13 !important;
-    font-size: 1.08rem !important;
-    line-height: 1 !important;
-    font-weight: 800 !important;
-}
-
-.menu-page-stat-label {
-    margin-top: 3px !important;
-    color: #5E451B !important;
-    font-size: .49rem !important;
-    line-height: 1 !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    letter-spacing: .05em !important;
-}
-
-.menu-section-heading {
+.menu-simple-head {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 8px !important;
-    margin: 0 1px 7px 1px !important;
+    gap: 12px !important;
+    margin: 6px 0 14px 0 !important;
+    padding: 0 2px !important;
 }
 
+.menu-simple-title {
+    color: #1E1A14 !important;
+    font-size: 1.23rem !important;
+    line-height: 1.05 !important;
+    font-weight: 750 !important;
+    letter-spacing: -.02em !important;
+}
+
+.menu-simple-subtitle {
+    margin-top: 5px !important;
+    color: #857A6C !important;
+    font-size: .69rem !important;
+    line-height: 1.35 !important;
+}
+
+.menu-simple-count {
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 14px !important;
+    background: #FFF4D8 !important;
+    border: 1px solid #EBCF97 !important;
+    color: #B7760C !important;
+    font-size: .92rem !important;
+    font-weight: 800 !important;
+}
+
+/* Category area: simple label + two clean rows */
 .menu-browse-label {
-    margin: 0 !important;
+    margin: 0 0 7px 1px !important;
+    color: #9B8C77 !important;
+    font-size: .60rem !important;
+    font-weight: 800 !important;
+    letter-spacing: .06em !important;
 }
 
-.menu-section-hint {
-    color: #B2A696 !important;
-    font-size: .55rem !important;
-    font-weight: 600 !important;
-}
-
-/* Softer, more premium category buttons */
 .st-key-menu_category_control {
-    margin-bottom: 8px !important;
+    margin: 0 0 12px 0 !important;
 }
 
 .st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"] {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0,1fr)) !important;
     gap: 7px !important;
 }
 
 .st-key-menu_category_control [data-testid="stSegmentedControl"] button {
-    min-height: 42px !important;
-    border-radius: 15px !important;
-    border: 1px solid #E6D8C2 !important;
-    background: #FFFDF9 !important;
-    color: #72695D !important;
-    box-shadow: 0 2px 7px rgba(56,39,14,.025) !important;
+    min-height: 39px !important;
+    height: auto !important;
+    padding: 6px 4px !important;
+    border: 1px solid #E5D8C4 !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    color: #6F675D !important;
+    font-size: .58rem !important;
+    line-height: 1.05 !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
 }
 
 .st-key-menu_category_control [data-testid="stSegmentedControl"] button[aria-pressed="true"],
 .st-key-menu_category_control [data-testid="stSegmentedControl"] button[data-selected="true"] {
-    border-color: #E3AF45 !important;
-    background: linear-gradient(145deg,#F6D480 0%,#EDBB51 100%) !important;
-    color: #201A12 !important;
-    box-shadow: 0 5px 12px rgba(205,145,29,.12) !important;
+    border-color: #E1AB3D !important;
+    background: #F5CB70 !important;
+    color: #1E1A14 !important;
+    box-shadow: 0 4px 10px rgba(210,147,24,.10) !important;
 }
 
-.menu-category-summary {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 10px !important;
-    margin: 1px 1px 12px 1px !important;
-    color: #8C8173 !important;
-    font-size: .60rem !important;
-    font-weight: 600 !important;
+/* Radio fallback */
+.st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+    gap: 7px !important;
 }
 
-.menu-category-count {
-    display: inline-flex !important;
-    align-items: center !important;
-    padding: 4px 8px !important;
-    border: 1px solid #EADBC3 !important;
-    border-radius: 999px !important;
-    background: #FFF9ED !important;
-    color: #A26D12 !important;
-    font-size: .54rem !important;
-    font-weight: 700 !important;
-}
-
-/* Picker becomes a compact premium control area */
-.st-key-menu_dish_picker {
-    margin: 0 0 11px 0 !important;
-    padding: 11px 12px 12px !important;
-    border: 1px solid #ECE1D0 !important;
-    border-radius: 16px !important;
+.st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    min-height: 39px !important;
+    padding: 6px 4px !important;
+    border: 1px solid #E5D8C4 !important;
+    border-radius: 14px !important;
     background: #FFFFFF !important;
-    box-shadow: 0 5px 14px rgba(61,43,15,.035) !important;
 }
 
-.menu-picker-heading {
-    display: flex !important;
-    align-items: flex-end !important;
-    justify-content: space-between !important;
-    gap: 10px !important;
-    margin-bottom: 7px !important;
-}
-
-.menu-picker-label {
-    margin: 0 !important;
-}
-
-.menu-picker-subtext {
-    color: #AAA093 !important;
-    font-size: .53rem !important;
-    font-weight: 500 !important;
-}
-
-.st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
-    min-height: 48px !important;
-    border-radius: 13px !important;
-    border-color: #DFCDAE !important;
-    background: #FFFDF9 !important;
-}
-
-/* Selected dish card */
-.menu-feature-card {
-    position: relative !important;
-    overflow: hidden !important;
-    padding: 17px 16px 15px !important;
-    border-radius: 19px !important;
-    border-color: #E8C985 !important;
-    background:
-        radial-gradient(circle at 98% 2%, rgba(239,177,43,.18), transparent 30%),
-        linear-gradient(145deg,#FFFDF9 0%,#FFF7E5 100%) !important;
-    box-shadow: 0 8px 20px rgba(67,46,11,.05) !important;
-}
-
-.menu-feature-accent {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    width: 4px !important;
-    background: linear-gradient(180deg,#F0C65F 0%,#E5A825 100%) !important;
-}
-
-.menu-selected-kicker {
-    margin: 0 0 8px 1px !important;
-    color: #B97B10 !important;
-    font-size: .52rem !important;
-    line-height: 1 !important;
-    font-weight: 800 !important;
-    letter-spacing: .08em !important;
-}
-
-.menu-feature-icon {
-    border-radius: 15px !important;
-    background: linear-gradient(145deg,#FFF0CA 0%,#F9DDA0 100%) !important;
-}
-
-.menu-feature-name {
-    font-size: 1.03rem !important;
-    font-weight: 760 !important;
-}
-
-.menu-feature-time {
-    background: #FFF8E8 !important;
+/* Dish picker: no large outer card */
+.st-key-menu_dish_picker {
+    margin: 0 0 12px 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
     box-shadow: none !important;
 }
 
+.menu-picker-label {
+    margin: 0 0 6px 1px !important;
+    color: #9B8C77 !important;
+    font-size: .60rem !important;
+    font-weight: 800 !important;
+    letter-spacing: .06em !important;
+}
+
+.st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+    min-height: 50px !important;
+    border: 1px solid #E0CEAF !important;
+    border-radius: 14px !important;
+    background: #FFFDF9 !important;
+    box-shadow: none !important;
+}
+
+/* Selected dish: one strong card, no nested visual clutter */
+.menu-feature-card {
+    position: relative !important;
+    margin: 0 !important;
+    padding: 14px 15px !important;
+    border: 1px solid #E9D3A8 !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg,#FFFDF9 0%,#FFF7E6 100%) !important;
+    box-shadow: 0 6px 16px rgba(67,46,12,.04) !important;
+}
+
+.menu-feature-top {
+    display: grid !important;
+    grid-template-columns: 48px minmax(0,1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.menu-feature-icon {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 14px !important;
+    border: 1px solid #EBCF96 !important;
+    background: #FFF0CC !important;
+}
+
+.menu-feature-name {
+    font-size: .98rem !important;
+    font-weight: 750 !important;
+}
+
+.menu-feature-family {
+    margin-top: 3px !important;
+    font-size: .60rem !important;
+}
+
+.menu-feature-time {
+    padding: 5px 8px !important;
+    font-size: .58rem !important;
+    background: #FFF8E9 !important;
+}
+
 .menu-feature-divider {
-    margin: 10px 0 9px 0 !important;
+    margin: 10px 0 9px !important;
+}
+
+.menu-feature-blurb {
+    font-size: .70rem !important;
+    line-height: 1.42 !important;
+}
+
+.menu-feature-badges {
+    margin-top: 9px !important;
+    gap: 5px !important;
 }
 
 .menu-feature-badges span {
-    background: rgba(255,255,255,.92) !important;
-    box-shadow: 0 2px 6px rgba(56,39,14,.025) !important;
+    padding: 4px 7px !important;
+    font-size: .55rem !important;
 }
 
-/* CTA feels more intentional */
+/* CTA: compact and premium */
 .st-key-menu_scan_selected_control {
     margin-top: 10px !important;
 }
 
 .st-key-menu_scan_selected_control button {
-    min-height: 46px !important;
-    height: 46px !important;
-    border-radius: 14px !important;
-    background: linear-gradient(135deg,#F4C85E 0%,#E6A722 100%) !important;
-    box-shadow: 0 7px 16px rgba(203,139,17,.14) !important;
-    font-size: .80rem !important;
+    min-height: 44px !important;
+    height: 44px !important;
+    border-radius: 13px !important;
+    background: linear-gradient(135deg,#F5CA64 0%,#E7A722 100%) !important;
+    color: #1B1711 !important;
+    box-shadow: 0 6px 14px rgba(208,143,15,.12) !important;
+    font-size: .78rem !important;
+    font-weight: 700 !important;
+}
+
+/* Remove excessive Menu vertical spacing near bottom nav */
+.stApp:has(.st-key-menu_scan_selected_control) .block-container,
+.stApp:has(.st-key-menu_scan_selected_control) [data-testid="stMainBlockContainer"] {
+    padding-bottom: calc(5.4rem + env(safe-area-inset-bottom)) !important;
 }
 
 @media (max-width: 480px) {
-    .menu-page-intro {
-        padding: 13px 14px !important;
-        border-radius: 17px !important;
+    .menu-simple-head {
         margin-bottom: 12px !important;
     }
 
-    .menu-page-title {
+    .menu-simple-title {
         font-size: 1.12rem !important;
     }
 
-    .menu-page-subtitle {
-        font-size: .63rem !important;
+    .menu-simple-subtitle {
+        font-size: .64rem !important;
     }
 
-    .menu-page-stat {
-        width: 52px !important;
-        height: 52px !important;
-        border-radius: 15px !important;
+    .menu-simple-count {
+        width: 40px !important;
+        height: 40px !important;
+        flex-basis: 40px !important;
+        border-radius: 13px !important;
+        font-size: .84rem !important;
     }
 
-    .st-key-menu_category_control [data-testid="stSegmentedControl"] button {
-        min-height: 40px !important;
-        border-radius: 14px !important;
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+    .st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+        min-height: 37px !important;
+        padding: 5px 3px !important;
         font-size: .54rem !important;
     }
 
-    .st-key-menu_dish_picker {
-        padding: 10px 11px 11px !important;
-        border-radius: 15px !important;
+    .menu-feature-card {
+        padding: 13px 13px !important;
     }
 
-    .menu-feature-card {
-        padding: 15px 13px 13px 15px !important;
-        border-radius: 17px !important;
+    .menu-feature-top {
+        grid-template-columns: 44px minmax(0,1fr) auto !important;
+        gap: 8px !important;
+    }
+
+    .menu-feature-icon {
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+    .menu-feature-name {
+        font-size: .91rem !important;
     }
 }
 
@@ -7371,10 +7343,7 @@ def render_category_squircle_cards():
             st.session_state.dish_select_box = valid_dishes[0]
 
     st.markdown(
-        '<div class="menu-section-heading">'
-        '<div class="menu-browse-label">Browse by dish type</div>'
-        '<div class="menu-section-hint">Tap a category</div>'
-        '</div>',
+        '<div class="menu-browse-label">Browse by dish type</div>',
         unsafe_allow_html=True,
     )
 
@@ -7404,25 +7373,6 @@ def render_category_squircle_cards():
     selected_category = st.session_state.cat_select_box
     dishes = DISH_CATEGORIES_DATA[selected_category]
 
-    category_display = {
-        "✨ All Dishes": "All dishes",
-        "🍚 Rice & Grains": "Rice & grains",
-        "🥘 Stews & Slow-Cooked": "Stews & slow-cooked",
-        "🐟 Seafood": "Seafood",
-        "🌯 Street Food & Snacks": "Street food & snacks",
-        "🍳 Breakfast & Breads": "Breakfast & breads",
-        "🥣 Mezze & Salads": "Mezze & salads",
-        "🍰 Sweets & Drinks": "Sweets & drinks",
-    }.get(selected_category, "Selected category")
-
-    st.markdown(
-        f'<div class="menu-category-summary">'
-        f'<span>{category_display}</span>'
-        f'<span class="menu-category-count">{len(dishes)} dishes</span>'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
-
     if (
         "dish_select_box" not in st.session_state
         or st.session_state.dish_select_box not in dishes
@@ -7431,10 +7381,7 @@ def render_category_squircle_cards():
 
     with st.container(key="menu_dish_picker"):
         st.markdown(
-            '<div class="menu-picker-heading">'
-            '<div class="menu-picker-label">Choose a dish</div>'
-            '<div class="menu-picker-subtext">Select one to view details</div>'
-            '</div>',
+            '<div class="menu-picker-label">Choose a dish</div>',
             unsafe_allow_html=True,
         )
         selected_dish = st.selectbox(
@@ -7487,8 +7434,6 @@ def render_category_squircle_cards():
 
     detail_html = (
         '<div class="menu-feature-card">'
-        '<div class="menu-feature-accent"></div>'
-        '<div class="menu-selected-kicker">SELECTED DISH</div>'
         '<div class="menu-feature-top">'
         f'<div class="menu-feature-icon">{icon}</div>'
         '<div class="menu-feature-heading">'
@@ -7837,24 +7782,18 @@ elif st.session_state.stage in ["main", "upload"]:
     elif active_section == "Menu":
         st.markdown(
             """
-            <div class="menu-page-intro">
-                <div class="menu-page-intro-copy">
-                    <div class="menu-page-eyebrow">GULF FOOD LIBRARY</div>
-                    <div class="menu-page-title">Supported Dishes</div>
-                    <div class="menu-page-subtitle">
-                        Explore Gulf dishes recognized by GulfBite and view their culinary profile.
-                    </div>
+            <div class="menu-simple-head">
+                <div>
+                    <div class="menu-simple-title">Supported Dishes</div>
+                    <div class="menu-simple-subtitle">Explore 25 Gulf dishes recognized by GulfBite.</div>
                 </div>
-                <div class="menu-page-stat">
-                    <div class="menu-page-stat-value">25</div>
-                    <div class="menu-page-stat-label">Dishes</div>
-                </div>
+                <div class="menu-simple-count">25</div>
             </div>
             """,
             unsafe_allow_html=True,
         )
         render_category_squircle_cards()
-        st.markdown('<div style="height:10px;"></div>', unsafe_allow_html=True)
+        st.markdown('<div style="height:8px;"></div>', unsafe_allow_html=True)
 
     else:  # Scan
         render_segmented_stepper("upload", st.session_state.get("triggered", False))
