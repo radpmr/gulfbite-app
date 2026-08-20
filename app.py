@@ -9815,6 +9815,221 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+
+    # Responsive split: preserve the approved desktop layout while tuning
+    # smaller screens independently.
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           RESPONSIVE SPLIT — DESKTOP VS MOBILE
+           Desktop >= 769px: preserve current balanced layout.
+           Mobile <= 768px: tighter, app-like layout without affecting desktop.
+           ================================================================ */
+
+        /* ---------------- DESKTOP / TABLET LANDSCAPE ---------------- */
+        @media (min-width: 769px) {
+            /* HOME: keep current spacing, only protect guide captions. */
+            .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+                padding-bottom: 13px !important;
+                margin-bottom: 4px !important;
+            }
+
+            .stApp:has(.home-screen-marker) .home-guide-caption {
+                padding-bottom: 2px !important;
+            }
+
+            .stApp:has(.home-screen-marker)
+            [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_favourites_section) {
+                margin-top: -8px !important;
+            }
+
+            /* MENU: small compacting only. */
+            .stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
+                padding-top: 9px !important;
+                padding-bottom: 10px !important;
+                margin-bottom: 7px !important;
+            }
+
+            .stApp:has(.menu-screen-marker)
+            .st-key-menu_dish_picker div[data-testid="stSelectbox"]
+            [data-baseweb="select"] > div {
+                min-height: 43px !important;
+                height: 43px !important;
+            }
+
+            .stApp:has(.menu-screen-marker)
+            [data-testid="stElementContainer"]:has(.menu-feature-card) {
+                margin-top: -5px !important;
+            }
+
+            /* SCAN: retain desktop uploader size and close lower helper gap. */
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+                min-height: 118px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+                margin-top: 8px !important;
+                gap: 7px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-help-card {
+                min-height: 58px !important;
+                padding: 7px 9px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-next-card {
+                margin-top: 4px !important;
+                padding: 8px 10px !important;
+            }
+
+            /* Slightly reduce unused footer space on Scan desktop only. */
+            .stApp:has(.scan-screen-marker) [data-testid="stMainBlockContainer"] {
+                padding-bottom: 62px !important;
+            }
+        }
+
+        /* ---------------- MOBILE / PORTRAIT TABLET ---------------- */
+        @media (max-width: 768px) {
+            /* HOME:
+               Give Quick Guide captions breathing room and restore a clear
+               visual gap before Gulf favourites. */
+            .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+                padding: 10px 11px 15px !important;
+                margin-bottom: 10px !important;
+            }
+
+            .stApp:has(.home-screen-marker) .home-guide-caption {
+                padding-bottom: 4px !important;
+                line-height: 1.12 !important;
+            }
+
+            .stApp:has(.home-screen-marker)
+            [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_favourites_section) {
+                margin-top: 0 !important;
+            }
+
+            .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+                margin-top: 0 !important;
+                padding-bottom: 12px !important;
+            }
+
+            .stApp:has(.home-screen-marker) .home-favourite-link,
+            .stApp:has(.home-screen-marker) .home-favourite-link.featured,
+            .stApp:has(.home-screen-marker) .home-favourite-link.small {
+                height: 60px !important;
+                min-height: 60px !important;
+                max-height: 60px !important;
+            }
+
+            /* MENU:
+               Keep 2 x 4 categories, but shorten picker group and selected card gap. */
+            .stApp:has(.menu-screen-marker) .st-key-menu_category_control
+            [data-testid="stSegmentedControl"] [role="radiogroup"],
+            .stApp:has(.menu-screen-marker) .st-key-menu_category_control
+            div[data-testid="stRadio"] > div[role="radiogroup"] {
+                grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+                gap: 6px !important;
+            }
+
+            .stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
+                padding: 8px 10px 9px !important;
+                margin-bottom: 5px !important;
+            }
+
+            .stApp:has(.menu-screen-marker) .menu-category-meta {
+                margin-bottom: 5px !important;
+            }
+
+            .stApp:has(.menu-screen-marker)
+            .st-key-menu_dish_picker div[data-testid="stSelectbox"]
+            [data-baseweb="select"] > div {
+                min-height: 40px !important;
+                height: 40px !important;
+            }
+
+            .stApp:has(.menu-screen-marker)
+            [data-testid="stElementContainer"]:has(.menu-feature-card) {
+                margin-top: -7px !important;
+            }
+
+            .stApp:has(.menu-screen-marker) .menu-feature-blurb {
+                line-height: 1.32 !important;
+            }
+
+            /* SCAN:
+               Compact uploader and helpers so the page feels like a mobile app. */
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+                min-height: 98px !important;
+                padding-top: 4px !important;
+                padding-bottom: 4px !important;
+            }
+
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card div[data-testid="stFileUploader"] section p,
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card div[data-testid="stFileUploader"] section small {
+                font-size: .64rem !important;
+                line-height: 1.20 !important;
+            }
+
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card div[data-testid="stFileUploader"] button {
+                min-width: 132px !important;
+                min-height: 38px !important;
+                height: 38px !important;
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-tip-line {
+                margin-top: 2px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+                margin-top: 5px !important;
+                gap: 5px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-help-card {
+                min-height: 48px !important;
+                padding: 6px 7px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-next-card {
+                margin-top: 3px !important;
+                padding: 7px 8px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) [data-testid="stMainBlockContainer"] {
+                padding-bottom: 64px !important;
+            }
+        }
+
+        /* Narrow phones: protect labels from squeezing. */
+        @media (max-width: 430px) {
+            .stApp:has(.home-screen-marker) .home-favourite-link span {
+                font-size: .56rem !important;
+            }
+
+            .stApp:has(.menu-screen-marker) .st-key-menu_category_control
+            [data-testid="stSegmentedControl"] button {
+                font-size: .50rem !important;
+            }
+
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card div[data-testid="stFileUploader"] button {
+                min-width: 122px !important;
+                font-size: .68rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
