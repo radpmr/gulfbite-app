@@ -12320,6 +12320,139 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           STRICT INSET SEPARATORS — FINAL OVERRIDE
+           All horizontal lines are inset from card edges.
+           ================================================================ */
+
+        /* ---------------- MENU ---------------- */
+
+        /* Remove every old full-width/border separator around Selected Dish. */
+        .stApp:has(.menu-screen-marker) .menu-feature-card {
+            border-top: 0 !important;
+            overflow: visible !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-card::before {
+            content: "" !important;
+            display: block !important;
+            width: calc(100% - 24px) !important;
+            max-width: calc(100% - 24px) !important;
+            height: 1px !important;
+            margin: 0 12px 11px 12px !important;
+            background: #D7BE8D !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Internal feature divider also stays inset. */
+        .stApp:has(.menu-screen-marker) .menu-feature-divider {
+            width: calc(100% - 24px) !important;
+            max-width: calc(100% - 24px) !important;
+            margin-left: 12px !important;
+            margin-right: 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Browse dividers stay inside the single library card. */
+        .stApp:has(.menu-screen-marker) .menu-browse-divider {
+            width: calc(100% - 24px) !important;
+            max-width: calc(100% - 24px) !important;
+            margin-left: 12px !important;
+            margin-right: 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* ---------------- SCAN ---------------- */
+
+        /* Constrain every lower section to an inset width first. */
+        .stApp:has(.scan-screen-marker) .scan-tip-line,
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid,
+        .stApp:has(.scan-screen-marker) .scan-next-card {
+            width: calc(100% - 20px) !important;
+            max-width: calc(100% - 20px) !important;
+            margin-left: 10px !important;
+            margin-right: 10px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Remove legacy full-width borders. */
+        .stApp:has(.scan-screen-marker) .scan-tip-line,
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid,
+        .stApp:has(.scan-screen-marker) .scan-next-card {
+            border-top: 0 !important;
+            border-bottom: 0 !important;
+        }
+
+        /* Horizontal line above helper row. */
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+            position: relative !important;
+            padding-top: 11px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid::before {
+            content: "" !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 1px !important;
+            background: #E4D3B5 !important;
+        }
+
+        /* Horizontal line above What happens next. */
+        .stApp:has(.scan-screen-marker) .scan-next-card {
+            position: relative !important;
+            padding-top: 12px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-card::before {
+            content: "" !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 1px !important;
+            background: #E4D3B5 !important;
+        }
+
+        /* Vertical helper divider is inset vertically too. */
+        .stApp:has(.scan-screen-marker) .scan-help-card:first-child {
+            border-right: 0 !important;
+            position: relative !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-card:first-child::after {
+            content: "" !important;
+            position: absolute !important;
+            top: 5px !important;
+            bottom: 5px !important;
+            right: 0 !important;
+            width: 1px !important;
+            background: #E4D3B5 !important;
+        }
+
+        /* Parent cards clip anything accidental beyond rounded corners. */
+        .stApp:has(.menu-screen-marker) .st-key-menu_library_card,
+        .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+            overflow: hidden !important;
+        }
+
+        @media (max-width: 430px) {
+            .stApp:has(.scan-screen-marker) .scan-help-card:first-child::after {
+                display: none !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
