@@ -6402,6 +6402,45 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   QUICK GUIDE FINAL POLISH
+   - lighter Recognize gold
+   - compact Track caption
+   - slightly tighter guide-to-favourites spacing
+   ========================================================================== */
+
+.stApp:has(.home-screen-marker) .home-guide-step.is-primary .home-guide-badge {
+    border-color: #E5B84F !important;
+    background: linear-gradient(145deg, #F4D27B 0%, #E9BE5A 100%) !important;
+    color: #2A2114 !important;
+    box-shadow: 0 6px 14px rgba(207, 151, 42, .13) !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-step.is-primary .home-guide-title {
+    color: #A96D0B !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-step.is-primary .home-guide-number {
+    background: #2A2114 !important;
+    color: #FFFFFF !important;
+}
+
+/* Bring Gulf favourites a little closer to Quick Guide. */
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+    margin-bottom: 2px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    margin-top: -12px !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+        margin-top: -14px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -6958,7 +6997,7 @@ def render_quick_guide():
         f'<span class="home-guide-symbol">{nutrition_icon}</span>'
         '</div>'
         '<div class="home-guide-title">Track</div>'
-        '<div class="home-guide-caption">Calories & macros</div>'
+        '<div class="home-guide-caption">Nutrition</div>'
         '</div>'
         '</div>'
     )
