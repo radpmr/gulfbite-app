@@ -6708,6 +6708,146 @@ button,
     display: none !important;
 }
 
+
+/* ==========================================================================
+   MENU — MODERN GULF LUXURY
+   Warm ivory, sand, amber and bronze accents with restrained Gulf identity.
+   ========================================================================== */
+
+.menu-premium-hero {
+    position: relative !important;
+    overflow: hidden !important;
+    border-color: #DDC79A !important;
+    background:
+        radial-gradient(circle at 92% 10%, rgba(194,140,48,.12), transparent 30%),
+        linear-gradient(145deg,#FFFEFB 0%,#FBF3E4 100%) !important;
+    box-shadow: 0 12px 28px rgba(66,46,15,.055) !important;
+}
+
+.menu-premium-hero::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -22px !important;
+    bottom: -22px !important;
+    width: 88px !important;
+    height: 88px !important;
+    opacity: .10 !important;
+    background:
+        linear-gradient(45deg, transparent 43%, #9C6B1F 43%, #9C6B1F 57%, transparent 57%),
+        linear-gradient(-45deg, transparent 43%, #9C6B1F 43%, #9C6B1F 57%, transparent 57%) !important;
+    background-size: 18px 18px !important;
+    transform: rotate(8deg) !important;
+    pointer-events: none !important;
+}
+
+.menu-premium-kicker {
+    color: #9C6B1F !important;
+}
+
+.menu-premium-title {
+    color: #2B2116 !important;
+}
+
+.menu-premium-subtitle {
+    color: #756B5E !important;
+}
+
+/* Category chips: warmer and more refined */
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+.st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    border-color: #E3D6C1 !important;
+    background: #FFFEFC !important;
+    color: #6F665B !important;
+    box-shadow: none !important;
+}
+
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button[aria-pressed="true"],
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button[data-selected="true"] {
+    border-color: #C89438 !important;
+    background: linear-gradient(145deg,#EBC66F 0%,#D9A742 100%) !important;
+    color: #2A2116 !important;
+    box-shadow: 0 6px 14px rgba(163,109,25,.13) !important;
+}
+
+/* Picker: ivory with bronze detail */
+.st-key-menu_dish_picker {
+    border-color: #E4D5BC !important;
+    background: linear-gradient(180deg,#FFFEFC 0%,#FCF7ED 100%) !important;
+    box-shadow: 0 8px 18px rgba(69,49,17,.04) !important;
+}
+
+.st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+    border-color: #DCC9AA !important;
+    background: #FFFFFF !important;
+}
+
+/* Selected dish card: warm sand luxury */
+.menu-feature-card {
+    border-color: #DCC49A !important;
+    background:
+        radial-gradient(circle at 96% 5%, rgba(175,118,31,.10), transparent 28%),
+        linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: 0 12px 26px rgba(64,44,13,.055) !important;
+}
+
+.menu-feature-kicker {
+    color: #9C6B1F !important;
+}
+
+.menu-feature-icon {
+    border-color: #D7BA80 !important;
+    background: linear-gradient(145deg,#F7E7BE 0%,#EFD59A 100%) !important;
+}
+
+.menu-feature-name {
+    color: #2A2116 !important;
+}
+
+.menu-feature-time {
+    border-color: #DDBD79 !important;
+    background: #FFF8E8 !important;
+    color: #936119 !important;
+}
+
+.menu-feature-divider {
+    background: linear-gradient(to right,#CFAF78,rgba(207,175,120,0)) !important;
+}
+
+.menu-feature-badges span {
+    border-color: #DED0B9 !important;
+    background: rgba(255,255,255,.9) !important;
+    color: #5E5346 !important;
+}
+
+/* CTA: deeper amber rather than bright yellow */
+.st-key-menu_scan_selected_control button {
+    background: linear-gradient(135deg,#E9BD62 0%,#C98B26 100%) !important;
+    color: #241B11 !important;
+    box-shadow: 0 8px 18px rgba(156,103,20,.16) !important;
+}
+
+/* Slightly warmer labels throughout Menu */
+.menu-browse-label,
+.menu-picker-label {
+    color: #8F7B60 !important;
+}
+
+.menu-browse-note,
+.menu-picker-note,
+.menu-category-meta {
+    color: #A09079 !important;
+}
+
+@media (max-width: 480px) {
+    .menu-premium-hero {
+        box-shadow: 0 9px 20px rgba(66,46,15,.045) !important;
+    }
+
+    .menu-feature-card {
+        box-shadow: 0 9px 20px rgba(64,44,13,.045) !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
