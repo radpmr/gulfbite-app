@@ -10685,7 +10685,7 @@ def render_category_squircle_cards():
         icon, family = family_visuals.get(selected_dish, ("🍽️", "Gulf dish"))
 
         detail_html = (
-            '<div class="menu-feature-card">'
+            '<div class="menu-feature-card" style="box-sizing:border-box !important;max-width:100% !important;padding-right:14px !important;overflow:visible !important;">'
             '<div class="menu-feature-kicker">Selected dish</div>'
             '<div class="menu-feature-top">'
             f'<div class="menu-feature-icon">{icon}</div>'
@@ -10698,7 +10698,7 @@ def render_category_squircle_cards():
             '</div>'
             '</div>'
             '<div class="menu-feature-divider"></div>'
-            f'<div class="menu-feature-blurb">{blurb}</div>'
+            f'<div class="menu-feature-blurb" style="display:block !important;width:calc(100% - 18px) !important;max-width:calc(100% - 18px) !important;padding-right:0 !important;box-sizing:border-box !important;white-space:normal !important;overflow:visible !important;overflow-wrap:break-word !important;word-break:normal !important;">{blurb}</div>'
             '<div class="menu-feature-badges">'
             f'<span>{meta["spice"]}</span>'
             f'<span>{meta["prep"]}</span>'
@@ -11050,7 +11050,7 @@ elif st.session_state.stage in ["main", "upload"]:
                 """
                 <div class="scan-tip-line">
                     <span class="scan-tip-dot">i</span>
-                    <span>Keep the full plate visible, use good lighting, top-angled, and avoid heavy filters.</span>
+                    <span style="display:block !important;min-width:0 !important;width:100% !important;white-space:normal !important;overflow:visible !important;overflow-wrap:break-word !important;word-break:normal !important;line-height:1.28 !important;">Keep the full plate visible, use good lighting, top-angled, and avoid heavy filters.</span>
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -11059,19 +11059,19 @@ elif st.session_state.stage in ["main", "upload"]:
             if image_to_process is None:
                 st.markdown(
                     """
-                    <div class="scan-photo-help-grid">
-                        <div class="scan-help-card">
+                    <div class="scan-photo-help-grid" style="display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;width:100% !important;max-width:100% !important;box-sizing:border-box !important;overflow:visible !important;">
+                        <div class="scan-help-card" style="display:grid !important;grid-template-columns:30px minmax(0,1fr) !important;gap:7px !important;min-width:0 !important;max-width:100% !important;box-sizing:border-box !important;overflow:visible !important;">
                             <div class="scan-help-icon">◉</div>
                             <div>
                                 <div class="scan-help-title">One clear dish</div>
-                                <div class="scan-help-copy">Center the plate and avoid cropped edges or multiple meals.</div>
+                                <div class="scan-help-copy" style="display:block !important;width:100% !important;max-width:100% !important;white-space:normal !important;overflow:visible !important;overflow-wrap:break-word !important;word-break:normal !important;font-size:.49rem !important;line-height:1.22 !important;">Center the plate and avoid cropped edges or multiple meals.</div>
                             </div>
                         </div>
-                        <div class="scan-help-card">
+                        <div class="scan-help-card" style="display:grid !important;grid-template-columns:30px minmax(0,1fr) !important;gap:7px !important;min-width:0 !important;max-width:100% !important;box-sizing:border-box !important;overflow:visible !important;">
                             <div class="scan-help-icon">☀</div>
                             <div>
                                 <div class="scan-help-title">Good lighting</div>
-                                <div class="scan-help-copy">Natural light helps the AI see texture, colour and ingredients.</div>
+                                <div class="scan-help-copy" style="display:block !important;width:100% !important;max-width:100% !important;white-space:normal !important;overflow:visible !important;overflow-wrap:break-word !important;word-break:normal !important;font-size:.49rem !important;line-height:1.22 !important;">Natural light helps the AI see texture, colour and ingredients.</div>
                             </div>
                         </div>
                     </div>
