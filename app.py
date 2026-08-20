@@ -4647,6 +4647,110 @@ button[aria-label*="notification" i] {
     justify-content: flex-start !important;
 }
 
+
+/* ==========================================================================
+   HOME HIERARCHY REARRANGEMENT
+   Primary action -> value metrics -> guide -> favourites.
+   ========================================================================== */
+
+.st-key-home_upload_feature {
+    margin-top: 4px !important;
+    margin-bottom: 10px !important;
+    padding: 17px 17px 15px 17px !important;
+    border: 1px solid #EED7A9 !important;
+    border-radius: 20px !important;
+    background:
+        radial-gradient(circle at 95% 8%, rgba(242,177,42,.18), transparent 34%),
+        linear-gradient(145deg,#FFFDF8 0%,#FFF6E0 100%) !important;
+    box-shadow: 0 8px 22px rgba(74,49,9,.055) !important;
+}
+
+.home-upload-eyebrow {
+    margin-bottom: 5px !important;
+    color: #B47712 !important;
+    font-size: .57rem !important;
+    line-height: 1.1 !important;
+    font-weight: 850 !important;
+    letter-spacing: .075em !important;
+}
+
+.st-key-home_upload_feature .home-upload-title {
+    font-size: 1.30rem !important;
+    line-height: 1.08 !important;
+    margin-bottom: 5px !important;
+}
+
+.st-key-home_upload_feature .home-upload-subtitle {
+    max-width: 440px !important;
+    font-size: .75rem !important;
+    line-height: 1.42 !important;
+}
+
+.st-key-home_scan_control {
+    margin-top: 11px !important;
+}
+
+.st-key-home_scan_control button {
+    min-height: 46px !important;
+    height: 46px !important;
+    border-radius: 14px !important;
+    font-weight: 850 !important;
+    box-shadow: 0 6px 14px rgba(211,143,15,.14) !important;
+}
+
+/* Tight, useful value row directly under the CTA. */
+.home-metric-row {
+    margin: 0 0 10px 0 !important;
+    gap: 8px !important;
+}
+
+.home-metric-card {
+    min-height: 60px !important;
+    padding: 10px 12px !important;
+    border-radius: 15px !important;
+}
+
+/* Guide becomes a secondary explanatory card. */
+.st-key-home_quick_guide_card {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+    padding: 14px 16px 12px 16px !important;
+    border-radius: 18px !important;
+}
+
+.st-key-home_quick_guide_card .home-section-title {
+    margin-bottom: 8px !important;
+}
+
+/* Favourites remains compact and visually distinct. */
+.st-key-home_favourites_section {
+    margin-top: 0 !important;
+    margin-bottom: 88px !important;
+    padding: 14px 16px 16px 16px !important;
+    border-radius: 18px !important;
+}
+
+.st-key-home_favourites_section .home-favourites-grid-links {
+    margin-top: 9px !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-home_upload_feature {
+        padding: 15px 15px 14px 15px !important;
+        border-radius: 18px !important;
+    }
+
+    .st-key-home_upload_feature .home-upload-title {
+        font-size: 1.20rem !important;
+    }
+
+    .st-key-home_quick_guide_card,
+    .st-key-home_favourites_section {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -4741,7 +4845,7 @@ def onboarding_calories(dish_key: str, ingredient_cache, fallback: int) -> int:
 
 def render_header(compact: bool = True):
     title_size = "1.55rem" if compact else "1.85rem"
-    subtitle = "Gulf cuisine recognition • calories • macros"
+    subtitle = "Gulf Cuisine Recognition • Calories • Macros"
     st.markdown(
         f"""<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.58rem;">
 <div style="display:flex;align-items:center;gap:10px;min-width:0;">
@@ -5443,17 +5547,12 @@ elif st.session_state.stage in ["main", "upload"]:
     active_section = render_main_navigation()
 
     if active_section == "Home":
-        with st.container(key="home_quick_guide_card"):
-            st.markdown(
-                '<div class="home-section-title">Quick Guide</div>',
-                unsafe_allow_html=True,
-            )
-            render_quick_guide()
-
+        # Primary action first: tell the user what to do immediately.
         with st.container(key="home_upload_feature"):
             upload_copy_html = (
                 '<div class="home-upload-copy">'
                 '<div class="home-upload-text">'
+                '<div class="home-upload-eyebrow">AI-POWERED GULF FOOD RECOGNITION</div>'
                 '<div class="home-upload-title">Scan your meal</div>'
                 '<div class="home-upload-subtitle">Upload a clear Gulf dish photo for AI recognition and nutrition estimates.</div>'
                 '</div>'
@@ -5472,6 +5571,7 @@ elif st.session_state.stage in ["main", "upload"]:
                     request_scroll_top()
                     st.rerun()
 
+        # Compact proof/value row directly below the main action.
         metrics_html = (
             '<div class="home-metric-row">'
             '<div class="home-metric-card">'
@@ -5489,10 +5589,18 @@ elif st.session_state.stage in ["main", "upload"]:
             '</div>'
             '</div>'
             '</div>'
-            '<div class="home-bottom-space"></div>'
         )
         st.markdown(metrics_html, unsafe_allow_html=True)
 
+        # Guide comes after the main action so it supports rather than competes with it.
+        with st.container(key="home_quick_guide_card"):
+            st.markdown(
+                '<div class="home-section-title">Quick Guide</div>',
+                unsafe_allow_html=True,
+            )
+            render_quick_guide()
+
+        # Visual browsing remains last, above the fixed bottom navigation.
         with st.container(key="home_favourites_section"):
             favourites_html = (
                 '<div class="home-favourites-head">'
@@ -5517,7 +5625,6 @@ elif st.session_state.stage in ["main", "upload"]:
                 '</div>'
             )
             st.markdown(favourites_html, unsafe_allow_html=True)
-
 
     elif active_section == "Menu":
         st.markdown(
