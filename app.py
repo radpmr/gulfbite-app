@@ -1,3 +1,13 @@
+GulfBite - Smart Gulf Cuisine Nutrition Assistant
+-----------------------------------------------------------------------------
+Identifies authentic Gulf dishes using a multi-tiered pipeline:
+1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
+2. Out-of-distribution / Non-food rejection via margin and entropy checks.
+3. YOLOv8 feature detection with visual bounding overlays & calorie pointers.
+4. Portion-based authentic macro and calorie estimation with SVG Macro Rings.
+"""
+
+
 import base64
 import io
 import json
@@ -5996,6 +6006,46 @@ button[aria-label*="notification" i] {
         font-size: 0.82rem !important;
     }
 }
+
+/* ==========================================================================
+   QUICK GUIDE -> GULF FAVOURITES GAP REDUCTION
+   Reduce the vertical space between the Quick Guide card and
+   Gulf favourites on Home without affecting the bottom navigation.
+   ========================================================================== */
+
+.st-key-home_quick_guide_card {
+    margin-bottom: 4px !important;
+}
+
+.st-key-home_favourites_section {
+    margin-top: -10px !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_quick_guide_card),
+[data-testid="stElementContainer"]:has(.st-key-home_quick_guide_card) {
+    margin-bottom: 2px !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_favourites_section),
+[data-testid="stElementContainer"]:has(.st-key-home_favourites_section) {
+    margin-top: -8px !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-home_quick_guide_card {
+        margin-bottom: 2px !important;
+    }
+
+    .st-key-home_favourites_section {
+        margin-top: -12px !important;
+    }
+
+    [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_favourites_section),
+    [data-testid="stElementContainer"]:has(.st-key-home_favourites_section) {
+        margin-top: -10px !important;
+    }
+}
+
 </style>""", unsafe_allow_html=True)
 
 
