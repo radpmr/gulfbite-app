@@ -7618,6 +7618,94 @@ button,
     background: transparent !important;
 }
 
+
+/* Move selected dish card slightly closer to the picker card */
+.stApp:has(.menu-screen-marker) .menu-feature-card {
+    margin-top: -8px !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.menu-screen-marker) .menu-feature-card {
+        margin-top: -10px !important;
+    }
+}
+
+
+/* ==========================================================================
+   MENU DISH GROUP — KEEP CATEGORY COUNT INSIDE THE CARD
+   ========================================================================== */
+
+/* Style the actual Streamlit bordered wrapper as the single outer card. */
+.stApp:has(.menu-screen-marker)
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_dish_group) {
+    margin: 0 0 14px 0 !important;
+    padding: 14px 15px 13px !important;
+    border: 1px solid #E4D3B6 !important;
+    border-radius: 20px !important;
+    background: linear-gradient(180deg,#FFFEFC 0%,#FBF6ED 100%) !important;
+    box-shadow: 0 8px 18px rgba(66,46,15,.04) !important;
+    overflow: hidden !important;
+}
+
+/* Remove any duplicate border/background from the keyed inner container. */
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_group {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+/* Category + count now forms the top row INSIDE the same card. */
+.stApp:has(.menu-screen-marker) .menu-category-meta {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin: 0 0 10px 0 !important;
+    padding: 0 1px !important;
+    box-sizing: border-box !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-category-meta > span:last-child {
+    color: #9C8768 !important;
+    font-size: .60rem !important;
+    white-space: nowrap !important;
+}
+
+/* Keep only the select field as the inner bordered control. */
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_picker {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.stApp:has(.menu-screen-marker)
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_dish_picker),
+.stApp:has(.menu-screen-marker)
+[data-testid="stElementContainer"]:has(.st-key-menu_dish_picker) {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.menu-screen-marker)
+    [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_dish_group) {
+        padding: 12px 12px 11px !important;
+        border-radius: 18px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-category-meta {
+        margin-bottom: 8px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -8642,7 +8730,7 @@ def render_category_squircle_cards():
     ):
         st.session_state.dish_select_box = dishes[0]
 
-    with st.container(key="menu_dish_group"):
+    with st.container(key="menu_dish_group", border=True):
         st.markdown(
             f'<div class="menu-category-meta"><span><strong>{category_name}</strong></span><span>{len(dishes)} dishes in this category</span></div>',
             unsafe_allow_html=True,
