@@ -7573,6 +7573,51 @@ button,
     }
 }
 
+
+/* Remove Menu-only Scan your meal CTA */
+.stApp:has(.menu-screen-marker) .st-key-menu_scan_selected_control,
+.stApp:has(.menu-screen-marker) .menu-cta-note {
+    display: none !important;
+}
+
+
+/* --- Menu picker border cleanup: keep only the actual dropdown border --- */
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_picker,
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_picker > div,
+.stApp:has(.menu-screen-marker) [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_dish_picker),
+.stApp:has(.menu-screen-marker) [data-testid="stElementContainer"]:has(.st-key-menu_dish_picker) {
+    background: transparent !important;
+    border: 0 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-bottom: 10px !important;
+    border-radius: 0 !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-picker-label {
+    margin: 0 0 8px 2px !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_picker div[data-testid="stSelectbox"] {
+    margin: 0 !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+    min-height: 48px !important;
+    height: 48px !important;
+    border: 1px solid #D8C2A0 !important;
+    border-radius: 18px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 6px 14px rgba(88, 61, 18, 0.04) !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -8281,7 +8326,7 @@ def render_category_squircle_cards():
             justify-content: space-between !important;
             align-items: center !important;
             gap: 8px !important;
-            margin: 3px 2px 14px 2px !important;
+            margin: 0 0 12px 0 !important;
             color: #9A8B76 !important;
             font-size: .67rem !important;
             line-height: 1.2 !important;
@@ -8291,13 +8336,21 @@ def render_category_squircle_cards():
             color: #5B5145 !important;
             font-weight: 800 !important;
         }
-        .st-key-menu_dish_picker {
-            margin: 0 0 12px 0 !important;
-            padding: 14px 16px !important;
+        .st-key-menu_dish_group {
+            margin: 0 0 16px 0 !important;
+            padding: 16px 16px 14px !important;
             border: 1px solid #EADDC5 !important;
-            border-radius: 22px !important;
+            border-radius: 24px !important;
             background: linear-gradient(180deg,#FFFDFB 0%,#FFF9EF 100%) !important;
-            box-shadow: 0 8px 20px rgba(73, 51, 17, 0.045) !important;
+            box-shadow: 0 10px 22px rgba(73, 51, 17, 0.045) !important;
+        }
+        .st-key-menu_dish_picker {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
         }
         .menu-picker-head {
             display: flex !important;
@@ -8463,9 +8516,13 @@ def render_category_squircle_cards():
                 padding: 5px 5px !important;
                 font-size: .56rem !important;
             }
+            .st-key-menu_dish_group {
+                padding: 13px 13px 12px !important;
+                border-radius: 20px !important;
+            }
             .st-key-menu_dish_picker {
-                padding: 12px 13px !important;
-                border-radius: 18px !important;
+                padding: 0 !important;
+                border-radius: 0 !important;
             }
             .menu-picker-note {
                 font-size: .62rem !important;
@@ -8579,29 +8636,30 @@ def render_category_squircle_cards():
     selected_category = st.session_state.cat_select_box
     dishes = DISH_CATEGORIES_DATA[selected_category]
     category_name = reverse_category_map.get(selected_category, "All Dishes")
-    st.markdown(
-        f'<div class="menu-category-meta"><span><strong>{category_name}</strong></span><span>{len(dishes)} dishes in this category</span></div>',
-        unsafe_allow_html=True,
-    )
-
     if (
         "dish_select_box" not in st.session_state
         or st.session_state.dish_select_box not in dishes
     ):
         st.session_state.dish_select_box = dishes[0]
 
-    with st.container(key="menu_dish_picker"):
+    with st.container(key="menu_dish_group"):
         st.markdown(
-            '<div class="menu-picker-label">Choose a dish</div>',
+            f'<div class="menu-category-meta"><span><strong>{category_name}</strong></span><span>{len(dishes)} dishes in this category</span></div>',
             unsafe_allow_html=True,
         )
-        selected_dish = st.selectbox(
-            "Choose a dish",
-            options=dishes,
-            format_func=display_name,
-            key="dish_select_box",
-            label_visibility="collapsed",
-        )
+
+        with st.container(key="menu_dish_picker"):
+            st.markdown(
+                '<div class="menu-picker-label">Choose a dish</div>',
+                unsafe_allow_html=True,
+            )
+            selected_dish = st.selectbox(
+                "Choose a dish",
+                options=dishes,
+                format_func=display_name,
+                key="dish_select_box",
+                label_visibility="collapsed",
+            )
 
     family_visuals = {
         "01_machboos": ("🍚", "Rice dish"),
@@ -8664,22 +8722,6 @@ def render_category_squircle_cards():
         '</div>'
     )
     st.markdown(detail_html, unsafe_allow_html=True)
-    st.markdown(
-        '<div class="menu-cta-note">Ready to try it? Upload a meal photo and let GulfBite identify it.</div>',
-        unsafe_allow_html=True,
-    )
-
-    with st.container(key="menu_scan_selected_control"):
-        if st.button(
-            "Scan your meal",
-            type="primary",
-            use_container_width=True,
-            key="menu_scan_selected",
-        ):
-            st.session_state.main_section = "Scan"
-            st.session_state.stage = "main"
-            request_scroll_top()
-            st.rerun()
 
 
 
