@@ -12649,6 +12649,83 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           FINAL VERTICAL TIGHTENING — MENU + SCAN ONLY
+           ================================================================ */
+
+        /* ---------------- MENU ---------------- */
+
+        /* Reduce the large gap after the category chips. */
+        .stApp:has(.menu-screen-marker) .st-key-menu_category_control {
+            margin-bottom: 8px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .st-key-menu_dish_picker {
+            margin-top: 0 !important;
+            margin-bottom: 9px !important;
+        }
+
+        /* Keep Choose a dish closer to the category area. */
+        .stApp:has(.menu-screen-marker) .menu-picker-label {
+            margin-top: 0 !important;
+            margin-bottom: 6px !important;
+        }
+
+        /* Pull Selected Dish closer to the picker. */
+        .stApp:has(.menu-screen-marker) .menu-feature-card {
+            margin-top: 6px !important;
+        }
+
+        /* ---------------- SCAN ---------------- */
+
+        /* Bring guidance closer to uploader. */
+        .stApp:has(.scan-screen-marker) .scan-tip-line {
+            margin-top: 6px !important;
+        }
+
+        /* Bring the two tip cards closer to guidance. */
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+            margin-top: 8px !important;
+        }
+
+        /* Pull What happens next? closer to the helper cards. */
+        .stApp:has(.scan-screen-marker) .scan-next-card {
+            margin-top: 6px !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.menu-screen-marker) .st-key-menu_category_control {
+                margin-bottom: 7px !important;
+            }
+
+            .stApp:has(.menu-screen-marker) .st-key-menu_dish_picker {
+                margin-bottom: 8px !important;
+            }
+
+            .stApp:has(.menu-screen-marker) .menu-feature-card {
+                margin-top: 5px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-tip-line {
+                margin-top: 5px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+                margin-top: 7px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-next-card {
+                margin-top: 5px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
