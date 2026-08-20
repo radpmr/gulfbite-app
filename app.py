@@ -12453,6 +12453,202 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           MENU + SCAN — HOME-STYLE CLEANUP
+           Match Home's simpler spacing, softer card hierarchy and reduced
+           divider clutter.
+           ================================================================ */
+
+        /* ---------------- MENU ---------------- */
+
+        .stApp:has(.menu-screen-marker) .st-key-menu_library_card {
+            padding: 15px 16px 15px !important;
+            border-radius: 22px !important;
+            background:
+                radial-gradient(circle at 96% 4%, rgba(175,118,31,.055), transparent 23%),
+                linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+            box-shadow: 0 10px 22px rgba(66,46,15,.04) !important;
+        }
+
+        /* Remove excess horizontal lines; Home relies more on spacing. */
+        .stApp:has(.menu-screen-marker) .menu-browse-divider,
+        .stApp:has(.menu-screen-marker) .menu-browse-divider-inner,
+        .stApp:has(.menu-screen-marker) .menu-feature-divider,
+        .stApp:has(.menu-screen-marker) .menu-feature-card::before {
+            display: none !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-browse-card-head {
+            margin-bottom: 15px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-browse-row {
+            margin-top: 0 !important;
+            margin-bottom: 12px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .st-key-menu_category_control {
+            margin-bottom: 17px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .st-key-menu_dish_picker {
+            margin-top: 0 !important;
+            margin-bottom: 16px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-picker-label {
+            margin-bottom: 7px !important;
+        }
+
+        /* Selected dish becomes a soft inner section rather than a divided block. */
+        .stApp:has(.menu-screen-marker) .menu-feature-card {
+            margin: 0 !important;
+            padding: 12px 13px 13px !important;
+            border: 1px solid #E5D5BC !important;
+            border-radius: 17px !important;
+            background: rgba(255,255,255,.55) !important;
+            box-shadow: none !important;
+            overflow: hidden !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-top {
+            grid-template-columns: 44px minmax(0,1fr) !important;
+            gap: 9px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-icon {
+            width: 44px !important;
+            height: 44px !important;
+            border-radius: 13px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-kicker {
+            margin-bottom: 8px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-blurb {
+            margin-top: 10px !important;
+            padding-right: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            line-height: 1.34 !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-badges {
+            margin-top: 9px !important;
+            margin-bottom: 3px !important;
+        }
+
+        /* ---------------- SCAN ---------------- */
+
+        .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+            padding: 15px 16px 14px !important;
+            border-radius: 22px !important;
+            background:
+                radial-gradient(circle at 96% 4%, rgba(175,118,31,.055), transparent 23%),
+                linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+            box-shadow: 0 10px 22px rgba(66,46,15,.04) !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-hero-card {
+            margin-bottom: 12px !important;
+            padding-bottom: 0 !important;
+        }
+
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+            min-height: 100px !important;
+            border-radius: 17px !important;
+            background: rgba(255,255,255,.54) !important;
+            box-shadow: none !important;
+        }
+
+        /* Guidance line becomes a clean text row, no separator. */
+        .stApp:has(.scan-screen-marker) .scan-tip-line {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 10px 0 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+        }
+
+        /* Helper row uses two soft mini-panels like Home's benefit tiles. */
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 12px 0 0 !important;
+            padding: 0 !important;
+            gap: 8px !important;
+            border: 0 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid::before,
+        .stApp:has(.scan-screen-marker) .scan-help-card:first-child::after {
+            display: none !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-card {
+            min-height: 58px !important;
+            padding: 9px 10px !important;
+            border: 1px solid #E5D5BC !important;
+            border-radius: 15px !important;
+            background: rgba(255,255,255,.55) !important;
+            box-shadow: none !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-card:first-child {
+            border-right: 1px solid #E5D5BC !important;
+        }
+
+        /* Final explanation becomes one soft footer panel, no divider line. */
+        .stApp:has(.scan-screen-marker) .scan-next-card {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 9px 0 0 !important;
+            padding: 9px 10px !important;
+            border: 1px solid #E5D5BC !important;
+            border-radius: 15px !important;
+            background: rgba(255,255,255,.45) !important;
+            box-shadow: none !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-card::before {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.menu-screen-marker) .st-key-menu_library_card,
+            .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+                padding: 13px 12px 12px !important;
+                border-radius: 19px !important;
+            }
+
+            .stApp:has(.menu-screen-marker) .st-key-menu_category_control {
+                margin-bottom: 14px !important;
+            }
+
+            .stApp:has(.menu-screen-marker) .st-key-menu_dish_picker {
+                margin-bottom: 13px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+                gap: 6px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-help-card,
+            .stApp:has(.scan-screen-marker) .scan-next-card {
+                border-radius: 14px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
