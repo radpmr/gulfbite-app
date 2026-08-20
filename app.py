@@ -394,7 +394,7 @@ def estimate_nutrition(dish_class, portion_size, ingredient_cache):
 def inject_theme():
     st.markdown(
         """<style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 :root {
     --app-bg: #F7F4ED;
@@ -412,7 +412,7 @@ def inject_theme():
 }
 
 html, body, [class*="css"] {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     color: var(--ink);
 }
 
@@ -454,7 +454,7 @@ div.stButton > button {
     border-radius: 16px;
     background: #1D1A16;
     color: #FFFFFF;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: .94rem;
     font-weight: 800;
     letter-spacing: .005em;
@@ -525,7 +525,7 @@ div.stButton > button[kind="primary"]:hover {
     border: 1px solid #E9E0D1 !important;
     background: #FFFDF9 !important;
     color: #7D7468 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-weight: 800 !important;
     box-shadow: none !important;
 }
@@ -572,7 +572,7 @@ div[data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
 div[data-testid="stRadio"] label[data-baseweb="radio"] span,
 div[data-testid="stRadio"] label[data-baseweb="radio"] p {
     color: #7D7468 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .82rem !important;
     font-weight: 800 !important;
     white-space: nowrap !important;
@@ -668,7 +668,7 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
     align-items: center !important;
     justify-content: center !important;
     gap: 0 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: 0 !important;
     font-weight: 800 !important;
     line-height: 1 !important;
@@ -753,7 +753,7 @@ div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
 [data-testid="stFileUploaderDropzoneInstructions"] span {
     color: var(--ink) !important;
     opacity: 1 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-weight: 800 !important;
 }
 [data-testid="stFileUploaderDropzoneInstructions"] small {
@@ -775,7 +775,7 @@ div[data-testid="stTabs"] [data-baseweb="tab-list"] {
     border-bottom: 1px solid var(--line) !important;
 }
 div[data-testid="stTabs"] [data-baseweb="tab"] {
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-weight: 800 !important;
     color: #8A8275 !important;
     padding-left: 8px !important;
@@ -819,7 +819,7 @@ div[data-testid="stTabs"] [aria-selected="true"] {
     border-radius: 999px;
     font-size: .70rem;
     font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     background: #ECFDF5;
     color: #08785D;
     border: 1px solid #B8EAD9;
@@ -875,7 +875,7 @@ div[data-testid="stTabs"] [aria-selected="true"] {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     color: var(--ink);
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: .64rem;
     font-weight: 800;
     white-space: nowrap;
@@ -1668,7 +1668,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     padding: 0 18px !important;
     background: linear-gradient(135deg, var(--gb-gold-a) 0%, var(--gb-gold-b) 62%, var(--gb-gold-c) 100%) !important;
     color: #171007 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .93rem !important;
     font-weight: 850 !important;
     letter-spacing: -.01em !important;
@@ -1747,7 +1747,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     border-radius: 13px !important;
     background: #FFFFFF !important;
     color: #B9780B !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .84rem !important;
     font-weight: 850 !important;
     box-shadow: 0 4px 12px rgba(191,132,29,.10) !important;
@@ -1769,7 +1769,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     border-radius: 14px !important;
     background: #FFFDF9 !important;
     color: #A76C08 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .87rem !important;
     font-weight: 850 !important;
     box-shadow: none !important;
@@ -1795,7 +1795,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     border-radius: 15px !important;
     background: #FFFDF9 !important;
     color: #665F56 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .78rem !important;
     font-weight: 800 !important;
     line-height: 1.18 !important;
@@ -1857,7 +1857,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     border-radius: 11px !important;
     background: transparent !important;
     color: #736B61 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .78rem !important;
     font-weight: 820 !important;
 }
@@ -1913,7 +1913,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     border-radius: 999px !important;
     background: linear-gradient(105deg,#FFD27D 0%,#F1B63E 48%,#DE991B 100%) !important;
     color: #17130D !important;
-    font-family: 'Outfit',sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .96rem !important;
     font-weight: 850 !important;
     letter-spacing: -.01em !important;
@@ -1970,7 +1970,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     border-radius:999px !important;
     background:#FFFFFF !important;
     color:#A46704 !important;
-    font-family:'Outfit',sans-serif !important;
+    font-family:'Inter', sans-serif !important;
     font-size:.84rem !important;
     font-weight:850 !important;
     box-shadow:0 4px 12px rgba(184,124,18,.10) !important;
@@ -1993,7 +1993,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     border-radius:17px !important;
     background:#FFFFFF !important;
     color:#696158 !important;
-    font-family:'Outfit',sans-serif !important;
+    font-family:'Inter', sans-serif !important;
     font-size:.78rem !important;
     font-weight:820 !important;
     white-space:normal !important;
@@ -2038,7 +2038,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     justify-content:center !important;
     background:transparent !important;
     color:#776E63 !important;
-    font-family:'Outfit',sans-serif !important;
+    font-family:'Inter', sans-serif !important;
     font-size:.80rem !important;
     font-weight:820 !important;
 }
@@ -2060,7 +2060,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     border-radius:999px !important;
     background:#FFFDF9 !important;
     color:#A46704 !important;
-    font-family:'Outfit',sans-serif !important;
+    font-family:'Inter', sans-serif !important;
     font-size:.87rem !important;
     font-weight:850 !important;
     box-shadow:none !important;
@@ -2310,7 +2310,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
 
 .home-section-title {
     margin: 5px 0 8px 0;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.02rem;
     font-weight: 900;
     color: #1E1B16;
@@ -2363,7 +2363,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
 }
 
 .home-guide-title {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: .78rem;
     line-height: 1.15;
     font-weight: 900;
@@ -2411,7 +2411,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
 }
 
 .home-upload-title {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.13rem;
     line-height: 1.15;
     font-weight: 900;
@@ -2486,7 +2486,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: .80rem;
     font-weight: 900;
     line-height: 1.15;
@@ -2651,7 +2651,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
 }
 
 .home-favourites-title {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: .94rem;
     line-height: 1.15;
     font-weight: 900;
@@ -2725,7 +2725,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: .68rem;
     line-height: 1;
     font-weight: 850;
@@ -2758,7 +2758,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     border-radius: 12px !important;
     background: #FFFFFF !important;
     color: #A56D08 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .77rem !important;
     font-weight: 820 !important;
     box-shadow: none !important;
@@ -2870,7 +2870,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     align-items: flex-end !important;
     justify-content: flex-start !important;
     text-align: left !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .68rem !important;
     line-height: 1 !important;
     font-weight: 900 !important;
@@ -3357,7 +3357,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .64rem !important;
     line-height: 1 !important;
     font-weight: 900 !important;
@@ -3612,7 +3612,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     background: #FFFDF9 !important;
     color: #6F675D !important;
     text-decoration: none !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .72rem !important;
     font-weight: 800 !important;
     white-space: nowrap !important;
@@ -3682,7 +3682,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .79rem !important;
     line-height: 1.15 !important;
     font-weight: 900 !important;
@@ -3739,7 +3739,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: 1.00rem !important;
     line-height: 1.1 !important;
     font-weight: 900 !important;
@@ -3806,7 +3806,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     border-radius: 12px !important;
     background: #FFFDF9 !important;
     color: #9B6508 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .78rem !important;
     font-weight: 820 !important;
     box-shadow: none !important;
@@ -3924,7 +3924,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     height: 34px !important;
     padding: 0 9px !important;
     border-radius: 999px !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .68rem !important;
     font-weight: 800 !important;
     white-space: nowrap !important;
@@ -3991,7 +3991,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .76rem !important;
     line-height: 1.15 !important;
     font-weight: 900 !important;
@@ -4011,7 +4011,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     min-height: 32px !important;
     height: 32px !important;
     border-radius: 10px !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .66rem !important;
     font-weight: 800 !important;
 }
@@ -4112,7 +4112,7 @@ div[data-baseweb="popover"] [role="listbox"] * {
     border-radius: 999px !important;
     background: #FFFDF9 !important;
     color: #6C645A !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .70rem !important;
     font-weight: 800 !important;
     box-shadow: none !important;
@@ -4198,7 +4198,7 @@ div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: 1rem !important;
     line-height: 1.1 !important;
     font-weight: 900 !important;
@@ -4263,7 +4263,7 @@ div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
     border-radius: 12px !important;
     background: #FFFDF9 !important;
     color: #9B6508 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .78rem !important;
     font-weight: 820 !important;
     box-shadow: none !important;
@@ -4530,7 +4530,7 @@ div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
     border-radius: 999px !important;
     background: #FFFDF9 !important;
     color: #6C645A !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .62rem !important;
     line-height: 1.05 !important;
     font-weight: 800 !important;
@@ -4969,7 +4969,7 @@ button[aria-label*="notification" i] {
     border-radius: 13px !important;
     background: #FFFDF9 !important;
     color: #716758 !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .59rem !important;
     line-height: 1.05 !important;
     font-weight: 800 !important;
@@ -5066,7 +5066,7 @@ button[aria-label*="notification" i] {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: 1rem !important;
     line-height: 1.06 !important;
     font-weight: 900 !important;
@@ -5137,7 +5137,7 @@ button[aria-label*="notification" i] {
     border-radius: 13px !important;
     background: linear-gradient(135deg,#F7C760 0%,#E7A31D 100%) !important;
     color: #17130D !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: .77rem !important;
     font-weight: 850 !important;
     box-shadow: 0 6px 14px rgba(216,148,19,.14) !important;
@@ -5224,7 +5224,7 @@ button[aria-label*="notification" i] {
 }
 
 .scan-hero-title {
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     color: #1F1A14 !important;
     font-size: 1.16rem !important;
     line-height: 1.08 !important;
@@ -7902,16 +7902,7 @@ button,
    ========================================================================== */
 
 :root {
-    --gb-calai-font:
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Display",
-        "SF Pro Text",
-        "Segoe UI",
-        Roboto,
-        "Helvetica Neue",
-        Arial,
-        sans-serif;
+    --gb-calai-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
 }
 
 html,
@@ -7943,7 +7934,7 @@ button, input, textarea, select, option,
     font-family: var(--gb-calai-font) !important;
 }
 
-/* Explicit overrides for older Outfit declarations. */
+/* Explicit overrides for older Inter declarations. */
 .home-upload-eyebrow,
 .home-upload-title,
 .home-upload-subtitle,
@@ -8006,6 +7997,69 @@ button,
 .scan-next-title,
 .menu-feature-kicker {
     font-weight: 600 !important;
+}
+
+
+/* ==========================================================================
+   CAL AI-LIKE FONT — FORCED FULL-APP OVERRIDE
+   Inter is used as a cross-platform SF-Pro-like UI font so the change is
+   visible on Windows, Android, iOS, macOS and desktop browsers.
+   ========================================================================== */
+html,
+body,
+.stApp,
+.stApp *,
+.stApp *::before,
+.stApp *::after,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"],
+[data-testid="stHeader"],
+[data-testid="stToolbar"],
+[data-testid="stMarkdownContainer"],
+[data-testid="stMarkdownContainer"] *,
+[data-testid="stButton"] *,
+[data-testid="stFileUploader"] *,
+[data-testid="stSelectbox"] *,
+[data-testid="stTextInput"] *,
+[data-testid="stNumberInput"] *,
+[data-testid="stRadio"] *,
+[data-testid="stSegmentedControl"] *,
+[data-baseweb="select"] *,
+[data-baseweb="input"] *,
+button,
+input,
+select,
+textarea,
+option,
+h1, h2, h3, h4, h5, h6,
+p, span, div, label, small, strong, em, a {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
+}
+
+/* Keep the premium app-like hierarchy while making the change visible. */
+h1, h2,
+.home-upload-title,
+.home-section-title,
+.home-favourites-title,
+.menu-premium-title,
+.menu-feature-name,
+.scan-hero-title,
+.workflow-title {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.025em !important;
+}
+
+button,
+.home-guide-title,
+.home-metric-value,
+.menu-picker-label,
+.menu-browse-label,
+.scan-help-title,
+.scan-next-title {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700 !important;
 }
 
 </style>""",
@@ -8140,7 +8194,7 @@ button,
     bottom: 10px !important;
     z-index: 2 !important;
     color: #FFFFFF !important;
-    font-family: 'Outfit', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-size: 0.98rem !important;
     font-weight: 800 !important;
     line-height: 1.05 !important;
@@ -8313,7 +8367,7 @@ def render_header(compact: bool = True):
         </svg>
     </div>
     <div style="min-width:0;">
-        <div style="font-family:'Outfit',sans-serif;font-size:{title_size};font-weight:900;line-height:1;letter-spacing:-.025em;color:#1E1B16;white-space:nowrap;"><span style="color:#D99926;">GulfBite</span><span style="display:inline-block;margin-left:7px;">AI</span></div>
+        <div style="font-family:'Inter', sans-serif;font-size:{title_size};font-weight:900;line-height:1;letter-spacing:-.025em;color:#1E1B16;white-space:nowrap;"><span style="color:#D99926;">GulfBite</span><span style="display:inline-block;margin-left:7px;">AI</span></div>
         <div style="font-size:.72rem;color:#91897D;font-weight:600;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;">{subtitle}</div>
     </div>
 </div>
@@ -8401,7 +8455,7 @@ def render_segmented_stepper(current_stage: str, triggered: bool):
             f'<div style="flex:1;height:5px;border-radius:999px;background:{bg};{shadow}"></div>'
         )
         labels.append(
-            f"<span style=\"font-family:'Outfit',sans-serif;font-size:.70rem;font-weight:{weight};color:{color};\">{label_text}</span>"
+            f"<span style=\"font-family:'Inter', sans-serif;font-size:.70rem;font-weight:{weight};color:{color};\">{label_text}</span>"
         )
 
     st.markdown(
@@ -8636,7 +8690,7 @@ def render_category_squircle_cards():
         }
         .menu-premium-title {
             color: #17130D !important;
-            font-family: 'Outfit', sans-serif !important;
+            font-family: 'Inter', sans-serif !important;
             font-size: 1.34rem !important;
             line-height: 1.05 !important;
             font-weight: 900 !important;
@@ -8696,7 +8750,7 @@ def render_category_squircle_cards():
             border-radius: 15px !important;
             background: #FFFDF9 !important;
             color: #766B5D !important;
-            font-family: 'Outfit', sans-serif !important;
+            font-family: 'Inter', sans-serif !important;
             font-size: .61rem !important;
             line-height: 1.1 !important;
             font-weight: 800 !important;
@@ -8811,7 +8865,7 @@ def render_category_squircle_cards():
             overflow: hidden !important;
             text-overflow: ellipsis !important;
             white-space: nowrap !important;
-            font-family: 'Outfit', sans-serif !important;
+            font-family: 'Inter', sans-serif !important;
             font-size: 1.04rem !important;
             line-height: 1.06 !important;
             font-weight: 900 !important;
@@ -8880,7 +8934,7 @@ def render_category_squircle_cards():
             border-radius: 15px !important;
             background: linear-gradient(135deg,#F7C760 0%,#E6A11A 100%) !important;
             color: #17130D !important;
-            font-family: 'Outfit', sans-serif !important;
+            font-family: 'Inter', sans-serif !important;
             font-size: .80rem !important;
             font-weight: 850 !important;
             box-shadow: 0 8px 18px rgba(216,148,19,.14) !important;
@@ -9168,7 +9222,7 @@ def render_macro_donut_and_cards(protein_g: float, carbs_g: float, fat_g: float,
         f"""<div style="background: linear-gradient(135deg, #FDF9EE 0%, #FAF3DE 100%); border: 1.5px solid #F3E0B5; border-radius: 26px; padding: 1.2rem 1.3rem; margin: 1rem 0; display: flex; align-items: center; justify-content: space-between;">
             <div>
                 <div style="font-size: 0.74rem; font-weight: 800; color: #D19428; text-transform: uppercase; letter-spacing: 0.05em;">Estimated Energy</div>
-                <div style="font-family: 'Outfit', sans-serif; font-size: 2.1rem; font-weight: 900; color: #1E1B16; line-height: 1.1; margin: 2px 0 6px 0;">
+                <div style="font-family: 'Inter', sans-serif; font-size: 2.1rem; font-weight: 900; color: #1E1B16; line-height: 1.1; margin: 2px 0 6px 0;">
                     {lo}&ndash;{hi} <span style="font-size: 0.95rem; font-weight: 600; color: #8F887C;">kcal</span>
                 </div>
                 <div style="display: flex; gap: 8px; font-size: 0.72rem; font-weight: 800;">
@@ -9180,7 +9234,7 @@ def render_macro_donut_and_cards(protein_g: float, carbs_g: float, fat_g: float,
             <div style="position: relative; width: 116px; height: 116px; display: flex; align-items: center; justify-content: center;">
                 {svg_donut}
                 <div style="position: absolute; text-align: center; transform: rotate(0deg);">
-                    <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.1rem; color: #1E1B16; line-height: 1;">{avg_cal}</div>
+                    <div style="font-family: 'Inter', sans-serif; font-weight: 900; font-size: 1.1rem; color: #1E1B16; line-height: 1;">{avg_cal}</div>
                     <div style="font-size: 0.62rem; font-weight: 700; color: #8F887C;">avg kcal</div>
                 </div>
             </div>
@@ -9192,15 +9246,15 @@ def render_macro_donut_and_cards(protein_g: float, carbs_g: float, fat_g: float,
         f"""<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0.6rem 0 1.2rem 0;">
     <div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
         <div style="font-size: 0.74rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🤍 Protein</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{protein_g}g</div>
+        <div style="font-family: 'Inter', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{protein_g}g</div>
     </div>
     <div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
         <div style="font-size: 0.74rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🌾 Carbs</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{carbs_g}g</div>
+        <div style="font-family: 'Inter', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{carbs_g}g</div>
     </div>
     <div style="background: #FAF8F3; border: 1.5px solid #EBE2CF; border-radius: 18px; padding: 12px 6px; text-align: center;">
         <div style="font-size: 0.74rem; font-weight: 700; color: #8F887C; margin-bottom: 2px;">🧈 Fat</div>
-        <div style="font-family: 'Outfit', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{fat_g}g</div>
+        <div style="font-family: 'Inter', sans-serif; color: #1E1B16; font-size: 1.25rem; font-weight: 900;">{fat_g}g</div>
     </div>
 </div>""",
         unsafe_allow_html=True,
@@ -9212,7 +9266,7 @@ def render_confidence_bar(confidence):
     st.markdown(
         f"""<div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.6rem;">
             <span style="font-size: 0.82rem; color: #8F887C; font-weight: 600;">Recognition confidence</span>
-            <span style="font-family: 'Outfit', sans-serif; font-size: 0.92rem; font-weight: 800; color: #E5A93B;">{pct:.0f}%</span>
+            <span style="font-family: 'Inter', sans-serif; font-size: 0.92rem; font-weight: 800; color: #E5A93B;">{pct:.0f}%</span>
         </div>
         <div style="height: 7px; border-radius: 999px; background: #EFEAE0; overflow: hidden; margin: 0.35rem 0 0.8rem 0;">
             <div style="width: {pct:.1f}%; height: 100%; background: linear-gradient(90deg, #F3C36A, #E5A93B); border-radius: 999px;"></div>
@@ -9324,7 +9378,7 @@ if st.session_state.stage == "onboarding":
 </div>
 <div style="padding:.1rem .2rem .7rem .2rem;">
     <div style="display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:#FFF7E7;border:1px solid #F0D9A8;color:#B9780E;font-size:.70rem;font-weight:800;margin-bottom:9px;">25 Gulf dishes • AI-assisted recognition</div>
-    <h1 style="font-family:'Outfit',sans-serif;font-size:2.15rem;font-weight:900;line-height:1.06;color:#1E1B16;margin:0;letter-spacing:-.035em;">Know your Gulf plate<br><span style="color:#D99A28;">Track it smarter</span></h1>
+    <h1 style="font-family:'Inter', sans-serif;font-size:2.15rem;font-weight:900;line-height:1.06;color:#1E1B16;margin:0;letter-spacing:-.035em;">Know your Gulf plate<br><span style="color:#D99A28;">Track it smarter</span></h1>
     <p style="color:#7C756A;font-size:.88rem;font-weight:500;margin:10px 0 7px 0;line-height:1.5;">Upload a photo of a traditional Gulf dish, verify the AI match when needed, choose your portion, and view estimated calories and macros.</p>
 </div>""",
         unsafe_allow_html=True,
@@ -9521,7 +9575,7 @@ elif st.session_state.stage in ["main", "upload"]:
                     if is_non_food:
                         st.markdown(
                             """<div style="background:#FFF5F3;border:1px solid #F3D0CB;border-radius:16px;padding:15px;margin-top:10px;">
-<div style="font-family:'Outfit',sans-serif;font-weight:900;color:#B33C34;">No supported Gulf dish detected</div>
+<div style="font-family:'Inter', sans-serif;font-weight:900;color:#B33C34;">No supported Gulf dish detected</div>
 <div style="color:#7D756B;font-size:.80rem;line-height:1.45;margin-top:4px;">Try a clearer top-down image with one traditional Gulf dish filling most of the frame.</div>
 </div>""",
                             unsafe_allow_html=True,
@@ -9593,7 +9647,7 @@ elif st.session_state.stage == "confirm_dish":
 
         st.markdown(
             f"""<div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.6rem;">
-                <div style="font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 900; color: #1E1B16;">
+                <div style="font-family: 'Inter', sans-serif; font-size: 1.45rem; font-weight: 900; color: #1E1B16;">
                     Initial Match: <span style="color: #E5A93B;">{display_name(cnn_class)}</span>
                 </div>
             </div>""",
@@ -9629,7 +9683,7 @@ elif st.session_state.stage == "confirm_dish":
         )
 
         st.markdown(
-            '<p style="font-family: \'Outfit\', sans-serif; font-size: 0.88rem; font-weight: 800; color: #1E1B16; margin: 12px 0 6px 0;">Select your dish:</p>',
+            '<p style="font-family: \'Inter\', sans-serif; font-size: 0.88rem; font-weight: 800; color: #1E1B16; margin: 12px 0 6px 0;">Select your dish:</p>',
             unsafe_allow_html=True,
         )
 
@@ -9668,7 +9722,7 @@ elif st.session_state.stage == "select_portion":
         render_workflow_image(st.session_state.image, "Scanned plate", "portion")
 
         st.markdown(
-            f"""<div style="font-family: 'Outfit', sans-serif; font-size: 1.65rem; font-weight: 900; color: #1E1B16; margin: 0.6rem 0 0.2rem 0;">
+            f"""<div style="font-family: 'Inter', sans-serif; font-size: 1.65rem; font-weight: 900; color: #1E1B16; margin: 0.6rem 0 0.2rem 0;">
                 {display_name(st.session_state.final_dish)}
             </div>
             <p style="color: #8F887C; font-size: 0.86rem; font-weight: 500; margin-bottom: 1.2rem;">
@@ -9737,7 +9791,7 @@ elif st.session_state.stage == "result":
         st.markdown(
             f"""<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem;">
                 <div>
-                    <div style="font-family: 'Outfit', sans-serif; font-size: 1.65rem; font-weight: 900; color: #1E1B16;">{display_name(dish)}</div>
+                    <div style="font-family: 'Inter', sans-serif; font-size: 1.65rem; font-weight: 900; color: #1E1B16;">{display_name(dish)}</div>
                     <div style="color: #8F887C; font-size: 0.84rem; font-weight: 600;">Portion size: <strong style="color:#C28416;">{PORTION_LABELS[st.session_state.portion_size]}</strong></div>
                 </div>
             </div>""",
@@ -9794,7 +9848,7 @@ elif st.session_state.stage == "result":
                 f"""<div style="display: flex; flex-direction: column; gap: 10px; padding: 6px 0;">
 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EBE2CF; padding-bottom: 8px;">
 <span style="color: #8F887C; font-size: 0.84rem;">CNN Classifier</span>
-<span style="color: #1E1B16; font-weight: 700; font-size: 0.88rem;">{display_name(st.session_state.cnn_class)} <span style="color: #E5A93B; font-family: 'JetBrains Mono', monospace;">({st.session_state.cnn_confidence:.0%})</span></span>
+<span style="color: #1E1B16; font-weight: 700; font-size: 0.88rem;">{display_name(st.session_state.cnn_class)} <span style="color: #E5A93B; font-family: 'Inter', sans-serif;">({st.session_state.cnn_confidence:.0%})</span></span>
 </div>
 {yolo_row}
 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EBE2CF; padding-bottom: 8px;">
