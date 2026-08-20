@@ -10022,7 +10022,7 @@ def render_category_squircle_cards():
         if current_dish not in valid_dishes:
             st.session_state.dish_select_box = valid_dishes[0]
 
-    with st.container(key="menu_browse_card"):
+    with st.container(key="menu_browse_unified"):
         st.markdown(
             """
             <div class="menu-browse-card-head">
@@ -10061,16 +10061,18 @@ def render_category_squircle_cards():
                     label_visibility="collapsed",
                     on_change=_apply_menu_category,
                 )
-    selected_category = st.session_state.cat_select_box
-    dishes = DISH_CATEGORIES_DATA[selected_category]
-    category_name = reverse_category_map.get(selected_category, "All Dishes")
-    if (
-        "dish_select_box" not in st.session_state
-        or st.session_state.dish_select_box not in dishes
-    ):
-        st.session_state.dish_select_box = dishes[0]
 
-    with st.container(key="menu_browse_card_tail"):
+        selected_category = st.session_state.cat_select_box
+        dishes = DISH_CATEGORIES_DATA[selected_category]
+        category_name = reverse_category_map.get(selected_category, "All Dishes")
+
+        if (
+            "dish_select_box" not in st.session_state
+            or st.session_state.dish_select_box not in dishes
+        ):
+            st.session_state.dish_select_box = dishes[0]
+
+        st.markdown('<div class="menu-browse-divider menu-browse-divider-inner"></div>', unsafe_allow_html=True)
         st.markdown(
             f'<div class="menu-category-meta"><span><strong>{category_name}</strong></span><span>{len(dishes)} dishes in this category</span></div>',
             unsafe_allow_html=True,
@@ -10410,11 +10412,11 @@ elif st.session_state.stage in ["main", "upload"]:
                     request_scroll_top()
                     st.rerun()
 
-        # Product differentiation card: explain why GulfBite is useful rather than
-        # repeating the Scan -> Portion -> Macros workflow already shown elsewhere.
-        with st.container(key="home_gulf_value_card"):
-            st.markdown(
-                """
+        # Product differentiation — direct HTML keeps this section aligned to
+        # the same content width as the Scan your meal hero.
+        st.markdown(
+            """
+            <div class="home-value-section">
                 <div class="home-value-head">
                     <div class="home-section-title">Built for Gulf food</div>
                     <div class="home-value-subtitle">Recognition designed around regional dishes.</div>
@@ -10436,35 +10438,37 @@ elif st.session_state.stage in ["main", "upload"]:
                         <div class="home-value-copy">Calories + macros</div>
                     </div>
                 </div>
-                """,
-                unsafe_allow_html=True,
-            )
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
-        # Visual browsing remains last, above the fixed bottom navigation.
-        with st.container(key="home_favourites_section"):
-            favourites_html = (
-                '<div class="home-favourites-head">'
-                '<div>'
-                '<div class="home-favourites-title">Gulf favourites</div>'
-                '<div class="home-favourites-subtitle">Tap a dish to explore it in the menu.</div>'
-                '</div>'
-                '</div>'
-                '<div class="home-favourites-grid-links">'
-                f'<a class="home-favourite-link" href="?fav=machboos">'
-                f'<img src="{MACHBOOS_ONBOARDING_URI}" alt="Machboos">'
-                '<span>Machboos</span>'
-                '</a>'
-                '<a class="home-favourite-link" href="?fav=shawarma">'
-                '<img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=85" alt="Shawarma">'
-                '<span>Shawarma</span>'
-                '</a>'
-                '<a class="home-favourite-link" href="?fav=karak">'
-                '<img src="https://www.timeoutabudhabi.com/cloud/timeoutabudhabi/2022/08/22/Milky-Karak-Cafeteria.jpg" alt="Karak Chai">'
-                '<span>Karak Chai</span>'
-                '</a>'
-                '</div>'
-            )
-            st.markdown(favourites_html, unsafe_allow_html=True)
+        # Gulf favourites — direct HTML card for exact width control.
+        favourites_html = (
+            '<div class="home-favourites-card">'
+            '<div class="home-favourites-head">'
+            '<div>'
+            '<div class="home-favourites-title">Gulf favourites</div>'
+            '<div class="home-favourites-subtitle">Tap a dish to explore it in the menu.</div>'
+            '</div>'
+            '</div>'
+            '<div class="home-favourites-grid-links">'
+            f'<a class="home-favourite-link" href="?fav=machboos" target="_self">'
+            f'<img src="{MACHBOOS_ONBOARDING_URI}" alt="Machboos">'
+            '<span>Machboos</span>'
+            '</a>'
+            '<a class="home-favourite-link" href="?fav=shawarma" target="_self">'
+            '<img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=85" alt="Shawarma">'
+            '<span>Shawarma</span>'
+            '</a>'
+            '<a class="home-favourite-link" href="?fav=karak" target="_self">'
+            '<img src="https://www.timeoutabudhabi.com/cloud/timeoutabudhabi/2022/08/22/Milky-Karak-Cafeteria.jpg" alt="Karak Chai">'
+            '<span>Karak Chai</span>'
+            '</a>'
+            '</div>'
+            '</div>'
+        )
+        st.markdown(favourites_html, unsafe_allow_html=True)
 
     elif active_section == "Menu":
         st.markdown('<div class="menu-screen-marker"></div>', unsafe_allow_html=True)
@@ -10484,12 +10488,10 @@ elif st.session_state.stage in ["main", "upload"]:
                         <div class="scan-hero-subtitle">
                             Upload a clear Gulf dish photo for AI recognition and nutrition estimates.
                         </div>
-                    </div>
-                    <div class="scan-angle-badge">
-                        <div class="scan-angle-icon">⌁</div>
-                        <div>
-                            <div class="scan-angle-title">Best angle</div>
-                            <div class="scan-angle-copy">Top-down</div>
+                        <div class="scan-angle-inline">
+                            <span class="scan-angle-inline-icon">⌁</span>
+                            <span class="scan-angle-inline-label">Best angle</span>
+                            <strong>Top-down</strong>
                         </div>
                     </div>
                 </div>
@@ -10986,6 +10988,187 @@ elif st.session_state.stage in ["main", "upload"]:
 
             .stApp:has(.home-screen-marker) .home-value-grid {
                 gap: 6px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           STRUCTURAL LAYOUT FIX — FINAL WINNING RULES
+           ================================================================ */
+
+        /* HOME: direct HTML blocks align exactly with the hero width. */
+        .stApp:has(.home-screen-marker) .home-value-section,
+        .stApp:has(.home-screen-marker) .home-favourites-card {
+            width: 100% !important;
+            max-width: none !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        /* No outer card for Built for Gulf food. */
+        .stApp:has(.home-screen-marker) .home-value-section {
+            margin-top: 10px !important;
+            margin-bottom: 12px !important;
+            padding: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .stApp:has(.home-screen-marker) .home-value-grid {
+            width: 100% !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            gap: 8px !important;
+        }
+
+        .stApp:has(.home-screen-marker) .home-value-item {
+            width: 100% !important;
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Gulf favourites card now uses the exact same content width as hero. */
+        .stApp:has(.home-screen-marker) .home-favourites-card {
+            margin: 0 !important;
+            padding: 12px 14px 13px !important;
+            border: 1px solid #DCC79C !important;
+            border-radius: 20px !important;
+            background:
+                radial-gradient(circle at 95% 10%, rgba(175,118,31,.07), transparent 24%),
+                linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+            box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+            overflow: hidden !important;
+        }
+
+        .stApp:has(.home-screen-marker) .home-favourites-grid-links {
+            width: 100% !important;
+            max-width: none !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        }
+
+        /* MENU: one real card — no sibling seam possible. */
+        .stApp:has(.menu-screen-marker) .st-key-menu_browse_unified {
+            margin: 4px 0 10px 0 !important;
+            padding: 14px 15px 13px !important;
+            border: 1px solid #DCC79C !important;
+            border-radius: 20px !important;
+            background:
+                radial-gradient(circle at 96% 6%, rgba(175,118,31,.08), transparent 24%),
+                linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+            box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+            overflow: hidden !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-browse-divider {
+            height: 1px !important;
+            margin: 10px 0 9px !important;
+            background: linear-gradient(to right,#D7BE8D,rgba(215,190,141,0)) !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-browse-divider-inner {
+            margin-top: 10px !important;
+            margin-bottom: 9px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .st-key-menu_category_control,
+        .stApp:has(.menu-screen-marker) .st-key-menu_dish_picker {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-category-meta {
+            margin: 0 0 7px 0 !important;
+        }
+
+        /* Hide obsolete split-card shells if any survive older CSS. */
+        .stApp:has(.menu-screen-marker) .st-key-menu_browse_card,
+        .stApp:has(.menu-screen-marker) .st-key-menu_browse_card_tail {
+            display: none !important;
+        }
+
+        /* SCAN: hero is one column; Best angle is an inline pill. */
+        .stApp:has(.scan-screen-marker) .scan-hero-card {
+            display: block !important;
+            grid-template-columns: none !important;
+            width: 100% !important;
+            padding-right: 0 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-angle-badge {
+            display: none !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-angle-inline {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            margin-top: 8px !important;
+            padding: 6px 9px !important;
+            border: 1px solid #DDBD79 !important;
+            border-radius: 999px !important;
+            background: rgba(255,249,233,.92) !important;
+            color: #7C6A4B !important;
+            font-size: .56rem !important;
+            line-height: 1 !important;
+            white-space: nowrap !important;
+            box-shadow: 0 4px 10px rgba(99,70,20,.04) !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-angle-inline-icon {
+            color: #C2871F !important;
+            font-weight: 800 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-angle-inline-label {
+            font-weight: 600 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-angle-inline strong {
+            color: #9B6511 !important;
+            font-weight: 800 !important;
+        }
+
+        /* Keep Scan helper content within width. */
+        .stApp:has(.scan-screen-marker) .scan-help-card,
+        .stApp:has(.scan-screen-marker) .scan-next-card,
+        .stApp:has(.scan-screen-marker) .scan-tip-line {
+            box-sizing: border-box !important;
+            max-width: 100% !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.home-screen-marker) .home-value-section {
+                margin-top: 8px !important;
+                margin-bottom: 10px !important;
+            }
+
+            .stApp:has(.home-screen-marker) .home-favourites-card {
+                padding: 10px 12px 11px !important;
+                border-radius: 18px !important;
+            }
+
+            .stApp:has(.menu-screen-marker) .st-key-menu_browse_unified {
+                padding: 12px 12px 11px !important;
+                border-radius: 18px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-angle-inline {
+                margin-top: 7px !important;
+                font-size: .53rem !important;
+                padding: 5px 8px !important;
             }
         }
         </style>
