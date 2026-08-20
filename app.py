@@ -4797,6 +4797,136 @@ button[aria-label*="notification" i] {
     }
 }
 
+
+/* ==========================================================================
+   HOME — NO PAGE SCROLL
+   Home is a dashboard screen and should fit inside the viewport.
+   Menu/Scan/workflow scrolling remains untouched.
+   ========================================================================== */
+
+.home-screen-marker {
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Remove the artificial footer gap that was causing Home to scroll. */
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 12px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+    margin-bottom: 7px !important;
+}
+
+/* Keep the Home content compact enough to sit above the fixed navigation. */
+.stApp:has(.home-screen-marker) [data-testid="stMainBlockContainer"] {
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+    padding-bottom: 66px !important;
+    box-sizing: border-box !important;
+}
+
+.stApp:has(.home-screen-marker) [data-testid="stMain"],
+.stApp:has(.home-screen-marker) section.main {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+}
+
+/* Some Streamlit versions put scrolling on the app-view wrapper. */
+.stApp:has(.home-screen-marker) [data-testid="stAppViewContainer"] {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+}
+
+/* Slight vertical tightening only for Home. */
+.stApp:has(.home-screen-marker) .st-key-home_upload_feature {
+    margin-bottom: 7px !important;
+    padding-top: 14px !important;
+    padding-bottom: 13px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-metric-row {
+    margin-bottom: 7px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+    padding-top: 12px !important;
+    padding-bottom: 10px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    padding-top: 11px !important;
+}
+
+/* Mobile viewport fit. */
+@media (max-width: 480px) {
+    .stApp:has(.home-screen-marker) [data-testid="stMainBlockContainer"] {
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        min-height: 100dvh !important;
+        padding-top: .48rem !important;
+        padding-bottom: 64px !important;
+        overflow: hidden !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_upload_feature {
+        margin-bottom: 6px !important;
+        padding: 13px 14px 12px 14px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_scan_control {
+        margin-top: 8px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_scan_control button {
+        min-height: 42px !important;
+        height: 42px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-metric-card {
+        min-height: 54px !important;
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+        margin-bottom: 6px !important;
+        padding: 11px 13px 9px 13px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-guide-icon {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-guide-line {
+        margin-top: 18px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+        margin-bottom: 0 !important;
+        padding: 10px 12px 11px 12px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourites-grid-links {
+        margin-top: 7px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourite-link {
+        height: 66px !important;
+        min-height: 66px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -5593,6 +5723,7 @@ elif st.session_state.stage in ["main", "upload"]:
     active_section = render_main_navigation()
 
     if active_section == "Home":
+        st.markdown('<div class="home-screen-marker"></div>', unsafe_allow_html=True)
         # Primary action first: tell the user what to do immediately.
         with st.container(key="home_upload_feature"):
             upload_copy_html = (
