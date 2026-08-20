@@ -9610,6 +9610,130 @@ button,
     }
 }
 
+
+/* Reduce spacing between 'Built for Gulf food' and its subtitle */
+.stApp:has(.home-screen-marker) .home-value-head {
+    margin-bottom: 7px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-subtitle {
+    margin-top: 1px !important;
+}
+
+
+/* ==========================================================================
+   SEPARATOR LINES — KEEP STRICTLY INSIDE CARD BOUNDS
+   Fixes Menu and Scan divider lines extending past rounded card edges.
+   ========================================================================== */
+
+/* ---------- MENU ---------- */
+.stApp:has(.menu-screen-marker) .st-key-menu_library_card {
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-browse-divider,
+.stApp:has(.menu-screen-marker) .menu-feature-divider {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Selected Dish internal separator should align with card content,
+   not stretch through the outer padding. */
+.stApp:has(.menu-screen-marker) .menu-feature-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    border-top: 0 !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-card::before {
+    content: "" !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 1px !important;
+    margin: 0 0 11px 0 !important;
+    background: #D7BE8D !important;
+    box-sizing: border-box !important;
+}
+
+/* ---------- SCAN ---------- */
+.stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+/* Tip, helper-grid and next-step separators remain inside parent padding. */
+.stApp:has(.scan-screen-marker) .scan-tip-line,
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid,
+.stApp:has(.scan-screen-marker) .scan-next-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Remove full-bleed borders that were visually escaping the card. */
+.stApp:has(.scan-screen-marker) .scan-tip-line {
+    border-bottom: 0 !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+    border-bottom: 0 !important;
+    position: relative !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid::before,
+.stApp:has(.scan-screen-marker) .scan-next-card::before {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 1px !important;
+    background: #E4D3B5 !important;
+    box-sizing: border-box !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+    padding-top: 10px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-next-card {
+    position: relative !important;
+    padding-top: 11px !important;
+}
+
+/* Vertical divider between the two helper columns stays within row height. */
+.stApp:has(.scan-screen-marker) .scan-help-card:first-child {
+    border-right: 0 !important;
+    position: relative !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-card:first-child::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 2px !important;
+    bottom: 2px !important;
+    right: 0 !important;
+    width: 1px !important;
+    background: #E4D3B5 !important;
+}
+
+@media (max-width: 430px) {
+    .stApp:has(.scan-screen-marker) .scan-help-card:first-child::after {
+        display: none !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
