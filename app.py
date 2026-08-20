@@ -6697,6 +6697,253 @@ button,
     }
 }
 
+
+/* Remove Menu count badge and keep header alignment clean */
+.menu-simple-head {
+    grid-template-columns: 1fr !important;
+    justify-content: flex-start !important;
+}
+
+.menu-simple-count {
+    display: none !important;
+}
+
+
+/* ==========================================================================
+   SCAN SCREEN — PREMIUM POLISH
+   Refines the scan/upload experience with a softer luxury card treatment,
+   a cleaner upload area, and more elegant helper/info cards.
+   ========================================================================== */
+
+.scan-hero-card {
+    position: relative !important;
+    overflow: hidden !important;
+    gap: 14px !important;
+    padding: 16px 17px !important;
+    border: 1px solid #E7C988 !important;
+    border-radius: 20px !important;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(236,186,72,.16), rgba(236,186,72,0) 36%),
+        linear-gradient(135deg, #FFFDF8 0%, #FFF8E8 58%, #FEF2D3 100%) !important;
+    box-shadow:
+        0 10px 24px rgba(77,55,17,.05),
+        inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+
+.scan-hero-card::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -48px !important;
+    bottom: -48px !important;
+    width: 150px !important;
+    height: 150px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(232,184,79,.14) 0%, rgba(232,184,79,0) 72%) !important;
+    pointer-events: none !important;
+}
+
+.scan-hero-kicker {
+    margin-bottom: 5px !important;
+    color: #BB7A0E !important;
+    letter-spacing: .12em !important;
+}
+
+.scan-hero-title {
+    font-size: 1.2rem !important;
+    line-height: 1.05 !important;
+}
+
+.scan-hero-subtitle {
+    margin-top: 6px !important;
+    max-width: 430px !important;
+    color: #786E62 !important;
+    line-height: 1.48 !important;
+}
+
+.scan-angle-badge {
+    position: relative !important;
+    z-index: 1 !important;
+    padding: 9px 10px !important;
+    border: 1px solid #E7C989 !important;
+    border-radius: 15px !important;
+    background: rgba(255,255,255,.82) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.7),
+        0 6px 14px rgba(96,69,20,.05) !important;
+}
+
+.scan-angle-icon {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 10px !important;
+    background: linear-gradient(135deg, #FFF6E1 0%, #FEE8B5 100%) !important;
+    color: #D99214 !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.7) !important;
+}
+
+.st-key-scan_main_card div[data-testid="stFileUploader"] section {
+    min-height: 160px !important;
+    border: 1px dashed #E4BC69 !important;
+    border-radius: 20px !important;
+    background:
+        linear-gradient(180deg, #FFFEFB 0%, #FFF8EE 100%) !important;
+    box-shadow:
+        0 10px 22px rgba(77,55,17,.04),
+        inset 0 1px 0 rgba(255,255,255,.82) !important;
+}
+
+.st-key-scan_main_card div[data-testid="stFileUploader"] section button {
+    min-height: 46px !important;
+    height: 46px !important;
+    padding: 0 18px !important;
+    border: 1px solid #E0B45A !important;
+    border-radius: 15px !important;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFF9ED 100%) !important;
+    color: #A96E08 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .8rem !important;
+    font-weight: 850 !important;
+    box-shadow: 0 6px 14px rgba(117,82,21,.05) !important;
+}
+
+.st-key-scan_main_card div[data-testid="stFileUploader"] section small,
+.st-key-scan_main_card div[data-testid="stFileUploader"] section p,
+.st-key-scan_main_card div[data-testid="stFileUploader"] section span {
+    color: #5A5044 !important;
+}
+
+.scan-tip-line {
+    gap: 8px !important;
+    margin-top: 10px !important;
+    padding: 8px 10px !important;
+    border: 1px solid #F0E2C6 !important;
+    border-radius: 13px !important;
+    background: rgba(255,250,241,.92) !important;
+    box-shadow: 0 4px 12px rgba(77,55,17,.03) !important;
+}
+
+.scan-tip-dot {
+    width: 20px !important;
+    height: 20px !important;
+    flex: 0 0 20px !important;
+    background: linear-gradient(135deg, #FFF4DE 0%, #FEE3A9 100%) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+
+.scan-photo-help-grid {
+    gap: 10px !important;
+    margin-top: 12px !important;
+}
+
+.scan-help-card {
+    min-height: 78px !important;
+    padding: 12px !important;
+    border: 1px solid #E9DDCC !important;
+    border-radius: 16px !important;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFFCF6 100%) !important;
+    box-shadow:
+        0 8px 18px rgba(77,55,17,.035),
+        inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+
+.scan-help-icon {
+    width: 32px !important;
+    height: 32px !important;
+    flex: 0 0 32px !important;
+    border-radius: 10px !important;
+    background: linear-gradient(135deg, #FFF5E1 0%, #FDE8B8 100%) !important;
+    color: #D89A1B !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+
+.scan-help-title {
+    font-size: .66rem !important;
+}
+
+.scan-help-copy {
+    margin-top: 4px !important;
+    color: #887D70 !important;
+    font-size: .57rem !important;
+    line-height: 1.38 !important;
+}
+
+.scan-next-card {
+    gap: 10px !important;
+    margin-top: 10px !important;
+    padding: 12px 13px !important;
+    border: 1px solid #E9D5A8 !important;
+    border-radius: 16px !important;
+    background:
+        linear-gradient(180deg, #FFFDF9 0%, #FFF6E9 100%) !important;
+    box-shadow:
+        0 8px 18px rgba(77,55,17,.035),
+        inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+
+.scan-next-icon {
+    width: 32px !important;
+    height: 32px !important;
+    flex: 0 0 32px !important;
+    border-radius: 10px !important;
+    background: linear-gradient(135deg, #FFF5DF 0%, #FEE5AC 100%) !important;
+    color: #D89419 !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+
+.scan-next-title {
+    font-size: .67rem !important;
+}
+
+.scan-next-copy {
+    color: #887C70 !important;
+    font-size: .57rem !important;
+    line-height: 1.38 !important;
+}
+
+@media (max-width: 480px) {
+    .scan-hero-card {
+        gap: 10px !important;
+        padding: 14px 14px !important;
+        border-radius: 18px !important;
+    }
+
+    .scan-hero-title {
+        font-size: 1.08rem !important;
+    }
+
+    .scan-hero-subtitle {
+        font-size: .66rem !important;
+        line-height: 1.42 !important;
+    }
+
+    .scan-angle-badge {
+        padding: 8px 9px !important;
+        border-radius: 14px !important;
+    }
+
+    .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+        min-height: 150px !important;
+        border-radius: 18px !important;
+    }
+
+    .st-key-scan_main_card div[data-testid="stFileUploader"] section button {
+        min-height: 42px !important;
+        height: 42px !important;
+        padding: 0 15px !important;
+        font-size: .74rem !important;
+        border-radius: 13px !important;
+    }
+
+    .scan-photo-help-grid {
+        gap: 8px !important;
+    }
+
+    .scan-help-card,
+    .scan-next-card {
+        border-radius: 15px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -7787,7 +8034,6 @@ elif st.session_state.stage in ["main", "upload"]:
                     <div class="menu-simple-title">Supported Dishes</div>
                     <div class="menu-simple-subtitle">Explore 25 Gulf dishes recognized by GulfBite.</div>
                 </div>
-                <div class="menu-simple-count">25</div>
             </div>
             """,
             unsafe_allow_html=True,
