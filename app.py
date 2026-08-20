@@ -10581,12 +10581,12 @@ def render_category_squircle_cards():
             <div class="menu-browse-card-head">
                 <div class="menu-premium-kicker">Gulf food library</div>
                 <div class="menu-premium-title">Supported Dishes</div>
-                <div class="menu-premium-subtitle">Explore Gulf dishes recognized by GulfBite and view a quick culinary profile for each one.</div>
+                <div class="menu-premium-subtitle">Explore regional dishes and view a quick culinary profile for each one.</div>
             </div>
             <div class="menu-browse-divider"></div>
             <div class="menu-browse-row">
                 <div class="menu-browse-label">Browse by dish type</div>
-                <div class="menu-browse-note">Choose a category</div>
+                <div class="menu-browse-note"></div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -10626,10 +10626,7 @@ def render_category_squircle_cards():
             st.session_state.dish_select_box = dishes[0]
 
         st.markdown('<div class="menu-browse-divider menu-browse-divider-inner"></div>', unsafe_allow_html=True)
-        st.markdown(
-            f'<div class="menu-category-meta"><span><strong>{category_name}</strong></span><span>{len(dishes)} dishes in this category</span></div>',
-            unsafe_allow_html=True,
-        )
+        st.markdown('<div style="height: 12px;"></div>', unsafe_allow_html=True)
 
         with st.container(key="menu_dish_picker"):
             st.markdown(
@@ -10693,7 +10690,7 @@ def render_category_squircle_cards():
             f'<div class="menu-feature-name">{display_name(selected_dish)}</div>'
             '<div class="menu-feature-meta-row">'
             f'<div class="menu-feature-family">{family}</div>'
-            f'<div class="menu-feature-time">⏱ {meta["time"]}</div>'
+            ''
             '</div>'
             '</div>'
             '</div>'
@@ -10704,6 +10701,7 @@ def render_category_squircle_cards():
             f'<span>{meta["prep"]}</span>'
             f'<span>{meta["density"]}</span>'
             '</div>'
+            '<div style="height: 10px;"></div>'
             '</div>'
         )
         st.markdown(detail_html, unsafe_allow_html=True)
