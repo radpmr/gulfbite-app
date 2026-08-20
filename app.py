@@ -1,3 +1,15 @@
+GulfBite - Smart Gulf Cuisine Nutrition Assistant (Mobile Light-Gold Edition)
+-----------------------------------------------------------------------------
+Identifies authentic Gulf dishes using a multi-tiered pipeline:
+1. MobileNetV2 (CNN) classification for initial dish match & confidence scoring.
+2. Out-of-distribution / Non-food rejection via margin and entropy checks.
+3. YOLOv8 feature detection with visual bounding overlays & calorie pointers.
+4. Portion-based authentic macro and calorie estimation with SVG Macro Rings.
+"""
+
+
+
+
 import base64
 import io
 import json
@@ -6848,6 +6860,731 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   MENU — COMPACT PICKER + NO SCROLL
+   Flatten the dish picker and make the complete Menu fit in one viewport.
+   ========================================================================== */
+
+.menu-screen-marker {
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Replace the large nested picker card with a simple compact control. */
+.st-key-menu_dish_picker {
+    margin: 2px 0 9px 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.menu-picker-head,
+.menu-picker-note {
+    display: none !important;
+}
+
+.menu-picker-label {
+    margin: 0 0 6px 1px !important;
+    color: #8F7B60 !important;
+    font-size: .60rem !important;
+    line-height: 1 !important;
+    font-weight: 850 !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
+}
+
+.st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+    min-height: 44px !important;
+    height: 44px !important;
+    border: 1px solid #DCC9AA !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 3px 9px rgba(66,47,17,.025) !important;
+}
+
+/* Tighten Menu vertical rhythm enough to keep everything above the nav. */
+.stApp:has(.menu-screen-marker) .menu-premium-hero {
+    margin-top: 4px !important;
+    margin-bottom: 9px !important;
+    padding: 12px 15px 11px !important;
+    border-radius: 18px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-premium-kicker {
+    margin-bottom: 4px !important;
+    font-size: .54rem !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-premium-title {
+    font-size: 1.12rem !important;
+    margin-bottom: 4px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-premium-subtitle {
+    font-size: .65rem !important;
+    line-height: 1.34 !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-browse-row {
+    margin-bottom: 6px !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_category_control {
+    margin-bottom: 5px !important;
+}
+
+.stApp:has(.menu-screen-marker)
+.st-key-menu_category_control [data-testid="stSegmentedControl"] [role="radiogroup"],
+.stApp:has(.menu-screen-marker)
+.st-key-menu_category_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+    gap: 6px !important;
+}
+
+.stApp:has(.menu-screen-marker)
+.st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+.stApp:has(.menu-screen-marker)
+.st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    min-height: 35px !important;
+    padding: 4px 4px !important;
+    font-size: .54rem !important;
+    border-radius: 13px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-category-meta {
+    margin: 2px 2px 8px !important;
+    font-size: .59rem !important;
+}
+
+/* Selected dish card stays premium but is more compact. */
+.stApp:has(.menu-screen-marker) .menu-feature-card {
+    padding: 12px 13px 11px !important;
+    border-radius: 18px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-kicker {
+    margin-bottom: 7px !important;
+    font-size: .53rem !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-top {
+    grid-template-columns: 43px minmax(0,1fr) auto !important;
+    gap: 8px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-icon {
+    width: 43px !important;
+    height: 43px !important;
+    border-radius: 13px !important;
+    font-size: 1.12rem !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-name {
+    font-size: .90rem !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-family {
+    margin-top: 2px !important;
+    font-size: .56rem !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-time {
+    padding: 4px 7px !important;
+    font-size: .54rem !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-divider {
+    margin: 8px 0 7px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-blurb {
+    font-size: .64rem !important;
+    line-height: 1.35 !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-badges {
+    margin-top: 7px !important;
+    gap: 4px !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-feature-badges span {
+    padding: 3px 6px !important;
+    font-size: .51rem !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-cta-note {
+    display: none !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_scan_selected_control {
+    margin-top: 7px !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_scan_selected_control button {
+    min-height: 40px !important;
+    height: 40px !important;
+    border-radius: 13px !important;
+}
+
+/* Menu is a dashboard-style screen: no page scrolling. */
+.stApp:has(.menu-screen-marker) [data-testid="stMainBlockContainer"],
+.stApp:has(.menu-screen-marker) .block-container {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow: hidden !important;
+    padding-bottom: 66px !important;
+    box-sizing: border-box !important;
+}
+
+.stApp:has(.menu-screen-marker) [data-testid="stMain"],
+.stApp:has(.menu-screen-marker) [data-testid="stAppViewContainer"],
+.stApp:has(.menu-screen-marker) section.main {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+}
+
+/* Reduce Streamlit inter-block whitespace on Menu only. */
+.stApp:has(.menu-screen-marker)
+[data-testid="stMainBlockContainer"] > div > [data-testid="stVerticalBlock"] {
+    gap: .38rem !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.menu-screen-marker) .menu-premium-hero {
+        padding: 11px 13px 10px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-premium-title {
+        font-size: 1.04rem !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-premium-subtitle {
+        font-size: .61rem !important;
+    }
+
+    .stApp:has(.menu-screen-marker)
+    .st-key-menu_category_control [data-testid="stSegmentedControl"] button,
+    .stApp:has(.menu-screen-marker)
+    .st-key-menu_category_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+        min-height: 34px !important;
+        font-size: .51rem !important;
+    }
+
+    .st-key-menu_dish_picker div[data-testid="stSelectbox"] [data-baseweb="select"] > div {
+        min-height: 42px !important;
+        height: 42px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) [data-testid="stMainBlockContainer"],
+    .stApp:has(.menu-screen-marker) .block-container {
+        padding-bottom: 64px !important;
+    }
+}
+
+
+
+/* ==========================================================================
+   HOME + SCAN — MODERN GULF LUXURY
+   Apply the warm ivory / sand / amber premium styling beyond Menu.
+   ========================================================================== */
+
+.scan-screen-marker {
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+/* ---------- HOME ---------- */
+.stApp:has(.home-screen-marker) .st-key-home_upload_feature {
+    position: relative !important;
+    overflow: hidden !important;
+    border: 1px solid #DCC79C !important;
+    background:
+        radial-gradient(circle at 90% 14%, rgba(201,148,56,.14), transparent 27%),
+        linear-gradient(145deg,#FFFEFB 0%,#F8EEDC 100%) !important;
+    box-shadow: 0 14px 30px rgba(66,46,15,.055) !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_upload_feature::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -24px !important;
+    bottom: -24px !important;
+    width: 96px !important;
+    height: 96px !important;
+    opacity: .08 !important;
+    background:
+        linear-gradient(45deg, transparent 43%, #A97725 43%, #A97725 57%, transparent 57%),
+        linear-gradient(-45deg, transparent 43%, #A97725 43%, #A97725 57%, transparent 57%) !important;
+    background-size: 18px 18px !important;
+    transform: rotate(8deg) !important;
+    pointer-events: none !important;
+}
+
+.stApp:has(.home-screen-marker) .home-upload-eyebrow {
+    color: #A06A18 !important;
+    letter-spacing: .10em !important;
+}
+
+.stApp:has(.home-screen-marker) .home-upload-title,
+.stApp:has(.home-screen-marker) .home-section-title,
+.stApp:has(.home-screen-marker) .home-favourites-title {
+    color: #241B12 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-upload-subtitle,
+.stApp:has(.home-screen-marker) .home-guide-subtitle,
+.stApp:has(.home-screen-marker) .home-favourites-subtitle {
+    color: #7B705F !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_scan_control button {
+    border: 1px solid #C98F31 !important;
+    background: linear-gradient(135deg,#EBC86B 0%,#D99C2E 100%) !important;
+    color: #21180F !important;
+    box-shadow: 0 10px 20px rgba(156,103,20,.16) !important;
+    font-weight: 800 !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_scan_control button:hover {
+    filter: brightness(1.01) !important;
+    box-shadow: 0 12px 22px rgba(156,103,20,.18) !important;
+}
+
+.stApp:has(.home-screen-marker) .home-metric-card {
+    border-color: #E2D1B6 !important;
+    background: linear-gradient(180deg,#FFFEFC 0%,#FBF6ED 100%) !important;
+    box-shadow: 0 8px 18px rgba(69,49,17,.04) !important;
+}
+
+.stApp:has(.home-screen-marker) .home-metric-icon {
+    background: linear-gradient(145deg,#FBF0D5 0%,#F3DEB0 100%) !important;
+    color: #C38A24 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-metric-value {
+    color: #241B12 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-metric-label {
+    color: #8C7E6B !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card,
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    border: 1px solid #DCC79C !important;
+    background:
+        radial-gradient(circle at 94% 10%, rgba(198,145,50,.10), transparent 26%),
+        linear-gradient(145deg,#FFFEFB 0%,#F8F0E2 100%) !important;
+    box-shadow: 0 12px 24px rgba(66,46,15,.048) !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-line {
+    background: linear-gradient(to right,#D6B067,#E8D29F,#D6B067) !important;
+    opacity: .95 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-badge,
+.stApp:has(.home-screen-marker) .home-guide-icon {
+    border-color: #DBBE84 !important;
+    background: linear-gradient(145deg,#FFF8EA 0%,#F6E5BF 100%) !important;
+    box-shadow: 0 6px 14px rgba(151,106,31,.08) !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-step.is-primary .home-guide-badge {
+    border-color: #CB9640 !important;
+    background: linear-gradient(145deg,#F1CE7B 0%,#E3B14E 100%) !important;
+    box-shadow: 0 10px 18px rgba(156,103,20,.16) !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-step.is-primary .home-guide-symbol,
+.stApp:has(.home-screen-marker) .home-guide-step.is-primary .home-guide-title {
+    color: #A87213 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-guide-step.is-primary .home-guide-caption {
+    color: #8A7D6A !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link,
+.stApp:has(.home-screen-marker) .home-favourite-link.featured,
+.stApp:has(.home-screen-marker) .home-favourite-link.small {
+    border: 1px solid rgba(215,186,128,.45) !important;
+    box-shadow: 0 6px 14px rgba(66,46,15,.06) !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link::after {
+    background: linear-gradient(180deg, rgba(17,13,10,0) 0%, rgba(17,13,10,.68) 100%) !important;
+}
+
+/* ---------- SCAN ---------- */
+.stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+    gap: .45rem !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-hero-card {
+    position: relative !important;
+    overflow: hidden !important;
+    border: 1px solid #DCC79C !important;
+    background:
+        radial-gradient(circle at 88% 14%, rgba(201,148,56,.16), transparent 27%),
+        linear-gradient(145deg,#FFFEFB 0%,#F8EEDC 100%) !important;
+    box-shadow: 0 14px 30px rgba(66,46,15,.055) !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-hero-card::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -22px !important;
+    bottom: -20px !important;
+    width: 94px !important;
+    height: 94px !important;
+    opacity: .08 !important;
+    background:
+        linear-gradient(45deg, transparent 43%, #A97725 43%, #A97725 57%, transparent 57%),
+        linear-gradient(-45deg, transparent 43%, #A97725 43%, #A97725 57%, transparent 57%) !important;
+    background-size: 18px 18px !important;
+    transform: rotate(8deg) !important;
+    pointer-events: none !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-hero-kicker {
+    color: #A06A18 !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-hero-title,
+.stApp:has(.scan-screen-marker) .scan-help-title,
+.stApp:has(.scan-screen-marker) .scan-next-title {
+    color: #241B12 !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-hero-subtitle,
+.stApp:has(.scan-screen-marker) .scan-help-copy,
+.stApp:has(.scan-screen-marker) .scan-next-copy,
+.stApp:has(.scan-screen-marker) .scan-tip-line {
+    color: #7B705F !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-angle-badge {
+    border-color: #DBBE84 !important;
+    background: linear-gradient(145deg,#FFFCF4 0%,#F8E7C0 100%) !important;
+    box-shadow: 0 6px 14px rgba(151,106,31,.08) !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-angle-icon {
+    background: linear-gradient(145deg,#FFF8EA 0%,#F6E5BF 100%) !important;
+    color: #C2871F !important;
+}
+
+.stApp:has(.scan-screen-marker) .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+    border: 1px dashed #DAB264 !important;
+    background:
+        radial-gradient(circle at 88% 12%, rgba(201,148,56,.10), transparent 26%),
+        linear-gradient(145deg,#FFFEFB 0%,#FBF4E6 100%) !important;
+    box-shadow: 0 10px 22px rgba(66,46,15,.04) !important;
+}
+
+.stApp:has(.scan-screen-marker) .st-key-scan_main_card div[data-testid="stFileUploader"] button {
+    border: 1px solid #C98F31 !important;
+    background: linear-gradient(135deg,#FFF8EE 0%,#FFF2D8 100%) !important;
+    color: #9D6712 !important;
+    box-shadow: 0 8px 16px rgba(156,103,20,.08) !important;
+    font-weight: 800 !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-tip-line {
+    padding: 8px 10px !important;
+    border: 1px solid #E7D5B4 !important;
+    border-radius: 14px !important;
+    background: linear-gradient(180deg,#FFFEFC 0%,#FBF7F0 100%) !important;
+    box-shadow: 0 5px 12px rgba(66,46,15,.028) !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+    margin-top: 10px !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-card,
+.stApp:has(.scan-screen-marker) .scan-next-card {
+    border-color: #E2D1B6 !important;
+    background:
+        linear-gradient(180deg,#FFFEFC 0%,#FBF6ED 100%) !important;
+    box-shadow: 0 8px 18px rgba(69,49,17,.04) !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-help-icon,
+.stApp:has(.scan-screen-marker) .scan-next-icon,
+.stApp:has(.scan-screen-marker) .scan-tip-dot {
+    background: linear-gradient(145deg,#FBF0D5 0%,#F3DEB0 100%) !important;
+    color: #C38A24 !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.home-screen-marker) .st-key-home_upload_feature,
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card,
+    .stApp:has(.home-screen-marker) .st-key-home_favourites_section,
+    .stApp:has(.scan-screen-marker) .scan-hero-card {
+        box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-tip-line {
+        padding: 7px 9px !important;
+    }
+}
+
+
+/* ==========================================================================
+   GULFBITE — UNIFIED MODERN GULF LUXURY DESIGN SYSTEM
+   One radius, shadow, button, spacing and surface language across
+   Home / Menu / Scan / Verify / Portion / Macros.
+   ========================================================================== */
+
+:root {
+    --gb-ivory: #FFFEFB;
+    --gb-sand: #F8F0E2;
+    --gb-sand-2: #F4E6CC;
+    --gb-gold: #D9A742;
+    --gb-gold-deep: #C98B26;
+    --gb-gold-soft: #EBC66F;
+    --gb-bronze: #9C6B1F;
+    --gb-ink: #241B12;
+    --gb-muted: #7B705F;
+    --gb-border: #DCC79C;
+    --gb-border-soft: #E6D8C2;
+    --gb-radius-lg: 20px;
+    --gb-radius-md: 15px;
+    --gb-radius-sm: 12px;
+    --gb-shadow: 0 10px 24px rgba(66,46,15,.05);
+    --gb-shadow-soft: 0 6px 16px rgba(66,46,15,.035);
+}
+
+/* ---------- GLOBAL CARD LANGUAGE ---------- */
+.stApp .menu-premium-hero,
+.stApp .menu-feature-card,
+.stApp .scan-hero-card,
+.stApp .scan-help-card,
+.stApp .scan-next-card,
+.stApp .home-metric-card,
+.stApp:has(.home-screen-marker) .st-key-home_upload_feature,
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card,
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section,
+.stApp .workflow-card,
+.stApp .portion-card,
+.stApp .macro-card,
+.stApp [class*="result-card"] {
+    border-color: var(--gb-border) !important;
+    border-radius: var(--gb-radius-lg) !important;
+    box-shadow: var(--gb-shadow) !important;
+}
+
+/* Secondary/supporting cards */
+.stApp .scan-tip-line,
+.stApp .st-key-menu_dish_picker,
+.stApp [class*="helper-card"],
+.stApp [class*="info-card"] {
+    border-color: var(--gb-border-soft) !important;
+    border-radius: var(--gb-radius-md) !important;
+    box-shadow: var(--gb-shadow-soft) !important;
+}
+
+/* ---------- GLOBAL PREMIUM BUTTON SYSTEM ---------- */
+.stApp button[kind="primary"],
+.stApp .st-key-home_scan_control button,
+.stApp .st-key-menu_scan_selected_control button,
+.stApp .st-key-calculate_nutrition_control button,
+.stApp .st-key-confirm_dish_control button,
+.stApp .st-key-update_dish_control button {
+    min-height: 44px !important;
+    border: 1px solid #C99132 !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #EBC66F 0%, #D59A2D 100%) !important;
+    color: var(--gb-ink) !important;
+    font-weight: 800 !important;
+    box-shadow: 0 8px 18px rgba(156,103,20,.14) !important;
+}
+
+.stApp button[kind="primary"]:hover,
+.stApp .st-key-home_scan_control button:hover,
+.stApp .st-key-menu_scan_selected_control button:hover,
+.stApp .st-key-calculate_nutrition_control button:hover {
+    filter: brightness(1.015) !important;
+    box-shadow: 0 10px 22px rgba(156,103,20,.17) !important;
+}
+
+/* Secondary buttons */
+.stApp button[kind="secondary"],
+.stApp .st-key-browse_files_control button,
+.stApp [data-testid="stFileUploader"] button {
+    border: 1px solid #D4B26E !important;
+    border-radius: 13px !important;
+    background: linear-gradient(180deg,#FFFFFF 0%,#FFF7E7 100%) !important;
+    color: var(--gb-bronze) !important;
+    font-weight: 750 !important;
+    box-shadow: 0 5px 12px rgba(95,67,20,.045) !important;
+}
+
+/* ---------- INPUTS / SELECTORS ---------- */
+.stApp [data-baseweb="select"] > div,
+.stApp input,
+.stApp textarea,
+.stApp [data-testid="stNumberInput"] input {
+    border-color: #DCC9AA !important;
+    border-radius: 14px !important;
+    background: #FFFEFC !important;
+    box-shadow: none !important;
+}
+
+.stApp [data-testid="stSegmentedControl"] button {
+    border-radius: 14px !important;
+}
+
+/* ---------- PORTION SCREEN ---------- */
+/* Make Portion use the same warm luxury language. */
+.stApp:has(.st-key-portion_stage) .st-key-portion_stage img,
+.stApp:has(.st-key-portion_stage) [data-testid="stImage"] img {
+    border-radius: 18px !important;
+}
+
+.stApp:has(.st-key-portion_stage) .st-key-portion_selector_control {
+    margin-top: 4px !important;
+    margin-bottom: 6px !important;
+}
+
+.stApp:has(.st-key-portion_stage)
+.st-key-portion_selector_control [data-testid="stSegmentedControl"] [role="radiogroup"],
+.stApp:has(.st-key-portion_stage)
+.st-key-portion_selector_control div[data-testid="stRadio"] > div[role="radiogroup"] {
+    gap: 8px !important;
+}
+
+.stApp:has(.st-key-portion_stage)
+.st-key-portion_selector_control [data-testid="stSegmentedControl"] button,
+.stApp:has(.st-key-portion_stage)
+.st-key-portion_selector_control div[data-testid="stRadio"] label[data-baseweb="radio"] {
+    min-height: 54px !important;
+    border: 1px solid #E1D2B9 !important;
+    border-radius: 15px !important;
+    background: linear-gradient(180deg,#FFFEFC 0%,#FBF6ED 100%) !important;
+    color: #6E6458 !important;
+    box-shadow: var(--gb-shadow-soft) !important;
+}
+
+.stApp:has(.st-key-portion_stage)
+.st-key-portion_selector_control [data-testid="stSegmentedControl"] button[aria-pressed="true"],
+.stApp:has(.st-key-portion_stage)
+.st-key-portion_selector_control [data-testid="stSegmentedControl"] button[data-selected="true"] {
+    border-color: #C89438 !important;
+    background: linear-gradient(145deg,#F0CD79 0%,#DFA846 100%) !important;
+    color: var(--gb-ink) !important;
+    box-shadow: 0 8px 16px rgba(156,103,20,.13) !important;
+}
+
+/* Portion call-to-action */
+.stApp:has(.st-key-portion_stage) .st-key-calculate_nutrition_control {
+    margin-top: 7px !important;
+}
+
+/* ---------- VERIFY / CONFIRM SCREEN ---------- */
+.stApp:has(.st-key-verify_stage) .st-key-verify_stage,
+.stApp:has(.workflow-stage-marker) .st-key-verify_stage {
+    color: var(--gb-ink) !important;
+}
+
+.stApp:has(.st-key-verify_stage) [data-testid="stImage"] img {
+    border-radius: 18px !important;
+    box-shadow: var(--gb-shadow-soft) !important;
+}
+
+/* ---------- MACROS / RESULTS ---------- */
+.stApp:has(.st-key-macros_stage) .st-key-macros_stage,
+.stApp:has(.st-key-results_stage) .st-key-results_stage {
+    color: var(--gb-ink) !important;
+}
+
+/* Warm result surfaces without overpowering charts/data */
+.stApp:has(.st-key-macros_stage) [style*="background: linear-gradient"],
+.stApp:has(.st-key-results_stage) [style*="background: linear-gradient"] {
+    border-color: var(--gb-border) !important;
+    box-shadow: var(--gb-shadow-soft) !important;
+}
+
+/* ---------- STEPPER ---------- */
+.stApp [class*="stepper"] {
+    color: var(--gb-muted) !important;
+}
+
+.stApp [class*="stepper"] [class*="active"],
+.stApp [class*="stepper"] [class*="current"] {
+    color: var(--gb-bronze) !important;
+}
+
+/* ---------- BOTTOM NAV ---------- */
+.st-key-gulf_bottom_nav {
+    border: 1px solid #E2D6C4 !important;
+    background: rgba(255,254,251,.96) !important;
+    box-shadow: 0 10px 28px rgba(52,38,16,.08) !important;
+    backdrop-filter: blur(14px) !important;
+}
+
+.st-key-gulf_bottom_nav button {
+    border-radius: 13px !important;
+}
+
+.st-key-gulf_bottom_nav button[kind="primary"],
+.st-key-gulf_bottom_nav button[aria-pressed="true"] {
+    background: linear-gradient(135deg,#EBC66F 0%,#D9A742 100%) !important;
+    color: var(--gb-ink) !important;
+    box-shadow: none !important;
+}
+
+/* ---------- GLOBAL SPACING RHYTHM ---------- */
+.stApp:has(.home-screen-marker)
+[data-testid="stMainBlockContainer"] > div > [data-testid="stVerticalBlock"],
+.stApp:has(.menu-screen-marker)
+[data-testid="stMainBlockContainer"] > div > [data-testid="stVerticalBlock"],
+.stApp:has(.scan-screen-marker)
+[data-testid="stMainBlockContainer"] > div > [data-testid="stVerticalBlock"] {
+    gap: .48rem !important;
+}
+
+/* Prevent accidental excessive whitespace before fixed nav. */
+.stApp:has(.home-screen-marker) [data-testid="stMainBlockContainer"],
+.stApp:has(.menu-screen-marker) [data-testid="stMainBlockContainer"],
+.stApp:has(.scan-screen-marker) [data-testid="stMainBlockContainer"] {
+    padding-bottom: 66px !important;
+}
+
+/* Mobile consistency */
+@media (max-width: 480px) {
+    :root {
+        --gb-radius-lg: 18px;
+        --gb-radius-md: 14px;
+    }
+
+    .stApp button[kind="primary"],
+    .stApp .st-key-home_scan_control button,
+    .stApp .st-key-menu_scan_selected_control button,
+    .stApp .st-key-calculate_nutrition_control button {
+        min-height: 42px !important;
+        border-radius: 13px !important;
+    }
+
+    .stApp:has(.st-key-portion_stage)
+    .st-key-portion_selector_control [data-testid="stSegmentedControl"] button {
+        min-height: 50px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -7867,7 +8604,7 @@ def render_category_squircle_cards():
 
     with st.container(key="menu_dish_picker"):
         st.markdown(
-            '<div class="menu-picker-head"><div class="menu-picker-label">Choose a dish</div><div class="menu-picker-note">Select one to view details</div></div>',
+            '<div class="menu-picker-label">Choose a dish</div>',
             unsafe_allow_html=True,
         )
         selected_dish = st.selectbox(
@@ -8272,10 +9009,11 @@ elif st.session_state.stage in ["main", "upload"]:
             st.markdown(favourites_html, unsafe_allow_html=True)
 
     elif active_section == "Menu":
+        st.markdown('<div class="menu-screen-marker"></div>', unsafe_allow_html=True)
         render_category_squircle_cards()
-        st.markdown('<div style="height:8px;"></div>', unsafe_allow_html=True)
 
     else:  # Scan
+        st.markdown('<div class="scan-screen-marker"></div>', unsafe_allow_html=True)
         render_segmented_stepper("upload", st.session_state.get("triggered", False))
 
         with st.container(key="scan_main_card"):
