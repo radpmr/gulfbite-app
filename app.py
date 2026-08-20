@@ -10576,74 +10576,73 @@ def render_category_squircle_cards():
             st.session_state.dish_select_box = valid_dishes[0]
 
     with st.container(key="menu_library_card"):
-        with st.container(key="menu_browse_unified"):
-            st.markdown(
-                """
-                <div class="menu-browse-card-head">
-                    <div class="menu-premium-kicker">Gulf food library</div>
-                    <div class="menu-premium-title">Supported Dishes</div>
-                    <div class="menu-premium-subtitle">Explore Gulf dishes recognized by GulfBite and view a quick culinary profile for each one.</div>
-                </div>
-                <div class="menu-browse-divider"></div>
-                <div class="menu-browse-row">
-                    <div class="menu-browse-label">Browse by dish type</div>
-                    <div class="menu-browse-note">Choose a category</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+        st.markdown(
+            """
+            <div class="menu-browse-card-head">
+                <div class="menu-premium-kicker">Gulf food library</div>
+                <div class="menu-premium-title">Supported Dishes</div>
+                <div class="menu-premium-subtitle">Explore Gulf dishes recognized by GulfBite and view a quick culinary profile for each one.</div>
+            </div>
+            <div class="menu-browse-divider"></div>
+            <div class="menu-browse-row">
+                <div class="menu-browse-label">Browse by dish type</div>
+                <div class="menu-browse-note">Choose a category</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
-            with st.container(key="menu_category_control"):
-                if hasattr(st, "segmented_control"):
-                    st.segmented_control(
-                        "Dish category",
-                        options=list(category_map.keys()),
-                        key="menu_category_segment",
-                        selection_mode="single",
-                        label_visibility="collapsed",
-                        width="stretch",
-                        on_change=_apply_menu_category,
-                    )
-                else:
-                    current_short = st.session_state.menu_category_segment
-                    st.radio(
-                        "Dish category",
-                        options=list(category_map.keys()),
-                        index=list(category_map.keys()).index(current_short),
-                        key="menu_category_segment",
-                        horizontal=True,
-                        label_visibility="collapsed",
-                        on_change=_apply_menu_category,
-                    )
-
-            selected_category = st.session_state.cat_select_box
-            dishes = DISH_CATEGORIES_DATA[selected_category]
-            category_name = reverse_category_map.get(selected_category, "All Dishes")
-
-            if (
-                "dish_select_box" not in st.session_state
-                or st.session_state.dish_select_box not in dishes
-            ):
-                st.session_state.dish_select_box = dishes[0]
-
-            st.markdown('<div class="menu-browse-divider menu-browse-divider-inner"></div>', unsafe_allow_html=True)
-            st.markdown(
-                f'<div class="menu-category-meta"><span><strong>{category_name}</strong></span><span>{len(dishes)} dishes in this category</span></div>',
-                unsafe_allow_html=True,
-            )
-
-            with st.container(key="menu_dish_picker"):
-                st.markdown(
-                    '<div class="menu-picker-label">Choose a dish</div>',
-                    unsafe_allow_html=True,
-                )
-                selected_dish = st.selectbox(
-                    "Choose a dish",
-                    options=dishes,
-                    format_func=display_name,
-                    key="dish_select_box",
+        with st.container(key="menu_category_control"):
+            if hasattr(st, "segmented_control"):
+                st.segmented_control(
+                    "Dish category",
+                    options=list(category_map.keys()),
+                    key="menu_category_segment",
+                    selection_mode="single",
                     label_visibility="collapsed",
+                    width="stretch",
+                    on_change=_apply_menu_category,
                 )
+            else:
+                current_short = st.session_state.menu_category_segment
+                st.radio(
+                    "Dish category",
+                    options=list(category_map.keys()),
+                    index=list(category_map.keys()).index(current_short),
+                    key="menu_category_segment",
+                    horizontal=True,
+                    label_visibility="collapsed",
+                    on_change=_apply_menu_category,
+                )
+
+        selected_category = st.session_state.cat_select_box
+        dishes = DISH_CATEGORIES_DATA[selected_category]
+        category_name = reverse_category_map.get(selected_category, "All Dishes")
+
+        if (
+            "dish_select_box" not in st.session_state
+            or st.session_state.dish_select_box not in dishes
+        ):
+            st.session_state.dish_select_box = dishes[0]
+
+        st.markdown('<div class="menu-browse-divider menu-browse-divider-inner"></div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="menu-category-meta"><span><strong>{category_name}</strong></span><span>{len(dishes)} dishes in this category</span></div>',
+            unsafe_allow_html=True,
+        )
+
+        with st.container(key="menu_dish_picker"):
+            st.markdown(
+                '<div class="menu-picker-label">Choose a dish</div>',
+                unsafe_allow_html=True,
+            )
+            selected_dish = st.selectbox(
+                "Choose a dish",
+                options=dishes,
+                format_func=display_name,
+                key="dish_select_box",
+                label_visibility="collapsed",
+            )
 
         family_visuals = {
             "01_machboos": ("🍚", "Rice dish"),
@@ -10692,9 +10691,11 @@ def render_category_squircle_cards():
             f'<div class="menu-feature-icon">{icon}</div>'
             '<div class="menu-feature-heading">'
             f'<div class="menu-feature-name">{display_name(selected_dish)}</div>'
+            '<div class="menu-feature-meta-row">'
             f'<div class="menu-feature-family">{family}</div>'
-            '</div>'
             f'<div class="menu-feature-time">⏱ {meta["time"]}</div>'
+            '</div>'
+            '</div>'
             '</div>'
             '<div class="menu-feature-divider"></div>'
             f'<div class="menu-feature-blurb">{blurb}</div>'
@@ -11870,6 +11871,213 @@ elif st.session_state.stage in ["main", "upload"]:
                 width: 98px !important;
                 min-width: 98px !important;
                 max-width: 98px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           VERIFIED STRUCTURAL FIXES — LAST IN CASCADE
+           ================================================================ */
+
+        /* MENU: only ONE visible card shell */
+        .stApp:has(.menu-screen-marker) .st-key-menu_library_card {
+            margin: 4px 0 10px !important;
+            padding: 14px 15px 13px !important;
+            border: 1px solid #DCC79C !important;
+            border-radius: 20px !important;
+            background:
+                radial-gradient(circle at 96% 5%, rgba(175,118,31,.08), transparent 24%),
+                linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+            box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+            overflow: visible !important;
+        }
+
+        /* Old nested browse shell is gone structurally; neutralize any stale styles. */
+        .stApp:has(.menu-screen-marker) .st-key-menu_browse_unified {
+            display: none !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-browse-divider {
+            height: 1px !important;
+            margin: 10px 0 9px !important;
+            background: linear-gradient(to right,#D7BE8D,rgba(215,190,141,0)) !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-browse-divider-inner {
+            margin-top: 10px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .st-key-menu_category_control,
+        .stApp:has(.menu-screen-marker) .st-key-menu_dish_picker {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-card {
+            margin: 10px 0 0 !important;
+            padding: 12px 0 0 !important;
+            border: 0 !important;
+            border-top: 1px solid #D7BE8D !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            overflow: visible !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-top {
+            display: grid !important;
+            grid-template-columns: 46px minmax(0,1fr) !important;
+            gap: 9px !important;
+            align-items: center !important;
+            width: 100% !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-heading {
+            min-width: 0 !important;
+            width: 100% !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-meta-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 8px !important;
+            margin-top: 3px !important;
+            min-width: 0 !important;
+            width: 100% !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-family {
+            min-width: 0 !important;
+            margin: 0 !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-time {
+            flex: 0 0 auto !important;
+            width: auto !important;
+            min-width: 0 !important;
+            max-width: none !important;
+            padding: 4px 8px !important;
+            font-size: .52rem !important;
+            white-space: nowrap !important;
+            overflow: visible !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-feature-blurb {
+            width: 100% !important;
+            max-width: 100% !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            overflow-wrap: break-word !important;
+            word-break: normal !important;
+            box-sizing: border-box !important;
+        }
+
+        /* SCAN: text must wrap; no right-edge clipping */
+        .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+            overflow: visible !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-tip-line {
+            display: grid !important;
+            grid-template-columns: 22px minmax(0,1fr) !important;
+            gap: 7px !important;
+            align-items: start !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            box-sizing: border-box !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-tip-line span:last-child {
+            min-width: 0 !important;
+            white-space: normal !important;
+            overflow-wrap: break-word !important;
+            word-break: normal !important;
+            line-height: 1.28 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+            gap: 0 !important;
+            width: 100% !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-card {
+            display: grid !important;
+            grid-template-columns: 34px minmax(0,1fr) !important;
+            gap: 7px !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
+            overflow: visible !important;
+            box-sizing: border-box !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-card > div:last-child {
+            min-width: 0 !important;
+            max-width: 100% !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-title,
+        .stApp:has(.scan-screen-marker) .scan-help-copy {
+            width: 100% !important;
+            max-width: 100% !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            overflow-wrap: break-word !important;
+            word-break: normal !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-copy {
+            font-size: .49rem !important;
+            line-height: 1.22 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-card {
+            display: grid !important;
+            grid-template-columns: 34px minmax(0,1fr) !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-card > div:last-child {
+            min-width: 0 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-copy {
+            white-space: normal !important;
+            overflow: visible !important;
+            overflow-wrap: break-word !important;
+            line-height: 1.24 !important;
+        }
+
+        @media (max-width: 430px) {
+            .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-help-card:first-child {
+                border-right: 0 !important;
+                border-bottom: 1px solid #E4D3B5 !important;
+                padding-bottom: 7px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-help-card:last-child {
+                padding-top: 7px !important;
             }
         }
         </style>
