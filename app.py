@@ -4751,6 +4751,24 @@ button[aria-label*="notification" i] {
     }
 }
 
+
+/* ==========================================================================
+   HOME FAVOURITES — FIXED NAV CLEARANCE
+   Keep the entire favourites card comfortably above the bottom navigation.
+   ========================================================================== */
+
+.st-key-home_favourites_section {
+    margin-bottom: 118px !important;
+    padding-bottom: 18px !important;
+}
+
+@media (max-width: 480px) {
+    .st-key-home_favourites_section {
+        margin-bottom: 124px !important;
+        padding-bottom: 18px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
