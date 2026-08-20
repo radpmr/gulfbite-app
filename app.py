@@ -5531,6 +5531,151 @@ button[aria-label*="notification" i] {
     }
 }
 
+
+/* ==========================================================================
+   HOME FINAL MOBILE BALANCE
+   Compact Quick Guide + 3 equal Gulf favourite tiles.
+   ========================================================================== */
+
+/* Quick Guide: slightly taller so captions don't touch the bottom edge. */
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+    padding: 13px 16px 14px !important;
+    margin-bottom: 8px !important;
+    border-radius: 20px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-section-title {
+    margin-bottom: 9px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-icon {
+    width: 40px !important;
+    height: 40px !important;
+    margin-bottom: 6px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-line {
+    top: 20px !important;
+    height: 1px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-title {
+    font-size: .95rem !important;
+    line-height: 1.05 !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-caption {
+    font-size: .72rem !important;
+    line-height: 1.1 !important;
+    margin-top: 3px !important;
+    padding-bottom: 1px !important;
+}
+
+/* Gulf favourites: 3 equal compact tiles. */
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+    padding: 13px 15px 14px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-radius: 20px !important;
+}
+
+.stApp:has(.home-screen-marker) .st-key-home_favourites_section .home-favourites-head {
+    margin-bottom: 8px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-note,
+.stApp:has(.home-screen-marker) .home-favourites-stack {
+    display: none !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-grid-links,
+.stApp:has(.home-screen-marker) .home-favourites-grid-links.home-featured-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin-top: 8px !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link,
+.stApp:has(.home-screen-marker) .home-favourite-link.featured,
+.stApp:has(.home-screen-marker) .home-favourite-link.small {
+    position: relative !important;
+    min-height: 94px !important;
+    height: 94px !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    background: #EDE7DE !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(to top, rgba(0,0,0,.58), rgba(0,0,0,.02) 62%) !important;
+    pointer-events: none !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourite-link span {
+    left: 8px !important;
+    bottom: 7px !important;
+    font-size: .74rem !important;
+    font-weight: 850 !important;
+}
+
+@media (max-width: 480px) {
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card {
+        padding: 12px 13px 13px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-icon {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-line {
+        top: 19px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-title {
+        font-size: .88rem !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_quick_guide_card .home-guide-caption {
+        font-size: .67rem !important;
+    }
+
+    .stApp:has(.home-screen-marker) .st-key-home_favourites_section {
+        padding: 12px 13px 13px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourites-grid-links,
+    .stApp:has(.home-screen-marker) .home-favourites-grid-links.home-featured-grid {
+        gap: 7px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourite-link,
+    .stApp:has(.home-screen-marker) .home-favourite-link.featured,
+    .stApp:has(.home-screen-marker) .home-favourite-link.small {
+        min-height: 88px !important;
+        height: 88px !important;
+    }
+
+    .stApp:has(.home-screen-marker) .home-favourite-link span {
+        font-size: .68rem !important;
+        left: 7px !important;
+        bottom: 6px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -6563,23 +6708,20 @@ elif st.session_state.stage in ["main", "upload"]:
                 '<div class="home-favourites-title">Gulf favourites</div>'
                 '<div class="home-favourites-subtitle">Tap a dish to explore it in the menu.</div>'
                 '</div>'
-                '<div class="home-favourites-note">Popular picks</div>'
                 '</div>'
-                '<div class="home-favourites-grid-links home-featured-grid">'
-                f'<a class="home-favourite-link featured" href="?fav=machboos">'
+                '<div class="home-favourites-grid-links">'
+                f'<a class="home-favourite-link" href="?fav=machboos">'
                 f'<img src="{MACHBOOS_ONBOARDING_URI}" alt="Machboos">'
                 '<span>Machboos</span>'
                 '</a>'
-                '<div class="home-favourites-stack">'
-                '<a class="home-favourite-link small" href="?fav=shawarma">'
+                '<a class="home-favourite-link" href="?fav=shawarma">'
                 '<img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=85" alt="Shawarma">'
                 '<span>Shawarma</span>'
                 '</a>'
-                '<a class="home-favourite-link small" href="?fav=karak">'
+                '<a class="home-favourite-link" href="?fav=karak">'
                 '<img src="https://www.timeoutabudhabi.com/cloud/timeoutabudhabi/2022/08/22/Milky-Karak-Cafeteria.jpg" alt="Karak Chai">'
                 '<span>Karak Chai</span>'
                 '</a>'
-                '</div>'
                 '</div>'
             )
             st.markdown(favourites_html, unsafe_allow_html=True)
