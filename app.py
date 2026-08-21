@@ -9894,6 +9894,96 @@ button,
     margin-top: 10px !important;
 }
 
+
+/* ==========================================================================
+   MENU + SCAN — SPACING ADJUSTMENTS
+   ========================================================================== */
+
+/* MENU: add more breathing room between the intro copy and Browse by dish type. */
+.stApp:has(.menu-screen-marker) .menu-premium-subtitle {
+    margin-bottom: 16px !important;
+}
+
+/* SCAN: add more space below the One clear dish / Good lighting tiles,
+   while keeping everything inside the main Scan card. */
+.stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+    margin-bottom: 14px !important;
+}
+
+@media (max-width: 768px) {
+    .stApp:has(.menu-screen-marker) .menu-premium-subtitle {
+        margin-bottom: 14px !important;
+    }
+
+    .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+        margin-bottom: 12px !important;
+    }
+}
+
+
+/* ==========================================================================
+   MENU HEADER — MATCH SCAN HERO TYPOGRAPHY
+   Make:
+     Gulf food library
+     Supported Dishes
+     Explore regional dishes...
+   use the same typography, colors and spacing as:
+     AI-POWERED GULF FOOD RECOGNITION
+     Scan your meal
+     Upload a clear Gulf dish photo...
+   ========================================================================== */
+
+.stApp:has(.menu-screen-marker) .menu-premium-kicker {
+    color: #A96E14 !important;
+    font-size: .58rem !important;
+    font-weight: 800 !important;
+    letter-spacing: .10em !important;
+    text-transform: uppercase !important;
+    line-height: 1.15 !important;
+    margin: 0 0 4px 0 !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-premium-title {
+    color: #241B12 !important;
+    font-size: 1.16rem !important;
+    font-weight: 800 !important;
+    line-height: 1.12 !important;
+    letter-spacing: -.02em !important;
+    margin: 0 0 4px 0 !important;
+}
+
+.stApp:has(.menu-screen-marker) .menu-premium-subtitle {
+    color: #7B705F !important;
+    font-size: .72rem !important;
+    font-weight: 500 !important;
+    line-height: 1.36 !important;
+    margin: 0 0 16px 0 !important;
+}
+
+/* Keep spacing between the three lines identical to the Scan hero rhythm. */
+.stApp:has(.menu-screen-marker) .menu-browse-card-head {
+    margin: 0 0 0 0 !important;
+    padding: 0 !important;
+}
+
+@media (max-width: 768px) {
+    .stApp:has(.menu-screen-marker) .menu-premium-kicker {
+        font-size: .56rem !important;
+        margin-bottom: 4px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-premium-title {
+        font-size: 1.12rem !important;
+        margin-bottom: 4px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .menu-premium-subtitle {
+        font-size: .69rem !important;
+        line-height: 1.34 !important;
+        margin-bottom: 14px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
