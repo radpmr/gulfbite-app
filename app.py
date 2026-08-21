@@ -10238,61 +10238,6 @@ button,
 
 # Small reusable segmented control used for choices that should look like app buttons.
 
-def dish_picker_popover(
-    options,
-    state_key,
-    display_func,
-    picker_key,
-    option_prefix="dish",
-    height=210,
-):
-    """Compact dish picker using a popover + radio list for stable mobile rendering."""
-    if not options:
-        return None
-
-    if state_key not in st.session_state or st.session_state[state_key] not in options:
-        st.session_state[state_key] = options[0]
-
-    current = st.session_state[state_key]
-
-    with st.container(key=picker_key):
-        if hasattr(st, "popover"):
-            with st.popover(
-                f"{display_func(current)}  ▾",
-                use_container_width=True,
-            ):
-                radio_key = f"{picker_key}_{option_prefix}_radio"
-
-                # Keep the radio widget synchronized with the currently selected dish.
-                if radio_key not in st.session_state or st.session_state[radio_key] not in options:
-                    st.session_state[radio_key] = current
-
-                selected = st.radio(
-                    "Dish",
-                    options=options,
-                    format_func=display_func,
-                    key=radio_key,
-                    label_visibility="collapsed",
-                )
-
-                if selected != current:
-                    st.session_state[state_key] = selected
-                    st.rerun()
-        else:
-            selected = st.radio(
-                "Dish",
-                options=options,
-                index=options.index(current),
-                format_func=display_func,
-                label_visibility="collapsed",
-                key=f"{picker_key}_radio_fallback",
-            )
-            st.session_state[state_key] = selected
-
-    return st.session_state[state_key]
-
-
-
 def segmented_choice(
     label,
     options,
@@ -11132,13 +11077,12 @@ def render_category_squircle_cards():
                 '<div class="menu-picker-label">Choose a dish</div>',
                 unsafe_allow_html=True,
             )
-            selected_dish = dish_picker_popover(
-                dishes,
-                state_key="dish_select_box",
-                display_func=display_name,
-                picker_key="menu_dish_popover",
-                option_prefix="menu",
-                height=205,
+            selected_dish = st.selectbox(
+                "Choose a dish",
+                options=dishes,
+                format_func=display_name,
+                key="dish_select_box",
+                label_visibility="collapsed",
             )
 
     family_visuals = {
@@ -14453,6 +14397,225 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           DISH PICKER — FORCE TRUE VERTICAL RADIO LIST
+           Fixes global radio styles that were laying every dish inline.
+           ================================================================ */
+
+        [data-testid="stPopoverBody"] [data-testid="stRadio"] {
+            display: block !important;
+            width: 100% !important;
+            max-height: 205px !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding: 2px !important;
+        }
+
+        /* Hide the internal "Dish" widget label completely. */
+        [data-testid="stPopoverBody"] [data-testid="stRadio"] > label,
+        [data-testid="stPopoverBody"] [data-testid="stWidgetLabel"] {
+            display: none !important;
+        }
+
+        /* Critical: override any app-wide horizontal radio styling. */
+        [data-testid="stPopoverBody"] [role="radiogroup"] {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            justify-content: flex-start !important;
+            gap: 4px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        [data-testid="stPopoverBody"] [role="radiogroup"] > label,
+        [data-testid="stPopoverBody"] [role="radio"] {
+            display: flex !important;
+            flex: 0 0 auto !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
+            position: static !important;
+            transform: none !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        [data-testid="stPopoverBody"] [role="radiogroup"] > label {
+            align-items: center !important;
+            min-height: 38px !important;
+            padding: 0 10px !important;
+            border-radius: 10px !important;
+            background: #FFFEFB !important;
+            color: #2B241C !important;
+            white-space: normal !important;
+            overflow: hidden !important;
+        }
+
+        [data-testid="stPopoverBody"] [role="radiogroup"] > label:hover {
+            background: #FFF6E4 !important;
+        }
+
+        [data-testid="stPopoverBody"] [role="radiogroup"] > label:has(input:checked) {
+            background: #FFF0C9 !important;
+            color: #241B12 !important;
+            font-weight: 750 !important;
+        }
+
+        /* Prevent option text from inheriting nowrap/absolute positioning. */
+        [data-testid="stPopoverBody"] [role="radiogroup"] p,
+        [data-testid="stPopoverBody"] [role="radiogroup"] span {
+            position: static !important;
+            transform: none !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            text-overflow: clip !important;
+            color: inherit !important;
+            font-size: .80rem !important;
+            line-height: 1.2 !important;
+            margin: 0 !important;
+        }
+
+        [data-testid="stPopoverBody"] input[type="radio"] {
+            flex: 0 0 auto !important;
+            margin-right: 8px !important;
+            accent-color: #D99A1B !important;
+        }
+
+        [data-testid="stPopoverBody"] {
+            width: min(400px, calc(100vw - 48px)) !important;
+            max-width: min(400px, calc(100vw - 48px)) !important;
+            padding: 8px !important;
+            overflow: hidden !important;
+        }
+
+        @media (max-width: 768px) {
+            [data-testid="stPopoverBody"] {
+                width: calc(100vw - 54px) !important;
+                max-width: calc(100vw - 54px) !important;
+            }
+
+            [data-testid="stPopoverBody"] [data-testid="stRadio"] {
+                max-height: 190px !important;
+            }
+
+            [data-testid="stPopoverBody"] [role="radiogroup"] > label {
+                min-height: 36px !important;
+                padding: 0 9px !important;
+            }
+
+            [data-testid="stPopoverBody"] [role="radiogroup"] p,
+            [data-testid="stPopoverBody"] [role="radiogroup"] span {
+                font-size: .77rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           NATIVE DISH SELECTBOX — STABLE FINAL VERSION
+           Reverted custom popover/radio pickers because global segmented
+           styles were interfering with them.
+           ================================================================ */
+
+        /* Closed select control */
+        div[data-baseweb="select"] > div {
+            min-height: 48px !important;
+            border: 1px solid #DDA73A !important;
+            border-radius: 15px !important;
+            background: #FFFEFB !important;
+            box-shadow: none !important;
+            color: #241B12 !important;
+        }
+
+        div[data-baseweb="select"] span,
+        div[data-baseweb="select"] input {
+            color: #241B12 !important;
+            font-family: "Inter", sans-serif !important;
+        }
+
+        /* Open dropdown */
+        [data-baseweb="popover"] [role="listbox"] {
+            max-height: 220px !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding: 4px !important;
+            border: 1px solid #E4D2B3 !important;
+            border-radius: 14px !important;
+            background: #FFFEFB !important;
+            box-shadow: 0 10px 24px rgba(62,42,12,.12) !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: #D6B36A #FFFEFB !important;
+        }
+
+        [data-baseweb="popover"] [role="listbox"],
+        [data-baseweb="popover"] [role="listbox"] > div,
+        [data-baseweb="popover"] [role="option"],
+        [data-baseweb="popover"] [role="option"] > div {
+            background-color: #FFFEFB !important;
+            color: #2B241C !important;
+        }
+
+        [data-baseweb="popover"] [role="option"] {
+            min-height: 38px !important;
+            height: 38px !important;
+            margin: 1px 0 !important;
+            padding: 0 11px !important;
+            border: 0 !important;
+            border-radius: 9px !important;
+            box-shadow: none !important;
+            font-size: .80rem !important;
+            font-weight: 550 !important;
+        }
+
+        [data-baseweb="popover"] [role="option"][aria-selected="true"] {
+            background: #FFF0C9 !important;
+            color: #241B12 !important;
+            font-weight: 750 !important;
+        }
+
+        [data-baseweb="popover"] [role="option"]:hover {
+            background: #FFF6E4 !important;
+            color: #241B12 !important;
+        }
+
+        [data-baseweb="popover"] [role="listbox"]::-webkit-scrollbar {
+            width: 6px !important;
+        }
+
+        [data-baseweb="popover"] [role="listbox"]::-webkit-scrollbar-track {
+            background: #FFFEFB !important;
+        }
+
+        [data-baseweb="popover"] [role="listbox"]::-webkit-scrollbar-thumb {
+            background: #D6B36A !important;
+            border-radius: 999px !important;
+        }
+
+        @media (max-width: 768px) {
+            [data-baseweb="popover"] [role="listbox"] {
+                max-height: 190px !important;
+            }
+
+            [data-baseweb="popover"] [role="option"] {
+                min-height: 36px !important;
+                height: 36px !important;
+                font-size: .77rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
@@ -14522,13 +14685,13 @@ elif st.session_state.stage == "confirm_dish":
         ):
             st.session_state.dish_confirmation_select = candidates[default_idx]
 
-        choice = dish_picker_popover(
-            candidates,
-            state_key="dish_confirmation_select",
-            display_func=lambda x: f"🍲 {display_name(x)}",
-            picker_key="confirm_dish_popover",
-            option_prefix="confirm",
-            height=190,
+        choice = st.selectbox(
+            "Select matching dish:",
+            options=candidates,
+            format_func=lambda x: f"🍲 {display_name(x)}",
+            index=default_idx,
+            label_visibility="collapsed",
+            key="dish_confirmation_select",
         )
 
         with st.container(key="confirm_dish_control"):
@@ -14661,13 +14824,13 @@ elif st.session_state.stage == "result":
             ):
                 st.session_state.result_corrected_dish = all_dishes[current_idx]
 
-            corrected = dish_picker_popover(
-                all_dishes,
-                state_key="result_corrected_dish",
-                display_func=display_name,
-                picker_key="result_dish_popover",
-                option_prefix="result",
-                height=205,
+            corrected = st.selectbox(
+                "Select correct dish:",
+                options=all_dishes,
+                format_func=display_name,
+                index=current_idx,
+                label_visibility="collapsed",
+                key="result_corrected_dish",
             )
 
             with st.container(key="update_dish_control"):
