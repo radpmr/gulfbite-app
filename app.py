@@ -10918,7 +10918,7 @@ def render_category_squircle_cards():
     icon, family = family_visuals.get(selected_dish, ("🍽️", "Gulf dish"))
 
     detail_html = (
-        '<div class="menu-feature-card" style="box-sizing:border-box !important;max-width:100% !important;padding-right:14px !important;overflow:visible !important;">'
+        '<div class="menu-feature-card" style="box-sizing:border-box !important;width:100% !important;max-width:100% !important;margin:0 !important;padding:14px 15px 15px !important;border:1px solid #DCC79C !important;border-radius:18px !important;background:linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;box-shadow:0 8px 18px rgba(66,46,15,.04) !important;overflow:hidden !important;">'
         '<div class="menu-feature-kicker">Selected dish</div>'
         '<div class="menu-feature-top">'
         f'<div class="menu-feature-icon">{icon}</div>'
@@ -12946,7 +12946,41 @@ elif st.session_state.stage in ["main", "upload"]:
                 border-radius: 15px !important;
             }
         }
-        </style>
+        
+/* Selected Dish: keep only the inner warm card */
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card {
+    margin: 0 0 10px 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card .menu-feature-card {
+    margin: 0 !important;
+    padding: 14px 15px 15px !important;
+    border: 1px solid #DCC79C !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: 0 8px 18px rgba(66,46,15,.04) !important;
+    overflow: hidden !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card .menu-feature-card::before,
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card .menu-feature-divider {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card .menu-feature-card {
+        padding: 12px 13px 13px !important;
+        border-radius: 17px !important;
+    }
+}
+
+</style>
         """,
         unsafe_allow_html=True,
     )
