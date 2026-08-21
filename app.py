@@ -13971,6 +13971,382 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           DISH PICKER — COMPACT FLUSH LIST
+           Remove the oversized white shell and card-like option buttons.
+           ================================================================ */
+
+        /* Keep the trigger clean and compact. */
+        .st-key-menu_clean_dish_picker [data-testid="stButton"] button,
+        .st-key-confirm_clean_dish_picker [data-testid="stButton"] button,
+        .st-key-result_clean_dish_picker [data-testid="stButton"] button {
+            box-shadow: none !important;
+        }
+
+        .st-key-menu_clean_dish_picker > div > div:first-child [data-testid="stButton"] button,
+        .st-key-confirm_clean_dish_picker > div > div:first-child [data-testid="stButton"] button,
+        .st-key-result_clean_dish_picker > div > div:first-child [data-testid="stButton"] button {
+            min-height: 46px !important;
+            height: 46px !important;
+            padding: 0 14px !important;
+            border: 1px solid #D99A1B !important;
+            border-radius: 14px !important;
+            background: linear-gradient(180deg,#FFFEFB 0%,#FFF8E9 100%) !important;
+            color: #241B12 !important;
+            font-size: .92rem !important;
+            font-weight: 600 !important;
+        }
+
+        /* Remove the extra white card around the open list. */
+        .st-key-menu_clean_dish_picker_options,
+        .st-key-confirm_clean_dish_picker_options,
+        .st-key-result_clean_dish_picker_options {
+            margin-top: 4px !important;
+            padding: 3px !important;
+            border: 1px solid #E4D2B3 !important;
+            border-radius: 12px !important;
+            background: #FFFEFB !important;
+            box-shadow: 0 8px 16px rgba(62,42,12,.055) !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+        }
+
+        /* Strip Streamlit's inner wrappers so rows sit flush together. */
+        .st-key-menu_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .st-key-confirm_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .st-key-result_clean_dish_picker_options [data-testid="stVerticalBlock"] {
+            gap: 1px !important;
+        }
+
+        .st-key-menu_clean_dish_picker_options [data-testid="stElementContainer"],
+        .st-key-confirm_clean_dish_picker_options [data-testid="stElementContainer"],
+        .st-key-result_clean_dish_picker_options [data-testid="stElementContainer"],
+        .st-key-menu_clean_dish_picker_options [data-testid="stButton"],
+        .st-key-confirm_clean_dish_picker_options [data-testid="stButton"],
+        .st-key-result_clean_dish_picker_options [data-testid="stButton"] {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Flat dropdown-style rows — no individual card outlines. */
+        .st-key-menu_clean_dish_picker_options [data-testid="stButton"] button,
+        .st-key-confirm_clean_dish_picker_options [data-testid="stButton"] button,
+        .st-key-result_clean_dish_picker_options [data-testid="stButton"] button {
+            width: 100% !important;
+            min-height: 32px !important;
+            height: 32px !important;
+            margin: 0 !important;
+            padding: 0 10px !important;
+            border: 0 !important;
+            border-radius: 7px !important;
+            background: #FFFEFB !important;
+            color: #2B241C !important;
+            box-shadow: none !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+            font-size: .76rem !important;
+            font-weight: 550 !important;
+        }
+
+        .st-key-menu_clean_dish_picker_options [data-testid="stButton"] button:hover,
+        .st-key-confirm_clean_dish_picker_options [data-testid="stButton"] button:hover,
+        .st-key-result_clean_dish_picker_options [data-testid="stButton"] button:hover {
+            background: #FFF3D7 !important;
+            color: #241B12 !important;
+        }
+
+        .st-key-menu_clean_dish_picker_options [data-testid="stButton"] button *,
+        .st-key-confirm_clean_dish_picker_options [data-testid="stButton"] button *,
+        .st-key-result_clean_dish_picker_options [data-testid="stButton"] button * {
+            color: inherit !important;
+            background: transparent !important;
+        }
+
+        @media (max-width: 768px) {
+            .st-key-menu_clean_dish_picker > div > div:first-child [data-testid="stButton"] button,
+            .st-key-confirm_clean_dish_picker > div > div:first-child [data-testid="stButton"] button,
+            .st-key-result_clean_dish_picker > div > div:first-child [data-testid="stButton"] button {
+                min-height: 44px !important;
+                height: 44px !important;
+                font-size: .88rem !important;
+            }
+
+            .st-key-menu_clean_dish_picker_options [data-testid="stButton"] button,
+            .st-key-confirm_clean_dish_picker_options [data-testid="stButton"] button,
+            .st-key-result_clean_dish_picker_options [data-testid="stButton"] button {
+                min-height: 30px !important;
+                height: 30px !important;
+                font-size: .74rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           DISH PICKER — TRUE FLAT ROWS
+           Target each keyed option button directly so the app-wide button
+           card styles cannot override the picker.
+           ================================================================ */
+
+        /* Remove the large nested-card feel around the open list. */
+        .st-key-menu_clean_dish_picker_options,
+        .st-key-confirm_clean_dish_picker_options,
+        .st-key-result_clean_dish_picker_options {
+            margin-top: 5px !important;
+            padding: 4px 6px !important;
+            border: 1px solid #E7D7BC !important;
+            border-radius: 12px !important;
+            background: #FFFEFB !important;
+            box-shadow: 0 6px 14px rgba(62,42,12,.045) !important;
+        }
+
+        .st-key-menu_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .st-key-confirm_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .st-key-result_clean_dish_picker_options [data-testid="stVerticalBlock"] {
+            gap: 0 !important;
+        }
+
+        /* Keyed option widgets themselves */
+        [class*="st-key-menu_clean_dish_picker_menu_"],
+        [class*="st-key-confirm_clean_dish_picker_confirm_"],
+        [class*="st-key-result_clean_dish_picker_result_"] {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        [class*="st-key-menu_clean_dish_picker_menu_"] [data-testid="stButton"],
+        [class*="st-key-confirm_clean_dish_picker_confirm_"] [data-testid="stButton"],
+        [class*="st-key-result_clean_dish_picker_result_"] [data-testid="stButton"] {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        [class*="st-key-menu_clean_dish_picker_menu_"] button,
+        [class*="st-key-confirm_clean_dish_picker_confirm_"] button,
+        [class*="st-key-result_clean_dish_picker_result_"] button {
+            display: flex !important;
+            width: 100% !important;
+            min-height: 34px !important;
+            height: 34px !important;
+            margin: 0 !important;
+            padding: 0 10px !important;
+            border: 0 !important;
+            border-radius: 7px !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            color: #2B241C !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+            font-size: .78rem !important;
+            font-weight: 550 !important;
+        }
+
+        [class*="st-key-menu_clean_dish_picker_menu_"] button:hover,
+        [class*="st-key-confirm_clean_dish_picker_confirm_"] button:hover,
+        [class*="st-key-result_clean_dish_picker_result_"] button:hover {
+            background: #FFF3D7 !important;
+            color: #241B12 !important;
+        }
+
+        [class*="st-key-menu_clean_dish_picker_menu_"] button *,
+        [class*="st-key-confirm_clean_dish_picker_confirm_"] button *,
+        [class*="st-key-result_clean_dish_picker_result_"] button * {
+            color: inherit !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        /* Keep the main selector visually distinct from the list. */
+        .st-key-menu_clean_dish_picker_trigger button,
+        .st-key-confirm_clean_dish_picker_trigger button,
+        .st-key-result_clean_dish_picker_trigger button {
+            min-height: 46px !important;
+            height: 46px !important;
+            padding: 0 14px !important;
+            border: 1px solid #D99A1B !important;
+            border-radius: 14px !important;
+            background: linear-gradient(180deg,#FFFEFB 0%,#FFF8E9 100%) !important;
+            color: #A66D05 !important;
+            box-shadow: none !important;
+            font-size: .90rem !important;
+            font-weight: 600 !important;
+        }
+
+        @media (max-width: 768px) {
+            [class*="st-key-menu_clean_dish_picker_menu_"] button,
+            [class*="st-key-confirm_clean_dish_picker_confirm_"] button,
+            [class*="st-key-result_clean_dish_picker_result_"] button {
+                min-height: 32px !important;
+                height: 32px !important;
+                font-size: .75rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           DISH PICKER — SPECIFICITY FIX
+           The app-wide secondary-button rule was overriding the option rows.
+           These selectors are deliberately stronger and come last.
+           ================================================================ */
+
+        /* Remove the extra Streamlit card shell around the open option list. */
+        .stApp .st-key-menu_clean_dish_picker_options,
+        .stApp .st-key-confirm_clean_dish_picker_options,
+        .stApp .st-key-result_clean_dish_picker_options,
+        .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_clean_dish_picker_options),
+        .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-confirm_clean_dish_picker_options),
+        .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-result_clean_dish_picker_options) {
+            margin-top: 4px !important;
+            padding: 3px 5px !important;
+            border: 1px solid #E6D7BF !important;
+            border-radius: 12px !important;
+            background: #FFFEFB !important;
+            box-shadow: 0 5px 12px rgba(62,42,12,.04) !important;
+        }
+
+        .stApp .st-key-menu_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .stApp .st-key-confirm_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .stApp .st-key-result_clean_dish_picker_options [data-testid="stVerticalBlock"] {
+            gap: 1px !important;
+        }
+
+        /* IMPORTANT: include kind="secondary" so these beat the global
+           .stApp button[kind="secondary"] rule. */
+        .stApp .st-key-menu_clean_dish_picker_options button[kind="secondary"],
+        .stApp .st-key-confirm_clean_dish_picker_options button[kind="secondary"],
+        .stApp .st-key-result_clean_dish_picker_options button[kind="secondary"] {
+            display: flex !important;
+            width: 100% !important;
+            min-height: 32px !important;
+            height: 32px !important;
+            margin: 0 !important;
+            padding: 0 9px !important;
+            border: 0 !important;
+            border-radius: 7px !important;
+            background: transparent !important;
+            color: #2B241C !important;
+            box-shadow: none !important;
+            transform: none !important;
+            filter: none !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+            font-size: .76rem !important;
+            font-weight: 550 !important;
+        }
+
+        .stApp .st-key-menu_clean_dish_picker_options button[kind="secondary"]:hover,
+        .stApp .st-key-confirm_clean_dish_picker_options button[kind="secondary"]:hover,
+        .stApp .st-key-result_clean_dish_picker_options button[kind="secondary"]:hover {
+            border: 0 !important;
+            background: #FFF3D7 !important;
+            color: #241B12 !important;
+            box-shadow: none !important;
+            transform: none !important;
+            filter: none !important;
+        }
+
+        .stApp .st-key-menu_clean_dish_picker_options button[kind="secondary"] *,
+        .stApp .st-key-confirm_clean_dish_picker_options button[kind="secondary"] *,
+        .stApp .st-key-result_clean_dish_picker_options button[kind="secondary"] * {
+            color: inherit !important;
+            background: transparent !important;
+        }
+
+        /* Keep only the closed selector looking like a proper input. */
+        .stApp .st-key-menu_clean_dish_picker_trigger button[kind="secondary"],
+        .stApp .st-key-confirm_clean_dish_picker_trigger button[kind="secondary"],
+        .stApp .st-key-result_clean_dish_picker_trigger button[kind="secondary"] {
+            min-height: 46px !important;
+            height: 46px !important;
+            padding: 0 14px !important;
+            border: 1px solid #D99A1B !important;
+            border-radius: 14px !important;
+            background: linear-gradient(180deg,#FFFEFB 0%,#FFF8E9 100%) !important;
+            color: #A66D05 !important;
+            box-shadow: none !important;
+            transform: none !important;
+            font-size: .90rem !important;
+            font-weight: 600 !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp .st-key-menu_clean_dish_picker_options button[kind="secondary"],
+            .stApp .st-key-confirm_clean_dish_picker_options button[kind="secondary"],
+            .stApp .st-key-result_clean_dish_picker_options button[kind="secondary"] {
+                min-height: 30px !important;
+                height: 30px !important;
+                font-size: .74rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           UPDATE DISH BUTTON — MATCH CONFIRM DISH
+           ================================================================ */
+
+        .stApp .st-key-update_dish_control button[kind="secondary"] {
+            width: 100% !important;
+            min-height: 54px !important;
+            height: 54px !important;
+            padding: 0 18px !important;
+            border: 0 !important;
+            border-radius: 16px !important;
+            background: linear-gradient(90deg,#F7C75F 0%,#E5A117 100%) !important;
+            color: #16110A !important;
+            box-shadow: 0 10px 22px rgba(209,145,22,.18) !important;
+            font-size: 1.02rem !important;
+            font-weight: 650 !important;
+            justify-content: center !important;
+            transform: none !important;
+        }
+
+        .stApp .st-key-update_dish_control button[kind="secondary"]:hover {
+            background: linear-gradient(90deg,#F6C253 0%,#DA9410 100%) !important;
+            color: #16110A !important;
+            box-shadow: 0 12px 24px rgba(209,145,22,.22) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .stApp .st-key-update_dish_control button[kind="secondary"] * {
+            color: inherit !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp .st-key-update_dish_control button[kind="secondary"] {
+                min-height: 52px !important;
+                height: 52px !important;
+                border-radius: 15px !important;
+                font-size: .98rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
