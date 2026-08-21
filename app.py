@@ -14738,9 +14738,8 @@ elif st.session_state.stage == "confirm_dish":
             if default_choice in candidates
             else 0
         )
-
         st.markdown(
-            '<p style="font-family: \'Inter\', sans-serif; font-size: 0.88rem; font-weight: 800; color: #1E1B16; margin: 12px 0 6px 0;">Select your dish:</p>',
+            '<div class="menu-picker-label" style="margin-top:12px; margin-bottom:6px;">Choose a dish</div>',
             unsafe_allow_html=True,
         )
 
@@ -14889,6 +14888,10 @@ elif st.session_state.stage == "result":
             ):
                 st.session_state.result_corrected_dish = all_dishes[current_idx]
 
+            st.markdown(
+                '<div class="menu-picker-label" style="margin-top:2px; margin-bottom:6px;">Choose a dish</div>',
+                unsafe_allow_html=True,
+            )
             corrected = compact_dish_picker(
                 all_dishes,
                 state_key="result_corrected_dish",
