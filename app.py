@@ -1,3 +1,6 @@
+
+
+
 """
 GulfBite - Smart Gulf Cuisine Nutrition Assistant
 
@@ -13994,6 +13997,202 @@ elif st.session_state.stage in ["main", "upload"]:
                 padding: 0 10px !important;
                 font-size: .76rem !important;
                 line-height: 34px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           DROPDOWN FINAL FIX — LIGHT / CLEAN / COMPACT
+           ================================================================ */
+
+        /* Popup shell */
+        [data-baseweb="popover"] {
+            z-index: 999999 !important;
+        }
+
+        [data-baseweb="popover"] > div,
+        [data-baseweb="menu"],
+        [role="listbox"] {
+            background: #FFFEFB !important;
+            color: #2B241C !important;
+            border: 1px solid #E4D2B3 !important;
+            border-radius: 14px !important;
+            box-shadow: 0 12px 26px rgba(62,42,12,.12) !important;
+        }
+
+        [role="listbox"] {
+            max-height: 220px !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding: 4px !important;
+        }
+
+        /* Every option stays light — no black/dark inherited states. */
+        [data-baseweb="menu"] li,
+        [data-baseweb="menu"] [role="option"],
+        [role="listbox"] [role="option"] {
+            background: #FFFEFB !important;
+            color: #2B241C !important;
+            border: 0 !important;
+            border-radius: 9px !important;
+            box-shadow: none !important;
+            min-height: 36px !important;
+            height: 36px !important;
+            margin: 1px 0 !important;
+            padding: 0 10px !important;
+            font-size: .79rem !important;
+            line-height: 36px !important;
+            font-weight: 550 !important;
+        }
+
+        /* Selected item */
+        [data-baseweb="menu"] [role="option"][aria-selected="true"],
+        [role="listbox"] [role="option"][aria-selected="true"] {
+            background: #FFF0C9 !important;
+            color: #241B12 !important;
+            font-weight: 750 !important;
+        }
+
+        /* Hover / focus */
+        [data-baseweb="menu"] [role="option"]:hover,
+        [data-baseweb="menu"] [role="option"]:focus,
+        [role="listbox"] [role="option"]:hover,
+        [role="listbox"] [role="option"]:focus {
+            background: #FFF6E4 !important;
+            color: #241B12 !important;
+        }
+
+        /* Kill any dark pseudo-layer BaseWeb/theme may add. */
+        [data-baseweb="menu"] *,
+        [role="listbox"] * {
+            box-shadow: none !important;
+        }
+
+        [role="listbox"]::-webkit-scrollbar {
+            width: 6px !important;
+        }
+
+        [role="listbox"]::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+
+        [role="listbox"]::-webkit-scrollbar-thumb {
+            background: #D6B36A !important;
+            border-radius: 999px !important;
+        }
+
+        @media (max-width: 768px) {
+            [role="listbox"] {
+                max-height: 205px !important;
+            }
+
+            [data-baseweb="menu"] li,
+            [data-baseweb="menu"] [role="option"],
+            [role="listbox"] [role="option"] {
+                min-height: 34px !important;
+                height: 34px !important;
+                line-height: 34px !important;
+                font-size: .76rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           DROPDOWN FINAL CLEANUP
+           Compact popup, no black scrollbar/edge, consistent on Menu and
+           recognition/update selectors.
+           ================================================================ */
+
+        [data-baseweb="popover"] {
+            z-index: 999999 !important;
+        }
+
+        [data-baseweb="popover"] > div,
+        [data-baseweb="menu"],
+        [role="listbox"] {
+            background: #FFFEFB !important;
+            color: #2B241C !important;
+            border: 1px solid #E4D2B3 !important;
+            border-radius: 14px !important;
+            box-shadow: 0 12px 24px rgba(62,42,12,.10) !important;
+            overflow: hidden !important;
+        }
+
+        [role="listbox"] {
+            max-height: 180px !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding: 4px !important;
+
+            /* Hide the native scrollbar completely; mouse/touch/trackpad
+               scrolling still works, so the dark bar cannot appear. */
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+
+        [role="listbox"]::-webkit-scrollbar,
+        [data-baseweb="menu"]::-webkit-scrollbar {
+            width: 0 !important;
+            height: 0 !important;
+            display: none !important;
+        }
+
+        [data-baseweb="menu"] li,
+        [data-baseweb="menu"] [role="option"],
+        [role="listbox"] [role="option"] {
+            min-height: 34px !important;
+            height: 34px !important;
+            margin: 1px 0 !important;
+            padding: 0 10px !important;
+            border: 0 !important;
+            border-radius: 9px !important;
+            background: #FFFEFB !important;
+            color: #2B241C !important;
+            box-shadow: none !important;
+            font-size: .78rem !important;
+            line-height: 34px !important;
+            font-weight: 550 !important;
+        }
+
+        [data-baseweb="menu"] [role="option"][aria-selected="true"],
+        [role="listbox"] [role="option"][aria-selected="true"] {
+            background: #FFF0C9 !important;
+            color: #241B12 !important;
+            font-weight: 750 !important;
+        }
+
+        [data-baseweb="menu"] [role="option"]:hover,
+        [data-baseweb="menu"] [role="option"]:focus,
+        [role="listbox"] [role="option"]:hover,
+        [role="listbox"] [role="option"]:focus {
+            background: #FFF6E4 !important;
+            color: #241B12 !important;
+        }
+
+        @media (max-width: 768px) {
+            [role="listbox"] {
+                max-height: 170px !important;
+            }
+
+            [data-baseweb="menu"] li,
+            [data-baseweb="menu"] [role="option"],
+            [role="listbox"] [role="option"] {
+                min-height: 33px !important;
+                height: 33px !important;
+                line-height: 33px !important;
+                font-size: .75rem !important;
             }
         }
         </style>
