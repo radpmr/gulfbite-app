@@ -10246,7 +10246,7 @@ def dish_picker_popover(
     option_prefix="dish",
     height=210,
 ):
-    """Compact dish selector that avoids Streamlit's native selectbox popup."""
+    """Compact dish picker using a popover + radio list for stable mobile rendering."""
     if not options:
         return None
 
@@ -10255,32 +10255,30 @@ def dish_picker_popover(
 
     current = st.session_state[state_key]
 
-    # st.popover keeps the selector overlay-style without relying on the
-    # BaseWeb selectbox menu that was rendering inconsistently on mobile.
     with st.container(key=picker_key):
         if hasattr(st, "popover"):
             with st.popover(
                 f"{display_func(current)}  ▾",
                 use_container_width=True,
             ):
-                st.markdown(
-                    '<div class="dish-picker-list-marker"></div>',
-                    unsafe_allow_html=True,
+                radio_key = f"{picker_key}_{option_prefix}_radio"
+
+                # Keep the radio widget synchronized with the currently selected dish.
+                if radio_key not in st.session_state or st.session_state[radio_key] not in options:
+                    st.session_state[radio_key] = current
+
+                selected = st.radio(
+                    "Dish",
+                    options=options,
+                    format_func=display_func,
+                    key=radio_key,
+                    label_visibility="collapsed",
                 )
-                with st.container(height=height, border=False):
-                    for idx, option in enumerate(options):
-                        is_current = option == current
-                        label = f"✓  {display_func(option)}" if is_current else display_func(option)
-                        if st.button(
-                            label,
-                            key=f"{picker_key}_{option_prefix}_{idx}",
-                            use_container_width=True,
-                            type="secondary",
-                        ):
-                            st.session_state[state_key] = option
-                            st.rerun()
+
+                if selected != current:
+                    st.session_state[state_key] = selected
+                    st.rerun()
         else:
-            # Safe fallback for older Streamlit builds.
             selected = st.radio(
                 "Dish",
                 options=options,
@@ -10292,6 +10290,7 @@ def dish_picker_popover(
             st.session_state[state_key] = selected
 
     return st.session_state[state_key]
+
 
 
 def segmented_choice(
@@ -14326,6 +14325,127 @@ elif st.session_state.stage in ["main", "upload"]:
             [data-testid="stPopoverBody"] button {
                 min-height: 34px !important;
                 font-size: .75rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           DISH PICKER — FINAL LIGHT RADIO POPOVER
+           Removes the dark button styling seen in Confirm/Update pickers.
+           ================================================================ */
+
+        .st-key-menu_dish_popover [data-testid="stPopover"] > button,
+        .st-key-confirm_dish_popover [data-testid="stPopover"] > button,
+        .st-key-result_dish_popover [data-testid="stPopover"] > button {
+            min-height: 48px !important;
+            width: 100% !important;
+            justify-content: space-between !important;
+            padding: 0 14px !important;
+            border: 1px solid #DDA73A !important;
+            border-radius: 15px !important;
+            background: #FFFEFB !important;
+            color: #241B12 !important;
+            font-size: .94rem !important;
+            font-weight: 600 !important;
+            box-shadow: none !important;
+        }
+
+        [data-testid="stPopoverBody"] {
+            width: min(430px, calc(100vw - 42px)) !important;
+            max-width: min(430px, calc(100vw - 42px)) !important;
+            padding: 8px !important;
+            border: 1px solid #E4D2B3 !important;
+            border-radius: 16px !important;
+            background: #FFFEFB !important;
+            box-shadow: 0 12px 26px rgba(62,42,12,.12) !important;
+            overflow: hidden !important;
+        }
+
+        [data-testid="stPopoverBody"] [data-testid="stRadio"] {
+            max-height: 210px !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding: 2px !important;
+            scrollbar-width: none !important;
+        }
+
+        [data-testid="stPopoverBody"] [data-testid="stRadio"]::-webkit-scrollbar {
+            width: 0 !important;
+            height: 0 !important;
+            display: none !important;
+        }
+
+        [data-testid="stPopoverBody"] [role="radiogroup"] {
+            gap: 4px !important;
+        }
+
+        [data-testid="stPopoverBody"] [role="radio"] {
+            margin: 0 !important;
+        }
+
+        [data-testid="stPopoverBody"] label:has(input[type="radio"]),
+        [data-testid="stPopoverBody"] [data-testid="stRadio"] label {
+            display: flex !important;
+            align-items: center !important;
+            min-height: 38px !important;
+            margin: 0 !important;
+            padding: 0 10px !important;
+            border: 0 !important;
+            border-radius: 10px !important;
+            background: #FFFEFB !important;
+            color: #2B241C !important;
+            box-shadow: none !important;
+        }
+
+        [data-testid="stPopoverBody"] label:has(input[type="radio"]):hover,
+        [data-testid="stPopoverBody"] [data-testid="stRadio"] label:hover {
+            background: #FFF6E4 !important;
+        }
+
+        [data-testid="stPopoverBody"] label:has(input[type="radio"]:checked),
+        [data-testid="stPopoverBody"] [data-testid="stRadio"] label:has(input:checked) {
+            background: #FFF0C9 !important;
+            color: #241B12 !important;
+            font-weight: 750 !important;
+        }
+
+        [data-testid="stPopoverBody"] label p {
+            color: inherit !important;
+            font-size: .80rem !important;
+            font-weight: inherit !important;
+            margin: 0 !important;
+        }
+
+        /* Make the radio dot use the GulfBite gold instead of browser/theme black. */
+        [data-testid="stPopoverBody"] input[type="radio"] {
+            accent-color: #D99A1B !important;
+        }
+
+        @media (max-width: 768px) {
+            [data-testid="stPopoverBody"] {
+                width: calc(100vw - 48px) !important;
+                max-width: calc(100vw - 48px) !important;
+                padding: 7px !important;
+            }
+
+            [data-testid="stPopoverBody"] [data-testid="stRadio"] {
+                max-height: 190px !important;
+            }
+
+            [data-testid="stPopoverBody"] label:has(input[type="radio"]),
+            [data-testid="stPopoverBody"] [data-testid="stRadio"] label {
+                min-height: 36px !important;
+                padding: 0 9px !important;
+            }
+
+            [data-testid="stPopoverBody"] label p {
+                font-size: .77rem !important;
             }
         }
         </style>
