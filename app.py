@@ -1,6 +1,3 @@
-
-
-
 """
 GulfBite - Smart Gulf Cuisine Nutrition Assistant
 
@@ -10241,6 +10238,60 @@ button,
 
 # Small reusable segmented control used for choices that should look like app buttons.
 
+def compact_dish_picker(
+    options,
+    state_key,
+    display_func,
+    picker_key,
+    option_prefix="dish",
+    visible_rows=5,
+):
+    """Compact inline dish picker with a reliable vertical option list."""
+    if not options:
+        return None
+
+    if state_key not in st.session_state or st.session_state[state_key] not in options:
+        st.session_state[state_key] = options[0]
+
+    open_key = f"{picker_key}_open"
+    if open_key not in st.session_state:
+        st.session_state[open_key] = False
+
+    current = st.session_state[state_key]
+
+    with st.container(key=picker_key):
+        if st.button(
+            f"{display_func(current)}   {'⌃' if st.session_state[open_key] else '⌄'}",
+            key=f"{picker_key}_trigger",
+            use_container_width=True,
+            type="secondary",
+        ):
+            st.session_state[open_key] = not st.session_state[open_key]
+            st.rerun()
+
+        if st.session_state[open_key]:
+            list_height = 42 * min(max(visible_rows, 1), len(options)) + 10
+            with st.container(
+                key=f"{picker_key}_options",
+                height=list_height,
+                border=False,
+            ):
+                for idx, option in enumerate(options):
+                    is_selected = option == current
+                    label = f"✓  {display_func(option)}" if is_selected else display_func(option)
+                    if st.button(
+                        label,
+                        key=f"{picker_key}_{option_prefix}_{idx}",
+                        use_container_width=True,
+                        type="secondary",
+                    ):
+                        st.session_state[state_key] = option
+                        st.session_state[open_key] = False
+                        st.rerun()
+
+    return st.session_state[state_key]
+
+
 def segmented_choice(
     label,
     options,
@@ -11080,12 +11131,13 @@ def render_category_squircle_cards():
                 '<div class="menu-picker-label">Choose a dish</div>',
                 unsafe_allow_html=True,
             )
-            selected_dish = st.selectbox(
-                "Choose a dish",
-                options=dishes,
-                format_func=display_name,
-                key="dish_select_box",
-                label_visibility="collapsed",
+            selected_dish = compact_dish_picker(
+                dishes,
+                state_key="dish_select_box",
+                display_func=display_name,
+                picker_key="menu_clean_dish_picker",
+                option_prefix="menu",
+                visible_rows=5,
             )
 
     family_visuals = {
@@ -13836,408 +13888,60 @@ elif st.session_state.stage in ["main", "upload"]:
         """
         <style>
         /* ================================================================
-           MENU DISH DROPDOWN — COMPACT PREMIUM POPUP
-           The BaseWeb popup is rendered in a portal outside the Menu card,
-           so these selectors deliberately target the portal itself.
+           CLEAN INLINE DISH PICKER
+           No native dropdown popup, no black menu, no radio layout.
            ================================================================ */
 
-        body:has(.menu-screen-marker) [data-baseweb="popover"] {
-            z-index: 999999 !important;
-        }
-
-        body:has(.menu-screen-marker) [data-baseweb="popover"] > div {
-            border-radius: 16px !important;
-            overflow: hidden !important;
-            box-shadow: 0 12px 28px rgba(62, 42, 12, .14) !important;
-        }
-
-        body:has(.menu-screen-marker) [role="listbox"] {
-            max-height: 255px !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            padding: 5px !important;
-            border: 1px solid #E4D2B3 !important;
-            border-radius: 16px !important;
-            background: #FFFEFB !important;
-            box-shadow: 0 12px 28px rgba(62, 42, 12, .12) !important;
-            scrollbar-width: thin !important;
-            scrollbar-color: #D6B36A transparent !important;
-        }
-
-        body:has(.menu-screen-marker) [role="option"] {
-            min-height: 38px !important;
-            height: 38px !important;
-            padding: 0 11px !important;
-            margin: 1px 0 !important;
-            border-radius: 10px !important;
-            background: transparent !important;
-            color: #30271D !important;
-            font-size: .82rem !important;
-            line-height: 38px !important;
-            font-weight: 550 !important;
-        }
-
-        body:has(.menu-screen-marker) [role="option"][aria-selected="true"] {
-            background: #FFF0C9 !important;
-            color: #241B12 !important;
-            font-weight: 750 !important;
-        }
-
-        body:has(.menu-screen-marker) [role="option"]:hover {
-            background: #FFF6E4 !important;
-        }
-
-        body:has(.menu-screen-marker) [role="listbox"]::-webkit-scrollbar {
-            width: 6px !important;
-        }
-
-        body:has(.menu-screen-marker) [role="listbox"]::-webkit-scrollbar-track {
-            background: transparent !important;
-        }
-
-        body:has(.menu-screen-marker) [role="listbox"]::-webkit-scrollbar-thumb {
-            background: #D6B36A !important;
-            border-radius: 999px !important;
-        }
-
-        @media (max-width: 768px) {
-            body:has(.menu-screen-marker) [role="listbox"] {
-                max-height: 225px !important;
-                padding: 4px !important;
-            }
-
-            body:has(.menu-screen-marker) [role="option"] {
-                min-height: 36px !important;
-                height: 36px !important;
-                padding: 0 10px !important;
-                font-size: .78rem !important;
-                line-height: 36px !important;
-            }
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        """
-        <style>
-        /* ================================================================
-           ALL DISH DROPDOWNS — COMPACT PREMIUM POPUP
-           Also fixes the Update Dish selector shown after recognition.
-           ================================================================ */
-
-        [data-baseweb="popover"] {
-            z-index: 999999 !important;
-        }
-
-        [data-baseweb="popover"] > div {
-            border-radius: 16px !important;
-            overflow: hidden !important;
-            box-shadow: 0 12px 28px rgba(62,42,12,.14) !important;
-        }
-
-        [role="listbox"] {
-            max-height: 230px !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            padding: 5px !important;
-            border: 1px solid #E4D2B3 !important;
-            border-radius: 16px !important;
-            background: #FFFEFB !important;
-            box-shadow: 0 12px 28px rgba(62,42,12,.12) !important;
-            scrollbar-width: thin !important;
-            scrollbar-color: #D6B36A transparent !important;
-        }
-
-        [role="option"] {
-            min-height: 36px !important;
-            height: 36px !important;
-            padding: 0 11px !important;
-            margin: 1px 0 !important;
-            border-radius: 10px !important;
-            background: transparent !important;
-            color: #30271D !important;
-            font-size: .80rem !important;
-            line-height: 36px !important;
-            font-weight: 550 !important;
-        }
-
-        [role="option"][aria-selected="true"] {
-            background: #FFF0C9 !important;
-            color: #241B12 !important;
-            font-weight: 750 !important;
-        }
-
-        [role="option"]:hover {
-            background: #FFF6E4 !important;
-        }
-
-        [role="listbox"]::-webkit-scrollbar {
-            width: 6px !important;
-        }
-
-        [role="listbox"]::-webkit-scrollbar-track {
-            background: transparent !important;
-        }
-
-        [role="listbox"]::-webkit-scrollbar-thumb {
-            background: #D6B36A !important;
-            border-radius: 999px !important;
-        }
-
-        @media (max-width: 768px) {
-            [role="listbox"] {
-                max-height: 205px !important;
-                padding: 4px !important;
-            }
-
-            [role="option"] {
-                min-height: 34px !important;
-                height: 34px !important;
-                padding: 0 10px !important;
-                font-size: .76rem !important;
-                line-height: 34px !important;
-            }
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        """
-        <style>
-        /* ================================================================
-           DROPDOWN FINAL FIX — LIGHT / CLEAN / COMPACT
-           ================================================================ */
-
-        /* Popup shell */
-        [data-baseweb="popover"] {
-            z-index: 999999 !important;
-        }
-
-        [data-baseweb="popover"] > div,
-        [data-baseweb="menu"],
-        [role="listbox"] {
-            background: #FFFEFB !important;
-            color: #2B241C !important;
-            border: 1px solid #E4D2B3 !important;
-            border-radius: 14px !important;
-            box-shadow: 0 12px 26px rgba(62,42,12,.12) !important;
-        }
-
-        [role="listbox"] {
-            max-height: 220px !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            padding: 4px !important;
-        }
-
-        /* Every option stays light — no black/dark inherited states. */
-        [data-baseweb="menu"] li,
-        [data-baseweb="menu"] [role="option"],
-        [role="listbox"] [role="option"] {
-            background: #FFFEFB !important;
-            color: #2B241C !important;
-            border: 0 !important;
-            border-radius: 9px !important;
-            box-shadow: none !important;
-            min-height: 36px !important;
-            height: 36px !important;
-            margin: 1px 0 !important;
-            padding: 0 10px !important;
-            font-size: .79rem !important;
-            line-height: 36px !important;
-            font-weight: 550 !important;
-        }
-
-        /* Selected item */
-        [data-baseweb="menu"] [role="option"][aria-selected="true"],
-        [role="listbox"] [role="option"][aria-selected="true"] {
-            background: #FFF0C9 !important;
-            color: #241B12 !important;
-            font-weight: 750 !important;
-        }
-
-        /* Hover / focus */
-        [data-baseweb="menu"] [role="option"]:hover,
-        [data-baseweb="menu"] [role="option"]:focus,
-        [role="listbox"] [role="option"]:hover,
-        [role="listbox"] [role="option"]:focus {
-            background: #FFF6E4 !important;
-            color: #241B12 !important;
-        }
-
-        /* Kill any dark pseudo-layer BaseWeb/theme may add. */
-        [data-baseweb="menu"] *,
-        [role="listbox"] * {
-            box-shadow: none !important;
-        }
-
-        [role="listbox"]::-webkit-scrollbar {
-            width: 6px !important;
-        }
-
-        [role="listbox"]::-webkit-scrollbar-track {
-            background: transparent !important;
-        }
-
-        [role="listbox"]::-webkit-scrollbar-thumb {
-            background: #D6B36A !important;
-            border-radius: 999px !important;
-        }
-
-        @media (max-width: 768px) {
-            [role="listbox"] {
-                max-height: 205px !important;
-            }
-
-            [data-baseweb="menu"] li,
-            [data-baseweb="menu"] [role="option"],
-            [role="listbox"] [role="option"] {
-                min-height: 34px !important;
-                height: 34px !important;
-                line-height: 34px !important;
-                font-size: .76rem !important;
-            }
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        """
-        <style>
-        /* ================================================================
-           DROPDOWN FINAL CLEANUP
-           Compact popup, no black scrollbar/edge, consistent on Menu and
-           recognition/update selectors.
-           ================================================================ */
-
-        [data-baseweb="popover"] {
-            z-index: 999999 !important;
-        }
-
-        [data-baseweb="popover"] > div,
-        [data-baseweb="menu"],
-        [role="listbox"] {
-            background: #FFFEFB !important;
-            color: #2B241C !important;
-            border: 1px solid #E4D2B3 !important;
-            border-radius: 14px !important;
-            box-shadow: 0 12px 24px rgba(62,42,12,.10) !important;
-            overflow: hidden !important;
-        }
-
-        [role="listbox"] {
-            max-height: 180px !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            padding: 4px !important;
-
-            /* Hide the native scrollbar completely; mouse/touch/trackpad
-               scrolling still works, so the dark bar cannot appear. */
-            scrollbar-width: none !important;
-            -ms-overflow-style: none !important;
-        }
-
-        [role="listbox"]::-webkit-scrollbar,
-        [data-baseweb="menu"]::-webkit-scrollbar {
-            width: 0 !important;
-            height: 0 !important;
-            display: none !important;
-        }
-
-        [data-baseweb="menu"] li,
-        [data-baseweb="menu"] [role="option"],
-        [role="listbox"] [role="option"] {
-            min-height: 34px !important;
-            height: 34px !important;
-            margin: 1px 0 !important;
-            padding: 0 10px !important;
-            border: 0 !important;
-            border-radius: 9px !important;
-            background: #FFFEFB !important;
-            color: #2B241C !important;
-            box-shadow: none !important;
-            font-size: .78rem !important;
-            line-height: 34px !important;
-            font-weight: 550 !important;
-        }
-
-        [data-baseweb="menu"] [role="option"][aria-selected="true"],
-        [role="listbox"] [role="option"][aria-selected="true"] {
-            background: #FFF0C9 !important;
-            color: #241B12 !important;
-            font-weight: 750 !important;
-        }
-
-        [data-baseweb="menu"] [role="option"]:hover,
-        [data-baseweb="menu"] [role="option"]:focus,
-        [role="listbox"] [role="option"]:hover,
-        [role="listbox"] [role="option"]:focus {
-            background: #FFF6E4 !important;
-            color: #241B12 !important;
-        }
-
-        @media (max-width: 768px) {
-            [role="listbox"] {
-                max-height: 170px !important;
-            }
-
-            [data-baseweb="menu"] li,
-            [data-baseweb="menu"] [role="option"],
-            [role="listbox"] [role="option"] {
-                min-height: 33px !important;
-                height: 33px !important;
-                line-height: 33px !important;
-                font-size: .75rem !important;
-            }
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        """
-        <style>
-        /* ================================================================
-           STRUCTURAL DISH PICKER
-           Replaces native selectbox dropdowns completely.
-           ================================================================ */
-
-        .st-key-menu_dish_popover [data-testid="stPopover"] > button,
-        .st-key-confirm_dish_popover [data-testid="stPopover"] > button,
-        .st-key-result_dish_popover [data-testid="stPopover"] > button {
-            min-height: 48px !important;
+        .st-key-menu_clean_dish_picker,
+        .st-key-confirm_clean_dish_picker,
+        .st-key-result_clean_dish_picker {
             width: 100% !important;
-            justify-content: space-between !important;
+        }
+
+        /* Main selector */
+        .st-key-menu_clean_dish_picker button,
+        .st-key-confirm_clean_dish_picker button,
+        .st-key-result_clean_dish_picker button {
+            box-shadow: none !important;
+        }
+
+        .st-key-menu_clean_dish_picker > div > div:first-child button,
+        .st-key-confirm_clean_dish_picker > div > div:first-child button,
+        .st-key-result_clean_dish_picker > div > div:first-child button {
+            width: 100% !important;
+            min-height: 48px !important;
             padding: 0 14px !important;
-            border: 1px solid #DDA73A !important;
+            border: 1px solid #D99A1B !important;
             border-radius: 15px !important;
             background: #FFFEFB !important;
             color: #241B12 !important;
             font-size: .94rem !important;
             font-weight: 600 !important;
-            box-shadow: none !important;
+            justify-content: space-between !important;
         }
 
-        .st-key-menu_dish_popover [data-testid="stPopover"] > button:hover,
-        .st-key-confirm_dish_popover [data-testid="stPopover"] > button:hover,
-        .st-key-result_dish_popover [data-testid="stPopover"] > button:hover {
-            border-color: #C98A18 !important;
-            background: #FFF9ED !important;
+        /* List shell */
+        .st-key-menu_clean_dish_picker_options,
+        .st-key-confirm_clean_dish_picker_options,
+        .st-key-result_clean_dish_picker_options {
+            margin-top: 6px !important;
+            padding: 5px !important;
+            border: 1px solid #E4D2B3 !important;
+            border-radius: 14px !important;
+            background: #FFFEFB !important;
+            box-shadow: 0 8px 18px rgba(62,42,12,.06) !important;
+            overflow-x: hidden !important;
         }
 
-        /* Popover list buttons: clean white rows with a soft gold hover.
-           These are regular Streamlit buttons, so the style is reliable. */
-        [data-testid="stPopoverBody"] .dish-picker-list-marker ~ div button,
-        [data-testid="stPopoverBody"] button {
+        /* Option rows */
+        .st-key-menu_clean_dish_picker_options button,
+        .st-key-confirm_clean_dish_picker_options button,
+        .st-key-result_clean_dish_picker_options button {
+            display: flex !important;
+            width: 100% !important;
             min-height: 36px !important;
-            justify-content: flex-start !important;
+            height: 36px !important;
+            margin: 0 0 2px 0 !important;
             padding: 0 10px !important;
             border: 0 !important;
             border-radius: 9px !important;
@@ -14245,374 +13949,22 @@ elif st.session_state.stage in ["main", "upload"]:
             color: #2B241C !important;
             font-size: .78rem !important;
             font-weight: 550 !important;
-            box-shadow: none !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
         }
 
-        [data-testid="stPopoverBody"] button:hover {
+        .st-key-menu_clean_dish_picker_options button:hover,
+        .st-key-confirm_clean_dish_picker_options button:hover,
+        .st-key-result_clean_dish_picker_options button:hover {
             background: #FFF3D7 !important;
             color: #241B12 !important;
         }
 
-        [data-testid="stPopoverBody"] {
-            border: 1px solid #E4D2B3 !important;
-            border-radius: 14px !important;
-            background: #FFFEFB !important;
-            box-shadow: 0 12px 26px rgba(62,42,12,.12) !important;
-            overflow: hidden !important;
-        }
-
-        @media (max-width: 768px) {
-            .st-key-menu_dish_popover [data-testid="stPopover"] > button,
-            .st-key-confirm_dish_popover [data-testid="stPopover"] > button,
-            .st-key-result_dish_popover [data-testid="stPopover"] > button {
-                min-height: 46px !important;
-                font-size: .90rem !important;
-            }
-
-            [data-testid="stPopoverBody"] button {
-                min-height: 34px !important;
-                font-size: .75rem !important;
-            }
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        """
-        <style>
-        /* ================================================================
-           DISH PICKER — FINAL LIGHT RADIO POPOVER
-           Removes the dark button styling seen in Confirm/Update pickers.
-           ================================================================ */
-
-        .st-key-menu_dish_popover [data-testid="stPopover"] > button,
-        .st-key-confirm_dish_popover [data-testid="stPopover"] > button,
-        .st-key-result_dish_popover [data-testid="stPopover"] > button {
-            min-height: 48px !important;
-            width: 100% !important;
-            justify-content: space-between !important;
-            padding: 0 14px !important;
-            border: 1px solid #DDA73A !important;
-            border-radius: 15px !important;
-            background: #FFFEFB !important;
-            color: #241B12 !important;
-            font-size: .94rem !important;
-            font-weight: 600 !important;
-            box-shadow: none !important;
-        }
-
-        [data-testid="stPopoverBody"] {
-            width: min(430px, calc(100vw - 42px)) !important;
-            max-width: min(430px, calc(100vw - 42px)) !important;
-            padding: 8px !important;
-            border: 1px solid #E4D2B3 !important;
-            border-radius: 16px !important;
-            background: #FFFEFB !important;
-            box-shadow: 0 12px 26px rgba(62,42,12,.12) !important;
-            overflow: hidden !important;
-        }
-
-        [data-testid="stPopoverBody"] [data-testid="stRadio"] {
-            max-height: 210px !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            padding: 2px !important;
-            scrollbar-width: none !important;
-        }
-
-        [data-testid="stPopoverBody"] [data-testid="stRadio"]::-webkit-scrollbar {
-            width: 0 !important;
-            height: 0 !important;
-            display: none !important;
-        }
-
-        [data-testid="stPopoverBody"] [role="radiogroup"] {
-            gap: 4px !important;
-        }
-
-        [data-testid="stPopoverBody"] [role="radio"] {
-            margin: 0 !important;
-        }
-
-        [data-testid="stPopoverBody"] label:has(input[type="radio"]),
-        [data-testid="stPopoverBody"] [data-testid="stRadio"] label {
-            display: flex !important;
-            align-items: center !important;
-            min-height: 38px !important;
-            margin: 0 !important;
-            padding: 0 10px !important;
-            border: 0 !important;
-            border-radius: 10px !important;
-            background: #FFFEFB !important;
-            color: #2B241C !important;
-            box-shadow: none !important;
-        }
-
-        [data-testid="stPopoverBody"] label:has(input[type="radio"]):hover,
-        [data-testid="stPopoverBody"] [data-testid="stRadio"] label:hover {
-            background: #FFF6E4 !important;
-        }
-
-        [data-testid="stPopoverBody"] label:has(input[type="radio"]:checked),
-        [data-testid="stPopoverBody"] [data-testid="stRadio"] label:has(input:checked) {
-            background: #FFF0C9 !important;
-            color: #241B12 !important;
-            font-weight: 750 !important;
-        }
-
-        [data-testid="stPopoverBody"] label p {
+        .st-key-menu_clean_dish_picker_options button *,
+        .st-key-confirm_clean_dish_picker_options button *,
+        .st-key-result_clean_dish_picker_options button * {
             color: inherit !important;
-            font-size: .80rem !important;
-            font-weight: inherit !important;
-            margin: 0 !important;
-        }
-
-        /* Make the radio dot use the GulfBite gold instead of browser/theme black. */
-        [data-testid="stPopoverBody"] input[type="radio"] {
-            accent-color: #D99A1B !important;
-        }
-
-        @media (max-width: 768px) {
-            [data-testid="stPopoverBody"] {
-                width: calc(100vw - 48px) !important;
-                max-width: calc(100vw - 48px) !important;
-                padding: 7px !important;
-            }
-
-            [data-testid="stPopoverBody"] [data-testid="stRadio"] {
-                max-height: 190px !important;
-            }
-
-            [data-testid="stPopoverBody"] label:has(input[type="radio"]),
-            [data-testid="stPopoverBody"] [data-testid="stRadio"] label {
-                min-height: 36px !important;
-                padding: 0 9px !important;
-            }
-
-            [data-testid="stPopoverBody"] label p {
-                font-size: .77rem !important;
-            }
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        """
-        <style>
-        /* ================================================================
-           DISH PICKER — FORCE TRUE VERTICAL RADIO LIST
-           Fixes global radio styles that were laying every dish inline.
-           ================================================================ */
-
-        [data-testid="stPopoverBody"] [data-testid="stRadio"] {
-            display: block !important;
-            width: 100% !important;
-            max-height: 205px !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            padding: 2px !important;
-        }
-
-        /* Hide the internal "Dish" widget label completely. */
-        [data-testid="stPopoverBody"] [data-testid="stRadio"] > label,
-        [data-testid="stPopoverBody"] [data-testid="stWidgetLabel"] {
-            display: none !important;
-        }
-
-        /* Critical: override any app-wide horizontal radio styling. */
-        [data-testid="stPopoverBody"] [role="radiogroup"] {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: stretch !important;
-            justify-content: flex-start !important;
-            gap: 4px !important;
-            width: 100% !important;
-            min-width: 0 !important;
-        }
-
-        [data-testid="stPopoverBody"] [role="radiogroup"] > label,
-        [data-testid="stPopoverBody"] [role="radio"] {
-            display: flex !important;
-            flex: 0 0 auto !important;
-            width: 100% !important;
-            min-width: 0 !important;
-            max-width: 100% !important;
-            position: static !important;
-            transform: none !important;
-            margin: 0 !important;
-            box-sizing: border-box !important;
-        }
-
-        [data-testid="stPopoverBody"] [role="radiogroup"] > label {
-            align-items: center !important;
-            min-height: 38px !important;
-            padding: 0 10px !important;
-            border-radius: 10px !important;
-            background: #FFFEFB !important;
-            color: #2B241C !important;
-            white-space: normal !important;
-            overflow: hidden !important;
-        }
-
-        [data-testid="stPopoverBody"] [role="radiogroup"] > label:hover {
-            background: #FFF6E4 !important;
-        }
-
-        [data-testid="stPopoverBody"] [role="radiogroup"] > label:has(input:checked) {
-            background: #FFF0C9 !important;
-            color: #241B12 !important;
-            font-weight: 750 !important;
-        }
-
-        /* Prevent option text from inheriting nowrap/absolute positioning. */
-        [data-testid="stPopoverBody"] [role="radiogroup"] p,
-        [data-testid="stPopoverBody"] [role="radiogroup"] span {
-            position: static !important;
-            transform: none !important;
-            white-space: normal !important;
-            overflow: visible !important;
-            text-overflow: clip !important;
-            color: inherit !important;
-            font-size: .80rem !important;
-            line-height: 1.2 !important;
-            margin: 0 !important;
-        }
-
-        [data-testid="stPopoverBody"] input[type="radio"] {
-            flex: 0 0 auto !important;
-            margin-right: 8px !important;
-            accent-color: #D99A1B !important;
-        }
-
-        [data-testid="stPopoverBody"] {
-            width: min(400px, calc(100vw - 48px)) !important;
-            max-width: min(400px, calc(100vw - 48px)) !important;
-            padding: 8px !important;
-            overflow: hidden !important;
-        }
-
-        @media (max-width: 768px) {
-            [data-testid="stPopoverBody"] {
-                width: calc(100vw - 54px) !important;
-                max-width: calc(100vw - 54px) !important;
-            }
-
-            [data-testid="stPopoverBody"] [data-testid="stRadio"] {
-                max-height: 190px !important;
-            }
-
-            [data-testid="stPopoverBody"] [role="radiogroup"] > label {
-                min-height: 36px !important;
-                padding: 0 9px !important;
-            }
-
-            [data-testid="stPopoverBody"] [role="radiogroup"] p,
-            [data-testid="stPopoverBody"] [role="radiogroup"] span {
-                font-size: .77rem !important;
-            }
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        """
-        <style>
-        /* ================================================================
-           NATIVE DISH SELECTBOX — STABLE FINAL VERSION
-           Reverted custom popover/radio pickers because global segmented
-           styles were interfering with them.
-           ================================================================ */
-
-        /* Closed select control */
-        div[data-baseweb="select"] > div {
-            min-height: 48px !important;
-            border: 1px solid #DDA73A !important;
-            border-radius: 15px !important;
-            background: #FFFEFB !important;
-            box-shadow: none !important;
-            color: #241B12 !important;
-        }
-
-        div[data-baseweb="select"] span,
-        div[data-baseweb="select"] input {
-            color: #241B12 !important;
-            font-family: "Inter", sans-serif !important;
-        }
-
-        /* Open dropdown */
-        [data-baseweb="popover"] [role="listbox"] {
-            max-height: 220px !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            padding: 4px !important;
-            border: 1px solid #E4D2B3 !important;
-            border-radius: 14px !important;
-            background: #FFFEFB !important;
-            box-shadow: 0 10px 24px rgba(62,42,12,.12) !important;
-            scrollbar-width: thin !important;
-            scrollbar-color: #D6B36A #FFFEFB !important;
-        }
-
-        [data-baseweb="popover"] [role="listbox"],
-        [data-baseweb="popover"] [role="listbox"] > div,
-        [data-baseweb="popover"] [role="option"],
-        [data-baseweb="popover"] [role="option"] > div {
-            background-color: #FFFEFB !important;
-            color: #2B241C !important;
-        }
-
-        [data-baseweb="popover"] [role="option"] {
-            min-height: 38px !important;
-            height: 38px !important;
-            margin: 1px 0 !important;
-            padding: 0 11px !important;
-            border: 0 !important;
-            border-radius: 9px !important;
-            box-shadow: none !important;
-            font-size: .80rem !important;
-            font-weight: 550 !important;
-        }
-
-        [data-baseweb="popover"] [role="option"][aria-selected="true"] {
-            background: #FFF0C9 !important;
-            color: #241B12 !important;
-            font-weight: 750 !important;
-        }
-
-        [data-baseweb="popover"] [role="option"]:hover {
-            background: #FFF6E4 !important;
-            color: #241B12 !important;
-        }
-
-        [data-baseweb="popover"] [role="listbox"]::-webkit-scrollbar {
-            width: 6px !important;
-        }
-
-        [data-baseweb="popover"] [role="listbox"]::-webkit-scrollbar-track {
-            background: #FFFEFB !important;
-        }
-
-        [data-baseweb="popover"] [role="listbox"]::-webkit-scrollbar-thumb {
-            background: #D6B36A !important;
-            border-radius: 999px !important;
-        }
-
-        @media (max-width: 768px) {
-            [data-baseweb="popover"] [role="listbox"] {
-                max-height: 190px !important;
-            }
-
-            [data-baseweb="popover"] [role="option"] {
-                min-height: 36px !important;
-                height: 36px !important;
-                font-size: .77rem !important;
-            }
+            background: transparent !important;
         }
         </style>
         """,
@@ -14688,13 +14040,13 @@ elif st.session_state.stage == "confirm_dish":
         ):
             st.session_state.dish_confirmation_select = candidates[default_idx]
 
-        choice = st.selectbox(
-            "Select matching dish:",
-            options=candidates,
-            format_func=lambda x: f"🍲 {display_name(x)}",
-            index=default_idx,
-            label_visibility="collapsed",
-            key="dish_confirmation_select",
+        choice = compact_dish_picker(
+            candidates,
+            state_key="dish_confirmation_select",
+            display_func=lambda x: f"🍲 {display_name(x)}",
+            picker_key="confirm_clean_dish_picker",
+            option_prefix="confirm",
+            visible_rows=5,
         )
 
         with st.container(key="confirm_dish_control"):
@@ -14827,15 +14179,14 @@ elif st.session_state.stage == "result":
             ):
                 st.session_state.result_corrected_dish = all_dishes[current_idx]
 
-            corrected = st.selectbox(
-                "Select correct dish:",
-                options=all_dishes,
-                format_func=display_name,
-                index=current_idx,
-                label_visibility="collapsed",
-                key="result_corrected_dish",
+            corrected = compact_dish_picker(
+                all_dishes,
+                state_key="result_corrected_dish",
+                display_func=display_name,
+                picker_key="result_clean_dish_picker",
+                option_prefix="result",
+                visible_rows=5,
             )
-
             with st.container(key="update_dish_control"):
                 if st.button("Update Dish", type="secondary", use_container_width=True, key="update_dish_action"):
                     st.session_state.final_dish = corrected
