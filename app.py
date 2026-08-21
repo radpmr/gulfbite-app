@@ -9984,6 +9984,57 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   HOME — MATCH BUILT FOR GULF FOOD TYPOGRAPHY TO GULF FAVOURITES
+   ========================================================================== */
+
+.stApp:has(.home-screen-marker) .home-section-title {
+    color: #241B12 !important;
+    font-size: 1.02rem !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -.015em !important;
+    margin: 0 0 4px 0 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-value-subtitle {
+    color: #7B705F !important;
+    font-size: .66rem !important;
+    font-weight: 500 !important;
+    line-height: 1.30 !important;
+    margin: 0 !important;
+}
+
+/* Match Gulf favourites heading/subtitle exactly to the same values. */
+.stApp:has(.home-screen-marker) .home-favourites-title {
+    color: #241B12 !important;
+    font-size: 1.02rem !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -.015em !important;
+    margin: 0 0 4px 0 !important;
+}
+
+.stApp:has(.home-screen-marker) .home-favourites-subtitle {
+    color: #7B705F !important;
+    font-size: .66rem !important;
+    font-weight: 500 !important;
+    line-height: 1.30 !important;
+    margin: 0 !important;
+}
+
+
+/* Remove the decorative badge/icon from What happens next? */
+.stApp:has(.scan-screen-marker) .scan-next-icon {
+    display: none !important;
+}
+
+.stApp:has(.scan-screen-marker) .scan-next-card {
+    display: block !important;
+    grid-template-columns: none !important;
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -11470,11 +11521,26 @@ elif st.session_state.stage in ["main", "upload"]:
                 st.markdown(
                     """
                     <div class="scan-next-card">
-                        <div class="scan-next-icon">✦</div>
-                        <div>
-                            <div class="scan-next-title">What happens next?</div>
-                            <div class="scan-next-copy">
-                                GulfBite identifies the dish, lets you confirm the match, then estimates portion, calories and macros.
+                        <div class="scan-next-title">What happens next?</div>
+                        <div class="scan-next-copy">GulfBite takes you through three quick steps.</div>
+
+                        <div class="scan-next-steps">
+                            <div class="scan-next-step">
+                                <div class="scan-next-step-icon">⌁</div>
+                                <div class="scan-next-step-title">Recognize</div>
+                                <div class="scan-next-step-copy">Dish identified</div>
+                            </div>
+
+                            <div class="scan-next-step">
+                                <div class="scan-next-step-icon">✓</div>
+                                <div class="scan-next-step-title">Confirm</div>
+                                <div class="scan-next-step-copy">Check the match</div>
+                            </div>
+
+                            <div class="scan-next-step">
+                                <div class="scan-next-step-icon">◌</div>
+                                <div class="scan-next-step-title">Estimate</div>
+                                <div class="scan-next-step-copy">Portion • Calories • Macros</div>
                             </div>
                         </div>
                     </div>
@@ -13137,6 +13203,240 @@ elif st.session_state.stage in ["main", "upload"]:
 }
 
 </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           FINAL TYPOGRAPHY ALIGNMENT
+           ================================================================ */
+
+        /* MENU:
+           Browse by dish type + Choose a dish now use the exact same
+           typography as Selected dish. */
+        .stApp:has(.menu-screen-marker) .menu-browse-label,
+        .stApp:has(.menu-screen-marker) .menu-picker-label,
+        .stApp:has(.menu-screen-marker) .menu-feature-kicker {
+            color: #C58B1C !important;
+            font-size: .60rem !important;
+            line-height: 1 !important;
+            font-weight: 900 !important;
+            letter-spacing: .10em !important;
+            text-transform: uppercase !important;
+        }
+
+        /* Keep the requested spacing while matching the text treatment. */
+        .stApp:has(.menu-screen-marker) .menu-browse-label {
+            margin: 0 0 0 0 !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-picker-label {
+            margin: 0 0 7px 0 !important;
+        }
+
+        /* SCAN:
+           STEP 1 OF 3 / Scan your meal / subtitle now match the exact Home
+           hero typography used by AI-POWERED GULF FOOD RECOGNITION. */
+        .stApp:has(.scan-screen-marker) .scan-hero-kicker {
+            color: #A06A18 !important;
+            font-size: .54rem !important;
+            line-height: 1.10 !important;
+            font-weight: 850 !important;
+            letter-spacing: .10em !important;
+            text-transform: uppercase !important;
+            margin: 0 0 3px 0 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-hero-title {
+            color: #241B12 !important;
+            font-size: 1.17rem !important;
+            line-height: 1.08 !important;
+            font-weight: 900 !important;
+            letter-spacing: normal !important;
+            margin: 0 0 3px 0 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-hero-subtitle {
+            color: #7B705F !important;
+            font-size: .67rem !important;
+            line-height: 1.35 !important;
+            font-weight: 500 !important;
+            margin: 0 !important;
+            max-width: 440px !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.menu-screen-marker) .menu-browse-label,
+            .stApp:has(.menu-screen-marker) .menu-picker-label,
+            .stApp:has(.menu-screen-marker) .menu-feature-kicker {
+                font-size: .58rem !important;
+            }
+
+            /* Keep Scan identical to the Home mobile typography as well. */
+            .stApp:has(.scan-screen-marker) .scan-hero-kicker {
+                font-size: .54rem !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-hero-title {
+                font-size: 1.17rem !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-hero-subtitle {
+                font-size: .67rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           WHAT HAPPENS NEXT — MATCH SCAN HERO TYPOGRAPHY
+           ================================================================ */
+
+        .stApp:has(.scan-screen-marker) .scan-next-title {
+            color: #241B12 !important;
+            font-size: 1.17rem !important;
+            line-height: 1.08 !important;
+            font-weight: 900 !important;
+            letter-spacing: normal !important;
+            margin: 0 0 3px 0 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-copy {
+            color: #7B705F !important;
+            font-size: .67rem !important;
+            line-height: 1.35 !important;
+            font-weight: 500 !important;
+            margin: 0 !important;
+            max-width: 440px !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.scan-screen-marker) .scan-next-title {
+                font-size: 1.17rem !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-next-copy {
+                font-size: .67rem !important;
+                line-height: 1.35 !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           WHAT HAPPENS NEXT — THREE-STEP PREMIUM CARD
+           ================================================================ */
+
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_next_info_card .scan-next-card {
+            padding: 12px 13px 13px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-title {
+            margin-bottom: 3px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-copy {
+            margin-bottom: 10px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-steps {
+            display: grid !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            gap: 7px !important;
+            width: 100% !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-step {
+            min-width: 0 !important;
+            padding: 9px 7px 8px !important;
+            border: 1px solid #E4D5BC !important;
+            border-radius: 14px !important;
+            background: linear-gradient(180deg,#FFFEFC 0%,#FBF6ED 100%) !important;
+            text-align: center !important;
+            box-shadow: 0 4px 10px rgba(66,46,15,.025) !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-step-icon {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 25px !important;
+            height: 25px !important;
+            margin: 0 auto 5px !important;
+            border-radius: 9px !important;
+            background: linear-gradient(145deg,#FBF0D5 0%,#F3DEB0 100%) !important;
+            color: #B67C1D !important;
+            font-size: .76rem !important;
+            line-height: 1 !important;
+            font-weight: 900 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-step-title {
+            color: #241B12 !important;
+            font-size: .64rem !important;
+            line-height: 1.12 !important;
+            font-weight: 850 !important;
+            margin-bottom: 3px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-step-copy {
+            color: #7B705F !important;
+            font-size: .49rem !important;
+            line-height: 1.24 !important;
+            font-weight: 500 !important;
+            overflow-wrap: break-word !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_next_info_card .scan-next-card {
+                padding: 11px 11px 12px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-next-copy {
+                margin-bottom: 8px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-next-steps {
+                gap: 5px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-next-step {
+                padding: 8px 5px 7px !important;
+                border-radius: 13px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-next-step-icon {
+                width: 23px !important;
+                height: 23px !important;
+                margin-bottom: 4px !important;
+                font-size: .70rem !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-next-step-title {
+                font-size: .60rem !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-next-step-copy {
+                font-size: .46rem !important;
+                line-height: 1.20 !important;
+            }
+        }
+        </style>
         """,
         unsafe_allow_html=True,
     )
