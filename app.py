@@ -13520,6 +13520,61 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* Narrow the two Scan helper tiles and give the guidance line more breathing room. */
+        .stApp:has(.scan-screen-marker) .scan-tip-line {
+            margin-bottom: 12px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+            width: calc(100% - 24px) !important;
+            max-width: calc(100% - 24px) !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            gap: 9px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-card {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.scan-screen-marker) .scan-tip-line {
+                margin-bottom: 10px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+                width: calc(100% - 18px) !important;
+                max-width: calc(100% - 18px) !important;
+                gap: 8px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* Increase the gap after the Scan subtitle before the upload box. */
+        .stApp:has(.scan-screen-marker) .scan-hero-subtitle {
+            margin-bottom: 16px !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.scan-screen-marker) .scan-hero-subtitle {
+                margin-bottom: 14px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
