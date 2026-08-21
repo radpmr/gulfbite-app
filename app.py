@@ -9828,6 +9828,72 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   REMOVE REMAINING OUTER WHITE SHELLS
+   Selected Dish + What happens next? keep only their warm inner cards.
+   ========================================================================== */
+
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card,
+.stApp:has(.scan-screen-marker) .st-key-scan_next_info_card {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    overflow: visible !important;
+}
+
+/* Neutralize Streamlit's outer wrapper around those keyed containers too. */
+.stApp:has(.menu-screen-marker)
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_selected_dish_card),
+.stApp:has(.scan-screen-marker)
+[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-scan_next_info_card),
+.stApp:has(.menu-screen-marker)
+[data-testid="stElementContainer"]:has(.st-key-menu_selected_dish_card),
+.stApp:has(.scan-screen-marker)
+[data-testid="stElementContainer"]:has(.st-key-scan_next_info_card) {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Keep only the intended warm inner cards. */
+.stApp:has(.menu-screen-marker)
+.st-key-menu_selected_dish_card .menu-feature-card {
+    margin: 0 !important;
+    border: 1px solid #DCC79C !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: 0 8px 18px rgba(66,46,15,.04) !important;
+}
+
+.stApp:has(.scan-screen-marker)
+.st-key-scan_next_info_card .scan-next-card {
+    margin: 0 !important;
+    border: 1px solid #DCC79C !important;
+    border-radius: 17px !important;
+    background: linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: 0 7px 16px rgba(66,46,15,.035) !important;
+}
+
+/* Slightly reduce the gap now that the extra wrapper is gone. */
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card {
+    margin-top: 10px !important;
+}
+
+.stApp:has(.scan-screen-marker) .st-key-scan_next_info_card {
+    margin-top: 10px !important;
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
