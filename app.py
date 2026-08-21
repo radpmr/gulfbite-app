@@ -1,3 +1,6 @@
+
+
+
 """
 GulfBite - Smart Gulf Cuisine Nutrition Assistant
 
@@ -11519,32 +11522,15 @@ elif st.session_state.stage in ["main", "upload"]:
         if image_to_process is None:
             with st.container(key="scan_next_info_card"):
                 st.markdown(
-                    """
-                    <div class="scan-next-card">
-                        <div class="scan-next-title">What happens next?</div>
-                        <div class="scan-next-copy">GulfBite takes you through three quick steps.</div>
-
-                        <div class="scan-next-steps">
-                            <div class="scan-next-step">
-                                <div class="scan-next-step-icon">⌁</div>
-                                <div class="scan-next-step-title">Recognize</div>
-                                <div class="scan-next-step-copy">Dish identified</div>
-                            </div>
-
-                            <div class="scan-next-step">
-                                <div class="scan-next-step-icon">✓</div>
-                                <div class="scan-next-step-title">Confirm</div>
-                                <div class="scan-next-step-copy">Check the match</div>
-                            </div>
-
-                            <div class="scan-next-step">
-                                <div class="scan-next-step-icon">◌</div>
-                                <div class="scan-next-step-title">Estimate</div>
-                                <div class="scan-next-step-copy">Portion • Calories • Macros</div>
-                            </div>
-                        </div>
-                    </div>
-                    """,
+                    """<div class="scan-next-card" style="display:block !important;width:100% !important;max-width:100% !important;">
+<div class="scan-next-title">What happens next?</div>
+<div class="scan-next-copy">GulfBite takes you through three quick steps.</div>
+<div class="scan-next-steps">
+<div class="scan-next-step"><div class="scan-next-step-icon">⌁</div><div class="scan-next-step-title">Recognize</div><div class="scan-next-step-copy">Dish identified</div></div>
+<div class="scan-next-step"><div class="scan-next-step-icon">✓</div><div class="scan-next-step-title">Confirm</div><div class="scan-next-step-copy">Check the match</div></div>
+<div class="scan-next-step"><div class="scan-next-step-icon">◌</div><div class="scan-next-step-title">Estimate</div><div class="scan-next-step-copy">Portion • Calories • Macros</div></div>
+</div>
+</div>""",
                     unsafe_allow_html=True,
                 )
 
@@ -13434,6 +13420,71 @@ elif st.session_state.stage in ["main", "upload"]:
             .stApp:has(.scan-screen-marker) .scan-next-step-copy {
                 font-size: .46rem !important;
                 line-height: 1.20 !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* Final repair for the three-step What happens next card. */
+        .stApp:has(.scan-screen-marker) .scan-next-card {
+            display: block !important;
+            grid-template-columns: none !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            min-height: 0 !important;
+            height: auto !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-title,
+        .stApp:has(.scan-screen-marker) .scan-next-copy {
+            display: block !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            white-space: normal !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-steps {
+            display: grid !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-top: 10px !important;
+            gap: 7px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-step {
+            min-width: 0 !important;
+            width: 100% !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* Add a little more breathing room below the Scan helper tiles. */
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+            margin-bottom: 12px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+            padding-bottom: 18px !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+                margin-bottom: 10px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+                padding-bottom: 16px !important;
             }
         }
         </style>
