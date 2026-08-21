@@ -1,6 +1,3 @@
-
-
-
 """
 GulfBite - Smart Gulf Cuisine Nutrition Assistant
 
@@ -11504,14 +11501,14 @@ elif st.session_state.stage in ["main", "upload"]:
                             <div class="scan-help-icon">◉</div>
                             <div>
                                 <div class="scan-help-title">One clear dish</div>
-                                <div class="scan-help-copy" style="display:block !important;width:100% !important;max-width:100% !important;white-space:normal !important;overflow:visible !important;overflow-wrap:break-word !important;word-break:normal !important;font-size:.49rem !important;line-height:1.22 !important;">Center the plate and avoid cropped edges or multiple meals.</div>
+                                <div class="scan-help-copy" style="display:block !important;width:100% !important;max-width:100% !important;white-space:normal !important;overflow:visible !important;overflow-wrap:break-word !important;word-break:normal !important;font-size:.49rem !important;line-height:1.22 !important;">Center the plate and avoid<br>cropped edges or<br>multiple meals.</div>
                             </div>
                         </div>
                         <div class="scan-help-card" style="display:grid !important;grid-template-columns:30px minmax(0,1fr) !important;gap:7px !important;min-width:0 !important;max-width:100% !important;box-sizing:border-box !important;overflow:visible !important;">
                             <div class="scan-help-icon">☀</div>
                             <div>
                                 <div class="scan-help-title">Good lighting</div>
-                                <div class="scan-help-copy" style="display:block !important;width:100% !important;max-width:100% !important;white-space:normal !important;overflow:visible !important;overflow-wrap:break-word !important;word-break:normal !important;font-size:.49rem !important;line-height:1.22 !important;">Natural light helps the AI see texture, colour and ingredients.</div>
+                                <div class="scan-help-copy" style="display:block !important;width:100% !important;max-width:100% !important;white-space:normal !important;overflow:visible !important;overflow-wrap:break-word !important;word-break:normal !important;font-size:.49rem !important;line-height:1.22 !important;">Natural light helps the AI see<br>texture, colour and<br>ingredients.</div>
                             </div>
                         </div>
                     </div>
@@ -13486,6 +13483,37 @@ elif st.session_state.stage in ["main", "upload"]:
             .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
                 padding-bottom: 16px !important;
             }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* Add more space after the Scan subtitle before the uploader. */
+        .stApp:has(.scan-screen-marker) .scan-hero-subtitle {
+            margin-bottom: 11px !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.scan-screen-marker) .scan-hero-subtitle {
+                margin-bottom: 10px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* Keep the helper descriptions comfortably balanced across 3 lines. */
+        .stApp:has(.scan-screen-marker) .scan-help-copy {
+            line-height: 1.22 !important;
+            min-height: 3.66em !important;
         }
         </style>
         """,
