@@ -13759,6 +13759,75 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           FINAL POLISH — HOME / MENU / NAV CONSISTENCY
+           ================================================================ */
+
+        /* MENU: slightly tighten the gap between category buttons and
+           the Choose a dish section. */
+        .stApp:has(.menu-screen-marker) .menu-category-grid,
+        .stApp:has(.menu-screen-marker) .menu-category-buttons,
+        .stApp:has(.menu-screen-marker) .category-squircle-grid {
+            margin-bottom: 20px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-picker-label {
+            margin-top: 0 !important;
+        }
+
+        /* HOME: make the three Built for Gulf food value cards a little
+           shorter while keeping their visual hierarchy intact. */
+        .stApp:has(.home-screen-marker) .home-value-card {
+            min-height: 82px !important;
+            padding-top: 10px !important;
+            padding-bottom: 9px !important;
+        }
+
+        .stApp:has(.home-screen-marker) .home-value-icon {
+            margin-bottom: 5px !important;
+        }
+
+        /* Keep the bottom navigation at one consistent vertical position
+           across Home, Menu and Scan. */
+        .stApp:has(.home-screen-marker) .st-key-bottom_nav,
+        .stApp:has(.menu-screen-marker) .st-key-bottom_nav,
+        .stApp:has(.scan-screen-marker) .st-key-bottom_nav,
+        .stApp:has(.home-screen-marker) .bottom-nav-shell,
+        .stApp:has(.menu-screen-marker) .bottom-nav-shell,
+        .stApp:has(.scan-screen-marker) .bottom-nav-shell {
+            bottom: 8px !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.menu-screen-marker) .menu-category-grid,
+            .stApp:has(.menu-screen-marker) .menu-category-buttons,
+            .stApp:has(.menu-screen-marker) .category-squircle-grid {
+                margin-bottom: 18px !important;
+            }
+
+            .stApp:has(.home-screen-marker) .home-value-card {
+                min-height: 76px !important;
+                padding-top: 9px !important;
+                padding-bottom: 8px !important;
+            }
+
+            .stApp:has(.home-screen-marker) .st-key-bottom_nav,
+            .stApp:has(.menu-screen-marker) .st-key-bottom_nav,
+            .stApp:has(.scan-screen-marker) .st-key-bottom_nav,
+            .stApp:has(.home-screen-marker) .bottom-nav-shell,
+            .stApp:has(.menu-screen-marker) .bottom-nav-shell,
+            .stApp:has(.scan-screen-marker) .bottom-nav-shell {
+                bottom: 7px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
