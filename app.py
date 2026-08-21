@@ -1,6 +1,3 @@
-
-
-
 """
 GulfBite - Smart Gulf Cuisine Nutrition Assistant
 
@@ -10240,6 +10237,63 @@ button,
 # Shared UI helpers used across onboarding, navigation and the scan workflow.
 
 # Small reusable segmented control used for choices that should look like app buttons.
+
+def dish_picker_popover(
+    options,
+    state_key,
+    display_func,
+    picker_key,
+    option_prefix="dish",
+    height=210,
+):
+    """Compact dish selector that avoids Streamlit's native selectbox popup."""
+    if not options:
+        return None
+
+    if state_key not in st.session_state or st.session_state[state_key] not in options:
+        st.session_state[state_key] = options[0]
+
+    current = st.session_state[state_key]
+
+    # st.popover keeps the selector overlay-style without relying on the
+    # BaseWeb selectbox menu that was rendering inconsistently on mobile.
+    with st.container(key=picker_key):
+        if hasattr(st, "popover"):
+            with st.popover(
+                f"{display_func(current)}  ▾",
+                use_container_width=True,
+            ):
+                st.markdown(
+                    '<div class="dish-picker-list-marker"></div>',
+                    unsafe_allow_html=True,
+                )
+                with st.container(height=height, border=False):
+                    for idx, option in enumerate(options):
+                        is_current = option == current
+                        label = f"✓  {display_func(option)}" if is_current else display_func(option)
+                        if st.button(
+                            label,
+                            key=f"{picker_key}_{option_prefix}_{idx}",
+                            use_container_width=True,
+                            type="secondary",
+                        ):
+                            st.session_state[state_key] = option
+                            st.rerun()
+        else:
+            # Safe fallback for older Streamlit builds.
+            selected = st.radio(
+                "Dish",
+                options=options,
+                index=options.index(current),
+                format_func=display_func,
+                label_visibility="collapsed",
+                key=f"{picker_key}_radio_fallback",
+            )
+            st.session_state[state_key] = selected
+
+    return st.session_state[state_key]
+
+
 def segmented_choice(
     label,
     options,
@@ -11079,12 +11133,13 @@ def render_category_squircle_cards():
                 '<div class="menu-picker-label">Choose a dish</div>',
                 unsafe_allow_html=True,
             )
-            selected_dish = st.selectbox(
-                "Choose a dish",
-                options=dishes,
-                format_func=display_name,
-                key="dish_select_box",
-                label_visibility="collapsed",
+            selected_dish = dish_picker_popover(
+                dishes,
+                state_key="dish_select_box",
+                display_func=display_name,
+                picker_key="menu_dish_popover",
+                option_prefix="menu",
+                height=205,
             )
 
     family_visuals = {
@@ -14200,6 +14255,84 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           STRUCTURAL DISH PICKER
+           Replaces native selectbox dropdowns completely.
+           ================================================================ */
+
+        .st-key-menu_dish_popover [data-testid="stPopover"] > button,
+        .st-key-confirm_dish_popover [data-testid="stPopover"] > button,
+        .st-key-result_dish_popover [data-testid="stPopover"] > button {
+            min-height: 48px !important;
+            width: 100% !important;
+            justify-content: space-between !important;
+            padding: 0 14px !important;
+            border: 1px solid #DDA73A !important;
+            border-radius: 15px !important;
+            background: #FFFEFB !important;
+            color: #241B12 !important;
+            font-size: .94rem !important;
+            font-weight: 600 !important;
+            box-shadow: none !important;
+        }
+
+        .st-key-menu_dish_popover [data-testid="stPopover"] > button:hover,
+        .st-key-confirm_dish_popover [data-testid="stPopover"] > button:hover,
+        .st-key-result_dish_popover [data-testid="stPopover"] > button:hover {
+            border-color: #C98A18 !important;
+            background: #FFF9ED !important;
+        }
+
+        /* Popover list buttons: clean white rows with a soft gold hover.
+           These are regular Streamlit buttons, so the style is reliable. */
+        [data-testid="stPopoverBody"] .dish-picker-list-marker ~ div button,
+        [data-testid="stPopoverBody"] button {
+            min-height: 36px !important;
+            justify-content: flex-start !important;
+            padding: 0 10px !important;
+            border: 0 !important;
+            border-radius: 9px !important;
+            background: #FFFEFB !important;
+            color: #2B241C !important;
+            font-size: .78rem !important;
+            font-weight: 550 !important;
+            box-shadow: none !important;
+        }
+
+        [data-testid="stPopoverBody"] button:hover {
+            background: #FFF3D7 !important;
+            color: #241B12 !important;
+        }
+
+        [data-testid="stPopoverBody"] {
+            border: 1px solid #E4D2B3 !important;
+            border-radius: 14px !important;
+            background: #FFFEFB !important;
+            box-shadow: 0 12px 26px rgba(62,42,12,.12) !important;
+            overflow: hidden !important;
+        }
+
+        @media (max-width: 768px) {
+            .st-key-menu_dish_popover [data-testid="stPopover"] > button,
+            .st-key-confirm_dish_popover [data-testid="stPopover"] > button,
+            .st-key-result_dish_popover [data-testid="stPopover"] > button {
+                min-height: 46px !important;
+                font-size: .90rem !important;
+            }
+
+            [data-testid="stPopoverBody"] button {
+                min-height: 34px !important;
+                font-size: .75rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
@@ -14263,13 +14396,19 @@ elif st.session_state.stage == "confirm_dish":
             unsafe_allow_html=True,
         )
 
-        choice = st.selectbox(
-            "Select matching dish:",
-            options=candidates,
-            format_func=lambda x: f"🍲 {display_name(x)}",
-            index=default_idx,
-            label_visibility="collapsed",
-            key="dish_confirmation_select",
+        if (
+            "dish_confirmation_select" not in st.session_state
+            or st.session_state.dish_confirmation_select not in candidates
+        ):
+            st.session_state.dish_confirmation_select = candidates[default_idx]
+
+        choice = dish_picker_popover(
+            candidates,
+            state_key="dish_confirmation_select",
+            display_func=lambda x: f"🍲 {display_name(x)}",
+            picker_key="confirm_dish_popover",
+            option_prefix="confirm",
+            height=190,
         )
 
         with st.container(key="confirm_dish_control"):
@@ -14396,13 +14535,21 @@ elif st.session_state.stage == "result":
             all_dishes = sorted(DISH_RECIPES.keys(), key=display_name)
             current_idx = all_dishes.index(dish) if dish in all_dishes else 0
 
-            corrected = st.selectbox(
-                "Select correct dish:",
-                options=all_dishes,
-                format_func=display_name,
-                index=current_idx,
-                label_visibility="collapsed",
+            if (
+                "result_corrected_dish" not in st.session_state
+                or st.session_state.result_corrected_dish not in all_dishes
+            ):
+                st.session_state.result_corrected_dish = all_dishes[current_idx]
+
+            corrected = dish_picker_popover(
+                all_dishes,
+                state_key="result_corrected_dish",
+                display_func=display_name,
+                picker_key="result_dish_popover",
+                option_prefix="result",
+                height=205,
             )
+
             with st.container(key="update_dish_control"):
                 if st.button("Update Dish", type="secondary", use_container_width=True, key="update_dish_action"):
                     st.session_state.final_dish = corrected
