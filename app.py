@@ -13828,6 +13828,179 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           MENU DISH DROPDOWN — COMPACT PREMIUM POPUP
+           The BaseWeb popup is rendered in a portal outside the Menu card,
+           so these selectors deliberately target the portal itself.
+           ================================================================ */
+
+        body:has(.menu-screen-marker) [data-baseweb="popover"] {
+            z-index: 999999 !important;
+        }
+
+        body:has(.menu-screen-marker) [data-baseweb="popover"] > div {
+            border-radius: 16px !important;
+            overflow: hidden !important;
+            box-shadow: 0 12px 28px rgba(62, 42, 12, .14) !important;
+        }
+
+        body:has(.menu-screen-marker) [role="listbox"] {
+            max-height: 255px !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding: 5px !important;
+            border: 1px solid #E4D2B3 !important;
+            border-radius: 16px !important;
+            background: #FFFEFB !important;
+            box-shadow: 0 12px 28px rgba(62, 42, 12, .12) !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: #D6B36A transparent !important;
+        }
+
+        body:has(.menu-screen-marker) [role="option"] {
+            min-height: 38px !important;
+            height: 38px !important;
+            padding: 0 11px !important;
+            margin: 1px 0 !important;
+            border-radius: 10px !important;
+            background: transparent !important;
+            color: #30271D !important;
+            font-size: .82rem !important;
+            line-height: 38px !important;
+            font-weight: 550 !important;
+        }
+
+        body:has(.menu-screen-marker) [role="option"][aria-selected="true"] {
+            background: #FFF0C9 !important;
+            color: #241B12 !important;
+            font-weight: 750 !important;
+        }
+
+        body:has(.menu-screen-marker) [role="option"]:hover {
+            background: #FFF6E4 !important;
+        }
+
+        body:has(.menu-screen-marker) [role="listbox"]::-webkit-scrollbar {
+            width: 6px !important;
+        }
+
+        body:has(.menu-screen-marker) [role="listbox"]::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+
+        body:has(.menu-screen-marker) [role="listbox"]::-webkit-scrollbar-thumb {
+            background: #D6B36A !important;
+            border-radius: 999px !important;
+        }
+
+        @media (max-width: 768px) {
+            body:has(.menu-screen-marker) [role="listbox"] {
+                max-height: 225px !important;
+                padding: 4px !important;
+            }
+
+            body:has(.menu-screen-marker) [role="option"] {
+                min-height: 36px !important;
+                height: 36px !important;
+                padding: 0 10px !important;
+                font-size: .78rem !important;
+                line-height: 36px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           ALL DISH DROPDOWNS — COMPACT PREMIUM POPUP
+           Also fixes the Update Dish selector shown after recognition.
+           ================================================================ */
+
+        [data-baseweb="popover"] {
+            z-index: 999999 !important;
+        }
+
+        [data-baseweb="popover"] > div {
+            border-radius: 16px !important;
+            overflow: hidden !important;
+            box-shadow: 0 12px 28px rgba(62,42,12,.14) !important;
+        }
+
+        [role="listbox"] {
+            max-height: 230px !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding: 5px !important;
+            border: 1px solid #E4D2B3 !important;
+            border-radius: 16px !important;
+            background: #FFFEFB !important;
+            box-shadow: 0 12px 28px rgba(62,42,12,.12) !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: #D6B36A transparent !important;
+        }
+
+        [role="option"] {
+            min-height: 36px !important;
+            height: 36px !important;
+            padding: 0 11px !important;
+            margin: 1px 0 !important;
+            border-radius: 10px !important;
+            background: transparent !important;
+            color: #30271D !important;
+            font-size: .80rem !important;
+            line-height: 36px !important;
+            font-weight: 550 !important;
+        }
+
+        [role="option"][aria-selected="true"] {
+            background: #FFF0C9 !important;
+            color: #241B12 !important;
+            font-weight: 750 !important;
+        }
+
+        [role="option"]:hover {
+            background: #FFF6E4 !important;
+        }
+
+        [role="listbox"]::-webkit-scrollbar {
+            width: 6px !important;
+        }
+
+        [role="listbox"]::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+
+        [role="listbox"]::-webkit-scrollbar-thumb {
+            background: #D6B36A !important;
+            border-radius: 999px !important;
+        }
+
+        @media (max-width: 768px) {
+            [role="listbox"] {
+                max-height: 205px !important;
+                padding: 4px !important;
+            }
+
+            [role="option"] {
+                min-height: 34px !important;
+                height: 34px !important;
+                padding: 0 10px !important;
+                font-size: .76rem !important;
+                line-height: 34px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
