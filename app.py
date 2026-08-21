@@ -13710,6 +13710,55 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* Shift the two Scan helper tiles slightly left while keeping
+           their narrower overall width. */
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+            width: 90% !important;
+            max-width: 90% !important;
+            margin-left: 6% !important;
+            margin-right: 4% !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+                width: 91% !important;
+                max-width: 91% !important;
+                margin-left: 5% !important;
+                margin-right: 4% !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* FINAL MENU INTRO SPACING FIX:
+           add a clearly visible gap after the intro sentence before
+           Browse by dish type. */
+        .stApp:has(.menu-screen-marker) .menu-premium-subtitle {
+            margin-bottom: 22px !important;
+        }
+
+        .stApp:has(.menu-screen-marker) .menu-browse-label {
+            margin-top: 0 !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.menu-screen-marker) .menu-premium-subtitle {
+                margin-bottom: 20px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
