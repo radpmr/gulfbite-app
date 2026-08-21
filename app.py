@@ -10283,7 +10283,7 @@ def compact_dish_picker(
                         label,
                         key=f"{picker_key}_{option_prefix}_{idx}",
                         use_container_width=True,
-                        type="secondary",
+                        type="tertiary",
                     ):
                         st.session_state[state_key] = option
                         st.session_state[open_key] = False
@@ -14347,6 +14347,184 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           DISH PICKER — FLAT TERTIARY OPTION ROWS
+           ================================================================ */
+
+        /* One clean list shell only. */
+        .st-key-menu_clean_dish_picker_options,
+        .st-key-confirm_clean_dish_picker_options,
+        .st-key-result_clean_dish_picker_options {
+            margin-top: 5px !important;
+            padding: 4px 6px !important;
+            border: 1px solid #E5D6BC !important;
+            border-radius: 12px !important;
+            background: #FFFEFB !important;
+            box-shadow: 0 5px 12px rgba(62,42,12,.04) !important;
+        }
+
+        .st-key-menu_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .st-key-confirm_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .st-key-result_clean_dish_picker_options [data-testid="stVerticalBlock"] {
+            gap: 0 !important;
+        }
+
+        /* Option rows are now tertiary buttons: flat, borderless, compact. */
+        .stApp .st-key-menu_clean_dish_picker_options button[kind="tertiary"],
+        .stApp .st-key-confirm_clean_dish_picker_options button[kind="tertiary"],
+        .stApp .st-key-result_clean_dish_picker_options button[kind="tertiary"] {
+            display: flex !important;
+            width: 100% !important;
+            min-height: 34px !important;
+            height: 34px !important;
+            margin: 0 !important;
+            padding: 0 10px !important;
+            border: 0 !important;
+            border-radius: 7px !important;
+            background: transparent !important;
+            color: #2B241C !important;
+            box-shadow: none !important;
+            transform: none !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+            font-size: .78rem !important;
+            font-weight: 550 !important;
+        }
+
+        .stApp .st-key-menu_clean_dish_picker_options button[kind="tertiary"]:hover,
+        .stApp .st-key-confirm_clean_dish_picker_options button[kind="tertiary"]:hover,
+        .stApp .st-key-result_clean_dish_picker_options button[kind="tertiary"]:hover {
+            background: #FFF3D7 !important;
+            color: #241B12 !important;
+            border: 0 !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+
+        .stApp .st-key-menu_clean_dish_picker_options button[kind="tertiary"] *,
+        .stApp .st-key-confirm_clean_dish_picker_options button[kind="tertiary"] *,
+        .stApp .st-key-result_clean_dish_picker_options button[kind="tertiary"] * {
+            color: inherit !important;
+            background: transparent !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp .st-key-menu_clean_dish_picker_options button[kind="tertiary"],
+            .stApp .st-key-confirm_clean_dish_picker_options button[kind="tertiary"],
+            .stApp .st-key-result_clean_dish_picker_options button[kind="tertiary"] {
+                min-height: 32px !important;
+                height: 32px !important;
+                font-size: .75rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           DISH PICKER — REMOVE OUTER LIST CARD
+           Keep only the selector and flat option rows.
+           ================================================================ */
+
+        .st-key-menu_clean_dish_picker_options,
+        .st-key-confirm_clean_dish_picker_options,
+        .st-key-result_clean_dish_picker_options,
+        .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_clean_dish_picker_options),
+        .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-confirm_clean_dish_picker_options),
+        .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-result_clean_dish_picker_options) {
+            margin-top: 4px !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+        .st-key-menu_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .st-key-confirm_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .st-key-result_clean_dish_picker_options [data-testid="stVerticalBlock"] {
+            gap: 0 !important;
+            padding: 0 !important;
+        }
+
+        .st-key-menu_clean_dish_picker_options [data-testid="stElementContainer"],
+        .st-key-confirm_clean_dish_picker_options [data-testid="stElementContainer"],
+        .st-key-result_clean_dish_picker_options [data-testid="stElementContainer"] {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           ALL DISH PICKERS — NO OUTER LIST SHELL
+           Apply the same clean treatment to Menu, Confirm Dish,
+           and Update Dish selectors.
+           ================================================================ */
+
+        .st-key-menu_clean_dish_picker_options,
+        .st-key-confirm_clean_dish_picker_options,
+        .st-key-result_clean_dish_picker_options,
+        .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-menu_clean_dish_picker_options),
+        .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-confirm_clean_dish_picker_options),
+        .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-result_clean_dish_picker_options),
+        .stApp [data-testid="stElementContainer"]:has(.st-key-menu_clean_dish_picker_options),
+        .stApp [data-testid="stElementContainer"]:has(.st-key-confirm_clean_dish_picker_options),
+        .stApp [data-testid="stElementContainer"]:has(.st-key-result_clean_dish_picker_options) {
+            margin-top: 4px !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+        .st-key-menu_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .st-key-confirm_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .st-key-result_clean_dish_picker_options [data-testid="stVerticalBlock"] {
+            gap: 0 !important;
+            padding: 0 !important;
+        }
+
+        .st-key-menu_clean_dish_picker_options [data-testid="stElementContainer"],
+        .st-key-confirm_clean_dish_picker_options [data-testid="stElementContainer"],
+        .st-key-result_clean_dish_picker_options [data-testid="stElementContainer"] {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        /* Keep only the flat option rows themselves. */
+        .stApp .st-key-menu_clean_dish_picker_options button[kind="tertiary"],
+        .stApp .st-key-confirm_clean_dish_picker_options button[kind="tertiary"],
+        .stApp .st-key-result_clean_dish_picker_options button[kind="tertiary"] {
+            border: 0 !important;
+            box-shadow: none !important;
+            background: transparent !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
@@ -14419,7 +14597,7 @@ elif st.session_state.stage == "confirm_dish":
         choice = compact_dish_picker(
             candidates,
             state_key="dish_confirmation_select",
-            display_func=lambda x: f"🍲 {display_name(x)}",
+            display_func=display_name,
             picker_key="confirm_clean_dish_picker",
             option_prefix="confirm",
             visible_rows=5,
