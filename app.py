@@ -13575,6 +13575,141 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* FINAL WIDTH FIX — make the two helper tiles visibly narrower. */
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+            width: 88% !important;
+            max-width: 88% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 10px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-card {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+                width: 90% !important;
+                max-width: 90% !important;
+                gap: 8px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* FINAL VISIBLE GAP FIX:
+           apply spacing directly to the uploader wrapper instead of relying
+           on the subtitle margin, which Streamlit can collapse/override. */
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_main_card div[data-testid="stFileUploader"] {
+            margin-top: 18px !important;
+        }
+
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_main_card [data-testid="stElementContainer"]:has(div[data-testid="stFileUploader"]) {
+            margin-top: 18px !important;
+            padding-top: 0 !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card div[data-testid="stFileUploader"],
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card [data-testid="stElementContainer"]:has(div[data-testid="stFileUploader"]) {
+                margin-top: 16px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           SCAN SCREEN — FIT VIEWPORT / NO PAGE SCROLL
+           Applies only while the Scan screen marker is present.
+           ================================================================ */
+
+        html:has(.scan-screen-marker),
+        body:has(.scan-screen-marker) {
+            overflow: hidden !important;
+            overscroll-behavior: none !important;
+        }
+
+        .stApp:has(.scan-screen-marker) {
+            height: 100dvh !important;
+            min-height: 100dvh !important;
+            overflow: hidden !important;
+        }
+
+        .stApp:has(.scan-screen-marker) [data-testid="stAppViewContainer"],
+        .stApp:has(.scan-screen-marker) [data-testid="stMain"],
+        .stApp:has(.scan-screen-marker) section[data-testid="stMain"] {
+            height: 100dvh !important;
+            max-height: 100dvh !important;
+            overflow: hidden !important;
+        }
+
+        .stApp:has(.scan-screen-marker) [data-testid="stMainBlockContainer"] {
+            height: calc(100dvh - 66px) !important;
+            max-height: calc(100dvh - 66px) !important;
+            overflow: hidden !important;
+            padding-bottom: 8px !important;
+        }
+
+        /* Keep the Scan content compact enough to remain above the fixed nav. */
+        .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+            margin-top: 6px !important;
+            padding-top: 12px !important;
+            padding-bottom: 12px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .st-key-scan_next_info_card {
+            margin-top: 8px !important;
+            margin-bottom: 0 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-next-card {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.scan-screen-marker) [data-testid="stMainBlockContainer"] {
+                height: calc(100dvh - 62px) !important;
+                max-height: calc(100dvh - 62px) !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+                margin-top: 4px !important;
+                padding-top: 10px !important;
+                padding-bottom: 10px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .st-key-scan_next_info_card {
+                margin-top: 6px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
