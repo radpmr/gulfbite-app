@@ -7327,6 +7327,19 @@ button,
     box-shadow: 0 8px 18px rgba(69,49,17,.04) !important;
 }
 
+
+.stApp:has(.scan-screen-marker) .st-key-scan_next_info_card {
+    margin-top: 10px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.stApp:has(.scan-screen-marker) .st-key-scan_next_info_card .scan-next-card {
+    margin: 0 !important;
+}
+
 .stApp:has(.scan-screen-marker) .scan-help-icon,
 .stApp:has(.scan-screen-marker) .scan-next-icon,
 .stApp:has(.scan-screen-marker) .scan-tip-dot {
@@ -9751,6 +9764,70 @@ button,
     }
 }
 
+
+/* ==========================================================================
+   MENU — SELECTED DISH IS A SEPARATE CARD
+   Browse controls end above; selected dish now has its own Streamlit card.
+   ========================================================================== */
+
+.stApp:has(.menu-screen-marker) .st-key-menu_library_card {
+    margin-bottom: 14px !important;
+    padding-bottom: 14px !important;
+    overflow: hidden !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card {
+    margin: 0 0 10px 0 !important;
+    padding: 13px 14px 14px !important;
+    border: 1px solid #DCC79C !important;
+    border-radius: 19px !important;
+    background:
+        radial-gradient(circle at 96% 5%, rgba(175,118,31,.05), transparent 24%),
+        linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+    box-shadow: 0 8px 18px rgba(66,46,15,.04) !important;
+    overflow: hidden !important;
+}
+
+/* The HTML inside is content only now; the Streamlit wrapper owns the card. */
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card .menu-feature-card {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card .menu-feature-card::before,
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card .menu-feature-divider {
+    display: none !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card .menu-feature-kicker {
+    margin-bottom: 9px !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card .menu-feature-blurb {
+    margin-top: 10px !important;
+}
+
+.stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card .menu-feature-badges {
+    margin-top: 9px !important;
+    margin-bottom: 2px !important;
+}
+
+@media (max-width: 768px) {
+    .stApp:has(.menu-screen-marker) .st-key-menu_library_card {
+        margin-bottom: 12px !important;
+    }
+
+    .stApp:has(.menu-screen-marker) .st-key-menu_selected_dish_card {
+        padding: 12px 12px 13px !important;
+        border-radius: 17px !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -10800,71 +10877,71 @@ def render_category_squircle_cards():
                 label_visibility="collapsed",
             )
 
-        family_visuals = {
-            "01_machboos": ("🍚", "Rice dish"),
-            "02_kabsa": ("🍗", "Rice dish"),
-            "03_biryani": ("🍛", "Rice dish"),
-            "04_harees": ("🥣", "Grain dish"),
-            "05_thareed": ("🥘", "Slow-cooked"),
-            "06_saloona": ("🍲", "Stew"),
-            "07_ouzi": ("🍚", "Rice dish"),
-            "08_samak_mashwi": ("🐟", "Seafood"),
-            "09_jisheed": ("🐟", "Seafood"),
-            "10_shawarma": ("🌯", "Street food"),
-            "11_falafel_wrap": ("🌯", "Street food"),
-            "12_falafel": ("🧆", "Snack"),
-            "13_samboosa": ("🥟", "Snack"),
-            "14_mutabbaq": ("🥙", "Street food"),
-            "15_hummus": ("🥣", "Mezze"),
-            "16_fattoush": ("🥗", "Salad"),
-            "17_tabbouleh": ("🥗", "Salad"),
-            "18_foul_medames": ("🫘", "Breakfast"),
-            "19_shakshuka": ("🍳", "Breakfast"),
-            "20_balaleet": ("🍜", "Breakfast"),
-            "21_khameer": ("🫓", "Bread"),
-            "22_chebab": ("🥞", "Breakfast"),
-            "23_luqaimat": ("🍯", "Sweet"),
-            "24_knafeh": ("🍰", "Sweet"),
-            "25_karak_chai": ("☕", "Drink"),
-        }
+    family_visuals = {
+        "01_machboos": ("🍚", "Rice dish"),
+        "02_kabsa": ("🍗", "Rice dish"),
+        "03_biryani": ("🍛", "Rice dish"),
+        "04_harees": ("🥣", "Grain dish"),
+        "05_thareed": ("🥘", "Slow-cooked"),
+        "06_saloona": ("🍲", "Stew"),
+        "07_ouzi": ("🍚", "Rice dish"),
+        "08_samak_mashwi": ("🐟", "Seafood"),
+        "09_jisheed": ("🐟", "Seafood"),
+        "10_shawarma": ("🌯", "Street food"),
+        "11_falafel_wrap": ("🌯", "Street food"),
+        "12_falafel": ("🧆", "Snack"),
+        "13_samboosa": ("🥟", "Snack"),
+        "14_mutabbaq": ("🥙", "Street food"),
+        "15_hummus": ("🥣", "Mezze"),
+        "16_fattoush": ("🥗", "Salad"),
+        "17_tabbouleh": ("🥗", "Salad"),
+        "18_foul_medames": ("🫘", "Breakfast"),
+        "19_shakshuka": ("🍳", "Breakfast"),
+        "20_balaleet": ("🍜", "Breakfast"),
+        "21_khameer": ("🫓", "Bread"),
+        "22_chebab": ("🥞", "Breakfast"),
+        "23_luqaimat": ("🍯", "Sweet"),
+        "24_knafeh": ("🍰", "Sweet"),
+        "25_karak_chai": ("☕", "Drink"),
+    }
 
-        meta = DISH_METADATA.get(
-            selected_dish,
-            {
-                "spice": "Aromatic 🌶️",
-                "prep": "Traditional",
-                "density": "Nutritious",
-                "time": "30 min",
-            },
-        )
-        blurb = DISH_BLURBS.get(selected_dish, "")
-        icon, family = family_visuals.get(selected_dish, ("🍽️", "Gulf dish"))
+    meta = DISH_METADATA.get(
+        selected_dish,
+        {
+            "spice": "Aromatic 🌶️",
+            "prep": "Traditional",
+            "density": "Nutritious",
+            "time": "30 min",
+        },
+    )
+    blurb = DISH_BLURBS.get(selected_dish, "")
+    icon, family = family_visuals.get(selected_dish, ("🍽️", "Gulf dish"))
 
-        detail_html = (
-            '<div class="menu-feature-card" style="box-sizing:border-box !important;max-width:100% !important;padding-right:14px !important;overflow:visible !important;">'
-            '<div class="menu-feature-kicker">Selected dish</div>'
-            '<div class="menu-feature-top">'
-            f'<div class="menu-feature-icon">{icon}</div>'
-            '<div class="menu-feature-heading">'
-            f'<div class="menu-feature-name">{display_name(selected_dish)}</div>'
-            '<div class="menu-feature-meta-row">'
-            f'<div class="menu-feature-family">{family}</div>'
-            ''
-            '</div>'
-            '</div>'
-            '</div>'
-            '<div class="menu-feature-divider"></div>'
-            f'<div class="menu-feature-blurb" style="display:block !important;width:calc(100% - 18px) !important;max-width:calc(100% - 18px) !important;padding-right:0 !important;box-sizing:border-box !important;white-space:normal !important;overflow:visible !important;overflow-wrap:break-word !important;word-break:normal !important;">{blurb}</div>'
-            '<div class="menu-feature-badges">'
-            f'<span>{meta["spice"]}</span>'
-            f'<span>{meta["prep"]}</span>'
-            f'<span>{meta["density"]}</span>'
-            '</div>'
-            '<div style="height: 10px;"></div>'
-            '</div>'
-        )
+    detail_html = (
+        '<div class="menu-feature-card" style="box-sizing:border-box !important;max-width:100% !important;padding-right:14px !important;overflow:visible !important;">'
+        '<div class="menu-feature-kicker">Selected dish</div>'
+        '<div class="menu-feature-top">'
+        f'<div class="menu-feature-icon">{icon}</div>'
+        '<div class="menu-feature-heading">'
+        f'<div class="menu-feature-name">{display_name(selected_dish)}</div>'
+        '<div class="menu-feature-meta-row">'
+        f'<div class="menu-feature-family">{family}</div>'
+        ''
+        '</div>'
+        '</div>'
+        '</div>'
+        '<div class="menu-feature-divider"></div>'
+        f'<div class="menu-feature-blurb" style="display:block !important;width:calc(100% - 18px) !important;max-width:calc(100% - 18px) !important;padding-right:0 !important;box-sizing:border-box !important;white-space:normal !important;overflow:visible !important;overflow-wrap:break-word !important;word-break:normal !important;">{blurb}</div>'
+        '<div class="menu-feature-badges">'
+        f'<span>{meta["spice"]}</span>'
+        f'<span>{meta["prep"]}</span>'
+        f'<span>{meta["density"]}</span>'
+        '</div>'
+        '<div style="height: 10px;"></div>'
+        '</div>'
+    )
+    with st.container(key="menu_selected_dish_card"):
         st.markdown(detail_html, unsafe_allow_html=True)
-
 
 
 def render_culinary_badges(dish_class: str):
@@ -11228,6 +11305,14 @@ elif st.session_state.stage in ["main", "upload"]:
                             </div>
                         </div>
                     </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+        if image_to_process is None:
+            with st.container(key="scan_next_info_card"):
+                st.markdown(
+                    """
                     <div class="scan-next-card">
                         <div class="scan-next-icon">✦</div>
                         <div>
@@ -11241,69 +11326,69 @@ elif st.session_state.stage in ["main", "upload"]:
                     unsafe_allow_html=True,
                 )
 
-            if image_to_process is not None:
-                st.session_state.image = image_to_process
-                st.image(image_to_process, caption="Meal preview", use_column_width=True)
+        if image_to_process is not None:
+            st.session_state.image = image_to_process
+            st.image(image_to_process, caption="Meal preview", use_column_width=True)
 
-                with st.spinner("Recognizing dish and checking visual markers..."):
-                    cnn_class, cnn_confidence, margin, entropy = run_cnn(
-                        image_to_process, cnn_model, idx_to_class
-                    )
+            with st.spinner("Recognizing dish and checking visual markers..."):
+                cnn_class, cnn_confidence, margin, entropy = run_cnn(
+                    image_to_process, cnn_model, idx_to_class
+                )
 
-                    is_non_food = (
-                        cnn_confidence < MIN_CONFIDENCE
-                        or margin < MIN_MARGIN
-                        or entropy > MAX_ENTROPY
-                    )
+                is_non_food = (
+                    cnn_confidence < MIN_CONFIDENCE
+                    or margin < MIN_MARGIN
+                    or entropy > MAX_ENTROPY
+                )
 
-                    if is_non_food:
-                        st.markdown(
-                            """<div style="background:#FFF5F3;border:1px solid #F3D0CB;border-radius:16px;padding:15px;margin-top:10px;">
+                if is_non_food:
+                    st.markdown(
+                        """<div style="background:#FFF5F3;border:1px solid #F3D0CB;border-radius:16px;padding:15px;margin-top:10px;">
 <div style="font-family:'Inter', sans-serif;font-weight:900;color:#B33C34;">No supported Gulf dish detected</div>
 <div style="color:#7D756B;font-size:.80rem;line-height:1.45;margin-top:4px;">Try a clearer top-down image with one traditional Gulf dish filling most of the frame.</div>
 </div>""",
-                            unsafe_allow_html=True,
-                        )
-                        st.button("Try another photo", on_click=reset, use_container_width=True)
-                        st.stop()
-
-                    triggered = (
-                        cnn_confidence < CONFIDENCE_THRESHOLD
-                        or cnn_class in TRIGGER_SET
-                        or cnn_class in WRAP_TRIGGER_SET
+                        unsafe_allow_html=True,
                     )
+                    st.button("Try another photo", on_click=reset, use_container_width=True)
+                    st.stop()
 
-                    st.session_state.cnn_class = cnn_class
-                    st.session_state.cnn_confidence = cnn_confidence
-                    st.session_state.triggered = triggered
+                triggered = (
+                    cnn_confidence < CONFIDENCE_THRESHOLD
+                    or cnn_class in TRIGGER_SET
+                    or cnn_class in WRAP_TRIGGER_SET
+                )
 
-                    if not triggered:
-                        st.session_state.final_dish = cnn_class
-                        st.session_state.tier_used = "CNN direct match"
-                        st.session_state.stage = "select_portion"
-                        request_scroll_top()
-                        st.rerun()
-                    else:
-                        candidates = get_candidate_group(cnn_class)
-                        run_yolo_here = (cnn_class in YOLO_FEATURE_MAP) or (cnn_class == "03_biryani")
-                        yolo_suggestion, gate_status = None, None
-                        annotated_img = None
+                st.session_state.cnn_class = cnn_class
+                st.session_state.cnn_confidence = cnn_confidence
+                st.session_state.triggered = triggered
 
-                        if run_yolo_here:
-                            detections = run_yolov8_with_boxes(image_to_process, yolo_model)
-                            if detections:
-                                annotated_img = create_ai_decoded_overlay(image_to_process, detections)
-                            _, gated, gate_status = map_detections_to_suggestion(detections, candidates)
-                            yolo_suggestion = gated[0] if gated else None
+                if not triggered:
+                    st.session_state.final_dish = cnn_class
+                    st.session_state.tier_used = "CNN direct match"
+                    st.session_state.stage = "select_portion"
+                    request_scroll_top()
+                    st.rerun()
+                else:
+                    candidates = get_candidate_group(cnn_class)
+                    run_yolo_here = (cnn_class in YOLO_FEATURE_MAP) or (cnn_class == "03_biryani")
+                    yolo_suggestion, gate_status = None, None
+                    annotated_img = None
 
-                        st.session_state.annotated_image = annotated_img
-                        st.session_state.candidates = sorted(candidates)
-                        st.session_state.yolo_suggestion = yolo_suggestion
-                        st.session_state.yolo_gate_status = gate_status
-                        st.session_state.tier_used = "CNN + YOLO + user confirm" if yolo_suggestion else "CNN + user confirm"
-                        st.session_state.stage = "confirm_dish"
-                        request_scroll_top()
-                        st.rerun()
+                    if run_yolo_here:
+                        detections = run_yolov8_with_boxes(image_to_process, yolo_model)
+                        if detections:
+                            annotated_img = create_ai_decoded_overlay(image_to_process, detections)
+                        _, gated, gate_status = map_detections_to_suggestion(detections, candidates)
+                        yolo_suggestion = gated[0] if gated else None
+
+                    st.session_state.annotated_image = annotated_img
+                    st.session_state.candidates = sorted(candidates)
+                    st.session_state.yolo_suggestion = yolo_suggestion
+                    st.session_state.yolo_gate_status = gate_status
+                    st.session_state.tier_used = "CNN + YOLO + user confirm" if yolo_suggestion else "CNN + user confirm"
+                    st.session_state.stage = "confirm_dish"
+                    request_scroll_top()
+                    st.rerun()
 
 
     # Final page-specific overrides are deliberately injected AFTER the
@@ -12738,6 +12823,127 @@ elif st.session_state.stage in ["main", "upload"]:
 
             .stApp:has(.scan-screen-marker) .scan-next-card {
                 margin-top: 5px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           SCAN — MATCH HOME SPACING RHYTHM
+           Cleaner spacing, softer inner cards, and less empty vertical space.
+           ================================================================ */
+
+        .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+            margin-top: 10px !important;
+            padding: 15px 16px 14px !important;
+            border-radius: 22px !important;
+            box-shadow: 0 10px 22px rgba(66,46,15,.045) !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-hero-card {
+            margin: 0 0 10px 0 !important;
+            padding: 0 !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-hero-kicker {
+            margin-bottom: 4px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-hero-title {
+            margin-bottom: 4px !important;
+        }
+
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+            min-height: 92px !important;
+            padding: 7px 9px !important;
+            border-radius: 17px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-tip-line {
+            margin: 8px 0 0 !important;
+            padding: 0 2px !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+            margin-top: 9px !important;
+            gap: 7px !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .scan-help-card {
+            min-height: 54px !important;
+            padding: 8px 9px !important;
+            border-radius: 15px !important;
+            box-shadow: 0 5px 12px rgba(66,46,15,.028) !important;
+        }
+
+        .stApp:has(.scan-screen-marker) .st-key-scan_next_info_card {
+            margin-top: 10px !important;
+            margin-bottom: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .stApp:has(.scan-screen-marker)
+        .st-key-scan_next_info_card .scan-next-card {
+            margin: 0 !important;
+            padding: 9px 11px !important;
+            border: 1px solid #DCC79C !important;
+            border-radius: 16px !important;
+            background: linear-gradient(145deg,#FFFEFA 0%,#F9F0DF 100%) !important;
+            box-shadow: 0 7px 16px rgba(66,46,15,.035) !important;
+        }
+
+        .stApp:has(.scan-screen-marker) [data-testid="stMainBlockContainer"] {
+            padding-bottom: 70px !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp:has(.scan-screen-marker) .st-key-scan_main_card {
+                margin-top: 8px !important;
+                padding: 13px 12px 12px !important;
+                border-radius: 19px !important;
+            }
+
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_main_card div[data-testid="stFileUploader"] section {
+                min-height: 87px !important;
+                padding: 6px 7px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-tip-line {
+                margin-top: 6px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-photo-help-grid {
+                margin-top: 7px !important;
+                gap: 6px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .scan-help-card {
+                min-height: 51px !important;
+                padding: 7px 8px !important;
+                border-radius: 14px !important;
+            }
+
+            .stApp:has(.scan-screen-marker) .st-key-scan_next_info_card {
+                margin-top: 8px !important;
+            }
+
+            .stApp:has(.scan-screen-marker)
+            .st-key-scan_next_info_card .scan-next-card {
+                padding: 8px 9px !important;
+                border-radius: 15px !important;
             }
         }
         </style>
