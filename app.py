@@ -10037,6 +10037,115 @@ button,
     grid-template-columns: none !important;
 }
 
+
+/* ================================================================
+   GLOBAL HTML DISH PICKER
+   Keep Menu, Confirm Dish and Update Dish identical on every stage.
+   ================================================================ */
+.html-dish-picker {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+
+.html-dish-picker > summary {
+    list-style: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+    padding: 0 14px !important;
+    border: 1px solid #D99A1B !important;
+    border-radius: 14px !important;
+    background: linear-gradient(180deg,#FFFEFB 0%,#FFF8E9 100%) !important;
+    color: #A66D05 !important;
+    cursor: pointer !important;
+    font-size: .92rem !important;
+    font-weight: 600 !important;
+    user-select: none !important;
+}
+
+.html-dish-picker > summary::-webkit-details-marker { display: none !important; }
+.html-dish-picker > summary::marker { content: "" !important; }
+
+.html-dish-chevron {
+    font-size: .82rem !important;
+    line-height: 1 !important;
+    transition: transform .16s ease !important;
+}
+.html-dish-picker[open] .html-dish-chevron { transform: rotate(180deg) !important; }
+
+.html-dish-options {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-top: 4px !important;
+    padding: 3px 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #D8B36A transparent !important;
+}
+.html-dish-options::-webkit-scrollbar { width: 5px !important; }
+.html-dish-options::-webkit-scrollbar-track { background: transparent !important; }
+.html-dish-options::-webkit-scrollbar-thumb {
+    background: #D8B36A !important;
+    border-radius: 999px !important;
+}
+
+.html-dish-option {
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    width: 100% !important;
+    min-height: 34px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+    border: 0 !important;
+    border-radius: 7px !important;
+    background: transparent !important;
+    color: #2B241C !important;
+    text-decoration: none !important;
+    font-size: .78rem !important;
+    font-weight: 550 !important;
+}
+.html-dish-option:hover {
+    background: #FFF3D7 !important;
+    color: #241B12 !important;
+}
+.html-dish-option.is-selected {
+    background: #FFF0C9 !important;
+    color: #241B12 !important;
+    font-weight: 750 !important;
+}
+.html-dish-check {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 14px !important;
+    min-width: 14px !important;
+    color: #C68412 !important;
+    font-size: .72rem !important;
+}
+
+@media (max-width: 768px) {
+    .html-dish-picker > summary {
+        min-height: 46px !important;
+        font-size: .88rem !important;
+    }
+    .html-dish-option {
+        min-height: 32px !important;
+        font-size: .75rem !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
