@@ -14790,6 +14790,24 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown(
+        """
+        <style>
+        /* More breathing room between the Edit Dish picker and Update Dish CTA. */
+        .stApp .st-key-update_dish_control {
+            margin-top: 16px !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp .st-key-update_dish_control {
+                margin-top: 14px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
