@@ -11181,13 +11181,15 @@ def render_category_squircle_cards():
         st.session_state.cat_select_box, "All Dishes"
     )
 
-    if (
-        "menu_category_segment" not in st.session_state
-        or st.session_state.menu_category_segment not in category_map
-        or category_map.get(st.session_state.menu_category_segment)
-        != st.session_state.cat_select_box
-    ):
-        st.session_state.menu_category_segment = expected_short
+    # Keep the category widget controlled by its own default value instead of
+    # simultaneously supplying a default and mutating the widget key through
+    # Session State. This prevents Streamlit's "default value + Session State"
+    # conflict when Home > Gulf favourites jumps directly into Menu.
+    menu_category_key = "menu_category_segment"
+    if menu_category_key in st.session_state:
+        current_widget_value = st.session_state.get(menu_category_key)
+        if current_widget_value != expected_short:
+            del st.session_state[menu_category_key]
 
     def _apply_menu_category():
         short_name = st.session_state.get("menu_category_segment", "All Dishes")
@@ -11222,19 +11224,19 @@ def render_category_squircle_cards():
                 st.segmented_control(
                     "Dish category",
                     options=list(category_map.keys()),
-                    key="menu_category_segment",
+                    default=expected_short,
+                    key=menu_category_key,
                     selection_mode="single",
                     label_visibility="collapsed",
                     width="stretch",
                     on_change=_apply_menu_category,
                 )
             else:
-                current_short = st.session_state.menu_category_segment
                 st.radio(
                     "Dish category",
                     options=list(category_map.keys()),
-                    index=list(category_map.keys()).index(current_short),
-                    key="menu_category_segment",
+                    index=list(category_map.keys()).index(expected_short),
+                    key=menu_category_key,
                     horizontal=True,
                     label_visibility="collapsed",
                     on_change=_apply_menu_category,
@@ -14783,6 +14785,24 @@ elif st.session_state.stage in ["main", "upload"]:
             .html-dish-option {
                 min-height: 32px !important;
                 font-size: .75rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        /* More breathing room between the Edit Dish picker and Update Dish CTA. */
+        .stApp .st-key-update_dish_control {
+            margin-top: 16px !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp .st-key-update_dish_control {
+                margin-top: 14px !important;
             }
         }
         </style>
