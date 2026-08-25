@@ -10379,10 +10379,13 @@ def compact_dish_picker(
 
     # The popover is a real Streamlit control, so selecting an item does not
     # navigate away from the current screen or recreate the app session.
+    # Do not pass `key` to st.popover here. Some deployed Streamlit
+    # versions used by the app reject the key argument and raise a TypeError
+    # before the Verify-stage picker can render. The picker is rendered in only
+    # one active workflow branch at a time, so a shared widget key is unnecessary.
     with st.popover(
         current_label,
         use_container_width=True,
-        key=picker_key,
     ):
         st.markdown(
             '<div class="picker-popover-title">Select your dish</div>',
