@@ -1,6 +1,3 @@
-
-
-
 """
 GulfBite - Smart Gulf Cuisine Nutrition Assistant
 
@@ -10040,115 +10037,6 @@ button,
     grid-template-columns: none !important;
 }
 
-
-/* ================================================================
-   GLOBAL HTML DISH PICKER
-   Keep Menu, Confirm Dish and Update Dish identical on every stage.
-   ================================================================ */
-.html-dish-picker {
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-}
-
-.html-dish-picker > summary {
-    list-style: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    width: 100% !important;
-    min-height: 48px !important;
-    box-sizing: border-box !important;
-    padding: 0 14px !important;
-    border: 1px solid #D99A1B !important;
-    border-radius: 14px !important;
-    background: linear-gradient(180deg,#FFFEFB 0%,#FFF8E9 100%) !important;
-    color: #A66D05 !important;
-    cursor: pointer !important;
-    font-size: .92rem !important;
-    font-weight: 600 !important;
-    user-select: none !important;
-}
-
-.html-dish-picker > summary::-webkit-details-marker { display: none !important; }
-.html-dish-picker > summary::marker { content: "" !important; }
-
-.html-dish-chevron {
-    font-size: .82rem !important;
-    line-height: 1 !important;
-    transition: transform .16s ease !important;
-}
-.html-dish-picker[open] .html-dish-chevron { transform: rotate(180deg) !important; }
-
-.html-dish-options {
-    width: 100% !important;
-    box-sizing: border-box !important;
-    margin-top: 4px !important;
-    padding: 3px 0 !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    border: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    scrollbar-width: thin !important;
-    scrollbar-color: #D8B36A transparent !important;
-}
-.html-dish-options::-webkit-scrollbar { width: 5px !important; }
-.html-dish-options::-webkit-scrollbar-track { background: transparent !important; }
-.html-dish-options::-webkit-scrollbar-thumb {
-    background: #D8B36A !important;
-    border-radius: 999px !important;
-}
-
-.html-dish-option {
-    display: flex !important;
-    align-items: center !important;
-    gap: 7px !important;
-    width: 100% !important;
-    min-height: 34px !important;
-    box-sizing: border-box !important;
-    margin: 0 !important;
-    padding: 0 10px !important;
-    border: 0 !important;
-    border-radius: 7px !important;
-    background: transparent !important;
-    color: #2B241C !important;
-    text-decoration: none !important;
-    font-size: .78rem !important;
-    font-weight: 550 !important;
-}
-.html-dish-option:hover {
-    background: #FFF3D7 !important;
-    color: #241B12 !important;
-}
-.html-dish-option.is-selected {
-    background: #FFF0C9 !important;
-    color: #241B12 !important;
-    font-weight: 750 !important;
-}
-.html-dish-check {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 14px !important;
-    min-width: 14px !important;
-    color: #C68412 !important;
-    font-size: .72rem !important;
-}
-
-@media (max-width: 768px) {
-    .html-dish-picker > summary {
-        min-height: 46px !important;
-        font-size: .88rem !important;
-    }
-    .html-dish-option {
-        min-height: 32px !important;
-        font-size: .75rem !important;
-    }
-}
-
 </style>""",
         unsafe_allow_html=True,
     )
@@ -10360,54 +10248,66 @@ def compact_dish_picker(
     option_prefix="dish",
     visible_rows=5,
 ):
-    """Stable dish picker using Streamlit popover/buttons.
-
-    The previous implementation used normal HTML links with query parameters.
-    On some Streamlit sessions those links can create a fresh app session, which
-    resets the router to the onboarding/welcome screen. Using Streamlit widgets
-    keeps the selection entirely inside session state and preserves the current
-    stage when an option is selected.
-    """
+    """Stable dish picker rendered with plain HTML links instead of Streamlit widgets."""
     if not options:
         return None
 
     if state_key not in st.session_state or st.session_state[state_key] not in options:
         st.session_state[state_key] = options[0]
 
-    current = st.session_state[state_key]
-    current_label = str(display_func(current))
+    # A clicked option comes back through the URL. Using query params here
+    # avoids Streamlit's native selectbox/radio/button styling conflicts.
+    picker_param = st.query_params.get("picker")
+    pick_param = st.query_params.get("pick")
 
-    # The popover is a real Streamlit control, so selecting an item does not
-    # navigate away from the current screen or recreate the app session.
-    # Do not pass `key` to st.popover here. Some deployed Streamlit
-    # versions used by the app reject the key argument and raise a TypeError
-    # before the Verify-stage picker can render. The picker is rendered in only
-    # one active workflow branch at a time, so a shared widget key is unnecessary.
-    with st.popover(
-        current_label,
-        use_container_width=True,
-    ):
-        st.markdown(
-            '<div class="picker-popover-title">Select your dish</div>',
-            unsafe_allow_html=True,
+    if isinstance(picker_param, list):
+        picker_param = picker_param[0] if picker_param else None
+    if isinstance(pick_param, list):
+        pick_param = pick_param[0] if pick_param else None
+
+    if picker_param == picker_key and pick_param in options:
+        st.session_state[state_key] = pick_param
+        try:
+            del st.query_params["picker"]
+        except Exception:
+            pass
+        try:
+            del st.query_params["pick"]
+        except Exception:
+            pass
+
+    current = st.session_state[state_key]
+    current_label = html.escape(str(display_func(current)))
+
+    option_rows = []
+    for option in options:
+        label = html.escape(str(display_func(option)))
+        selected_class = " is-selected" if option == current else ""
+        check = '<span class="html-dish-check">✓</span>' if option == current else '<span class="html-dish-check"></span>'
+        href = f"?picker={quote(picker_key, safe='')}&pick={quote(str(option), safe='')}"
+        option_rows.append(
+            f'<a class="html-dish-option{selected_class}" href="{href}" target="_self">{check}<span>{label}</span></a>'
         )
 
-        # Keep the list compact while still allowing all dishes to be reached.
-        option_container = st.container(height=max(180, min(260, visible_rows * 42 + 20)))
-        with option_container:
-            for idx, option in enumerate(options):
-                is_selected = option == st.session_state[state_key]
-                label = f"✓  {display_func(option)}" if is_selected else str(display_func(option))
-                if st.button(
-                    label,
-                    key=f"{option_prefix}_dish_option_{idx}_{picker_key}",
-                    use_container_width=True,
-                    type="secondary",
-                ):
-                    st.session_state[state_key] = option
-                    st.rerun()
+    max_height = max(126, min(210, visible_rows * 36 + 10))
+
+    st.markdown(
+        f"""
+        <details class="html-dish-picker">
+            <summary>
+                <span>{current_label}</span>
+                <span class="html-dish-chevron">⌄</span>
+            </summary>
+            <div class="html-dish-options" style="max-height:{max_height}px;">
+                {''.join(option_rows)}
+            </div>
+        </details>
+        """,
+        unsafe_allow_html=True,
+    )
 
     return st.session_state[state_key]
+
 
 
 def segmented_choice(
@@ -11172,15 +11072,13 @@ def render_category_squircle_cards():
         st.session_state.cat_select_box, "All Dishes"
     )
 
-    # Keep the category widget controlled by its own default value instead of
-    # simultaneously supplying a default and mutating the widget key through
-    # Session State. This prevents Streamlit's "default value + Session State"
-    # conflict when Home > Gulf favourites jumps directly into Menu.
-    menu_category_key = "menu_category_segment"
-    if menu_category_key in st.session_state:
-        current_widget_value = st.session_state.get(menu_category_key)
-        if current_widget_value != expected_short:
-            del st.session_state[menu_category_key]
+    if (
+        "menu_category_segment" not in st.session_state
+        or st.session_state.menu_category_segment not in category_map
+        or category_map.get(st.session_state.menu_category_segment)
+        != st.session_state.cat_select_box
+    ):
+        st.session_state.menu_category_segment = expected_short
 
     def _apply_menu_category():
         short_name = st.session_state.get("menu_category_segment", "All Dishes")
@@ -11215,19 +11113,19 @@ def render_category_squircle_cards():
                 st.segmented_control(
                     "Dish category",
                     options=list(category_map.keys()),
-                    default=expected_short,
-                    key=menu_category_key,
+                    key="menu_category_segment",
                     selection_mode="single",
                     label_visibility="collapsed",
                     width="stretch",
                     on_change=_apply_menu_category,
                 )
             else:
+                current_short = st.session_state.menu_category_segment
                 st.radio(
                     "Dish category",
                     options=list(category_map.keys()),
-                    index=list(category_map.keys()).index(expected_short),
-                    key=menu_category_key,
+                    index=list(category_map.keys()).index(current_short),
+                    key="menu_category_segment",
                     horizontal=True,
                     label_visibility="collapsed",
                     on_change=_apply_menu_category,
@@ -14783,77 +14681,6 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
-    st.markdown(
-        """
-        <style>
-        /* Consistent Streamlit dish-picker popover styling. */
-.stApp [data-testid="stPopover"] > button {
-    width: 100% !important;
-    min-height: 54px !important;
-    border: 1.2px solid #D99926 !important;
-    border-radius: 16px !important;
-    background: linear-gradient(180deg, #FFFDF8 0%, #FFF7E6 100%) !important;
-    color: #A9680C !important;
-    font-size: 1.05rem !important;
-    font-weight: 600 !important;
-    box-shadow: none !important;
-}
-
-.stApp [data-testid="stPopover"] > button:hover {
-    border-color: #D18C1D !important;
-    background: #FFF7E6 !important;
-}
-
-.stApp [data-testid="stPopover"] [data-testid="stPopoverBody"] {
-    border: 1px solid #E8DCC6 !important;
-    border-radius: 20px !important;
-    background: #FFFDF9 !important;
-    box-shadow: 0 12px 28px rgba(74, 55, 25, .12) !important;
-    padding: 12px !important;
-}
-
-.picker-popover-title {
-    color: #B9780E;
-    font-size: .72rem;
-    font-weight: 800;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    margin: 2px 4px 8px;
-}
-
-.stApp [data-testid="stPopover"] [data-testid="stVerticalBlock"] button {
-    min-height: 42px !important;
-    border: 1px solid #E7B15A !important;
-    border-radius: 13px !important;
-    background: #FFFDF9 !important;
-    color: #2B2925 !important;
-    font-size: .96rem !important;
-    font-weight: 600 !important;
-    justify-content: flex-start !important;
-    text-align: left !important;
-    padding-left: 14px !important;
-    margin-bottom: 6px !important;
-}
-
-.stApp [data-testid="stPopover"] [data-testid="stVerticalBlock"] button:hover {
-    background: #FFF1D2 !important;
-}
-
-/* More breathing room between the Edit Dish picker and Update Dish CTA. */
-        .stApp .st-key-update_dish_control {
-            margin-top: 16px !important;
-        }
-
-        @media (max-width: 768px) {
-            .stApp .st-key-update_dish_control {
-                margin-top: 14px !important;
-            }
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
     apply_pending_scroll_top()
 
 
@@ -14911,8 +14738,9 @@ elif st.session_state.stage == "confirm_dish":
             if default_choice in candidates
             else 0
         )
+
         st.markdown(
-            '<div class="menu-picker-label" style="margin-top:12px; margin-bottom:6px;">Choose a dish</div>',
+            '<p style="font-family: \'Inter\', sans-serif; font-size: 0.88rem; font-weight: 800; color: #1E1B16; margin: 12px 0 6px 0;">Select your dish:</p>',
             unsafe_allow_html=True,
         )
 
@@ -15061,10 +14889,6 @@ elif st.session_state.stage == "result":
             ):
                 st.session_state.result_corrected_dish = all_dishes[current_idx]
 
-            st.markdown(
-                '<div class="menu-picker-label" style="margin-top:2px; margin-bottom:6px;">Choose a dish</div>',
-                unsafe_allow_html=True,
-            )
             corrected = compact_dish_picker(
                 all_dishes,
                 state_key="result_corrected_dish",
