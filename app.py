@@ -1,3 +1,6 @@
+
+
+
 """
 GulfBite - Smart Gulf Cuisine Nutrition Assistant
 
@@ -10357,66 +10360,51 @@ def compact_dish_picker(
     option_prefix="dish",
     visible_rows=5,
 ):
-    """Stable dish picker rendered with plain HTML links instead of Streamlit widgets."""
+    """Stable dish picker using Streamlit popover/buttons.
+
+    The previous implementation used normal HTML links with query parameters.
+    On some Streamlit sessions those links can create a fresh app session, which
+    resets the router to the onboarding/welcome screen. Using Streamlit widgets
+    keeps the selection entirely inside session state and preserves the current
+    stage when an option is selected.
+    """
     if not options:
         return None
 
     if state_key not in st.session_state or st.session_state[state_key] not in options:
         st.session_state[state_key] = options[0]
 
-    # A clicked option comes back through the URL. Using query params here
-    # avoids Streamlit's native selectbox/radio/button styling conflicts.
-    picker_param = st.query_params.get("picker")
-    pick_param = st.query_params.get("pick")
-
-    if isinstance(picker_param, list):
-        picker_param = picker_param[0] if picker_param else None
-    if isinstance(pick_param, list):
-        pick_param = pick_param[0] if pick_param else None
-
-    if picker_param == picker_key and pick_param in options:
-        st.session_state[state_key] = pick_param
-        try:
-            del st.query_params["picker"]
-        except Exception:
-            pass
-        try:
-            del st.query_params["pick"]
-        except Exception:
-            pass
-
     current = st.session_state[state_key]
-    current_label = html.escape(str(display_func(current)))
+    current_label = str(display_func(current))
 
-    option_rows = []
-    for option in options:
-        label = html.escape(str(display_func(option)))
-        selected_class = " is-selected" if option == current else ""
-        check = '<span class="html-dish-check">✓</span>' if option == current else '<span class="html-dish-check"></span>'
-        href = f"?picker={quote(picker_key, safe='')}&pick={quote(str(option), safe='')}"
-        option_rows.append(
-            f'<a class="html-dish-option{selected_class}" href="{href}" target="_self">{check}<span>{label}</span></a>'
+    # The popover is a real Streamlit control, so selecting an item does not
+    # navigate away from the current screen or recreate the app session.
+    with st.popover(
+        current_label,
+        use_container_width=True,
+        key=picker_key,
+    ):
+        st.markdown(
+            '<div class="picker-popover-title">Select your dish</div>',
+            unsafe_allow_html=True,
         )
 
-    max_height = max(126, min(210, visible_rows * 36 + 10))
-
-    st.markdown(
-        f"""
-        <details class="html-dish-picker">
-            <summary>
-                <span>{current_label}</span>
-                <span class="html-dish-chevron">⌄</span>
-            </summary>
-            <div class="html-dish-options" style="max-height:{max_height}px;">
-                {''.join(option_rows)}
-            </div>
-        </details>
-        """,
-        unsafe_allow_html=True,
-    )
+        # Keep the list compact while still allowing all dishes to be reached.
+        option_container = st.container(height=max(180, min(260, visible_rows * 42 + 20)))
+        with option_container:
+            for idx, option in enumerate(options):
+                is_selected = option == st.session_state[state_key]
+                label = f"✓  {display_func(option)}" if is_selected else str(display_func(option))
+                if st.button(
+                    label,
+                    key=f"{option_prefix}_dish_option_{idx}_{picker_key}",
+                    use_container_width=True,
+                    type="secondary",
+                ):
+                    st.session_state[state_key] = option
+                    st.rerun()
 
     return st.session_state[state_key]
-
 
 
 def segmented_choice(
@@ -14795,7 +14783,60 @@ elif st.session_state.stage in ["main", "upload"]:
     st.markdown(
         """
         <style>
-        /* More breathing room between the Edit Dish picker and Update Dish CTA. */
+        /* Consistent Streamlit dish-picker popover styling. */
+.stApp [data-testid="stPopover"] > button {
+    width: 100% !important;
+    min-height: 54px !important;
+    border: 1.2px solid #D99926 !important;
+    border-radius: 16px !important;
+    background: linear-gradient(180deg, #FFFDF8 0%, #FFF7E6 100%) !important;
+    color: #A9680C !important;
+    font-size: 1.05rem !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+}
+
+.stApp [data-testid="stPopover"] > button:hover {
+    border-color: #D18C1D !important;
+    background: #FFF7E6 !important;
+}
+
+.stApp [data-testid="stPopover"] [data-testid="stPopoverBody"] {
+    border: 1px solid #E8DCC6 !important;
+    border-radius: 20px !important;
+    background: #FFFDF9 !important;
+    box-shadow: 0 12px 28px rgba(74, 55, 25, .12) !important;
+    padding: 12px !important;
+}
+
+.picker-popover-title {
+    color: #B9780E;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin: 2px 4px 8px;
+}
+
+.stApp [data-testid="stPopover"] [data-testid="stVerticalBlock"] button {
+    min-height: 42px !important;
+    border: 1px solid #E7B15A !important;
+    border-radius: 13px !important;
+    background: #FFFDF9 !important;
+    color: #2B2925 !important;
+    font-size: .96rem !important;
+    font-weight: 600 !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    padding-left: 14px !important;
+    margin-bottom: 6px !important;
+}
+
+.stApp [data-testid="stPopover"] [data-testid="stVerticalBlock"] button:hover {
+    background: #FFF1D2 !important;
+}
+
+/* More breathing room between the Edit Dish picker and Update Dish CTA. */
         .stApp .st-key-update_dish_control {
             margin-top: 16px !important;
         }
