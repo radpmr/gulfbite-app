@@ -10360,61 +10360,51 @@ def compact_dish_picker(
     option_prefix="dish",
     visible_rows=5,
 ):
-    """Inline HTML dish picker with its styles embedded in the markup."""
+    """Inline dish picker that uses session state, so selecting an item never changes the URL."""
     if not options:
         return None
 
     if state_key not in st.session_state or st.session_state[state_key] not in options:
         st.session_state[state_key] = options[0]
 
-    picker_param = st.query_params.get("picker")
-    pick_param = st.query_params.get("pick")
-    if isinstance(picker_param, list):
-        picker_param = picker_param[0] if picker_param else None
-    if isinstance(pick_param, list):
-        pick_param = pick_param[0] if pick_param else None
-    if picker_param == picker_key and pick_param in options:
-        st.session_state[state_key] = pick_param
-        try: del st.query_params["picker"]
-        except Exception: pass
-        try: del st.query_params["pick"]
-        except Exception: pass
+    open_key = f"{picker_key}_open"
+    if open_key not in st.session_state:
+        st.session_state[open_key] = False
 
     current = st.session_state[state_key]
-    current_label = html.escape(str(display_func(current)))
-    row_height = 34
-    max_height = max(126, min(190, visible_rows * row_height + 8))
-    rows=[]
-    for option in options:
-        label=html.escape(str(display_func(option)))
-        href=f"?picker={quote(picker_key, safe='')}&pick={quote(str(option), safe='')}"
-        if option == current:
-            bg='#FFF0C9'; weight='750'; check='✓'
-        else:
-            bg='transparent'; weight='550'; check=''
-        rows.append(
-            f'<a href="{href}" target="_self" '
-            f'style="display:flex;align-items:center;gap:7px;min-height:{row_height}px;'
-            f'box-sizing:border-box;width:100%;margin:0;padding:0 10px;border:0;border-radius:7px;'
-            f'background:{bg};color:#2B241C;text-decoration:none;font-size:.78rem;font-weight:{weight};'
-            f'line-height:1.1;">'
-            f'<span style="display:inline-flex;width:14px;min-width:14px;color:#C68412;justify-content:center;">{check}</span>'
-            f'<span>{label}</span></a>'
-        )
-    html_block = (
-        f'<details style="width:100%;margin:0;padding:0;border:0;background:transparent;">'
-        f'<summary style="list-style:none;display:flex;align-items:center;justify-content:space-between;'
-        f'width:100%;min-height:46px;box-sizing:border-box;padding:0 14px;border:1px solid #D99A1B;'
-        f'border-radius:14px;background:linear-gradient(180deg,#FFFEFB 0%,#FFF8E9 100%);'
-        f'color:#A66D05;cursor:pointer;font-size:.90rem;font-weight:600;user-select:none;">'
-        f'<span>{current_label}</span><span style="font-size:.78rem;line-height:1;">⌄</span></summary>'
-        f'<div style="width:100%;max-height:{max_height}px;box-sizing:border-box;margin-top:4px;padding:2px 0;'
-        f'overflow-y:auto;overflow-x:hidden;border:0;background:transparent;scrollbar-width:thin;scrollbar-color:#D8B36A transparent;">'
-        + ''.join(rows) +
-        '</div></details>'
-    )
-    st.markdown(html_block, unsafe_allow_html=True)
+
+    with st.container(key=picker_key):
+        trigger = f"{display_func(current)}   {'⌃' if st.session_state[open_key] else '⌄'}"
+        if st.button(
+            trigger,
+            key=f"{picker_key}_trigger",
+            use_container_width=True,
+            type="secondary",
+        ):
+            st.session_state[open_key] = not st.session_state[open_key]
+            st.rerun()
+
+        if st.session_state[open_key]:
+            visible = min(max(visible_rows, 1), len(options))
+            list_height = visible * 34 + 8
+
+            with st.container(key=f"{picker_key}_options", height=list_height, border=False):
+                for idx, option in enumerate(options):
+                    is_selected = option == current
+                    label = f"✓  {display_func(option)}" if is_selected else display_func(option)
+
+                    if st.button(
+                        label,
+                        key=f"{picker_key}_{option_prefix}_{idx}",
+                        use_container_width=True,
+                        type="secondary",
+                    ):
+                        st.session_state[state_key] = option
+                        st.session_state[open_key] = False
+                        st.rerun()
+
     return st.session_state[state_key]
+
 
 
 def segmented_choice(
@@ -14799,6 +14789,111 @@ elif st.session_state.stage in ["main", "upload"]:
     .st-key-result_clean_dish_picker_options { margin:0 !important; padding:0 !important; border:0 !important; background:transparent !important; box-shadow:none !important; }
     </style>
     """, unsafe_allow_html=True)
+
+    st.markdown(
+        """
+        <style>
+        /* ================================================================
+           DISH PICKER — NO RELOAD VERSION
+           Uses only Streamlit session state. No href/query parameters.
+           ================================================================ */
+
+        /* Closed selector */
+        .stApp .st-key-menu_clean_dish_picker > div > div:first-child button[kind="secondary"],
+        .stApp .st-key-confirm_clean_dish_picker > div > div:first-child button[kind="secondary"],
+        .stApp .st-key-result_clean_dish_picker > div > div:first-child button[kind="secondary"] {
+            width: 100% !important;
+            min-height: 46px !important;
+            height: 46px !important;
+            padding: 0 14px !important;
+            border: 1px solid #D99A1B !important;
+            border-radius: 14px !important;
+            background: linear-gradient(180deg,#FFFEFB 0%,#FFF8E9 100%) !important;
+            color: #A66D05 !important;
+            box-shadow: none !important;
+            transform: none !important;
+            font-size: .90rem !important;
+            font-weight: 600 !important;
+            justify-content: space-between !important;
+        }
+
+        /* Remove the option-list outer shell. */
+        .stApp .st-key-menu_clean_dish_picker_options,
+        .stApp .st-key-confirm_clean_dish_picker_options,
+        .stApp .st-key-result_clean_dish_picker_options {
+            margin-top: 4px !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .stApp .st-key-menu_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .stApp .st-key-confirm_clean_dish_picker_options [data-testid="stVerticalBlock"],
+        .stApp .st-key-result_clean_dish_picker_options [data-testid="stVerticalBlock"] {
+            gap: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Flat option rows. */
+        .stApp .st-key-menu_clean_dish_picker_options button[kind="secondary"],
+        .stApp .st-key-confirm_clean_dish_picker_options button[kind="secondary"],
+        .stApp .st-key-result_clean_dish_picker_options button[kind="secondary"] {
+            width: 100% !important;
+            min-height: 32px !important;
+            height: 32px !important;
+            margin: 0 !important;
+            padding: 0 10px !important;
+            border: 0 !important;
+            border-radius: 7px !important;
+            background: transparent !important;
+            color: #2B241C !important;
+            box-shadow: none !important;
+            transform: none !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+            font-size: .76rem !important;
+            font-weight: 550 !important;
+        }
+
+        .stApp .st-key-menu_clean_dish_picker_options button[kind="secondary"]:hover,
+        .stApp .st-key-confirm_clean_dish_picker_options button[kind="secondary"]:hover,
+        .stApp .st-key-result_clean_dish_picker_options button[kind="secondary"]:hover {
+            background: #FFF3D7 !important;
+            color: #241B12 !important;
+            border: 0 !important;
+            box-shadow: none !important;
+        }
+
+        .stApp .st-key-menu_clean_dish_picker_options button[kind="secondary"] *,
+        .stApp .st-key-confirm_clean_dish_picker_options button[kind="secondary"] *,
+        .stApp .st-key-result_clean_dish_picker_options button[kind="secondary"] * {
+            color: inherit !important;
+            background: transparent !important;
+        }
+
+        @media (max-width: 768px) {
+            .stApp .st-key-menu_clean_dish_picker > div > div:first-child button[kind="secondary"],
+            .stApp .st-key-confirm_clean_dish_picker > div > div:first-child button[kind="secondary"],
+            .stApp .st-key-result_clean_dish_picker > div > div:first-child button[kind="secondary"] {
+                min-height: 44px !important;
+                height: 44px !important;
+                font-size: .88rem !important;
+            }
+
+            .stApp .st-key-menu_clean_dish_picker_options button[kind="secondary"],
+            .stApp .st-key-confirm_clean_dish_picker_options button[kind="secondary"],
+            .stApp .st-key-result_clean_dish_picker_options button[kind="secondary"] {
+                min-height: 30px !important;
+                height: 30px !important;
+                font-size: .74rem !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
     apply_pending_scroll_top()
 
