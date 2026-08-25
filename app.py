@@ -1,3 +1,6 @@
+
+
+
 """
 GulfBite - Smart Gulf Cuisine Nutrition Assistant
 
@@ -10037,6 +10040,115 @@ button,
     grid-template-columns: none !important;
 }
 
+
+/* ================================================================
+   GLOBAL HTML DISH PICKER
+   Keep Menu, Confirm Dish and Update Dish identical on every stage.
+   ================================================================ */
+.html-dish-picker {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+
+.html-dish-picker > summary {
+    list-style: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+    padding: 0 14px !important;
+    border: 1px solid #D99A1B !important;
+    border-radius: 14px !important;
+    background: linear-gradient(180deg,#FFFEFB 0%,#FFF8E9 100%) !important;
+    color: #A66D05 !important;
+    cursor: pointer !important;
+    font-size: .92rem !important;
+    font-weight: 600 !important;
+    user-select: none !important;
+}
+
+.html-dish-picker > summary::-webkit-details-marker { display: none !important; }
+.html-dish-picker > summary::marker { content: "" !important; }
+
+.html-dish-chevron {
+    font-size: .82rem !important;
+    line-height: 1 !important;
+    transition: transform .16s ease !important;
+}
+.html-dish-picker[open] .html-dish-chevron { transform: rotate(180deg) !important; }
+
+.html-dish-options {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-top: 4px !important;
+    padding: 3px 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #D8B36A transparent !important;
+}
+.html-dish-options::-webkit-scrollbar { width: 5px !important; }
+.html-dish-options::-webkit-scrollbar-track { background: transparent !important; }
+.html-dish-options::-webkit-scrollbar-thumb {
+    background: #D8B36A !important;
+    border-radius: 999px !important;
+}
+
+.html-dish-option {
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    width: 100% !important;
+    min-height: 34px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+    border: 0 !important;
+    border-radius: 7px !important;
+    background: transparent !important;
+    color: #2B241C !important;
+    text-decoration: none !important;
+    font-size: .78rem !important;
+    font-weight: 550 !important;
+}
+.html-dish-option:hover {
+    background: #FFF3D7 !important;
+    color: #241B12 !important;
+}
+.html-dish-option.is-selected {
+    background: #FFF0C9 !important;
+    color: #241B12 !important;
+    font-weight: 750 !important;
+}
+.html-dish-check {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 14px !important;
+    min-width: 14px !important;
+    color: #C68412 !important;
+    font-size: .72rem !important;
+}
+
+@media (max-width: 768px) {
+    .html-dish-picker > summary {
+        min-height: 46px !important;
+        font-size: .88rem !important;
+    }
+    .html-dish-option {
+        min-height: 32px !important;
+        font-size: .75rem !important;
+    }
+}
+
 </style>""",
         unsafe_allow_html=True,
     )
@@ -10248,66 +10360,61 @@ def compact_dish_picker(
     option_prefix="dish",
     visible_rows=5,
 ):
-    """Stable dish picker rendered with plain HTML links instead of Streamlit widgets."""
+    """Inline HTML dish picker with its styles embedded in the markup."""
     if not options:
         return None
 
     if state_key not in st.session_state or st.session_state[state_key] not in options:
         st.session_state[state_key] = options[0]
 
-    # A clicked option comes back through the URL. Using query params here
-    # avoids Streamlit's native selectbox/radio/button styling conflicts.
     picker_param = st.query_params.get("picker")
     pick_param = st.query_params.get("pick")
-
     if isinstance(picker_param, list):
         picker_param = picker_param[0] if picker_param else None
     if isinstance(pick_param, list):
         pick_param = pick_param[0] if pick_param else None
-
     if picker_param == picker_key and pick_param in options:
         st.session_state[state_key] = pick_param
-        try:
-            del st.query_params["picker"]
-        except Exception:
-            pass
-        try:
-            del st.query_params["pick"]
-        except Exception:
-            pass
+        try: del st.query_params["picker"]
+        except Exception: pass
+        try: del st.query_params["pick"]
+        except Exception: pass
 
     current = st.session_state[state_key]
     current_label = html.escape(str(display_func(current)))
-
-    option_rows = []
+    row_height = 34
+    max_height = max(126, min(190, visible_rows * row_height + 8))
+    rows=[]
     for option in options:
-        label = html.escape(str(display_func(option)))
-        selected_class = " is-selected" if option == current else ""
-        check = '<span class="html-dish-check">✓</span>' if option == current else '<span class="html-dish-check"></span>'
-        href = f"?picker={quote(picker_key, safe='')}&pick={quote(str(option), safe='')}"
-        option_rows.append(
-            f'<a class="html-dish-option{selected_class}" href="{href}" target="_self">{check}<span>{label}</span></a>'
+        label=html.escape(str(display_func(option)))
+        href=f"?picker={quote(picker_key, safe='')}&pick={quote(str(option), safe='')}"
+        if option == current:
+            bg='#FFF0C9'; weight='750'; check='✓'
+        else:
+            bg='transparent'; weight='550'; check=''
+        rows.append(
+            f'<a href="{href}" target="_self" '
+            f'style="display:flex;align-items:center;gap:7px;min-height:{row_height}px;'
+            f'box-sizing:border-box;width:100%;margin:0;padding:0 10px;border:0;border-radius:7px;'
+            f'background:{bg};color:#2B241C;text-decoration:none;font-size:.78rem;font-weight:{weight};'
+            f'line-height:1.1;">'
+            f'<span style="display:inline-flex;width:14px;min-width:14px;color:#C68412;justify-content:center;">{check}</span>'
+            f'<span>{label}</span></a>'
         )
-
-    max_height = max(126, min(210, visible_rows * 36 + 10))
-
-    st.markdown(
-        f"""
-        <details class="html-dish-picker">
-            <summary>
-                <span>{current_label}</span>
-                <span class="html-dish-chevron">⌄</span>
-            </summary>
-            <div class="html-dish-options" style="max-height:{max_height}px;">
-                {''.join(option_rows)}
-            </div>
-        </details>
-        """,
-        unsafe_allow_html=True,
+    html_block = (
+        f'<details style="width:100%;margin:0;padding:0;border:0;background:transparent;">'
+        f'<summary style="list-style:none;display:flex;align-items:center;justify-content:space-between;'
+        f'width:100%;min-height:46px;box-sizing:border-box;padding:0 14px;border:1px solid #D99A1B;'
+        f'border-radius:14px;background:linear-gradient(180deg,#FFFEFB 0%,#FFF8E9 100%);'
+        f'color:#A66D05;cursor:pointer;font-size:.90rem;font-weight:600;user-select:none;">'
+        f'<span>{current_label}</span><span style="font-size:.78rem;line-height:1;">⌄</span></summary>'
+        f'<div style="width:100%;max-height:{max_height}px;box-sizing:border-box;margin-top:4px;padding:2px 0;'
+        f'overflow-y:auto;overflow-x:hidden;border:0;background:transparent;scrollbar-width:thin;scrollbar-color:#D8B36A transparent;">'
+        + ''.join(rows) +
+        '</div></details>'
     )
-
+    st.markdown(html_block, unsafe_allow_html=True)
     return st.session_state[state_key]
-
 
 
 def segmented_choice(
@@ -14681,6 +14788,18 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    st.markdown("""
+    <style>
+    /* The picker is fully styled inline; only neutralise old shells. */
+    .st-key-menu_clean_dish_picker,
+    .st-key-confirm_clean_dish_picker,
+    .st-key-result_clean_dish_picker,
+    .st-key-menu_clean_dish_picker_options,
+    .st-key-confirm_clean_dish_picker_options,
+    .st-key-result_clean_dish_picker_options { margin:0 !important; padding:0 !important; border:0 !important; background:transparent !important; box-shadow:none !important; }
+    </style>
+    """, unsafe_allow_html=True)
+
     apply_pending_scroll_top()
 
 
@@ -14738,9 +14857,8 @@ elif st.session_state.stage == "confirm_dish":
             if default_choice in candidates
             else 0
         )
-
         st.markdown(
-            '<p style="font-family: \'Inter\', sans-serif; font-size: 0.88rem; font-weight: 800; color: #1E1B16; margin: 12px 0 6px 0;">Select your dish:</p>',
+            '<div class="menu-picker-label" style="margin-top:12px; margin-bottom:6px;">Choose a dish</div>',
             unsafe_allow_html=True,
         )
 
@@ -14889,6 +15007,11 @@ elif st.session_state.stage == "result":
             ):
                 st.session_state.result_corrected_dish = all_dishes[current_idx]
 
+            st.markdown(
+                '<div class="menu-picker-label" style="margin-top:2px; margin-bottom:6px;">Choose a dish</div>',
+                unsafe_allow_html=True,
+            )
+            st.markdown('<div class="menu-picker-label" style="margin:2px 0 6px 0;">Choose a dish</div>', unsafe_allow_html=True)
             corrected = compact_dish_picker(
                 all_dishes,
                 state_key="result_corrected_dish",
