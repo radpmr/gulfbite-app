@@ -14082,6 +14082,78 @@ elif st.session_state.stage in ["main", "upload"]:
         unsafe_allow_html=True,
     )
 
+    # Menu is the visual baseline. These two workflow pickers intentionally
+    # use the same roomy trigger and flat text-row proportions on mobile.
+    st.markdown(
+        """
+        <style>
+        @media (max-width: 768px) {
+            .stApp .st-key-confirm_clean_dish_picker .st-key-confirm_clean_dish_picker_trigger button,
+            .stApp .st-key-result_clean_dish_picker .st-key-result_clean_dish_picker_trigger button {
+                min-height: 60px !important;
+                height: 60px !important;
+                padding: 0 16px !important;
+                border: 1px solid #D99A1B !important;
+                border-radius: 17px !important;
+                background: linear-gradient(180deg,#FFFEFB 0%,#FFF8E9 100%) !important;
+                color: #A66D05 !important;
+                box-shadow: none !important;
+                font-size: 1.08rem !important;
+                font-weight: 500 !important;
+                justify-content: space-between !important;
+                text-align: left !important;
+            }
+
+            .stApp .st-key-confirm_clean_dish_picker_options,
+            .stApp .st-key-result_clean_dish_picker_options,
+            .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-confirm_clean_dish_picker_options),
+            .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-result_clean_dish_picker_options) {
+                margin-top: 7px !important;
+                padding: 0 !important;
+                border: 0 !important;
+                border-radius: 0 !important;
+                background: transparent !important;
+                box-shadow: none !important;
+            }
+
+            .stApp .st-key-confirm_clean_dish_picker_options [data-testid="stVerticalBlock"],
+            .stApp .st-key-result_clean_dish_picker_options [data-testid="stVerticalBlock"] {
+                gap: 0 !important;
+                padding: 0 !important;
+                background: transparent !important;
+            }
+
+            .stApp .st-key-confirm_clean_dish_picker_options button,
+            .stApp .st-key-result_clean_dish_picker_options button {
+                min-height: 56px !important;
+                height: 56px !important;
+                margin: 0 !important;
+                padding: 0 12px !important;
+                border: 0 !important;
+                border-radius: 8px !important;
+                background: transparent !important;
+                color: #241B12 !important;
+                box-shadow: none !important;
+                transform: none !important;
+                justify-content: flex-start !important;
+                text-align: left !important;
+                font-size: 1.05rem !important;
+                font-weight: 500 !important;
+            }
+
+            .stApp .st-key-confirm_clean_dish_picker_options button:hover,
+            .stApp .st-key-result_clean_dish_picker_options button:hover {
+                background: #FFF3D7 !important;
+                color: #241B12 !important;
+                border: 0 !important;
+                box-shadow: none !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     apply_pending_scroll_top()
 
 
@@ -14290,10 +14362,9 @@ elif st.session_state.stage == "result":
                 st.session_state.result_corrected_dish = all_dishes[current_idx]
 
             st.markdown(
-                '<div class="menu-picker-label" style="margin-top:2px; margin-bottom:6px;">Choose a dish</div>',
+                '<div class="menu-picker-label" style="margin:2px 0 6px 0;">Choose a dish</div>',
                 unsafe_allow_html=True,
             )
-            st.markdown('<div class="menu-picker-label" style="margin:2px 0 6px 0;">Choose a dish</div>', unsafe_allow_html=True)
             corrected = compact_dish_picker(
                 all_dishes,
                 state_key="result_corrected_dish",
