@@ -75,15 +75,6 @@ YOLO_FEATURE_MAP = {
 }
 FEATURE_TO_DISH = {v: k for k, v in YOLO_FEATURE_MAP.items()}
 
-FEATURE_CALORIE_ESTIMATES = {
-    "loomi": "15 kcal",
-    "whole_chicken_piece": "240 kcal",
-    "whole_shank": "320 kcal",
-    "whole_fish": "210 kcal",
-    "shawarma_meat": "190 kcal",
-    "falafel_ball": "60 kcal",
-}
-
 CONFUSION_GROUPS = {
     "rice_cluster": {
         "01_machboos",
@@ -354,7 +345,7 @@ def create_ai_decoded_overlay(pil_image, detections):
         draw.line([x2, y2, x2 - corner_len, y2], fill="#FFFFFF", width=4)
         draw.line([x2, y2, x2, y2 - corner_len], fill="#FFFFFF", width=4)
 
-        badge_text = f"{feat.replace('_', ' ').title()} • ~{FEATURE_CALORIE_ESTIMATES.get(feat, '120 kcal')}"
+        badge_text = feat.replace("_", " ").title()
         bx = max(10, min(w - 200, int(x1)))
         by = max(10, int(y1 - 32))
         
@@ -14223,7 +14214,7 @@ elif st.session_state.stage == "confirm_dish":
 
     with st.container(key="verify_stage"):
         display_img = st.session_state.annotated_image if st.session_state.annotated_image else st.session_state.image
-        render_workflow_image(display_img, "AI decoded ingredients & markers", "verify")
+        render_workflow_image(display_img, "AI-detected visual features", "verify")
 
         cnn_class = st.session_state.cnn_class
         cnn_conf = st.session_state.cnn_confidence
@@ -14436,7 +14427,7 @@ elif st.session_state.stage == "result":
 
         with tab_tech:
             yolo_row = (
-                f'<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EBE2CF; padding-bottom: 8px;"><span style="color: #8F887C; font-size: 0.84rem;">YOLOv8 Feature</span><span style="color: #1E1B16; font-weight: 700; font-size: 0.88rem;">{display_name(st.session_state.yolo_suggestion)}</span></div>'
+                f'<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EBE2CF; padding-bottom: 8px;"><span style="color: #8F887C; font-size: 0.84rem;">YOLO-assisted suggestion</span><span style="color: #1E1B16; font-weight: 700; font-size: 0.88rem;">{display_name(st.session_state.yolo_suggestion)}</span></div>'
                 if st.session_state.get("yolo_suggestion")
                 else ""
             )
