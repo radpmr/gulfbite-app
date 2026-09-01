@@ -10386,7 +10386,9 @@ def compact_dish_picker(
 
         if st.session_state[open_key]:
             visible = min(max(visible_rows, 1), len(options))
-            list_height = visible * 34 + 8
+            # Verify/Result use the same roomy row proportions as the approved Menu picker.
+            row_height = 56 if picker_key in {"confirm_clean_dish_picker", "result_clean_dish_picker"} else 34
+            list_height = visible * row_height + 8
 
             with st.container(key=f"{picker_key}_options", height=list_height, border=False):
                 for idx, option in enumerate(options):
@@ -14147,6 +14149,59 @@ elif st.session_state.stage in ["main", "upload"]:
                 color: #241B12 !important;
                 border: 0 !important;
                 box-shadow: none !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Final workflow picker lock: Confirm and Update intentionally mirror the approved Menu picker.
+    st.markdown(
+        """
+        <style>
+        @media (max-width: 768px) {
+            .stApp .st-key-verify_stage .st-key-confirm_clean_dish_picker .st-key-confirm_clean_dish_picker_trigger button,
+            .stApp .st-key-result_stage .st-key-result_clean_dish_picker .st-key-result_clean_dish_picker_trigger button {
+                width: 100% !important;
+                min-height: 60px !important; height: 60px !important;
+                padding: 0 16px !important;
+                border: 1px solid #D99A1B !important;
+                border-radius: 17px !important;
+                background: linear-gradient(180deg,#FFFEFB 0%,#FFF8E9 100%) !important;
+                color: #A66D05 !important;
+                box-shadow: none !important; transform: none !important;
+                font-size: 1.08rem !important; font-weight: 500 !important;
+                line-height: 1 !important; text-align: left !important;
+                justify-content: space-between !important;
+            }
+            .stApp .st-key-verify_stage .st-key-confirm_clean_dish_picker_options,
+            .stApp .st-key-result_stage .st-key-result_clean_dish_picker_options,
+            .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-confirm_clean_dish_picker_options),
+            .stApp [data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-result_clean_dish_picker_options) {
+                margin: 7px 0 0 !important; padding: 0 !important;
+                border: 0 !important; border-radius: 0 !important;
+                background: transparent !important; box-shadow: none !important;
+            }
+            .stApp .st-key-verify_stage .st-key-confirm_clean_dish_picker_options [data-testid="stVerticalBlock"],
+            .stApp .st-key-result_stage .st-key-result_clean_dish_picker_options [data-testid="stVerticalBlock"] {
+                gap: 0 !important; padding: 0 !important; background: transparent !important;
+            }
+            .stApp .st-key-verify_stage .st-key-confirm_clean_dish_picker_options button,
+            .stApp .st-key-result_stage .st-key-result_clean_dish_picker_options button {
+                width: 100% !important; min-height: 56px !important; height: 56px !important;
+                margin: 0 !important; padding: 0 12px !important;
+                border: 0 !important; border-radius: 8px !important;
+                background: transparent !important; color: #241B12 !important;
+                box-shadow: none !important; transform: none !important;
+                justify-content: flex-start !important; text-align: left !important;
+                font-size: 1.05rem !important; font-weight: 500 !important;
+                line-height: 1 !important;
+            }
+            .stApp .st-key-verify_stage .st-key-confirm_clean_dish_picker_options button:hover,
+            .stApp .st-key-result_stage .st-key-result_clean_dish_picker_options button:hover {
+                background: #FFF3D7 !important; color: #241B12 !important;
+                border: 0 !important; box-shadow: none !important;
             }
         }
         </style>
